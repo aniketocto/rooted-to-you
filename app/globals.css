@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background-primary: #03141c;
+  --primary-color: #197a8a;
+  --secondary-color: #e6af55;
+  --primary-font-color: #ffffff;
+  --font-main: 48px;
+  --font-base-2: 18px;
+  --font-base: 16px;
+}
+
+@font-face {
+  font-family: "Karma";
+  src: url("/fonts/Karma-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Minion";
+  src: url("/fonts/Minion-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  @apply bg-[var(--background-primary)] text-[var(--primary-font-color)];
+}
+
+h1 {
+  @apply text-[var(--secondary-color)] text-6xl;
+}
+
+h2 {
+  @apply text-[var(--secondary-color)] text-6xl font-bold;
+}
+
+h3 {
+  @apply text-[var(--secondary-color)] text-3xl font-bold;
+}
+
+p {
+  @apply text-[var(--primary-font-color)];
+}
+
+@layer components {
+  .primary-color {
+    background-color: var(--primary-color);
+  }
+  .secondary-color {
+    background-color: var(--secondary-color);
+  }
+  .primary-font {
+    font-family: "Karma", sans-serif;
+  }
+  .secondary-font {
+    font-family: "Minion", sans-serif;
+  }
+  .font-base {
+    font-size: 18px;
+    line-height: normal;
+  }
+  .font-base-1 {
+    font-size: 16px;
+    line-height: normal;
+  }
+  .font-base-3 {
+    font-size: 14px;
+    line-height: normal;
+  }
+  .font-base-4 {
+    font-size: 12px;
+    line-height: normal;
+  }
+  .footer-bg {
+    background-image: url("/images/footer-bg.jpg");
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .hero-bg {
+    background-image: url("/images/Hero-Banner.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  /* Remove the default list style */
+  .list-with-image {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  /* Create custom list items with controllable images */
+  .list-with-image li {
+    position: relative;
+    padding-left: 30px; /* Adjust based on your image size */
+    margin-bottom: 10px;
+  }
+
+  .list-with-image li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/listimg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .numberPointList > li::before {
+    position: absolute;
+    content: attr(num);
+    left: 0;
+    font-weight: 500;
+    font-family: "Karma", sans-serif;
+  }
+}
+.rdrDayStartOfMonth .rdrInRange,
+.rdrDayStartOfMonth .rdrEndEdge,
+.rdrDayStartOfWeek .rdrInRange,
+.rdrDayStartOfWeek .rdrEndEdge,
+.rdrDayEndOfMonth .rdrInRange,
+.rdrDayEndOfMonth .rdrStartEdge,
+.rdrDayEndOfWeek .rdrInRange,
+.rdrDayEndOfWeek .rdrStartEdge,
+.rdrStartEdge,
+.rdrEndEdge {
+  border-radius: 0 !important;
+}
+
+.rdrDateDisplayWrapper {
+  border-top: 16px !important;
+}
+.rdp-caption_start .rdp-caption_end {
+  justify-content: center !important;
+}
+@media screen and (max-width: 850px) {
+  h1 {
+    font-size: 44px;
+  }
+  h2 {
+    @apply text-[var(--secondary-color)] text-4xl font-bold;
+  }
+  h3 {
+    @apply text-[var(--secondary-color)] text-2xl font-bold;
+  }
+  .font-base {
+    font-size: 16px;
+    line-height: normal;
+  }
+  .font-base-1 {
+    font-size: 14px;
+    line-height: normal;
+  }
+  .font-base-3 {
+    font-size: 12px;
+    line-height: normal;
+  }
+  .font-base-4 {
+    font-size: 12px;
+    line-height: normal;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    @apply text-[var(--secondary-color)] text-3xl font-bold;
+  }
+  h3 {
+    @apply text-[var(--secondary-color)] text-xl font-bold;
+  }
+  .font-base {
+    font-size: 14px;
+    line-height: normal;
+  }
+  .font-base-1 {
+    font-size: 12px;
+    line-height: normal;
+  }
+  .font-base-3 {
+    font-size: 10px;
+    line-height: normal;
+  }
+  .font-base-4 {
+    font-size: 10px;
+    line-height: normal;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  h1 {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  h1 {
+    font-size: 22px !important ;
+  }
+}

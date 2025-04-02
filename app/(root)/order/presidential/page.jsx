@@ -1,0 +1,577 @@
+"use client";
+
+import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import DatePicker from "@/components/DatePicker";
+import DetailForm from "@/components/DetailForm";
+
+const cuisineOptions = [
+  {
+    id: "maharshtra",
+    label: "Maharshtra",
+  },
+  {
+    id: "bengali",
+    label: "Bengali",
+  },
+  {
+    id: "southInd",
+    label: "South India",
+  },
+  {
+    id: "gujrati",
+    label: "Gujrati",
+  },
+  {
+    id: "punjabi",
+    label: "Punjabi",
+  },
+];
+
+const FormSchema = z.object({
+  time: z.enum(["dinner", "lunch"], {
+    required_error: "Please select time.",
+  }),
+  foodType: z.enum(["veg", "nonVeg"], {
+    required_error: "Please select food type.",
+  }),
+  cuisineOptions: z
+    .array(z.string())
+    .refine(
+      (value) => value.length === 0 || (value.length >= 1 && value.length <= 5),
+      {
+        message: "You can select up to 5 cuisines.",
+      }
+    ),
+  selectedDates: z.object(
+    {
+      startDate: z.date(),
+      endDate: z.date(),
+      count: z.number().min(1),
+    },
+    {
+      required_error: "Please select valid dates.",
+    }
+  ),
+  weekendRule: z.string(),
+});
+
+const LOCAL_STORAGE_KEY = "rootedUserMealData";
+const Page = () => {
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      time: undefined,
+      foodType: undefined,
+      cuisineOptions: [
+        "maharshtra",
+        "bengali",
+        "southInd",
+        "gujrati",
+        "punjabi",
+      ],
+      selectedDates: {
+        startDate: undefined,
+        endDate: undefined,
+        count: 0,
+      },
+      weekendRule: "all",
+    },
+  });
+
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedFoodType, setSelectedFoodType] = useState("");
+  const [selectedCuisines, setSelectedCuisines] = useState([]);
+  const [selectedDuration, setSelectedDuration] = useState(7);
+  const [weekendRule, setWeekendRule] = useState("all");
+  const [highlightedDates, setHighlightedDates] = useState([]);
+  const [detailFormat, setDetailFormat] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    // If no cuisine is selected, set all options
+    if (selectedCuisines.length === 0) {
+      setSelectedCuisines(cuisineOptions.map((c) => c.id));
+    } else {
+      form.setValue("cuisineOptions", selectedCuisines, {
+        shouldValidate: true,
+      });
+    }
+  }, [selectedCuisines, form]);
+
+  useEffect(() => {
+    if (highlightedDates.length > 0) {
+      const startDate = highlightedDates[0];
+      const endDate = highlightedDates[highlightedDates.length - 1];
+
+      form.setValue(
+        "selectedDates",
+        {
+          startDate,
+          endDate,
+          count: highlightedDates.length,
+        },
+        {
+          shouldValidate: true,
+        }
+      );
+    }
+    form.setValue("weekendRule", weekendRule);
+  }, [highlightedDates, weekendRule, form]);
+
+  function handleCuisineSelection(id) {
+    let updatedCuisines;
+    if (selectedCuisines.includes(id)) {
+      updatedCuisines = selectedCuisines.filter((cuisine) => cuisine !== id);
+    } else if (selectedCuisines.length < 5) {
+      updatedCuisines = [...selectedCuisines, id];
+    } else {
+      return;
+    }
+
+    setSelectedCuisines(updatedCuisines);
+  }
+
+  function onSubmit(data) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    console.log("Meal Data:", data);
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+      setDetailFormat((prev) => !prev);
+      setIsSubmitting(false);
+    }, 2000);
+  }
+
+  return (
+    <section className="w-full h-fit flex justify-center items-center my-20">
+      <Image
+        src="/images/nav-bg.jpg"
+        alt="bg"
+        width={1440}
+        height={270}
+        quality={100} // Increase quality (0-100)
+        className="absolute top-0 z-[-1]"
+      />
+
+      <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-baseline justify-start md:mx-10 mx-5">
+        {detailFormat ? (
+          <DetailForm />
+        ) : (
+          <div className="md:w-1/2 w-full h-full p-6">
+            <h2 className="text-2xl font-bold primary-font">
+              Presidential Meal
+            </h2>
+            <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="md:w-2/3 w-full space-y-6 mt-10"
+              >
+                {/* Meal Time Selection */}
+                <FormField
+                  control={form.control}
+                  name="time"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1">
+                      <FormLabel className="font-medium">
+                        SELECT MEAL TIME
+                      </FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setSelectedTime(value);
+                          }}
+                          defaultValue={field.value}
+                          className="flex gap-4"
+                        >
+                          {/* Lunch Option */}
+                          <FormItem className="flex-1 m-0 p-0 space-y-0">
+                            <FormControl>
+                              <div className="relative w-full">
+                                <RadioGroupItem
+                                  value="lunch"
+                                  id="lunch"
+                                  className="sr-only"
+                                />
+                                <FormLabel
+                                  htmlFor="lunch"
+                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  ${
+                                    selectedTime === "lunch"
+                                      ? "bg-[#e6af55] text-white border-gray-100"
+                                      : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                  }`}
+                                >
+                                  <Image
+                                    src="/images/lunch.png"
+                                    alt="lunch"
+                                    width={20}
+                                    height={10}
+                                    className=" w-auto h-auto"
+                                  />
+                                  Lunch
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+
+                          {/* Dinner Option */}
+                          <FormItem className="flex-1 m-0 p-0 space-y-0">
+                            <FormControl>
+                              <div className="relative w-full">
+                                <RadioGroupItem
+                                  value="dinner"
+                                  id="dinner"
+                                  className="sr-only"
+                                />
+                                <FormLabel
+                                  htmlFor="dinner"
+                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  ${
+                                    selectedTime === "dinner"
+                                      ? "bg-[#e6af55] text-white border-gray-100"
+                                      : "border-gray-200 hover:bg-gray-500 hover:text-white hover:border-gray-900"
+                                  }`}
+                                >
+                                  <Image
+                                    src="/images/dinner.png"
+                                    alt="lunch"
+                                    width={20}
+                                    height={10}
+                                    className=" w-auto h-auto"
+                                  />
+                                  Dinner
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage className="text-red-500!" />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Meal Type Selection */}
+                <FormField
+                  control={form.control}
+                  name="foodType"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1">
+                      <FormLabel className="font-medium">
+                        SELECT MEAL TYPE
+                      </FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setSelectedFoodType(value);
+                          }}
+                          defaultValue={field.value}
+                          className="flex gap-4"
+                        >
+                          {/* Veg Option */}
+                          <FormItem className="flex-1 m-0 p-0 space-y-0">
+                            <FormControl>
+                              <div className="relative w-full">
+                                <RadioGroupItem
+                                  value="veg"
+                                  id="veg"
+                                  className="sr-only"
+                                />
+                                <FormLabel
+                                  htmlFor="veg"
+                                  className={`flex justify-center items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                ${
+                                  selectedFoodType === "veg"
+                                    ? "bg-[#e6af55] text-white border-gray-100"
+                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                }`}
+                                >
+                                  <Image
+                                    src="/images/veg.png"
+                                    alt="veg"
+                                    width={25}
+                                    height={10}
+                                    className=" w-auto h-auto"
+                                  />
+                                  Veg
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+
+                          {/* Non-Veg Option */}
+                          <FormItem className="flex-1 m-0 p-0 space-y-0">
+                            <FormControl>
+                              <div className="relative w-full">
+                                <RadioGroupItem
+                                  value="nonVeg"
+                                  id="nonVeg"
+                                  className="sr-only"
+                                />
+                                <FormLabel
+                                  htmlFor="nonVeg"
+                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                ${
+                                  selectedFoodType === "nonVeg"
+                                    ? "bg-[#e6af55] text-white border-gray-100"
+                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                }`}
+                                >
+                                  <Image
+                                    src="/images/non-veg.png"
+                                    alt="Non veg"
+                                    width={25}
+                                    height={10}
+                                    className=" w-auto h-auto"
+                                  />
+                                  Non Veg
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage className="text-red-500!" />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Cuisine Selection - with empty default state */}
+                <FormField
+                  control={form.control}
+                  name="cuisineOptions"
+                  render={() => (
+                    <FormItem>
+                      <div className="">
+                        <FormLabel className="text-base font-medium flex justify-between items-center">
+                          SELECT CUISINE
+                          <p>Remove any cuisine you don't want</p>
+                        </FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-3  w-full md:w-[600px]">
+                        {cuisineOptions.map(({ id, label }) => (
+                          <FormItem key={id} className="w-44">
+                            <FormControl>
+                              <div className="relative w-full">
+                                <Checkbox
+                                  id={id}
+                                  checked={selectedCuisines.includes(id)}
+                                  onCheckedChange={() =>
+                                    handleCuisineSelection(id)
+                                  }
+                                  className="sr-only peer"
+                                />
+                                <FormLabel
+                                  htmlFor={id}
+                                  className={`flex justify-center items-center h-12 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
+                                    selectedCuisines.includes(id)
+                                      ? "bg-[#e6af55] text-white border-gray-100"
+                                      : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                  }`}
+                                >
+                                  {label}
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        ))}
+                      </div>
+                      <FormMessage className="text-red-500!" />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Date Selection */}
+                <FormField
+                  control={form.control}
+                  name="selectedDates"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1">
+                      <FormLabel className="font-medium">
+                        SELECT YOUR MEAL DATES
+                      </FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          onDateChange={(dates) => {
+                            if (Array.isArray(dates) && dates.length > 0) {
+                              setHighlightedDates(dates); // Keep this for your UI display
+
+                              // Update form with just start and end dates
+                              const startDate = dates[0];
+                              const endDate = dates[dates.length - 1];
+
+                              form.setValue(
+                                "selectedDates",
+                                {
+                                  startDate,
+                                  endDate,
+                                  count: dates.length,
+                                },
+                                {
+                                  shouldValidate: true,
+                                }
+                              );
+                            }
+                          }}
+                          onWeekendRuleChange={(rule) => {
+                            setWeekendRule(rule);
+                            form.setValue("weekendRule", rule);
+                          }}
+                          onSelectedDaysChange={(days) => {
+                            setSelectedDuration(days);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-500!" />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Processing..." : "Next"}
+                  {!isSubmitting && (
+                    <Image
+                      src="/images/right-arrow.png"
+                      alt="right-arrow"
+                      width={20}
+                      height={15}
+                    />
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </div>
+        )}
+
+        <div className="md:w-1/2 w-full flex justify-start items-start px-10">
+          <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
+            <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
+              Details for lunch
+            </h2>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Meal Plan</span>{" "}
+                <span className="font-base secondary-font">Presidential</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Meal Time</span>{" "}
+                <span className="capitalize">{selectedTime}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Meal Type</span>{" "}
+                <span className="capitalize">{selectedFoodType}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Duration</span>{" "}
+                <span className="font-base secondary-font">
+                  {selectedDuration === 7 ? "1 Week" : "1 Month"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Start date</span>
+                <span className="font-base secondary-font">
+                  {highlightedDates.length > 0
+                    ? highlightedDates[0].toDateString()
+                    : "-----"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">End date</span>
+                <span className="font-base secondary-font">
+                  {highlightedDates.length > 0
+                    ? highlightedDates[
+                        highlightedDates.length - 1
+                      ].toDateString()
+                    : "-----"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Days</span>{" "}
+                <span className="font-base secondary-font">
+                  {highlightedDates.length}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Price</span>{" "}
+                <span className="font-base secondary-font">
+                  ₹110.00 / Meal Plan
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Quantity</span>{" "}
+                <span className="font-base secondary-font">₹0.00</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Meal Plan Cost</span>{" "}
+                <span className="font-base secondary-font">₹0.00</span>
+              </div>
+            </div>
+
+            <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
+              Bill Summary
+            </h2>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Sub Total</span>{" "}
+                <span className="font-base secondary-font">₹2200</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">
+                  Delivery Charges
+                </span>{" "}
+                <span className="font-base secondary-font">₹840</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">Tax</span>{" "}
+                <span className="font-base secondary-font">₹0.00</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">
+                  Discount Amount
+                </span>{" "}
+                <span className="font-base secondary-font">₹0.00</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-base secondary-font">
+                  Cash Collection Charge
+                </span>{" "}
+                <span className="font-base secondary-font">₹0.00</span>
+              </div>
+            </div>
+
+            <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
+              <span className="font-base secondary-font">Grand Total</span>{" "}
+              <span className="font-base secondary-font">₹0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Page;
