@@ -59,9 +59,11 @@ p {
   }
   .primary-font {
     font-family: "Karma", sans-serif;
+    line-height: normal;
   }
   .secondary-font {
     font-family: "Minion", sans-serif;
+    line-height: normal;
   }
   .font-base {
     font-size: 18px;

@@ -95,7 +95,7 @@ const Navbar = () => {
               <Link
                 key={label}
                 href={href}
-                className={`relative pb-1 transition-all duration-300 
+                className={`relative primary-font pb-1 transition-all duration-300 
                 ${
                   pathname === href
                     ? "border-b-2 border-[#b88e56]"
@@ -134,15 +134,18 @@ const Navbar = () => {
           ) : (
             <Button
               onClick={() => router.push("/register")}
-              className="cursor-pointer w-fit border-0 text-[#03141C] bg-white flex items-center gap-2"
+              className="cursor-pointer w-fit px-5 py-2 border-0 text-[#03141C] bg-white flex items-center gap-2"
             >
               <Image
                 src="/images/login-arrow.png"
                 alt="login"
-                width={15}
+                width={20}
                 height={15}
+                className=""
               />
-              Login
+              <span className="primary-font text-lg font-medium text-[#03141C] mt-1.5">
+                Login
+              </span>
             </Button>
           )}
         </div>

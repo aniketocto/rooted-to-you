@@ -29,14 +29,14 @@ const GoogleSocialLink = () => {
   const handleSuccess = ({ provider, data }) => {
     console.log("Google Login Success:", provider, data);
 
-    const userData = {
-      name: data.name,
-      email: data.email,
-      token: data.access_token,
-    };
+    // const userData = {
+    //   name: data.name,
+    //   email: data.email,
+    //   token: data.access_token,
+    // };
 
-    login(userData);
-    router.push("/");
+    // login(userData);
+    // router.push("/");
   };
 
   const handleFailure = (error) => {
@@ -46,21 +46,20 @@ const GoogleSocialLink = () => {
 
   return (
     <div>
-      {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
-        <LoginSocialGoogle
-          client_id={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-          onResolve={handleSuccess}
-          onReject={handleFailure}
-        >
-          <Image
-            src="/images/google.png"
-            width={30}
-            height={20}
-            alt="facebook Login"
-            className="cursor-pointer"
-          />
-        </LoginSocialGoogle>
-      )}
+      <LoginSocialGoogle
+        client_id={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        onResolve={handleSuccess}
+        onReject={handleFailure}
+      >
+        <Image
+          src="/images/google.png"
+          width={40}
+          height={30}
+          quality={100}
+          alt="facebook Login"
+          className="cursor-pointer"
+        />
+      </LoginSocialGoogle>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

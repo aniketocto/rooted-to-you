@@ -54,8 +54,9 @@ const FbSocialLink = () => {
         >
           <Image
             src="/images/loginfacebook.png"
-            width={30}
-            height={20}
+            width={40}
+            height={30}
+            quality={100}
             alt="Facebook Login"
             className="cursor-pointer"
           />
