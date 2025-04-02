@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { createContext, useContext, useState } from "react";
 
@@ -9,10 +9,20 @@ export const usePaymentContext = () => {
 };
 
 export const PaymentProvider = ({ children }) => {
-  const [totalAmount, setTotalAmount] = useState(0);
+  const [paymentSession, setPaymentSession] = useState(null);
+
+  const startPaymentSession = (sessionData) => {
+    setPaymentSession(sessionData);
+  };
+
+  const clearPaymentSession = () => {
+    setPaymentSession(null);
+  };
 
   return (
-    <PaymentContext.Provider value={{ totalAmount, setTotalAmount }}>
+    <PaymentContext.Provider
+      value={{ paymentSession, startPaymentSession, clearPaymentSession }}
+    >
       {children}
     </PaymentContext.Provider>
   );

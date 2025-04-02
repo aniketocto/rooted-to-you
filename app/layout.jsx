@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "./context/AuthContext";
+import { PaymentProvider } from "./context/PaymentContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -15,9 +16,11 @@ export default function RootLayout({ children }) {
         className={`antialiased flex justify-center items-center flex-col min-w-screen min-h-screen`}
       >
         <AuthProvider>
-          <Navbar />
-          <div className="flex-1 w-full">{children}</div>
-          <Footer />
+          <PaymentProvider>
+            <Navbar />
+            <div className="flex-1 w-full">{children}</div>
+            <Footer />
+          </PaymentProvider>
         </AuthProvider>
       </body>
     </html>

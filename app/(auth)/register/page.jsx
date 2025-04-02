@@ -25,9 +25,12 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
+import { usePaymentContext } from "@/app/context/PaymentContext";
+import GoogleSocialLink from "@/components/GoogleSocialLink";
+import FbSocialLink from "@/components/FbSocialLink";
 
 const formSchema = z.object({
-  mobNumber: z.string().refine((value) => /^[6-9]\d{9}$/.test(value), {
+  phoneNumber: z.string().refine((value) => /^[6-9]\d{9}$/.test(value), {
     message: "Please enter a valid Indian mobile number",
   }),
 });
@@ -39,7 +42,7 @@ const Page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      mobNumber: "",
+      phoneNumber: "",
     },
   });
 
@@ -50,6 +53,8 @@ const Page = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(true);
   const [timer, setTimer] = useState(30);
+
+  const { startPaymentSession } = usePaymentContext();
 
   useEffect(() => {
     let interval;
@@ -65,7 +70,7 @@ const Page = () => {
 
   const onChange = (e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
-    form.setValue("mobNumber", value, { shouldValidate: true });
+    form.setValue("phoneNumber", value, { shouldValidate: true });
   };
 
   const onSubmit = async (values) => {
@@ -73,12 +78,15 @@ const Page = () => {
     setErrorMessage("");
 
     try {
-      // Step 1: Send Mobile Number to `/api/auth/get-mobile`
-      const response = await fetch("/api/auth/get-mobile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobNumber: values.mobNumber }),
-      });
+      // Step 1: Send Mobile Number to `/api/v1/customers/login`
+      const response = await fetch(
+        "http://13.201.35.112:5000/api/v1/customers/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: values.phoneNumber }),
+        }
+      );
 
       const data = await response.json();
 
@@ -87,17 +95,7 @@ const Page = () => {
         setIsLoading(false);
         return;
       }
-
-      // Step 2: Send OTP to `/api/otp/send`
-      const otpResponse = await fetch("/api/auth/otp-send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobNumber: values.mobNumber }),
-      });
-
-      const otpData = await otpResponse.json();
-
-      if (otpResponse.ok) {
+      if (response.ok) {
         setShowOtpInput(true);
         setIsLoading(false);
         setResendDisabled(true);
@@ -117,9 +115,9 @@ const Page = () => {
     setErrorMessage("");
 
     try {
-      const mobNumber = form.getValues("mobNumber");
+      const phoneNumber = form.getValues("phoneNumber");
 
-      if (!mobNumber || !/^[6-9]\d{9}$/.test(mobNumber)) {
+      if (!phoneNumber || !/^[6-9]\d{9}$/.test(phoneNumber)) {
         setErrorMessage("Invalid mobile number.");
         setIsLoading(false);
         return;
@@ -130,16 +128,25 @@ const Page = () => {
         return;
       }
 
-      const response = await fetch("/api/auth/otp-verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobNumber, otp }),
-      });
+      const response = await fetch(
+        "http://13.201.35.112:5000/api/v1/customers/verifyOtp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber, otp }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        const userData = { mobNumber }; 
+        const userData = {
+          id: data.data.id,
+          data: data.data,
+          token: data.token,
+          status: data.data.status,
+        };
+        startPaymentSession(userData);
         login(userData);
         router.push("/");
       } else {
@@ -159,13 +166,6 @@ const Page = () => {
     setTimer(30);
   };
 
-  const handleGoogle = () => {
-    console.log("Google");
-  };
-
-  const handleFacebook = () => {
-    console.log("Facebook");
-  };
   return (
     <div className="max-w-[85%] w-[1270px] max-h-full h-[500px] flex border border-[#E6AF55] rounded-2xl my-32 mx-auto">
       <div className="md:w-1/2 w-full flex items-center justify-center">
@@ -190,7 +190,7 @@ const Page = () => {
               {!showOtpInput ? (
                 <FormField
                   control={form.control}
-                  name="mobNumber"
+                  name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="w-[30%] block text-[12px]! bg-[#03141c] pl-2 absolute left-5 top-[-5%]">
@@ -210,7 +210,7 @@ const Page = () => {
                         </div>
                       </FormControl>
                       <FormDescription className="text-red-500!">
-                        {form.formState.errors.mobNumber?.message ||
+                        {form.formState.errors.phoneNumber?.message ||
                           errorMessage}
                       </FormDescription>
                     </FormItem>
@@ -219,7 +219,7 @@ const Page = () => {
               ) : (
                 <div className="space-y-4 md:w-full ">
                   <p className="text-center text-white">
-                    OTP sent to {form.getValues("mobNumber")}
+                    OTP sent to {form.getValues("phoneNumber")}
                   </p>
                   <InputOTP
                     maxLength={6}
@@ -243,8 +243,8 @@ const Page = () => {
                       ))}
                     </InputOTPGroup>
                   </InputOTP>
-                  <div className="flex justify-between items-center">
-                    {/* <p className="flex items-center justify-center gap-2 text-xl">
+                  {/* <div className="flex justify-between items-center">
+                    <p className="flex items-center justify-center gap-2 text-xl">
                       <Image
                         src="/images/timer.png"
                         alt="Resend OTP"
@@ -252,14 +252,14 @@ const Page = () => {
                         height={20}
                       />
                       {timer}
-                    </p> */}
+                    </p>
                     <p
                       className="primary-font text-lg hover:text-xl cursor-pointer hover:text-[#e6af55]! transition-all duration-500"
                       onClick={() => alert("Otp Resend")}
                     >
                       Resend OTP
                     </p>
-                  </div>
+                  </div> */}
                   <p className="primary-font text-red-500!">{errorMessage}</p>
                   <div className="flex space-x-2">
                     <Button
@@ -283,7 +283,7 @@ const Page = () => {
               {!showOtpInput && (
                 <Button
                   type="submit"
-                  disabled={form.formState.errors.mobNumber || isLoading}
+                  disabled={form.formState.errors.phoneNumber || isLoading}
                   className="w-full bg-[#E6AF55] text-lg flex justify-center items-center text-[#03141C] primary-font cursor-pointer"
                 >
                   <p>{isLoading ? "Sending OTP..." : "Send OTP"}</p>
@@ -311,22 +311,8 @@ const Page = () => {
                 <hr className="w-1/3 bg-white h-[1px]" />
               </div>
               <div className="flex w-full items-center justify-center gap-12 py-5">
-                <Image
-                  src="/images/loginfacebook.png"
-                  width={30}
-                  height={20}
-                  alt="facebook Login"
-                  className="cursor-pointer"
-                  onClick={handleFacebook}
-                />
-                <Image
-                  src="/images/google.png"
-                  width={30}
-                  height={20}
-                  alt="Google Login"
-                  className="cursor-pointer"
-                  onClick={handleGoogle}
-                />
+                <FbSocialLink />
+                <GoogleSocialLink />
               </div>
             </>
           ) : (

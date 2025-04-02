@@ -24,6 +24,8 @@ const formSchema = z.object({
 
 const Hero = () => {
   const [deliverState, setDeliverState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,9 +33,40 @@ const Hero = () => {
     },
   });
 
-  function onSubmit(values) {
-    console.log(values);
-  }
+  const onSubmit = async (values) => {
+    setIsLoading(true);
+    setErrorMessage("");
+    setDeliverState(false);
+
+    try {
+      const response = await fetch(
+        `http://13.201.35.112:5000/api/v1/pincodes/check-availability?pincode=${values.zipCode}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (!response.ok) {
+        setErrorMessage(data.error || "Unavailable for delivery");
+      } else {
+        if (data && data.isAvailable) {
+          console.log("checked and available");
+          setErrorMessage("Available for delivery in this area.");
+          setDeliverState(true);
+        } else {
+          console.log("checked and unavailable");
+          setDeliverState(false);
+          setErrorMessage("Available for delivery in this area.");
+        }
+      }
+    } catch (error) {
+      setErrorMessage("Network error. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className="w-full h-full flex justify-center items-center">
@@ -85,11 +118,11 @@ const Hero = () => {
                 </p>
               </Button>
             </form>
-            {deliverState && (
-              <p className="mt-[-5%] text-red-500!">
-                Unavailable for the delivery
-              </p>
-            )}
+            <div className="h-5">
+              {errorMessage && (
+                <p className="text-red-500 mt-2">{errorMessage}</p>
+              )}
+            </div>
           </Form>
         </div>
       </div>

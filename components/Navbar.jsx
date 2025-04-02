@@ -28,6 +28,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const { user, login } = useAuth();
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -66,7 +67,7 @@ const Navbar = () => {
   }, [scrollY, timeoutId]);
 
   const handleLogout = () => {
-    localStorage.removeItem("authenticatedUser"); // Clear storage
+    localStorage.removeItem("authenticatedUser");
     login(null);
   };
 
@@ -109,20 +110,18 @@ const Navbar = () => {
 
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-md border flex justify-center items-center outline-0 cursor-pointer border-amber-50 w-10 h-10 overflow-hidden">
-                <Avatar>
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
+              <DropdownMenuTrigger className="rounded-md border flex justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
+                {user?.data?.firstName || ""}{" "}
+                {user?.data?.lastName || "User Name"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="border">
-                <DropdownMenuLabel>Aniket Khambal</DropdownMenuLabel>
-                <DropdownMenuSeparator className="border" />
                 <Link href="/profile">
                   <DropdownMenuItem className="flex justify-start items-center cursor-pointer">
                     <User className="mr-2" />
                     Profile
                   </DropdownMenuItem>
                 </Link>
+                <DropdownMenuSeparator className="border" />
                 <DropdownMenuItem
                   className="flex justify-start items-center text-red-400 cursor-pointer"
                   onClick={handleLogout}

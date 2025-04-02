@@ -1,9 +1,9 @@
-import { otpStore } from "@/lib/store";
+import { otpStore } from "@/lib/auth";
 
 export async function POST(req) {
     try {
         const { mobNumber, otp } = await req.json();
-        
+
         console.log("Received data for OTP verification:", { mobNumber, otp });
 
         // Validate mobile number
@@ -18,7 +18,7 @@ export async function POST(req) {
 
         // HARDCODED OTP for testing - "123456" for any valid mobile number
         const hardcodedOtp = "123456";
-        
+
         // Compare OTPs with hardcoded value instead of store
         if (hardcodedOtp !== otp) {
             console.log("OTP mismatch. Expected:", hardcodedOtp, "Received:", otp);

@@ -1,4 +1,4 @@
-import { otpStore } from "@/lib/store";
+import { otpStore } from "@/lib/auth";
 
 export async function POST(req) {
     try {

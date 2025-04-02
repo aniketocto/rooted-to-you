@@ -51,7 +51,7 @@ const Page = () => {
       const data = await response.json();
 
       const option = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: totalAmount * 100,
         currency: "INR",
         name: "Rooted to You",

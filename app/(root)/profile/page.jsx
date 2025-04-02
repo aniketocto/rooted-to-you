@@ -9,25 +9,13 @@ const ProfilePage = () => {
   const [tempProfile, setTempProfile] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const storedData = localStorage.getItem("rootedUserDetails");
-        const parsedData = storedData ? JSON.parse(storedData) : null;
-        if (parsedData) {
-          setProfile(parsedData);
-          setTempProfile(parsedData);
-        }
-      } catch (error) {
-        console.error("Error parsing localStorage:", error);
-      }
+    const storedUser = localStorage.getItem("authenticatedUser");
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      setProfile(userData);
+      setTempProfile(userData); // Initialize tempProfile
     }
   }, []);
-
-  useEffect(() => {
-    if (profile) {
-      localStorage.setItem("rootedUserDetails", JSON.stringify(profile));
-    }
-  }, [profile]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,15 +23,18 @@ const ProfilePage = () => {
   };
 
   const handleUpdateProfile = () => {
-    setProfile(tempProfile);
+    if (JSON.stringify(profile) !== JSON.stringify(tempProfile)) {
+      setProfile(tempProfile);
+      localStorage.setItem("authenticatedUser", JSON.stringify(tempProfile));
+    }
     setIsEditing(false);
   };
 
   const toggleEditMode = () => {
-    setIsEditing(!isEditing);
     if (!isEditing && profile) {
-      setTempProfile(profile);
+      setTempProfile(profile); // Only reset tempProfile when entering edit mode
     }
+    setIsEditing(!isEditing);
   };
 
   if (!profile) return <p>Loading...</p>;
@@ -55,44 +46,101 @@ const ProfilePage = () => {
         alt="bg"
         width={1440}
         height={270}
-        quality={100} // Increase quality (0-100)
+        quality={100}
         className="absolute top-0 z-[-1]"
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5">
+      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32">
         {/* Profile & Preferences Section */}
         <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
             Profile & Preferences
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {Object.keys(profile).map((key) => (
-              <div key={key}>
-                <h4 className="text-lg secondary-font mb-1">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                </h4>
-                {isEditing ? (
-                  <input
-                    type={
-                      key === "email"
-                        ? "email"
-                        : key === "dob"
-                        ? "date"
-                        : "text"
-                    }
-                    name={key}
-                    value={tempProfile?.[key] || ""}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                  />
-                ) : (
-                  <p className="text-lg">
-                    {key === "dob"
-                      ? new Date(profile[key]).toLocaleDateString("en-GB")
-                      : profile[key]}
-                  </p>
-                )}
-              </div>
-            ))}
+            {/* First Name */}
+            <div>
+              <h4 className="text-lg secondary-font mb-1">First Name</h4>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="firstName"
+                  value={tempProfile?.firstName || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                />
+              ) : (
+                <p className="text-lg">{profile.firstName || "N/A"}</p>
+              )}
+            </div>
+
+            {/* Last Name */}
+            <div>
+              <h4 className="text-lg secondary-font mb-1">Last Name</h4>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="lastName"
+                  value={tempProfile?.lastName || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                />
+              ) : (
+                <p className="text-lg">{profile.lastName || "N/A"}</p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <h4 className="text-lg secondary-font mb-1">Email</h4>
+              {isEditing ? (
+                <input
+                  type="email"
+                  name="email"
+                  value={tempProfile?.email || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                />
+              ) : (
+                <p className="text-lg">{profile.email || "N/A"}</p>
+              )}
+            </div>
+
+            {/* Phone Number */}
+            <div>
+              <h4 className="text-lg secondary-font mb-1">Phone Number</h4>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={tempProfile?.phoneNumber || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                />
+              ) : (
+                <p className="text-lg">{profile.phoneNumber || "N/A"}</p>
+              )}
+            </div>
+
+            {/* Date of Birth */}
+            <div>
+              <h4 className="text-lg secondary-font mb-1">Date of Birth</h4>
+              {isEditing ? (
+                <input
+                  type="date"
+                  name="dob"
+                  value={tempProfile?.dob || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                />
+              ) : (
+                <p className="text-lg">
+                  {profile.dob
+                    ? new Date(profile.dob).toLocaleDateString("en-GB")
+                    : "N/A"}
+                </p>
+              )}
+            </div>
+
+            {/* Update/Save Button */}
             <div className="flex items-center justify-start">
               {isEditing ? (
                 <button
