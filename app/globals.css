@@ -152,6 +152,11 @@ p {
 .rdp-caption_start .rdp-caption_end {
   justify-content: center !important;
 }
+
+.rdp-vhidden {
+  display: none !important;;
+}
+
 @media screen and (max-width: 850px) {
   h1 {
     font-size: 44px;

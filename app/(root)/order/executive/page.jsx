@@ -90,9 +90,10 @@ const Page = () => {
   const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const mealPrices = { lunch: 100, dinner: 120 };
-  const foodTypePrices = { veg: 0, 'non-veg': 20 };
+  const foodTypePrices = { veg: 0, "non-veg": 20 };
   const deliveringPrices = 50;
 
   const subTotal = useMemo(() => {
@@ -102,8 +103,9 @@ const Page = () => {
       const daysCount = highlightedDates.length;
 
       const newSubTotal = (basePrice + foodExtra) * daysCount;
+      setTotal(newSubTotal)
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
-      setTaxAmount(newTaxAmount)
+      setTaxAmount(newTaxAmount.toFixed(2));
       return newSubTotal + newTaxAmount + deliveringPrices;
     }
     return 0;
@@ -157,21 +159,19 @@ const Page = () => {
       endDate: data.selectedDates?.endDate || null,
     };
 
-    // Store session data (INCLUDING daysCount & sessionActive flag)
     const sessionData = {
-        ...updatedData,
-        daysCount,  // Store separately in session
-        sessionActive: true, // Safe flag for direct access prevention
+      ...updatedData,
+      daysCount, 
+      sessionActive: true, 
+      deliPrice: deliveringPrices,
+      tax: taxAmount,
+      deitType: selectedFoodType,
+      mealTime: selectedDuration
     };
 
-    sessionStorage.setItem("paymentSession", JSON.stringify(sessionData));
-
-    console.log("Payment session stored:", sessionData);
-
-    // Send request to backend
+    startPaymentSession(sessionData);
     const token = userData?.token;
-    startPaymentSession(updatedData);
-    
+
     try {
       const response = await fetch("/api/order", {
         method: "POST",
@@ -194,7 +194,6 @@ const Page = () => {
       setIsSubmitting(false);
     }, 2000);
   }
-
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">
@@ -519,28 +518,38 @@ const Page = () => {
           </div>
         )}
 
-        <div className="md:w-1/2 w-full flex justify-start items-start h-full px-10">
+        <div className="lg:w-1/2 w-full lg:sticky top-20 self-start px-4">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Plan</span>{" "}
-                <span className="font-base secondary-font">Executive</span>
+                <span className="font-base secondary-font">Meal Plan</span>
+                <span className="capitalize font-base secondary-font">
+                  Executive
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Time</span>{" "}
-                <span className="capitalize">{selectedTime}</span>
+                <span className="font-base secondary-font">Meal Time</span>
+                <span className="capitalize font-base secondary-font">
+                  {selectedTime}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Type</span>{" "}
-                <span className="capitalize">{selectedFoodType}</span>
+                <span className="font-base secondary-font">Meal Type</span>
+                <span className="capitalize font-base secondary-font">
+                  {selectedFoodType}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Duration</span>{" "}
+                <span className="font-base secondary-font">Duration</span>
                 <span className="font-base secondary-font">
-                  {selectedDuration === 7 ? "1 Week" : "1 Month"}
+                  {selectedDuration === 7
+                    ? "1 Week"
+                    : selectedDuration
+                    ? "1 Month"
+                    : ""}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -562,7 +571,7 @@ const Page = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Days</span>{" "}
+                <span className="font-base secondary-font">Days</span>
                 <span className="font-base secondary-font">
                   {highlightedDates.length}
                 </span>
@@ -570,7 +579,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Price</span>
                 <span className="font-base secondary-font">
-                  ₹{mealPrices[selectedTime] || 0} / Meal Plan
+                  ₹110.00 / Meal Plan
                 </span>
               </div>
             </div>
@@ -581,9 +590,8 @@ const Page = () => {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Sub Total</span>
-                <span className="font-base secondary-font">₹{subTotal}</span>
+                <span className="font-base secondary-font">₹{total}</span>
               </div>
-
               <div className="flex justify-between">
                 <span className="font-base secondary-font">
                   Delivery Charges
@@ -592,16 +600,18 @@ const Page = () => {
                   ₹{deliveringPrices}
                 </span>
               </div>
-
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Tax</span>
                 <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Wallet Amount</span>
+                <span className="font-base secondary-font">
+                  Discount Amount
+                </span>
                 <span className="font-base secondary-font">₹0.00</span>
               </div>
             </div>
+
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
               <span className="font-base secondary-font">Grand Total</span>
               <span className="font-base secondary-font">₹{subTotal}</span>

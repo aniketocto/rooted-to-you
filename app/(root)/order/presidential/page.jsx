@@ -73,7 +73,6 @@ const FormSchema = z.object({
   weekendType: z.string(),
 });
 
-const LOCAL_STORAGE_KEY = "rootedUserMealData";
 const Page = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -81,11 +80,7 @@ const Page = () => {
       time: undefined,
       dietType: undefined,
       cuisineChoice: ["M", "B", "S", "G", "P"],
-      selectedDates: {
-        startDate: undefined,
-        endDate: undefined,
-        count: 0,
-      },
+      selectedDates: { startDate: undefined, endDate: undefined, count: 0 },
       weekendType: "all",
     },
   });
@@ -100,6 +95,7 @@ const Page = () => {
   const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const mealPrices = {
     lunch: 200,
@@ -120,6 +116,7 @@ const Page = () => {
       const daysCount = highlightedDates.length;
 
       const newSubTotal = (basePrice + foodExtra) * daysCount;
+      setTotal(newSubTotal);
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
       setTaxAmount(newTaxAmount);
       return newSubTotal + newTaxAmount + deliveringPrices;
@@ -185,12 +182,20 @@ const Page = () => {
       subscriptionType: planType,
       startDate: data.selectedDates?.startDate || null,
       endDate: data.selectedDates?.endDate || null,
-      daysCount: data.selectedDates?.count || 0,
     };
-    delete updatedData.selectedDates;
+    const sessionData = {
+      ...updatedData,
+      daysCount,
+      sessionActive: true,
+      deliPrice: deliveringPrices,
+      tax: taxAmount,
+      deitType: selectedFoodType,
+      mealTime: selectedDuration,
+    };
 
+    startPaymentSession(sessionData);
     const token = userData?.token;
-    startPaymentSession(updatedData);
+
     try {
       const response = await fetch("/api/order", {
         method: "POST",
@@ -227,7 +232,25 @@ const Page = () => {
 
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-baseline justify-start md:mx-10 mx-5">
         {detailFormat ? (
-          <DetailForm />
+          <div className="flex md:w-1/2 w-full flex-col">
+            <Button
+              variant="ghost"
+              className="w-fit px-5 border-white border cursor-pointer ml-6"
+              onClick={() => setDetailFormat((prev) => !prev)}
+            >
+              <p className="flex justify-center items-center gap-5">
+                <Image
+                  src="/images/right-arrow.png"
+                  width={20}
+                  height={20}
+                  alt="Go Back"
+                  className="invert rotate-180"
+                />
+                Go Back
+              </p>
+            </Button>
+            <DetailForm />
+          </div>
         ) : (
           <div className="md:w-1/2 w-full h-full p-6">
             <h2 className="text-2xl font-bold primary-font">
@@ -520,28 +543,38 @@ const Page = () => {
           </div>
         )}
 
-        <div className="md:w-1/2 w-full flex justify-start items-start px-10">
+        <div className="lg:w-1/2 w-full lg:sticky top-20 self-start px-4">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Plan</span>{" "}
-                <span className="font-base secondary-font">Presidential</span>
+                <span className="font-base secondary-font">Meal Plan</span>
+                <span className="capitalize font-base secondary-font">
+                  Presidentail
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Time</span>{" "}
-                <span className="capitalize">{selectedTime}</span>
+                <span className="font-base secondary-font">Meal Time</span>
+                <span className="capitalize font-base secondary-font">
+                  {selectedTime}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Type</span>{" "}
-                <span className="capitalize">{selectedFoodType}</span>
+                <span className="font-base secondary-font">Meal Type</span>
+                <span className="capitalize font-base secondary-font">
+                  {selectedFoodType}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Duration</span>{" "}
+                <span className="font-base secondary-font">Duration</span>
                 <span className="font-base secondary-font">
-                  {selectedDuration === 7 ? "1 Week" : "1 Month"}
+                  {selectedDuration === 7
+                    ? "1 Week"
+                    : selectedDuration
+                    ? "1 Month"
+                    : ""}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -563,24 +596,16 @@ const Page = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Days</span>{" "}
+                <span className="font-base secondary-font">Days</span>
                 <span className="font-base secondary-font">
                   {highlightedDates.length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Price</span>{" "}
+                <span className="font-base secondary-font">Price</span>
                 <span className="font-base secondary-font">
                   ₹110.00 / Meal Plan
                 </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Quantity</span>{" "}
-                <span className="font-base secondary-font">₹0.00</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Plan Cost</span>{" "}
-                <span className="font-base secondary-font">₹0.00</span>
               </div>
             </div>
 
@@ -589,36 +614,32 @@ const Page = () => {
             </h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Sub Total</span>{" "}
-                <span className="font-base secondary-font">₹2200</span>
+                <span className="font-base secondary-font">Sub Total</span>
+                <span className="font-base secondary-font">₹{total}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">
                   Delivery Charges
-                </span>{" "}
-                <span className="font-base secondary-font">₹840</span>
+                </span>
+                <span className="font-base secondary-font">
+                  ₹{deliveringPrices}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Tax</span>{" "}
-                <span className="font-base secondary-font">₹0.00</span>
+                <span className="font-base secondary-font">Tax</span>
+                <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">
                   Discount Amount
-                </span>{" "}
-                <span className="font-base secondary-font">₹0.00</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">
-                  Cash Collection Charge
-                </span>{" "}
+                </span>
                 <span className="font-base secondary-font">₹0.00</span>
               </div>
             </div>
 
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span className="font-base secondary-font">Grand Total</span>{" "}
-              <span className="font-base secondary-font">₹0.00</span>
+              <span className="font-base secondary-font">Grand Total</span>
+              <span className="font-base secondary-font">₹{subTotal}</span>
             </div>
           </div>
         </div>

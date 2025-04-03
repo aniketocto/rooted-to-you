@@ -68,6 +68,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authenticatedUser");
+    router.push('/')
     login(null);
   };
 

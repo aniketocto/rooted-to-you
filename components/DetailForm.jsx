@@ -48,7 +48,7 @@ const formSchema = z.object({
   dob: z.date({
     required_error: "A date of birth is required.",
   }),
-  company: z
+  companyName: z
     .string()
     .trim()
     .min(2, { message: "Company Name must be at least 2 characters." }),
@@ -70,7 +70,7 @@ const formSchema = z.object({
     .min(3, { message: "City must be at least 3 characters." })
     .max(50, { message: "City cannot exceed 50 characters." }),
 
-  zipCode: z
+    pincode: z
     .string()
     .trim()
     .refine((value) => /^\d{6}$/.test(value), {
@@ -88,8 +88,6 @@ const formSchema = z.object({
     .min(3, { message: "Designation must be at least 3 characters." }),
 });
 
-const LOCAL_STORAGE_KEY = "rootedUserDetails";
-
 const DetailForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,13 +99,13 @@ const DetailForm = () => {
       lastName: "",
       phoneNumber: "",
       email: "",
-      company: "",
-      dob: new Date(),
+      companyName: "",
+      dob: null,
       address1: "",
       address2: "",
       department: "",
       designation: "",
-      zipCode: "",
+      pincode: "",
       city: "",
     },
   });
@@ -117,32 +115,25 @@ const DetailForm = () => {
       try {
         setIsLoading(true);
 
-        // **Step 1: Load data from localStorage**
-        const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (storedData) {
-          const userData = JSON.parse(storedData);
-          form.reset({
-            ...userData,
-            dob: new Date(userData.dob), // Convert DOB string to Date object
-            address1: userData.address?.split(",")[0] || "",
-            address2: userData.address?.split(",")[1] || "",
-          });
-        }
+        const storedUser = localStorage.getItem("authenticatedUser");
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
 
-        // **Step 2: (Future) Fetch from backend if available**
-        // Uncomment this when backend is ready
-        /*
-        const response = await fetch("/api/user"); // Example API call
-        const userData = await response.json();
-        if (userData) {
           form.reset({
-            ...userData,
-            dob: new Date(userData.dob),
-            address1: userData.address?.split(",")[0] || "",
-            address2: userData.address?.split(",")[1] || "",
+            firstName: userData?.data?.firstName || "",
+            lastName: userData?.data?.lastName || "",
+            phoneNumber: userData?.data?.phoneNumber || "",
+            email: userData?.data?.email || "",
+            companyName: userData?.data?.companyName || "",
+            dob: userData?.data?.dob ? new Date(userData.data.dob) : new Date(),
+            address1: userData?.data?.address1 || "",
+            address2: userData?.data?.address2 || "",
+            department: userData?.data?.department || "",
+            designation: userData?.data?.designation || "",
+            pincode: userData?.data?.pincode || "",
+            city: userData?.data?.city || "",
           });
         }
-        */
       } catch (error) {
         console.error("Error loading user data:", error);
       } finally {
@@ -154,21 +145,46 @@ const DetailForm = () => {
   }, [form]);
 
   function onSubmit(values) {
-    const combinedAddress = `${values.address1}, ${values.address2}`.trim();
-    const updatedValues = {
+    const updatedUserData = {
       ...values,
-      address: combinedAddress,
     };
-    delete updatedValues.address1;
-    delete updatedValues.address2;
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedValues));
-    console.log("Profile Data:", updatedValues);
 
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const storedUser = localStorage.getItem("authenticatedUser");
+
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      const updatedUser = {
+        ...userData,
+        data: {
+          ...userData.data,
+          ...updatedUserData,
+        },
+      };
+
+      localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
       router.push("/payment");
-    }, 1000); // Simulate form submission delay
+    }
+
+    // Future: Backend API call (currently commented)
+    /*
+    try {
+      const response = await fetch("/api/update-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData.token}`,
+        },
+        body: JSON.stringify(updatedUser),
+      });
+
+      await response.json(); // No need to store in a variable if not using it
+
+      router.push("/payment"); // Redirect immediately after API call
+    } catch (error) {
+      console.error("Profile Update Error:", error);
+    }
+
+    */
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -324,7 +340,7 @@ const DetailForm = () => {
             <div className="flex-1">
               <FormField
                 control={form.control}
-                name="company"
+                name="companyName"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
@@ -439,7 +455,7 @@ const DetailForm = () => {
             <div className="flex-1">
               <FormField
                 control={form.control}
-                name="zipCode"
+                name="pincode"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>

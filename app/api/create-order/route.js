@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
 const razorpay = new Razorpay({
@@ -8,20 +8,21 @@ const razorpay = new Razorpay({
 
 export async function POST(req) {
   try {
-
     const { amount } = await req.json();
+
+    if (!amount || amount <= 0) {
+      return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
+    }
+
     const order = await razorpay.orders.create({
-      amount: amount * 100,
+      amount: amount * 100, // Razorpay expects amount in paise
       currency: "INR",
       receipt: "receipt_" + Math.random().toString(36).substring(7),
     });
 
     return NextResponse.json({ orderId: order.id }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.status(500).json(
-      { error: "Error creating order" },
-      { status: 500 }
-    );
+    console.error("Razorpay Order Error:", error);
+    return NextResponse.json({ error: "Error creating order" }, { status: 500 });
   }
 }
