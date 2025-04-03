@@ -10,7 +10,7 @@ const Page = () => {
   return (
     <>
       <section
-        className="relative w-full h-screen flex flex-col justify-center items-start mb-32 bg-cover bg-center"
+        className="relative w-full md:h-[900px] flex flex-col justify-center items-start mb-32 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/about-banner.jpg')" }}
       >
 

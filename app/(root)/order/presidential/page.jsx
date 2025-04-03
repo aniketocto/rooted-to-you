@@ -2,7 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,26 +20,27 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/DatePicker";
 import DetailForm from "@/components/DetailForm";
+import { usePaymentContext } from "@/app/context/PaymentContext";
 
-const cuisineOptions = [
+const cuisineChoice = [
   {
-    id: "maharshtra",
+    id: "M",
     label: "Maharshtra",
   },
   {
-    id: "bengali",
+    id: "B",
     label: "Bengali",
   },
   {
-    id: "southInd",
+    id: "S",
     label: "South India",
   },
   {
-    id: "gujrati",
+    id: "G",
     label: "Gujrati",
   },
   {
-    id: "punjabi",
+    id: "P",
     label: "Punjabi",
   },
 ];
@@ -48,10 +49,10 @@ const FormSchema = z.object({
   time: z.enum(["dinner", "lunch"], {
     required_error: "Please select time.",
   }),
-  foodType: z.enum(["veg", "nonVeg"], {
+  dietType: z.enum(["veg", "non-veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineOptions: z
+  cuisineChoice: z
     .array(z.string())
     .refine(
       (value) => value.length === 0 || (value.length >= 1 && value.length <= 5),
@@ -69,7 +70,7 @@ const FormSchema = z.object({
       required_error: "Please select valid dates.",
     }
   ),
-  weekendRule: z.string(),
+  weekendType: z.string(),
 });
 
 const LOCAL_STORAGE_KEY = "rootedUserMealData";
@@ -78,38 +79,59 @@ const Page = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       time: undefined,
-      foodType: undefined,
-      cuisineOptions: [
-        "maharshtra",
-        "bengali",
-        "southInd",
-        "gujrati",
-        "punjabi",
-      ],
+      dietType: undefined,
+      cuisineChoice: ["M", "B", "S", "G", "P"],
       selectedDates: {
         startDate: undefined,
         endDate: undefined,
         count: 0,
       },
-      weekendRule: "all",
+      weekendType: "all",
     },
   });
 
+  const { paymentSession, startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(7);
-  const [weekendRule, setWeekendRule] = useState("all");
+  const [weekendType, setWeekendRule] = useState("all");
   const [highlightedDates, setHighlightedDates] = useState([]);
   const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [taxAmount, setTaxAmount] = useState(0);
+
+  const mealPrices = {
+    lunch: 200,
+    dinner: 220,
+  };
+
+  const foodTypePrices = {
+    veg: 50,
+    "non-veg": 100,
+  };
+
+  const deliveringPrices = 50;
+
+  const subTotal = useMemo(() => {
+    if (selectedTime && selectedFoodType && highlightedDates.length > 0) {
+      const basePrice = mealPrices[selectedTime] || 0;
+      const foodExtra = foodTypePrices[selectedFoodType] || 0;
+      const daysCount = highlightedDates.length;
+
+      const newSubTotal = (basePrice + foodExtra) * daysCount;
+      const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
+      setTaxAmount(newTaxAmount);
+      return newSubTotal + newTaxAmount + deliveringPrices;
+    }
+    return 0;
+  }, [selectedTime, selectedFoodType, highlightedDates]);
 
   useEffect(() => {
-    // If no cuisine is selected, set all options
     if (selectedCuisines.length === 0) {
-      setSelectedCuisines(cuisineOptions.map((c) => c.id));
+      setSelectedCuisines(cuisineChoice.map((c) => c.id));
     } else {
-      form.setValue("cuisineOptions", selectedCuisines, {
+      form.setValue("cuisineChoice", selectedCuisines, {
         shouldValidate: true,
       });
     }
@@ -132,8 +154,8 @@ const Page = () => {
         }
       );
     }
-    form.setValue("weekendRule", weekendRule);
-  }, [highlightedDates, weekendRule, form]);
+    form.setValue("weekendType", weekendType);
+  }, [highlightedDates, weekendType, form]);
 
   function handleCuisineSelection(id) {
     let updatedCuisines;
@@ -148,11 +170,44 @@ const Page = () => {
     setSelectedCuisines(updatedCuisines);
   }
 
-  function onSubmit(data) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-    console.log("Meal Data:", data);
-    setIsSubmitting(true);
+  async function onSubmit(data) {
+    const daysCount = data.selectedDates?.count || 0;
+    const planType = daysCount > 7 ? "monthly" : "weekly";
+    const storedUser = localStorage.getItem("authenticatedUser");
+    const userData = storedUser ? JSON.parse(storedUser) : null;
 
+    const updatedData = {
+      ...data,
+      boxId: "2",
+      id: userData?.id || null,
+      status: userData?.status || "inactive",
+      amount: subTotal,
+      subscriptionType: planType,
+      startDate: data.selectedDates?.startDate || null,
+      endDate: data.selectedDates?.endDate || null,
+      daysCount: data.selectedDates?.count || 0,
+    };
+    delete updatedData.selectedDates;
+
+    const token = userData?.token;
+    startPaymentSession(updatedData);
+    try {
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "", // Send token as Bearer
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const result = await response.json();
+      console.log("API Response:", result);
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+
+    setIsSubmitting(true);
     setTimeout(() => {
       setDetailFormat((prev) => !prev);
       setIsSubmitting(false);
@@ -273,7 +328,7 @@ const Page = () => {
                 {/* Meal Type Selection */}
                 <FormField
                   control={form.control}
-                  name="foodType"
+                  name="dietType"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <FormLabel className="font-medium">
@@ -324,15 +379,15 @@ const Page = () => {
                             <FormControl>
                               <div className="relative w-full">
                                 <RadioGroupItem
-                                  value="nonVeg"
-                                  id="nonVeg"
+                                  value="non-veg"
+                                  id="non-veg"
                                   className="sr-only"
                                 />
                                 <FormLabel
-                                  htmlFor="nonVeg"
+                                  htmlFor="non-veg"
                                   className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
-                                  selectedFoodType === "nonVeg"
+                                  selectedFoodType === "non-veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
                                     : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                 }`}
@@ -359,7 +414,7 @@ const Page = () => {
                 {/* Cuisine Selection - with empty default state */}
                 <FormField
                   control={form.control}
-                  name="cuisineOptions"
+                  name="cuisineChoice"
                   render={() => (
                     <FormItem>
                       <div className="">
@@ -369,7 +424,7 @@ const Page = () => {
                         </FormLabel>
                       </div>
                       <div className="flex flex-wrap gap-3  w-full md:w-[600px]">
-                        {cuisineOptions.map(({ id, label }) => (
+                        {cuisineChoice.map(({ id, label }) => (
                           <FormItem key={id} className="w-44">
                             <FormControl>
                               <div className="relative w-full">
@@ -414,9 +469,7 @@ const Page = () => {
                         <DatePicker
                           onDateChange={(dates) => {
                             if (Array.isArray(dates) && dates.length > 0) {
-                              setHighlightedDates(dates); // Keep this for your UI display
-
-                              // Update form with just start and end dates
+                              setHighlightedDates(dates);
                               const startDate = dates[0];
                               const endDate = dates[dates.length - 1];
 
@@ -435,7 +488,7 @@ const Page = () => {
                           }}
                           onWeekendRuleChange={(rule) => {
                             setWeekendRule(rule);
-                            form.setValue("weekendRule", rule);
+                            form.setValue("weekendType", rule);
                           }}
                           onSelectedDaysChange={(days) => {
                             setSelectedDuration(days);

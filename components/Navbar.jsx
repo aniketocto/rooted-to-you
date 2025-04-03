@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, User, LogOutIcon, X } from "lucide-react";
@@ -28,6 +28,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const { user, login } = useAuth();
+  const timeoutRef = useRef(null); // ✅ Use useRef to prevent re-renders
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,23 +38,22 @@ const Navbar = () => {
         setIsVisible(true);
         return;
       }
+
       if (currentScrollY > scrollY) {
         setIsVisible(false);
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-          setTimeoutId(null);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
         }
-      } else if (currentScrollY < scrollY) {
+      } else {
         setIsVisible(true);
         if (currentScrollY > 0) {
-          if (timeoutId) clearTimeout(timeoutId);
-          const newTimeoutId = setTimeout(() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
             if (window.scrollY > 0) {
               setIsVisible(false);
             }
           }, 3000);
-
-          setTimeoutId(newTimeoutId);
         }
       }
       setScrollY(currentScrollY);
@@ -62,9 +62,9 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (timeoutId) clearTimeout(timeoutId);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [scrollY, timeoutId]);
+  }, [scrollY]); 
 
   const handleLogout = () => {
     localStorage.removeItem("authenticatedUser");

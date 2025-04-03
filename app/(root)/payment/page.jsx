@@ -6,34 +6,32 @@ import { Separator } from "@/components/ui/separator";
 
 import Script from "next/script";
 import { usePaymentContext } from "@/app/context/PaymentContext";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [mealData, setMealData] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const { totalAmount } = usePaymentContext();
+  const { paymentSession } = usePaymentContext();
+
+  const router = useRouter();
 
   useEffect(() => {
-    const storedUserDetails = localStorage.getItem("rootedUserDetails");
-    const storedMealData = sessionStorage.getItem("rootedUserMealData");
+    const storedUser = localStorage.getItem("authenticatedUser");
 
-    if (storedMealData) {
-      console.log("Retrieved Meal Data:", storedMealData);
-      try {
-        setMealData(JSON.parse(storedMealData));
-      } catch (error) {
-        console.error("Error parsing stored meal data:", error);
-      }
+    // If either `authenticatedUser` or `paymentSession.sessionActive` is missing, redirect
+    if (!storedUser || !paymentSession?.sessionActive) {
+      console.warn("Unauthorized access attempt, redirecting...");
+      router.replace("/"); // Redirect to home or another safe page
+      return;
     }
 
-    if (storedUserDetails) {
-      try {
-        setUserDetails(JSON.parse(storedUserDetails));
-      } catch (error) {
-        console.error("Error parsing stored user details:", error);
-      }
+    try {
+      setUserDetails(JSON.parse(storedUser));
+    } catch (error) {
+      console.error("Error parsing authenticated user:", error);
     }
-  }, []);
+  }, [paymentSession, router]);
 
   const handlePayment = async () => {
     setIsProcessing(true);
@@ -139,95 +137,7 @@ const Page = () => {
               </Button>
             </div>
           </div>
-
-          {/* Meal Details */}
-          <div className="md:w-1/2 w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
-            <h2 className="text-2xl! font-bold primary-font text-orange-300 border-b border-teal-600 pb-2 mb-3">
-              Details for Lunch
-            </h2>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Meal Time</span>{" "}
-                <span className="capitalize">
-                  {mealData?.boxtype === "e" ? "Executive" : "Presidential"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Meal Time</span>{" "}
-                <span className="capitalize">{mealData?.time}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Meal Type</span>{" "}
-                <span className="capitalize">{mealData?.foodType}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Plan</span>{" "}
-                <span>
-                  {mealData?.selectedDates.count > 7 ? "Monthly" : "Weekly"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Start Date</span>{" "}
-                <span>
-                  {
-                    // Format the date as "4 April, 2025"
-                    new Date(
-                      mealData?.selectedDates?.startDate
-                    ).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })
-                  }
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Last Date</span>{" "}
-                <span>
-                  {" "}
-                  {
-                    // Format the date as "4 April, 2025"
-                    new Date(
-                      mealData?.selectedDates?.endDate
-                    ).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })
-                  }
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Total Days</span>{" "}
-                <span>{mealData?.selectedDates?.count}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Price</span> <span>₹110.00 / Meal</span>
-              </div>
-            </div>
-
-            <h2 className="text-2xl! font-bold primary-font text-orange-300 border-b border-teal-600 pb-2 mt-4 mb-3">
-              Bill Summary
-            </h2>
-            <div className="space-y-2 text-sm">
-              {/* <div className="flex justify-between">
-                <span>Sub Total</span>{" "}
-                <span>₹{mealData?.selectedDates?.length * 110}</span>
-              </div> */}
-              <div className="flex justify-between">
-                <span>Delivery Charges</span> <span>₹840</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tax</span> <span>₹0.00</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Discount</span> <span>₹0.00</span>
-              </div>
-            </div>
-            <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span>Grand Total</span> <span>₹{totalAmount}</span>
-            </div>
-          </div>
+         
         </div>
       </div>
     </section>

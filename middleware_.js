@@ -1,34 +1,36 @@
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  console.log("Middleware is running...");
+  const url = req.nextUrl;
+  
+  // List of protected routes (Add your payment page route here)
+  const protectedRoutes = ["/payment"];
+  
+  if (protectedRoutes.includes(url.pathname)) {
+    // Check if user is authenticated
+    const authenticatedUser = req.cookies.get("authenticatedUser");
+    const paymentSession = req.cookies.get("paymentSession");
 
-  const url = req.nextUrl.clone();
-  const isClient = typeof window !== "undefined";
+    // Redirect if missing authentication/session
+    if (!authenticatedUser || !paymentSession) {
+      return NextResponse.redirect(new URL("/", req.url)); // Redirect to home
+    }
 
-  // Simulate checking user authentication (in reality, use cookies or session)
-  const isLoggedIn = req.cookies.get("userAuth") === "true";
-  const isCheckingOut = req.cookies.get("checkoutStatus") === "true";
-
-  // 🚫 Restrict access to "/order", "/profile", and "/payment"
-  if (
-    !isLoggedIn &&
-    ["/order", "/profile", "/payment"].includes(url.pathname)
-  ) {
-    url.pathname = "/register"; // Redirect if not logged in
-    return NextResponse.redirect(url);
-  }
-
-  // 🚫 Restrict access to "/payment" unless checkout is in progress
-  if (url.pathname === "/payment" && !isCheckingOut) {
-    url.pathname = "/order"; // Redirect back to cart if checkout isn't started
-    return NextResponse.redirect(url);
+    try {
+      const sessionData = JSON.parse(paymentSession.value);
+      if (!sessionData.sessionActive) {
+        return NextResponse.redirect(new URL("/", req.url)); // Redirect if session inactive
+      }
+    } catch (error) {
+      console.error("Invalid session data:", error);
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
 
   return NextResponse.next();
 }
 
-// Define protected routes
+// Apply middleware only to matching routes
 export const config = {
-  matcher: ["/order/:path*", "/payment", "/profile"],
+  matcher: ["/payment"], // Replace with the actual payment route
 };

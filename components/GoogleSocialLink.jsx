@@ -40,7 +40,7 @@ const GoogleSocialLink = () => {
   };
 
   const handleFailure = (error) => {
-    setError("Google Login Failed, Please try again");
+    setError("Google Login Failed, Please try again", error);
     setOpen(true);
   };
 

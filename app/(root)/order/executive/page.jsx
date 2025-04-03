@@ -2,7 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,25 +22,25 @@ import DatePicker from "@/components/DatePicker";
 import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 
-const cuisineOptions = [
+const cuisineChoice = [
   {
-    id: "maharshtra",
+    id: "M",
     label: "Maharshtra",
   },
   {
-    id: "bengali",
+    id: "B",
     label: "Bengali",
   },
   {
-    id: "southInd",
+    id: "S",
     label: "South India",
   },
   {
-    id: "gujrati",
+    id: "G",
     label: "Gujrati",
   },
   {
-    id: "punjabi",
+    id: "P",
     label: "Punjabi",
   },
 ];
@@ -49,10 +49,10 @@ const FormSchema = z.object({
   time: z.enum(["dinner", "lunch"], {
     required_error: "Please select time.",
   }),
-  foodType: z.enum(["veg", "nonVeg"], {
+  dietType: z.enum(["veg", "non-veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineOptions: z.array(z.string()).refine((value) => value.length >= 3, {
+  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
     message: "Select upto 3 cuisines.",
   }),
   selectedDates: z.object(
@@ -65,78 +65,52 @@ const FormSchema = z.object({
       required_error: "Please select valid dates.",
     }
   ),
-  weekendRule: z.string(),
+  weekendType: z.string(),
 });
-
-const SESSION_STORAGE_KEY = "rootedUserMealData";
 
 const Page = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       time: undefined,
-      foodType: undefined,
-      cuisineOptions: [],
-      selectedDates: {
-        startDate: undefined,
-        endDate: undefined,
-        count: 0,
-      },
-      weekendRule: "all",
+      dietType: undefined,
+      cuisineChoice: [],
+      selectedDates: { startDate: undefined, endDate: undefined, count: 0 },
+      weekendType: "all",
     },
   });
 
-  const { totalAmount, setTotalAmount } = usePaymentContext();
+  const { paymentSession, startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(7);
-  const [hasUserSelected, setHasUserSelected] = useState(false);
-  const [weekendRule, setWeekendRule] = useState("all");
+  const [weekendType, setWeekendRule] = useState("all");
   const [highlightedDates, setHighlightedDates] = useState([]);
   const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [subTotal, setSubTotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
 
-  const mealPrices = {
-    lunch: 100,
-    dinner: 120,
-  };
-
-  const foodTypePrices = {
-    veg: 0,
-    nonVeg: 20,
-  };
-
+  const mealPrices = { lunch: 100, dinner: 120 };
+  const foodTypePrices = { veg: 0, 'non-veg': 20 };
   const deliveringPrices = 50;
 
-  useEffect(() => {
+  const subTotal = useMemo(() => {
     if (selectedTime && selectedFoodType && highlightedDates.length > 0) {
       const basePrice = mealPrices[selectedTime] || 0;
       const foodExtra = foodTypePrices[selectedFoodType] || 0;
       const daysCount = highlightedDates.length;
 
       const newSubTotal = (basePrice + foodExtra) * daysCount;
-      setSubTotal(newSubTotal);
-
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
-      setTaxAmount(newTaxAmount);
-      const newTotalAmount = newSubTotal + newTaxAmount + deliveringPrices;
-      setTotalAmount(newTotalAmount);
+      setTaxAmount(newTaxAmount)
+      return newSubTotal + newTaxAmount + deliveringPrices;
     }
+    return 0;
   }, [selectedTime, selectedFoodType, highlightedDates]);
 
-  const [storedData, setStoredData] = useState({
-    cuisineOptions: [],
-    time: undefined,
-    foodType: undefined,
-    selectedDates: { startDate: undefined, endDate: undefined, count: 0 },
-    weekendRule: "all",
-  });
-
   useEffect(() => {
-    form.setValue("cuisineOptions", selectedCuisines, { shouldValidate: true });
+    form.setValue("cuisineChoice", selectedCuisines, { shouldValidate: true });
   }, [selectedCuisines, form]);
 
   useEffect(() => {
@@ -144,58 +118,83 @@ const Page = () => {
       setTimeout(() => {
         const startDate = highlightedDates[0];
         const endDate = highlightedDates[highlightedDates.length - 1];
-        console.log({ startDate, endDate });
 
         form.setValue(
           "selectedDates",
-          {
-            startDate,
-            endDate,
-            count: highlightedDates.length,
-          },
+          { startDate, endDate, count: highlightedDates.length },
           { shouldValidate: true }
         );
       }, 0);
     }
 
-    form.setValue("weekendRule", weekendRule);
-  }, [highlightedDates, weekendRule, form]);
+    form.setValue("weekendType", weekendType);
+  }, [highlightedDates, weekendType, form]);
 
   const handleCuisineSelection = (id) => {
-    let updatedCuisines;
-    if (selectedCuisines.includes(id)) {
-      updatedCuisines = selectedCuisines.filter((cuisine) => cuisine !== id);
-    } else if (selectedCuisines.length < 3) {
-      updatedCuisines = [...selectedCuisines, id];
-    } else {
-      return;
-    }
-    console.log("Updated cuisines:", updatedCuisines);
-    setSelectedCuisines(updatedCuisines);
+    setSelectedCuisines((prevCuisines) =>
+      prevCuisines.includes(id)
+        ? prevCuisines.filter((cuisine) => cuisine !== id)
+        : prevCuisines.length < 3
+        ? [...prevCuisines, id]
+        : prevCuisines
+    );
   };
 
-  function onSubmit(data) {
-    console.log("Submitted Data:", data);
+  async function onSubmit(data) {
+    const daysCount = data.selectedDates?.count || 0;
+    const planType = daysCount > 7 ? "monthly" : "weekly";
+    const storedUser = localStorage.getItem("authenticatedUser");
+    const userData = storedUser ? JSON.parse(storedUser) : null;
 
-    // Add hardcoded value
+    // Data to send to the backend (EXCLUDING daysCount)
     const updatedData = {
-      ...data,
-      boxtype: "e",
-      dcharge: deliveringPrices,
+      boxId: "1",
+      id: userData?.id || null,
+      status: userData?.status || "inactive",
+      amount: subTotal,
+      subscriptionType: planType,
+      startDate: data.selectedDates?.startDate || null,
+      endDate: data.selectedDates?.endDate || null,
     };
-    console.log("Updated Data:", updatedData);
 
-    // Store all form data including the hardcoded value in storedData
-    setStoredData(updatedData);
+    // Store session data (INCLUDING daysCount & sessionActive flag)
+    const sessionData = {
+        ...updatedData,
+        daysCount,  // Store separately in session
+        sessionActive: true, // Safe flag for direct access prevention
+    };
 
-    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(updatedData));
+    sessionStorage.setItem("paymentSession", JSON.stringify(sessionData));
+
+    console.log("Payment session stored:", sessionData);
+
+    // Send request to backend
+    const token = userData?.token;
+    startPaymentSession(updatedData);
+    
+    try {
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "", // Send token as Bearer
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const result = await response.json();
+      console.log("API Response:", result);
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+
     setIsSubmitting(true);
-
     setTimeout(() => {
       setDetailFormat((prev) => !prev);
       setIsSubmitting(false);
     }, 2000);
   }
+
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">
@@ -326,7 +325,7 @@ const Page = () => {
                 {/* Meal Type Selection */}
                 <FormField
                   control={form.control}
-                  name="foodType"
+                  name="dietType"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <FormLabel className="font-medium">
@@ -377,15 +376,15 @@ const Page = () => {
                             <FormControl>
                               <div className="relative w-full">
                                 <RadioGroupItem
-                                  value="nonVeg"
-                                  id="nonVeg"
+                                  value="non-veg"
+                                  id="non-veg"
                                   className="sr-only"
                                 />
                                 <FormLabel
-                                  htmlFor="nonVeg"
+                                  htmlFor="non-veg"
                                   className={`flex justify-center text-sm items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
-                                  selectedFoodType === "nonVeg"
+                                  selectedFoodType === "non-veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
                                     : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                 }`}
@@ -412,7 +411,7 @@ const Page = () => {
                 {/* Cuisine Selection - with empty default state */}
                 <FormField
                   control={form.control}
-                  name="cuisineOptions"
+                  name="cuisineChoice"
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
@@ -424,7 +423,7 @@ const Page = () => {
                         </FormLabel>
                       </div>
                       <div className="flex flex-wrap gap-3  w-full md:w-[600px]">
-                        {cuisineOptions.map(({ id, label }) => (
+                        {cuisineChoice.map(({ id, label }) => (
                           <FormItem key={id} className="w-44">
                             <FormControl>
                               <div className="relative w-full">
@@ -469,10 +468,7 @@ const Page = () => {
                         <DatePicker
                           onDateChange={(dates) => {
                             if (Array.isArray(dates) && dates.length > 0) {
-                              setHasUserSelected(true);
-                              setHighlightedDates(dates); // Update UI state
-
-                              // Directly use `dates` instead of waiting for state to update
+                              setHighlightedDates(dates);
                               const startDate = dates[0];
                               const endDate = dates[dates.length - 1];
 
@@ -491,7 +487,7 @@ const Page = () => {
                           }}
                           onWeekendRuleChange={(rule) => {
                             setWeekendRule(rule);
-                            form.setValue("weekendRule", rule);
+                            form.setValue("weekendType", rule);
                           }}
                           onSelectedDaysChange={(days) => {
                             setSelectedDuration(days);
@@ -543,11 +539,9 @@ const Page = () => {
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Duration</span>{" "}
-                {hasUserSelected && (
-                  <span className="font-base secondary-font">
-                    {selectedDuration === 7 ? "1 Week" : "1 Month"}
-                  </span>
-                )}
+                <span className="font-base secondary-font">
+                  {selectedDuration === 7 ? "1 Week" : "1 Month"}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Start date</span>
@@ -610,7 +604,7 @@ const Page = () => {
             </div>
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
               <span className="font-base secondary-font">Grand Total</span>
-              <span className="font-base secondary-font">₹{totalAmount}</span>
+              <span className="font-base secondary-font">₹{subTotal}</span>
             </div>
           </div>
         </div>
