@@ -60,7 +60,7 @@ const orderPage = () => {
 
             <Button
               className="primary-font uppercase text-lg bg-[#e6af55]  text-center cursor-pointer font-semibold"
-              onClick={() => router.push("/order")}
+              onClick={() => router.push("/order/executive")}
             >
               <p className="text-[#03141C]!">Subscribe Now</p>
             </Button>
@@ -108,7 +108,7 @@ const orderPage = () => {
             </div>
             <Button
               className="primary-font uppercase text-lg bg-[#e6af55]  text-center cursor-pointer font-semibold"
-              onClick={() => router.push("/order")}
+              onClick={() => router.push("/order/presidential")}
             >
               <p className="text-[#03141C]! btnFont">Subscribe Now</p>
             </Button>
