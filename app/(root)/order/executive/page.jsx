@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/DatePicker";
 import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
+import AlertBox from "@/components/AlertBox";
 
 const cuisineChoice = [
   {
@@ -91,7 +92,7 @@ const Page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
-  const [basePrice, setBasePrice] = useState(0)
+  const [basePrice, setBasePrice] = useState(0);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -104,9 +105,9 @@ const Page = () => {
       const mealPrice = mealPrices[selectedTime] || 0;
       const foodExtra = foodTypePrices[selectedFoodType] || 0;
       const daysCount = highlightedDates.length;
-      
-      const baseTotal = (mealPrice + foodExtra);
-      setBasePrice(baseTotal)
+
+      const baseTotal = mealPrice + foodExtra;
+      setBasePrice(baseTotal);
       const newSubTotal = (mealPrice + foodExtra) * daysCount;
       setTotal(newSubTotal);
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
@@ -171,7 +172,7 @@ const Page = () => {
       tax: taxAmount,
       deitType: selectedFoodType,
       mealTime: selectedDuration,
-      basePrice: basePrice
+      basePrice: basePrice,
     };
 
     startPaymentSession(sessionData);
@@ -200,11 +201,11 @@ const Page = () => {
           setIsSubmitting(false);
         }, 2000);
       } else {
-        alert(`❌ Subscription failed: ${result.message || "Unknown error"}`);
+        setError(`❌ Subscription failed: ${result.message || "Unknown error"}`);
       }
     } catch (error) {
       console.error("API Error:", error);
-      alert("❌ An error occurred while submitting subscription.");
+      setError("❌ An error occurred while submitting subscription.");
     }
   }
 
@@ -462,7 +463,7 @@ const Page = () => {
                           </FormItem>
                         ))}
                       </div>
-                      <FormMessage className="text-red-500!"/>
+                      <FormMessage className="text-red-500!" />
                     </FormItem>
                   )}
                 />
@@ -632,6 +633,13 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Error"
+        description={error}
+      />
     </section>
   );
 };

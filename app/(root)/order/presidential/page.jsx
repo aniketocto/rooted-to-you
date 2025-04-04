@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/DatePicker";
 import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
+import AlertBox from "@/components/AlertBox";
 
 const cuisineChoice = [
   {
@@ -97,6 +98,8 @@ const Page = () => {
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
   const [basePrice, setBasePrice] = useState(0);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const mealPrices = {
     lunch: 200,
@@ -223,11 +226,11 @@ const Page = () => {
           setIsSubmitting(false);
         }, 2000);
       } else {
-        alert(`❌ Subscription failed: ${result.message || "Unknown error"}`);
+        setError(`❌ Subscription failed: ${result.message || "Unknown error"}`);
       }
     } catch (error) {
       console.error("API Error:", error);
-      alert("❌ An error occurred while submitting subscription.");
+      setError("❌ An error occurred while submitting subscription.");
     }
   }
 
@@ -656,6 +659,12 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Error"
+        description={error}
+      />
     </section>
   );
 };

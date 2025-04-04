@@ -7,12 +7,16 @@ import { Separator } from "@/components/ui/separator";
 import Script from "next/script";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import AlertBox from "@/components/AlertBox";
 
 const Page = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [redeemWallet, setRedeemWallet] = useState(false);
   const [couponCode, setCouponCode] = useState("");
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const { clearPaymentSession, paymentSession } = usePaymentContext();
   const {
@@ -41,96 +45,24 @@ const Page = () => {
   const finalPrice = useMemo(() => {
     if (!paymentSession) return 0;
 
-    let price = amount; // Base amount from session
+    let price = amount; 
     let discount = 0;
 
-    // Apply Coupon Discount (Example: 10% discount for "SAVE10")
-    if (couponCode === "SAVE10") {
-      discount = price * 0.1; // 10% discount
-    }
-
-    // Deduct Wallet Balance (Assume we have a wallet balance in userDetails)
+    // if (couponCode === "SAVE10") {
+    //   discount = price * 0.1; 
+    // }
     let walletBalance = userDetails?.data?.walletBalance || 0;
     if (redeemWallet) {
       const deduction = Math.min(walletBalance, price);
-      walletBalance -= deduction; // Reduce wallet balance
-      price -= deduction; // Apply deduction to price
+      walletBalance -= deduction; 
+      price -= deduction; 
     }
 
-    // Apply Discount & Ensure Non-Negative Price
     price -= discount;
-    return Math.max(price, 0); // Prevent negative price
+    return Math.max(price, 0); 
   }, [paymentSession, couponCode, redeemWallet, userDetails]);
 
   const token = userDetails?.data.token;
-
-  const handlePayment = async () => {
-    setIsProcessing(true);
-
-    try {
-      const response = await fetch("/api/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ amount: finalPrice }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create order");
-      }
-
-      const data = await response.json();
-      if (!data.orderId) {
-        throw new Error("Invalid order ID received");
-      }
-
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: finalPrice * 100,
-        currency: "INR",
-        name: "Rooted to You",
-        description: "Meal Order",
-        order_id: data.orderId,
-        handler: function (response) {
-          alert(
-            "✅ Payment Successful! Payment ID: " + response.razorpay_payment_id
-          );
-          clearPaymentSession();
-        },
-        prefill: {
-          name: `${userDetails?.firstName} ${userDetails?.lastName}`,
-          email: userDetails?.email,
-          contact: userDetails?.phone,
-        },
-        theme: { color: "#197a8a" },
-      };
-
-      const rzpy1 = new window.Razorpay(options);
-      rzpy1.open();
-
-      rzpy1.on("payment.failed", function (response) {
-        console.error("❌ Payment Failed:", response.error);
-
-        alert(`
-          ❌ Payment Failed! 
-          Reason: ${response.error.reason} 
-          Description: ${response.error.description} 
-          Code: ${response.error.code}
-        `);
-
-        console.log("Error Details:", response.error);
-      });
-    } catch (error) {
-      console.error("❌ Error in payment:", error);
-      alert(
-        "⚠️ An error occurred while processing the payment. Please try again."
-      );
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("authenticatedUser");
@@ -149,10 +81,83 @@ const Page = () => {
     }
   }, [paymentSession, router]);
 
-  useEffect(() => {
-    if (userDetails && paymentSession) {
+  useEffect(() => {}, [userDetails, paymentSession]);
+
+  const handlePayment = async () => {
+    setIsProcessing(true);
+
+    try {
+      const discountAmount = amount - finalPrice;
+      const payload = {
+        amount, 
+        currency: "INR",
+        shippingAmount: deliPrice || 0,
+        discount: Math.round(discountAmount) || 0,
+        customerId: userDetails?.data?.id,
+        gst: tax || 0,
+      };
+
+      const response = await fetch("/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        setError("Failed to create order");
+      }
+
+      const data = await response.json();
+      if (!data.orderId) {
+        setError("Invalid order ID received");
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: finalPrice * 100, // Razorpay expects amount in paise
+        currency: "INR",
+        name: "Rooted to You",
+        description: "Meal Order",
+        order_id: data.orderId,
+        handler: function (response) {
+          alert(
+            "✅ Payment Successful! Payment ID: " + response.razorpay_payment_id
+          );
+          clearPaymentSession();
+        },
+        prefill: {
+          name: `${userDetails?.data?.firstName} ${userDetails?.data?.lastName}`,
+          email: userDetails?.data?.email,
+          contact: userDetails?.data?.phoneNumber,
+        },
+        theme: { color: "#197a8a" },
+      };
+
+      const rzpy1 = new window.Razorpay(options);
+      rzpy1.open();
+
+      rzpy1.on("payment.failed", function (response) {
+        console.error("❌ Payment Failed:", response.error);
+        setError(`
+          ❌ Payment Failed! 
+          Reason: ${response.error.reason} 
+          Description: ${response.error.description} 
+          Code: ${response.error.code}
+        `);
+      });
+    } catch (error) {
+      console.error("❌ Error in payment:", error);
+      setError(
+        "⚠️ An error occurred while processing the payment. Please try again."
+      );
+    } finally {
+      setIsProcessing(false);
     }
-  }, [userDetails, paymentSession]);
+  };
+
   return (
     <section className="w-full h-fit flex justify-center items-center my-52">
       <Image
@@ -160,7 +165,7 @@ const Page = () => {
         alt="bg"
         width={1440}
         height={270}
-        quality={100} 
+        quality={100} // Increase quality (0-100)
         className="absolute top-0 z-[-1] w-full"
       />
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
@@ -348,6 +353,12 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Error"
+        description={error}
+      />
     </section>
   );
 };

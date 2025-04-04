@@ -1,4 +1,6 @@
 "use client";
+import AlertBox from "@/components/AlertBox";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
@@ -7,14 +9,59 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempProfile, setTempProfile] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleFeatureUnavailable = (feature) => {
+    setError(`${feature} feature is coming soon!`);
+    setOpen(true);
+
+    // setTimeout(() => setOpen(false), 3000);
+  };
+
+  const mockProfile = {
+    firstName: "John",
+    lastName: "Doe",
+    email: "john@example.com",
+    phoneNumber: "1234567890",
+    dob: "1990-01-01",
+  };
+
+  const safeProfile = profile || mockProfile;
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("authenticatedUser");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setProfile(userData);
-      setTempProfile(userData); // Initialize tempProfile
-    }
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch("/api/profile", { cache: "no-store" }); // adjust endpoint as needed
+        if (!res.ok) {
+          console.warn("API not available, using mock profile");
+          // fallback to mock profile
+          setProfile({
+            firstName: "John",
+            lastName: "Doe",
+            email: "john@example.com",
+            phoneNumber: "1234567890",
+            dob: "1990-01-01",
+          });
+          setTempProfile({
+            firstName: "John",
+            lastName: "Doe",
+            email: "john@example.com",
+            phoneNumber: "1234567890",
+            dob: "1990-01-01",
+          });
+          return;
+        }
+        // if (!res.ok) throw new Error("Failed to fetch profile data");
+        const userData = await res.json();
+        setProfile(userData);
+        setTempProfile(userData);
+      } catch (err) {
+        console.error("Error loading profile:", err);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   const handleInputChange = (e) => {
@@ -22,10 +69,23 @@ const ProfilePage = () => {
     setTempProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
     if (JSON.stringify(profile) !== JSON.stringify(tempProfile)) {
-      setProfile(tempProfile);
-      localStorage.setItem("authenticatedUser", JSON.stringify(tempProfile));
+      try {
+        const res = await fetch("/api/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(tempProfile),
+        });
+
+        if (!res.ok) throw new Error("Failed to update profile");
+
+        const updatedProfile = await res.json();
+        setProfile(updatedProfile);
+        setTempProfile(updatedProfile);
+      } catch (err) {
+        console.error("Error updating profile:", err);
+      }
     }
     setIsEditing(false);
   };
@@ -37,7 +97,7 @@ const ProfilePage = () => {
     setIsEditing(!isEditing);
   };
 
-  if (!profile) return <p>Loading...</p>;
+  // if (!profile) return <LoadingSpinner />;
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">
@@ -63,12 +123,12 @@ const ProfilePage = () => {
                 <input
                   type="text"
                   name="firstName"
-                  value={tempProfile?.firstName || ""}
+                  value={safeProfile?.firstName || ""}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                 />
               ) : (
-                <p className="text-lg">{profile.firstName || "N/A"}</p>
+                <p className="text-lg">{safeProfile.firstName || "N/A"}</p>
               )}
             </div>
 
@@ -79,12 +139,12 @@ const ProfilePage = () => {
                 <input
                   type="text"
                   name="lastName"
-                  value={tempProfile?.lastName || ""}
+                  value={safeProfile?.lastName || ""}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                 />
               ) : (
-                <p className="text-lg">{profile.lastName || "N/A"}</p>
+                <p className="text-lg">{safeProfile.lastName || "N/A"}</p>
               )}
             </div>
 
@@ -95,12 +155,12 @@ const ProfilePage = () => {
                 <input
                   type="email"
                   name="email"
-                  value={tempProfile?.email || ""}
+                  value={safeProfile?.email || ""}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                 />
               ) : (
-                <p className="text-lg">{profile.email || "N/A"}</p>
+                <p className="text-lg">{safeProfile.email || "N/A"}</p>
               )}
             </div>
 
@@ -111,12 +171,12 @@ const ProfilePage = () => {
                 <input
                   type="text"
                   name="phoneNumber"
-                  value={tempProfile?.phoneNumber || ""}
+                  value={safeProfile?.phoneNumber || ""}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                 />
               ) : (
-                <p className="text-lg">{profile.phoneNumber || "N/A"}</p>
+                <p className="text-lg">{safeProfile.phoneNumber || "N/A"}</p>
               )}
             </div>
 
@@ -127,14 +187,14 @@ const ProfilePage = () => {
                 <input
                   type="date"
                   name="dob"
-                  value={tempProfile?.dob || ""}
+                  value={safeProfile?.dob || ""}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                 />
               ) : (
                 <p className="text-lg">
-                  {profile.dob
-                    ? new Date(profile.dob).toLocaleDateString("en-GB")
+                  {safeProfile.dob
+                    ? new Date(safeProfile.dob).toLocaleDateString("en-GB")
                     : "N/A"}
                 </p>
               )}
@@ -182,13 +242,22 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="flex justify-start mt-6 space-x-4">
-              <button className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500">
+              <button
+                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500"
+                onClick={() => handleFeatureUnavailable("Pause")}
+              >
                 Pause
               </button>
-              <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
+              <button
+                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500"
+                onClick={() => handleFeatureUnavailable("Modify")}
+              >
                 Modify
               </button>
-              <button className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500">
+              <button
+                className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500"
+                onClick={() => handleFeatureUnavailable("Cancel")}
+              >
                 Cancel
               </button>
             </div>
@@ -214,7 +283,10 @@ const ProfilePage = () => {
               </button>
             </div>
             <div className="flex justify-start">
-              <button className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]">
+              <button
+                className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
+                onClick={() => handleFeatureUnavailable("Change Address")}
+              >
                 Update Delivery
               </button>
             </div>
@@ -229,6 +301,12 @@ const ProfilePage = () => {
           <OrderHistoryTable className="mt-4" />
         </div>
       </div>
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Upcoming Feature"
+        description={error}
+      />
     </section>
   );
 };
