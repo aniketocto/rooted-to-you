@@ -103,7 +103,7 @@ const Page = () => {
       const daysCount = highlightedDates.length;
 
       const newSubTotal = (basePrice + foodExtra) * daysCount;
-      setTotal(newSubTotal)
+      setTotal(newSubTotal);
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
       setTaxAmount(newTaxAmount.toFixed(2));
       return newSubTotal + newTaxAmount + deliveringPrices;
@@ -161,12 +161,12 @@ const Page = () => {
 
     const sessionData = {
       ...updatedData,
-      daysCount, 
-      sessionActive: true, 
+      daysCount,
+      sessionActive: true,
       deliPrice: deliveringPrices,
       tax: taxAmount,
       deitType: selectedFoodType,
-      mealTime: selectedDuration
+      mealTime: selectedDuration,
     };
 
     startPaymentSession(sessionData);
@@ -196,14 +196,14 @@ const Page = () => {
   }
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-20">
+    <section className="w-full h-fit flex justify-center items-center my-52">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
-        quality={100}
-        className="absolute top-0 z-[-1]"
+        quality={100} // Increase quality (0-100)
+        className="absolute top-0 z-[-1] w-full"
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-baseline justify-center md:mx-10 mx-5">
         {detailFormat ? (

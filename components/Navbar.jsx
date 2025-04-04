@@ -1,5 +1,6 @@
 "use client";
 
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,103 +18,110 @@ import {
 } from "./ui/dropdown-menu";
 import { navLinks } from "@/lib/helper";
 import { useAuth } from "@/app/context/AuthContext";
+import { usePaymentContext } from "@/app/context/PaymentContext";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [timeoutId, setTimeoutId] = useState(null);
+  const scrollYRef = useRef(0); // Stores previous scroll position without triggering re-renders
+  const timeoutRef = useRef(null);
 
+
+  const { clearPaymetSession } = usePaymentContext();
   const router = useRouter();
   const pathname = usePathname();
-
   const { user, login } = useAuth();
-  const timeoutRef = useRef(null); // ✅ Use useRef to prevent re-renders
+
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+
 
       if (currentScrollY === 0) {
         setIsVisible(true);
         return;
       }
 
-      if (currentScrollY > scrollY) {
+
+      if (currentScrollY > scrollYRef.current) {
+        // Scrolling Down - Hide navbar
         setIsVisible(false);
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
+        clearTimeout(timeoutRef.current);
       } else {
+        // Scrolling Up - Show navbar
         setIsVisible(true);
-        if (currentScrollY > 0) {
-          if (timeoutRef.current) clearTimeout(timeoutRef.current);
-          timeoutRef.current = setTimeout(() => {
-            if (window.scrollY > 0) {
-              setIsVisible(false);
-            }
-          }, 3000);
-        }
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+          if (window.scrollY > 0) setIsVisible(false);
+        }, 3000);
       }
-      setScrollY(currentScrollY);
+
+
+      scrollYRef.current = currentScrollY;
     };
+
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      clearTimeout(timeoutRef.current);
     };
-  }, [scrollY]); 
+  }, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem("authenticatedUser");
-    router.push('/')
+    router.push("/");
+    clearPaymetSession();
     login(null);
   };
 
+
   return (
     <div
-      className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 ${
+      className={`w-full h-20 flex justify-center items-center px-5 md:px-10 lg:px-20 fixed top-0 z-50 transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="w-full max-w-[1340px] flex justify-between items-center secondary-font">
+      <div className="w-full flex justify-between items-center secondary-font">
         <Link href="/">
           <Image
             src="/images/logo.png"
             alt="Rooted to you"
-            width={120}
+            width={150}
             height={100}
-            className="relative"
+            className="relative logoImg h-auto"
           />
         </Link>
 
+
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-between items-center gap-16">
-          <div className="flex flex-row font-base gap-10 items-center">
+        <div className="hidden md:flex justify-between items-center gap-4 lg:gap-8 xl:gap-16">
+          <div className="flex flex-row font-base items-center gap-4 lg:gap-8 xl:gap-10">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={label}
                 href={href}
-                className={`relative primary-font pb-1 transition-all duration-300 
-                ${
+                className={`relative primary-font pb-1 transition-all duration-300 ${
                   pathname === href
                     ? "border-b-2 border-[#b88e56]"
                     : "border-b-2 border-transparent"
-                } 
-                hover:border-[#b88e56]`}
+                } hover:border-[#b88e56]`}
               >
                 {label}
               </Link>
             ))}
           </div>
 
+
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-md border flex justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
-                {user?.data?.firstName || ""}{" "}
-                {user?.data?.lastName || "User Name"}
+              <DropdownMenuTrigger className="rounded-md border primary-font font-base flex justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
+                <p className="mt-1">
+                  {user?.data?.firstName || ""} {user?.data?.lastName || "User"}
+                </p>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="border">
                 <Link href="/profile">
@@ -150,6 +158,7 @@ const Navbar = () => {
             </Button>
           )}
         </div>
+
 
         {/* Mobile Menu Button and Login */}
         <div className="md:hidden flex items-center gap-2">
@@ -193,11 +202,13 @@ const Navbar = () => {
             </Button>
           )}
 
+
           <button onClick={() => setIsOpen(!isOpen)} className="relative">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
+
 
       {/* Mobile Navigation */}
       {isOpen && (
@@ -220,4 +231,10 @@ const Navbar = () => {
   );
 };
 
+
 export default Navbar;
+
+
+
+
+

@@ -220,14 +220,14 @@ const Page = () => {
   }
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-20">
+    <section className="w-full h-fit flex justify-center items-center my-52">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100} // Increase quality (0-100)
-        className="absolute top-0 z-[-1]"
+        className="absolute top-0 z-[-1] w-full"
       />
 
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-baseline justify-start md:mx-10 mx-5">

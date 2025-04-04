@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
+
 @custom-variant dark (&:is(.dark *));
+
 
 :root {
   --background-primary: #03141c;
@@ -12,12 +14,14 @@
   --font-base: 16px;
 }
 
+
 @font-face {
   font-family: "Karma";
   src: url("/fonts/Karma-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
+
 
 @font-face {
   font-family: "Minion";
@@ -26,29 +30,46 @@
   font-style: normal;
 }
 
+
 body::-webkit-scrollbar {
   display: none;
 }
+
 
 body {
   @apply bg-[var(--background-primary)] text-[var(--primary-font-color)];
 }
 
+
 h1 {
   @apply text-[var(--secondary-color)] text-6xl;
 }
+
 
 h2 {
   @apply text-[var(--secondary-color)] text-6xl font-bold;
 }
 
+
 h3 {
-  @apply text-[var(--secondary-color)] text-3xl font-bold;
+  @apply text-[var(--secondary-color)] text-4xl font-bold;
 }
+
+
+h4 {
+  @apply text-[var(--secondary-color)] text-2xl font-bold;
+}
+h5 {
+  @apply text-[var(--secondary-color)] text-xl font-bold;
+}
+
 
 p {
   @apply text-[var(--primary-font-color)];
 }
+
+
+
 
 @layer components {
   .primary-color {
@@ -65,21 +86,25 @@ p {
     font-family: "Minion", sans-serif;
     line-height: normal;
   }
+  h3{
+    letter-spacing: 1px;
+  }
   .font-base {
-    font-size: 18px;
+    font-size: 22px;
     line-height: normal;
   }
   .font-base-1 {
-    font-size: 16px;
+    font-size: 20px;
     line-height: normal;
   }
-  .font-base-3 {
+  .font-base-2 {
     font-size: 14px;
     line-height: normal;
   }
-  .font-base-4 {
-    font-size: 12px;
+  .font-base-3 {
+    font-size: 18px;
     line-height: normal;
+    font-family: "Karma", sans-serif;
   }
   .footer-bg {
     background-image: url("/images/footer-bg.jpg");
@@ -106,12 +131,14 @@ p {
     padding-left: 0;
   }
 
+
   /* Create custom list items with controllable images */
   .list-with-image li {
     position: relative;
     padding-left: 30px; /* Adjust based on your image size */
     margin-bottom: 10px;
   }
+
 
   .list-with-image li::before {
     content: "";
@@ -146,6 +173,7 @@ p {
   border-radius: 0 !important;
 }
 
+
 .rdrDateDisplayWrapper {
   border-top: 16px !important;
 }
@@ -153,46 +181,150 @@ p {
   justify-content: center !important;
 }
 
+
 .rdp-vhidden {
   display: none !important;;
 }
+.btnfont {
+  font-size: 35px;
+  margin-top: 5px;
+}
 
+
+.subbtnFont {
+  font-size: 20px;
+  margin-top: 2.5px;
+}
+.cusineFont {
+  font-size: 25px;
+}
+.cusineBox {
+  width: 320px;
+  height: 320px;
+}
+.cusineBoxPop {
+  width: 500px;
+  height: 500px;
+}
+
+
+@media screen and (min-width: 1600px) {
+  .cusineBox {
+    width: 320px;
+    height: 320px;
+  }
+  .cusineFont {
+    font-size: 36px;
+  }
+  .subbtnFont {
+    font-size: 25px;
+    margin-top: 2.5px;
+  }
+}
+
+
+@media screen and (max-width: 1050px) {
+  h1 {
+    font-size: 35px;
+  }
+  h2 {
+    @apply text-[var(--secondary-color)] text-5xl font-bold;
+  }
+  h3 {
+    @apply text-[var(--secondary-color)] text-2xl font-bold;
+  }
+  h4 {
+    font-size: 20px;
+  }
+  .font-base {
+    font-size: 18px
+  }
+  .font-base-1 {
+    font-size: 18px;
+    line-height: normal;
+  }
+  .font-base-3 {
+    font-size: 14px;
+  }
+  .btnfont {
+    font-size: 25px;
+    margin-top: 5px;
+  }
+  .cusineBox {
+    width: 250px;
+    height: 250px;
+  }
+  .cusineBoxPop {
+    width: 430px;
+    height: 430px;
+  }
+  .cusineFont {
+    font-size: 22px;
+  }
+  .subbtnFont {
+    font-size: 18px;
+  }
+}
 @media screen and (max-width: 850px) {
   h1 {
-    font-size: 44px;
+    font-size: 26px;
   }
   h2 {
     @apply text-[var(--secondary-color)] text-4xl font-bold;
   }
   h3 {
+    @apply text-[var(--secondary-color)] text-3xl font-bold;
+  }
+  h4 {
     @apply text-[var(--secondary-color)] text-2xl font-bold;
   }
   .font-base {
-    font-size: 16px;
-    line-height: normal;
-  }
-  .font-base-1 {
     font-size: 14px;
     line-height: normal;
   }
+  .font-base-1 {
+    font-size: 12px;
+    line-height: normal;
+}
   .font-base-3 {
     font-size: 12px;
     line-height: normal;
   }
   .font-base-4 {
-    font-size: 12px;
+    font-size: 18px;
     line-height: normal;
   }
+  .stepImg {
+    width: 240px;
+  }
+  .cusineBox {
+    width: 200px;
+    height: 200px;
+  }
+  .cusineBoxPop {
+    width: 400px;
+    height: 400px;
+  }
+  .cusineflexWrap {
+    flex-wrap: wrap;
+  }
+  .subbtnFont{
+    font-size: 12px;
+  }
 }
+
 
 @media screen and (max-width: 500px) {
   h1 {
     font-size: 30px;
   }
   h2 {
-    @apply text-[var(--secondary-color)] text-3xl font-bold;
+    font-size: 28px
   }
   h3 {
+    @apply text-[var(--secondary-color)] text-2xl font-bold;
+  }
+  h4 {
     @apply text-[var(--secondary-color)] text-xl font-bold;
   }
   .font-base {
@@ -200,27 +332,82 @@ p {
     line-height: normal;
   }
   .font-base-1 {
-    font-size: 12px;
+    font-size: 15px;
     line-height: normal;
-  }
-  .font-base-3 {
-    font-size: 10px;
-    line-height: normal;
-  }
+}
+.font-base-3 {
+  font-size: 15px;
+  line-height: normal;
+}
   .font-base-4 {
-    font-size: 10px;
+    font-size: 16px;
     line-height: normal;
+  }
+  .logoImg {
+    width: 90px;
+  }
+  .socialImg {
+    width: 40px;
+  }
+  .contactImg {
+    width: 20px;
+  }
+  .btnfont {
+    font-size: 25px;
+  }
+  .cusineBoxPop {
+    width: 300px;
+    height: 300px;
+  }
+  .cusineFont {
+    font-size: 27px;
   }
 }
 
-@media screen and (max-width: 380px) {
+
+@media screen and (max-width: 370px) {
   h1 {
     font-size: 25px;
   }
+  .btnfont {
+    font-size: 20px;
+  }
 }
+
 
 @media screen and (max-width: 350px) {
   h1 {
     font-size: 22px !important ;
   }
+  h2 {
+    @apply text-[var(--secondary-color)] text-2xl font-bold;
+  }
+  h3 {
+    @apply text-[var(--secondary-color)] text-2xl font-bold;
+  }
+  h4 {
+    font-size: 15px;
+  }
+  .font-base-4 {
+    font-size: 14px;
+    line-height: normal;
+  }
+  .logoImg {
+    width: 100px;
+  }
+  .socialImg {
+    width: 30px;
+  }
+  .contactImg {
+    width: 20px;
+  }
+  .cusineBoxPop {
+    width: 280px;
+    height: 280px;
+  }
 }
+
+
+
+
+

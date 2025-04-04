@@ -22,7 +22,7 @@ const Page = () => {
       </section>
 
       <section className="w-full h-full px-8 md:px-32 mb-28 text-center">
-        <p className="primary-font text-lg">
+        <p className="primary-font font-base-1">
           At Rooted to You, we believe that food is more than just
           nourishment—it’s a cultural experience, a bridge to our heritage, and
           a celebration of flavors passed down through generations. Our mission
@@ -31,7 +31,7 @@ const Page = () => {
           fast-paced lifestyle.
         </p>
         <br />
-        <p className="primary-font text-lg">
+        <p className="primary-font font-base-1">
           Rooted in authenticity and crafted for convenience, our meals honor
           the essence of Indian cuisine while embracing contemporary tastes.
           Whether it's the comforting warmth of home-cooked flavors or the
@@ -53,7 +53,7 @@ const Page = () => {
           </div>
           <div className="md:w-[60%] w-full flex justify-center items-start gap-5 flex-col">
             <h2 className="secondary-font text-2xl font-semibold">Mission</h2>
-            <p className="primary-font text-lg text-left">
+            <p className="primary-font font-base-1 text-left">
               At Rooted to You, our mission is to preserve and celebrate India's
               rich culinary heritage while making it accessible and convenient
               for modern lifestyles. We strive to bring authentic, time-honored
@@ -81,7 +81,7 @@ const Page = () => {
           </div>
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
             <h2 className="secondary-font text-2xl font-semibold">Vission</h2>
-            <p className="primary-font text-lg text-left">
+            <p className="primary-font font-base-1 text-left">
             To redefine everyday dining by making fresh, nutritious, and expertly curated meals easily accessible to those with busy lifestyles. Rooted to You envisions a world where people no longer rely on unhealthy takeouts or struggle with meal prep—where wholesome, restaurant-quality food is just a doorstep away, offering convenience without compromise.
             </p>
           </div>
@@ -91,7 +91,7 @@ const Page = () => {
       {/* Subscribe Button */}
       <div className="w-full flex justify-center">
         <Button
-          className="primary-font uppercase text-lg mb-28 bg-[#e6af55] px-10 py-5 flex items-center justify-center text-center cursor-pointer font-semibold"
+          className="primary-font uppercase font-base-1 mb-28 bg-[#e6af55] px-10 py-5 flex items-center justify-center text-center cursor-pointer font-semibold"
           onClick={() => router.push("/order")}
         >
           <p className="text-[#03141c]! text-2xl mt-1.5">Subscribe Now</p>

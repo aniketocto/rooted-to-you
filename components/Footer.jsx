@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+
 const Footer = () => {
   return (
-    <div className="footer-bg flex-col secondary-font w-full h-fit flex justify-center items-center px-6 md:px-20">
-      <Image src='/images/footer-border.png' alt="" width={1420} height={20} />
-      <div className="flex max-w-[1440px] h-fit py-12 md:flex-row flex-col justify-around item-start gap-5">
+    <div className="footer-bg flex-col secondary-font w-full h-fit flex justify-center items-center px-6 lg:px-15 xl:px-20">
+      <Image src='/images/footer-border.png' alt="" width={1420} height={20} className="w-full" />
+      <div className="flex h-fit py-12 md:flex-row flex-col justify-around item-start gap-5">
         <div className="md:w-[40%] h-full flex flex-col justify-items-start items-start gap-4">
           <Image
             src="/images/logo.png"
@@ -15,7 +16,7 @@ const Footer = () => {
             height={130}
           />
           <div className="flex flex-col">
-            <p className="primary-font text-lg/6.5 mt-2">
+            <p className="primary-font font-base-1 mt-2">
               Ingenium Food Ventures Pvt Ltd. <br />
               Delivering a real taste of India through authentic and diverse
               flavors, we bring the essence of regional cultures to your
@@ -35,15 +36,15 @@ const Footer = () => {
         </div>
         <div className="md:w-[40%] h-full flex flex-col justify-start items-start gap-5">
           <div>
-            <p className="primary-font text-lg/6.5 mt-2">
+            <p className="primary-font font-base-1 mt-2">
               Address: Ingenium Food Ventures Pvt Ltd. Unit 10 & 11, Ground
               Floor, Narayan Plaza Building, Saki Vihar Road, Mumbai, MH -
               400072
             </p>
           </div>
-          <div className="w-full flex flex-col md:flex-row justify-start gap-10">
+          <div className="w-full flex flex-col md:flex-row justify-start xl:gap-10 lg:gap-5 gap-3 ">
             <div className="flex flex-col gap-2">
-              <p className="secondary-font font-base-2">Follow Us</p>
+              <p className="secondary-font font-base-1">Follow Us</p>
               <div className="w-full flex flex-row justify-start gap-3">
                 <a href="">
                   <Image
@@ -51,6 +52,7 @@ const Footer = () => {
                     alt="Instagram"
                     width={40}
                     height={100}
+                    className="socialImg"
                   />
                 </a>
                 <a href="">
@@ -59,6 +61,7 @@ const Footer = () => {
                     alt="Facebook"
                     width={40}
                     height={100}
+                    className="socialImg"
                   />
                 </a>
                 <a href="">
@@ -67,41 +70,45 @@ const Footer = () => {
                     alt="Linkedin"
                     width={40}
                     height={100}
+                    className="socialImg"
                   />
                 </a>
               </div>
             </div>
             <div className="w-full flex-col flex justify-around gap-2">
-              <p className="secondary-font font-base-2">Call Us</p>
+              <p className="secondary-font font-base-1">Call Us</p>
               <a href="tel: +912260600012">
-                <p className="secondary-font font-base-2 flex justify-start gap-2 items-center">
+                <p className="secondary-font font-base-1 flex justify-start gap-2 items-center">
                   <Image
                     src="/images/call.png"
                     alt="call"
                     width={20}
                     height={20}
+                    className="contactImg"
                   />
                   +91 2260600012
                 </p>
               </a>
               <a href="tel: +912269012696">
-                <p className="secondary-font font-base-2 flex justify-start gap-2 items-center">
+                <p className="secondary-font font-base-1 flex justify-start gap-2 items-center">
                   <Image
                     src="/images/call.png"
                     alt="call"
                     width={20}
                     height={20}
+                    className="contactImg"
                   />
                   +91 2269012696 (11-6 PM)
                 </p>
               </a>
               <a href="mailto: reachout@rootedtoyou.com">
-                <p className="secondary-font font-base-2 flex justify-start gap-2 items-center">
+                <p className="secondary-font font-base-1 flex justify-start gap-2 items-center">
                   <Image
                     src="/images/mail.png"
                     alt="mail"
                     width={20}
                     height={20}
+                    className="contactImg"
                   />
                   reachout@rootedtoyou.com
                 </p>
@@ -120,4 +127,10 @@ const Footer = () => {
   );
 };
 
+
 export default Footer;
+
+
+
+
+

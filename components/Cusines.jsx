@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
+
 const Cuisines = () => {
   const router = useRouter();
   const [hoveredCard, setHoveredCard] = useState(false);
   const timeoutRef = useRef();
+
 
   const cuisines = [
     {
@@ -42,6 +44,7 @@ const Cuisines = () => {
     },
   ];
 
+
   const handleMouseEnter = (id) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -50,11 +53,13 @@ const Cuisines = () => {
     setHoveredCard(id);
   };
 
+
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setHoveredCard(null);
-    }, 1000);
+    }, 2000);
   };
+
 
   const handlePopupMouseEnter = () => {
     if (timeoutRef.current) {
@@ -63,21 +68,24 @@ const Cuisines = () => {
     }
   };
 
+
   const handlePopupMouseLeave = () => {
     handleMouseLeave();
   };
 
+
   return (
-    <section className="w-full h-fit flex flex-col justify-center items-center gap-5 my-14">
+    <section className="w-full h-fit flex flex-col justify-center items-center gap-20 my-14">
       <h2 className="secondary-font text-4xl font-bold text-center mb-8">
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>
+
 
       <div className="flex flex-wrap justify-center gap-4">
         {cuisines.map((cuisine) => (
           <div
             key={cuisine.id}
-            className="relative w-60 h-60 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className="relative cusineBox shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
             onMouseEnter={() => handleMouseEnter(cuisine.id)}
             onMouseLeave={handleMouseLeave}
             style={{
@@ -88,9 +96,9 @@ const Cuisines = () => {
             }}
           >
             <div className="flex flex-col items-center justify-center h-full p-4 gap-5">
-              <h3 className="text-center text-xl! secondary-font uppercase text-white! font-bold mb-2">
+              <h5 className="text-center  secondary-font uppercase text-white! font-bold mb-2">
                 {cuisine.name}
-              </h3>
+              </h5>
               <Image
                 src="/images/cusine-arrow.png"
                 alt={cuisine.name}
@@ -102,14 +110,13 @@ const Cuisines = () => {
           </div>
         ))}
       </div>
-
       {hoveredCard && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50"
           onClick={() => setHoveredCard(null)}
         >
           <div
-            className="bg-white shadow-2xl md:w-96 md:h-96 w-[300px] h-[300px] p-6 transform scale-110 transition-transform duration-300 relative overflow-hidden"
+            className="bg-white shadow-2xl cusineBoxPop p-6 transform scale-110 transition-transform duration-300 relative overflow-hidden"
             onMouseEnter={handlePopupMouseEnter}
             onMouseLeave={handlePopupMouseLeave}
             onClick={(e) => e.stopPropagation()}
@@ -146,4 +153,10 @@ const Cuisines = () => {
   );
 };
 
+
 export default Cuisines;
+
+
+
+
+
