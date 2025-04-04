@@ -71,7 +71,7 @@ const Hero = () => {
   return (
     <section className="w-full h-full flex justify-center items-center">
       <div className="hero-bg  w-full h-[700px] flex flex-col items-start justify-center px-0 sm:px-10">
-        <div className="flex flex-col items-start justify-center w-full md:w-1/2 gap-5 mt-[10%]">
+        <div className="flex flex-col items-start justify-center w-full md:w-1/2 gap-5 mt-[10%] px-5">
           <h1 className="primary-font text-[#E6AF55] font-bold">
             Eat. Connect. Celebrate.
           </h1>
@@ -113,14 +113,14 @@ const Hero = () => {
                 type="submit"
                 className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5"
               >
-                <p className="primary-font font-base uppercase text-[#03141C]!">
+                <p className="primary-font subbtnFont uppercase text-[#03141C]!">
                   Get Started
                 </p>
               </Button>
             </form>
             <div className="h-5">
               {errorMessage && (
-                <p className="text-red-500 mt-2">{errorMessage}</p>
+                <p className="text-red-500 font-base">{errorMessage}</p>
               )}
             </div>
           </Form>

@@ -26,6 +26,7 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const formSchema = z.object({
   firstName: z
@@ -70,7 +71,7 @@ const formSchema = z.object({
     .min(3, { message: "City must be at least 3 characters." })
     .max(50, { message: "City cannot exceed 50 characters." }),
 
-    pincode: z
+  pincode: z
     .string()
     .trim()
     .refine((value) => /^\d{6}$/.test(value), {
@@ -89,8 +90,10 @@ const formSchema = z.object({
 });
 
 const DetailForm = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -116,6 +119,10 @@ const DetailForm = () => {
         setIsLoading(true);
 
         const storedUser = localStorage.getItem("authenticatedUser");
+        if (storedUser) {
+          setIsAuthorized(true);
+        }
+
         if (storedUser) {
           const userData = JSON.parse(storedUser);
 
@@ -144,47 +151,50 @@ const DetailForm = () => {
     loadUserData();
   }, [form]);
 
-  function onSubmit(values) {
+  async function onSubmit(values) {
     const updatedUserData = {
       ...values,
     };
 
     const storedUser = localStorage.getItem("authenticatedUser");
 
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      const updatedUser = {
-        ...userData,
-        data: {
-          ...userData.data,
-          ...updatedUserData,
-        },
-      };
-
-      localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
-      router.push("/payment");
+    if (!storedUser) {
+      console.error("No user is logged in.");
+      return;
     }
 
-    // Future: Backend API call (currently commented)
-    /*
+    const userData = JSON.parse(storedUser);
+    const updatedUser = {
+      ...userData,
+      data: {
+        ...userData.data,
+        ...updatedUserData,
+      },
+    };
+
+    localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
+
     try {
-      const response = await fetch("/api/update-profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userData.token}`,
-        },
-        body: JSON.stringify(updatedUser),
-      });
+      const response = await fetch(
+        "http://13.201.35.112:5000/api/v1/customers/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userData.token}`,
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      );
 
-      await response.json(); // No need to store in a variable if not using it
-
-      router.push("/payment"); // Redirect immediately after API call
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      router.push("/payment");
     } catch (error) {
-      console.error("Profile Update Error:", error);
+      console.error("Profile Update Error:", error.message);
     }
-
-    */
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -473,21 +483,34 @@ const DetailForm = () => {
               />
             </div>
           </div>
-          <Button
-            type="submit"
-            className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Processing..." : "Next"}
-            {!isSubmitting && (
-              <Image
-                src="/images/right-arrow.png"
-                alt="right-arrow"
-                width={20}
-                height={15}
-              />
-            )}
-          </Button>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : isAuthorized ? (
+            <Button
+              type="submit"
+              className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Processing..." : "Next"}
+              {!isSubmitting && (
+                <Image
+                  src="/images/right-arrow.png"
+                  alt="right-arrow"
+                  width={20}
+                  height={15}
+                />
+              )}
+            </Button>
+          ) : (
+            <div className="text-center text-red-600 font-semibold">
+              <Link
+                href="/register"
+                className="inline-block mt-4 bg-[#e6af55] text-[#03141C] px-6 py-2 rounded hover:bg-[#d49f4c]"
+              >
+                You need to Login in
+              </Link>
+            </div>
+          )}
         </form>
       </Form>
     </div>

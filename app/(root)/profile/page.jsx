@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
   const toggleEditMode = () => {
     if (!isEditing && profile) {
-      setTempProfile(profile); // Only reset tempProfile when entering edit mode
+      setTempProfile(profile);
     }
     setIsEditing(!isEditing);
   };
@@ -49,7 +49,7 @@ const ProfilePage = () => {
         quality={100}
         className="absolute top-0 z-[-1]"
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32">
+      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32  ">
         {/* Profile & Preferences Section */}
         <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">

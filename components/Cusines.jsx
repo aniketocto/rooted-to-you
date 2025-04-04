@@ -136,13 +136,11 @@ const Cuisines = () => {
                 <p className="text-center font-base-1 primary-font mb-4">
                   {cuisines.find((c) => c.id === hoveredCard)?.desc}
                 </p>
-              </div>
-              <div className="absolute bottom-6">
                 <Button
                   className="primary-font uppercase text-lg bg-[#e6af55]  text-center cursor-pointer font-semibold"
                   onClick={() => router.push("/about")}
                 >
-                  <p className="text-[#03141C]!">Explore Now</p>
+                  <p className="text-[#03141C]! subbtnFont">Explore Now</p>
                 </Button>
               </div>
             </div>

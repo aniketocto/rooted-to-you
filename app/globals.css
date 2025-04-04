@@ -35,6 +35,9 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+body {
+  overflow: auto
+}
 
 body {
   @apply bg-[var(--background-primary)] text-[var(--primary-font-color)];
@@ -193,14 +196,14 @@ p {
 
 .subbtnFont {
   font-size: 20px;
-  margin-top: 2.5px;
+  margin-top: 5px;
 }
 .cusineFont {
   font-size: 25px;
 }
 .cusineBox {
-  width: 320px;
-  height: 320px;
+  width: 280px;
+  height: 280px;
 }
 .cusineBoxPop {
   width: 500px;
@@ -218,7 +221,7 @@ p {
   }
   .subbtnFont {
     font-size: 25px;
-    margin-top: 2.5px;
+    margin-top: 5px;
   }
 }
 

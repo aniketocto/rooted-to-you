@@ -1,12 +1,11 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, User, LogOutIcon, X } from "lucide-react";
+import { Menu, User, LogOutIcon, X, CircleUserRound } from "lucide-react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -20,56 +19,53 @@ import { navLinks } from "@/lib/helper";
 import { useAuth } from "@/app/context/AuthContext";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const scrollYRef = useRef(0); // Stores previous scroll position without triggering re-renders
-  const timeoutRef = useRef(null);
-
-
   const { clearPaymetSession } = usePaymentContext();
+
   const router = useRouter();
   const pathname = usePathname();
-  const { user, login } = useAuth();
 
+  const { user, login } = useAuth();
+  const timeoutRef = useRef(null); // ✅ Use useRef to prevent re-renders
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
 
       if (currentScrollY === 0) {
         setIsVisible(true);
         return;
       }
 
-
-      if (currentScrollY > scrollYRef.current) {
-        // Scrolling Down - Hide navbar
+      if (currentScrollY > scrollY) {
         setIsVisible(false);
-        clearTimeout(timeoutRef.current);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
       } else {
-        // Scrolling Up - Show navbar
         setIsVisible(true);
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-          if (window.scrollY > 0) setIsVisible(false);
-        }, 3000);
+        if (currentScrollY > 0) {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            if (window.scrollY > 0) {
+              setIsVisible(false);
+            }
+          }, 3000);
+        }
       }
-
-
-      scrollYRef.current = currentScrollY;
+      setScrollY(currentScrollY);
     };
-
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, []);
-
+  }, [scrollY]);
 
   const handleLogout = () => {
     localStorage.removeItem("authenticatedUser");
@@ -78,10 +74,9 @@ const Navbar = () => {
     login(null);
   };
 
-
   return (
     <div
-      className={`w-full h-20 flex justify-center items-center px-5 md:px-10 lg:px-20 fixed top-0 z-50 transition-transform duration-300 ${
+      className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -90,47 +85,46 @@ const Navbar = () => {
           <Image
             src="/images/logo.png"
             alt="Rooted to you"
-            width={150}
+            width={120}
             height={100}
-            className="relative logoImg h-auto"
+            className="relative"
           />
         </Link>
 
-
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-between items-center gap-4 lg:gap-8 xl:gap-16">
-          <div className="flex flex-row font-base items-center gap-4 lg:gap-8 xl:gap-10">
+        <div className="hidden md:flex justify-between items-center gap-16">
+          <div className="flex flex-row font-base gap-10 items-center">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={label}
                 href={href}
-                className={`relative primary-font pb-1 transition-all duration-300 ${
+                className={`relative primary-font pb-1 transition-all duration-300 
+                ${
                   pathname === href
                     ? "border-b-2 border-[#b88e56]"
                     : "border-b-2 border-transparent"
-                } hover:border-[#b88e56]`}
+                } 
+                hover:border-[#b88e56]`}
               >
                 {label}
               </Link>
             ))}
           </div>
 
-
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-md border primary-font font-base flex justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
-                <p className="mt-1">
-                  {user?.data?.firstName || ""} {user?.data?.lastName || "User"}
-                </p>
+              <DropdownMenuTrigger className="rounded-md border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
+                <CircleUserRound />
+                {user?.data?.firstName || ""}{" "}
+                {user?.data?.lastName || "User Name"}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="border">
+              <DropdownMenuContent className="glass-effect">
                 <Link href="/profile">
                   <DropdownMenuItem className="flex justify-start items-center cursor-pointer">
                     <User className="mr-2" />
                     Profile
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuSeparator className="border" />
                 <DropdownMenuItem
                   className="flex justify-start items-center text-red-400 cursor-pointer"
                   onClick={handleLogout}
@@ -159,18 +153,27 @@ const Navbar = () => {
           )}
         </div>
 
-
         {/* Mobile Menu Button and Login */}
         <div className="md:hidden flex items-center gap-2">
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border flex justify-center items-center cursor-pointer border-amber-50 w-10 overflow-hidden">
+              <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <Avatar>
-                  <AvatarFallback>A</AvatarFallback>
+                  <AvatarFallback>
+                    {user?.data
+                      ? `${user.data.firstName?.[0] || ""}${
+                          user.data.lastName?.[0] || ""
+                        }`.toUpperCase()
+                      : "U"}
+                  </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="glass-effect">
-                <DropdownMenuLabel>Aniket Khambal</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                  {user?.data?.firstName || ""}{" "}
+                  {user?.data?.lastName || "User Name"}
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator className="border border-neonGreen" />
                 <Link href="/profile">
                   <DropdownMenuItem>
@@ -202,13 +205,11 @@ const Navbar = () => {
             </Button>
           )}
 
-
           <button onClick={() => setIsOpen(!isOpen)} className="relative">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
-
 
       {/* Mobile Navigation */}
       {isOpen && (
@@ -231,10 +232,4 @@ const Navbar = () => {
   );
 };
 
-
 export default Navbar;
-
-
-
-
-

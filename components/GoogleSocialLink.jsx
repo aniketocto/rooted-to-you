@@ -5,19 +5,11 @@ import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "./ui/alert-dialog";
+import AlertBox from "@/components/AlertBox"; // ✅ Reusable AlertBox
 
 const LoginSocialGoogle = dynamic(
   () => import("reactjs-social-login").then((mod) => mod.LoginSocialGoogle),
-  { ssr: false } // Disable SSR to avoid "window is not defined" error
+  { ssr: false }
 );
 
 const GoogleSocialLink = () => {
@@ -39,8 +31,8 @@ const GoogleSocialLink = () => {
     // router.push("/");
   };
 
-  const handleFailure = (error) => {
-    setError("Google Login Failed, Please try again", error);
+  const handleFailure = () => {
+    setError("Google Login Failed. Please try again.");
     setOpen(true);
   };
 
@@ -56,23 +48,18 @@ const GoogleSocialLink = () => {
           width={40}
           height={30}
           quality={100}
-          alt="facebook Login"
+          alt="Google Login"
           className="cursor-pointer"
         />
       </LoginSocialGoogle>
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>{error}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
+      {/* ✅ Use reusable AlertBox */}
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Error"
+        description={error}
+      />
     </div>
   );
 };

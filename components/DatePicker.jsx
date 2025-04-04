@@ -69,7 +69,7 @@ const DatePicker = ({
 
         if (
           saturdayRule === "noSat" ||
-          (saturdayRule === "1st3rdSat" && ![1, 3].includes(weekNumber)) ||
+          (saturdayRule === "odd" && ![1, 3].includes(weekNumber)) ||
           (saturdayRule === "2nd4thSat" && ![2, 4].includes(weekNumber))
         ) {
           greyedOutDates.push(newDate);
@@ -181,7 +181,7 @@ const DatePicker = ({
           >
             <option value="all">All Saturdays</option>
             <option value="noSat">No Saturdays</option>
-            <option value="1st3rdSat">1st & 3rd Saturdays</option>
+            <option value="odd">1st & 3rd Saturdays</option>
             <option value="2nd4thSat">2nd & 4th Saturdays</option>
           </select>
         </div>

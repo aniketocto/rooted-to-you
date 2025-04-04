@@ -96,6 +96,7 @@ const Page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [basePrice, setBasePrice] = useState(0);
 
   const mealPrices = {
     lunch: 200,
@@ -111,14 +112,16 @@ const Page = () => {
 
   const subTotal = useMemo(() => {
     if (selectedTime && selectedFoodType && highlightedDates.length > 0) {
-      const basePrice = mealPrices[selectedTime] || 0;
+      const mealPrice = mealPrices[selectedTime] || 0;
       const foodExtra = foodTypePrices[selectedFoodType] || 0;
       const daysCount = highlightedDates.length;
 
-      const newSubTotal = (basePrice + foodExtra) * daysCount;
+      const baseTotal = mealPrice + foodExtra;
+      setBasePrice(baseTotal);
+      const newSubTotal = (mealPrice + foodExtra) * daysCount;
       setTotal(newSubTotal);
       const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
-      setTaxAmount(newTaxAmount);
+      setTaxAmount(newTaxAmount.toFixed(2));
       return newSubTotal + newTaxAmount + deliveringPrices;
     }
     return 0;
@@ -174,15 +177,15 @@ const Page = () => {
     const userData = storedUser ? JSON.parse(storedUser) : null;
 
     const updatedData = {
-      ...data,
-      boxId: "2",
-      id: userData?.id || null,
+      boxId: 2,
+      customerId: userData?.id || null,
       status: userData?.status || "inactive",
       amount: subTotal,
       subscriptionType: planType,
       startDate: data.selectedDates?.startDate || null,
       endDate: data.selectedDates?.endDate || null,
     };
+
     const sessionData = {
       ...updatedData,
       daysCount,
@@ -191,32 +194,41 @@ const Page = () => {
       tax: taxAmount,
       deitType: selectedFoodType,
       mealTime: selectedDuration,
+      basePrice: basePrice
     };
 
     startPaymentSession(sessionData);
     const token = userData?.token;
 
     try {
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "", // Send token as Bearer
-        },
-        body: JSON.stringify(updatedData),
-      });
+      const response = await fetch(
+        "http://13.201.35.112:5000/api/v1/subscriptions/buy",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
 
       const result = await response.json();
       console.log("API Response:", result);
+
+      if (response.ok) {
+        setIsSubmitting(true);
+        setTimeout(() => {
+          setDetailFormat((prev) => !prev);
+          setIsSubmitting(false);
+        }, 2000);
+      } else {
+        alert(`❌ Subscription failed: ${result.message || "Unknown error"}`);
+      }
     } catch (error) {
       console.error("API Error:", error);
+      alert("❌ An error occurred while submitting subscription.");
     }
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setDetailFormat((prev) => !prev);
-      setIsSubmitting(false);
-    }, 2000);
   }
 
   return (
@@ -604,7 +616,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Price</span>
                 <span className="font-base secondary-font">
-                  ₹110.00 / Meal Plan
+                  ₹{basePrice} / Meal Plan
                 </span>
               </div>
             </div>

@@ -9,7 +9,7 @@ const Steps = () => {
   const router = useRouter();
   return (
     <section className="w-full h-fit flex flex-col justify-center items-center gap-5 my-10">
-      <div className="max-w-[1340px] w-full h-fit flex flex-wrap items-center gap-20 justify-center py-10 md:px-10 px-5">
+      <div className=" w-full h-fit flex flex-wrap items-center gap-20 justify-center py-10 md:px-10 px-5">
         <h2 className="secondary-font text-center">
           Effortless, Healthy Eating in <br /> Just 4 Steps
         </h2>
@@ -92,7 +92,7 @@ const Steps = () => {
           className="primary-font uppercase text-lg bg-[#e6af55]  text-center cursor-pointer font-semibold"
           onClick={() => router.push("/order")}
         >
-          <p className="text-[#03141C]!">Subscribe Now</p>
+          <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
         </Button>
       </div>
     </section>

@@ -5,15 +5,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "./ui/alert-dialog";
+import AlertBox from "./AlertBox";
 
 const LoginSocialFacebook = dynamic(
   () => import("reactjs-social-login").then((mod) => mod.LoginSocialFacebook),
@@ -23,8 +15,8 @@ const LoginSocialFacebook = dynamic(
 const FbSocialLink = () => {
   const { login } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState(null); 
-  const [open, setOpen] = useState(false); 
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleSuccess = ({ provider, data }) => {
     console.log("Facebook Login Success:", provider, data);
@@ -39,9 +31,9 @@ const FbSocialLink = () => {
     router.push("/");
   };
 
-  const handleFailure = (error) => {
-    setError("Facebook login failed. Please try again."); // Set error message
-    setOpen(true); // Open the popup
+  const handleFailure = () => {
+    setError("Facebook login failed. Please try again.");
+    setOpen(true);
   };
 
   return (
@@ -63,20 +55,12 @@ const FbSocialLink = () => {
         </LoginSocialFacebook>
       )}
 
-      {/* ShadCN Alert Dialog for Errors */}
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>{error}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setOpen(false)}>
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertBox
+        open={open}
+        setOpen={setOpen}
+        title="Error"
+        description={error}
+      />
     </div>
   );
 };
