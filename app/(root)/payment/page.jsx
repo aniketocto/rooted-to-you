@@ -13,25 +13,37 @@ import AlertBox from "@/components/AlertBox";
 const Page = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [redeemWallet, setRedeemWallet] = useState(false);
+  const [tax, setTax] = useState();
   const [couponCode, setCouponCode] = useState("");
+  const [redeemWallet, setRedeemWallet] = useState(false);
+  const [discountedAmount, setDiscountedAmount] = useState();
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const deliPrice = 50;
+  const [walletUsedAmount, setWalletUsedAmount] = useState(0);
+  let walletBalance = userDetails?.data?.walletBalance || 0;
+
+  const [finalPrice, setFinalPrice] = useState(0);
 
   const { clearPaymentSession, paymentSession } = usePaymentContext();
   const {
-    amount,
     boxId,
-    daysCount,
-    deliPrice,
-    endDate,
-    id,
-    sessionActive,
-    startDate,
+    customerId,
     status,
     subscriptionType,
-    tax,
-    deitType,
+    startDate,
+    endDate,
+    amount,
+    cuisineChoice,
+    itemCode,
+    itemNames,
+    dietType,
+    weekendType,
+    daysCount,
+    sessionActive,
+    shippingAmount,
+    gst,
     mealTime,
   } = paymentSession || {};
 
@@ -39,28 +51,64 @@ const Page = () => {
     startDate instanceof Date ? startDate.toLocaleDateString() : startDate;
   const formattedEndDate =
     endDate instanceof Date ? endDate.toLocaleDateString() : endDate;
+  const [availableCoupons, setAvailableCoupons] = useState([]);
 
-  const router = useRouter();
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const response = await fetch(
+          "http://13.201.35.112:5000/api/v1/coupons/list?size=10"
+        );
+        const data = await response.json();
+        setAvailableCoupons(data?.data || []);
+      } catch (error) {
+        console.error("Failed to fetch coupons:", error);
+      }
+    };
 
-  const finalPrice = useMemo(() => {
-    if (!paymentSession) return 0;
+    fetchCoupons();
+  }, []);
 
-    let price = amount; 
+  useEffect(() => {
+    if (!paymentSession || !userDetails) return;
+
+    let price = amount || 0;
     let discount = 0;
 
-    // if (couponCode === "SAVE10") {
-    //   discount = price * 0.1; 
-    // }
-    let walletBalance = userDetails?.data?.walletBalance || 0;
-    if (redeemWallet) {
-      const deduction = Math.min(walletBalance, price);
-      walletBalance -= deduction; 
-      price -= deduction; 
+    const matchedCoupon = availableCoupons.find(
+      (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
+    );
+
+    if (matchedCoupon) {
+      if (matchedCoupon.discountType === "percentage") {
+        discount = (price * matchedCoupon.discountValue) / 100;
+      } else if (matchedCoupon.discountType === "fixed") {
+        discount = matchedCoupon.discountValue;
+      }
     }
 
-    price -= discount;
-    return Math.max(price, 0); 
-  }, [paymentSession, couponCode, redeemWallet, userDetails]);
+    const priceAfterDiscount = Math.max(price - discount, 0);
+    const walletDeduction = redeemWallet
+      ? Math.min(walletBalance, priceAfterDiscount)
+      : 0;
+    const afterWallet = priceAfterDiscount - walletDeduction;
+    const calculatedGst = afterWallet * gst;
+    const total = afterWallet + calculatedGst + deliPrice;
+
+    setDiscountedAmount(discount);
+    setWalletUsedAmount(walletDeduction);
+    setTax(calculatedGst);
+    setFinalPrice(Math.max(total, 0));
+  }, [
+    couponCode,
+    redeemWallet,
+    amount,
+    walletBalance,
+    gst,
+    paymentSession,
+    userDetails,
+    availableCoupons,
+  ]);
 
   const token = userDetails?.data.token;
 
@@ -87,24 +135,40 @@ const Page = () => {
     setIsProcessing(true);
 
     try {
-      const discountAmount = amount - finalPrice;
       const payload = {
-        amount, 
+        amount,
         currency: "INR",
         shippingAmount: deliPrice || 0,
-        discount: Math.round(discountAmount) || 0,
-        customerId: userDetails?.data?.id,
+        discount: discountedAmount || 0,
         gst: tax || 0,
+        walletAmount: walletBalance,
+        couponCode: couponCode,
+        subscriptionType: subscriptionType,
+        boxId: boxId,
+        dietType: dietType,
+        weekendType: weekendType,
+        cuisineChoice: cuisineChoice,
+        startDate: startDate,
+        endDate: endDate,
+        status: status,
+        customerId: customerId,
+        itemCode: itemCode,
+        itemNames: itemNames,
       };
 
-      const response = await fetch("/api/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      //
+      const response = await fetch(
+        "http://13.201.35.112:5000/api/v1/payments/order",
+        {
+          //api/v1/payments/order -> order_id  - recieved
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!response.ok) {
         setError("Failed to create order");
@@ -121,12 +185,37 @@ const Page = () => {
         currency: "INR",
         name: "Rooted to You",
         description: "Meal Order",
-        order_id: data.orderId,
-        handler: function (response) {
+        order_id: data.orderId, //orderId here
+        handler: async function (response) {
           alert(
             "✅ Payment Successful! Payment ID: " + response.razorpay_payment_id
           );
-          clearPaymentSession();
+
+          try {
+            const successResponse = await fetch(
+              "http://13.201.35.112:5000/api/v1/payments/success",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  ...payload,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpaySignature: response.razorpay_signature,
+                }),
+              }
+            );
+
+            const result = await successResponse.json();
+            console.log("✅ Payment Success API Response:", result);
+            clearPaymentSession();
+            // router.push("/success");
+          } catch (error) {
+            console.error("❌ Error calling payment success API:", error);
+          }
         },
         prefill: {
           name: `${userDetails?.data?.firstName} ${userDetails?.data?.lastName}`,
@@ -139,14 +228,30 @@ const Page = () => {
       const rzpy1 = new window.Razorpay(options);
       rzpy1.open();
 
-      rzpy1.on("payment.failed", function (response) {
+      rzpy1.on("payment.failed", async function (response) {
         console.error("❌ Payment Failed:", response.error);
+
         setError(`
           ❌ Payment Failed! 
           Reason: ${response.error.reason} 
           Description: ${response.error.description} 
           Code: ${response.error.code}
         `);
+
+        try {
+          await fetch("http://13.201.35.112:5000/api/v1/payments/failed", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              orderId: data.orderId, // <- This is the orderId you got from /payments/order
+            }),
+          });
+        } catch (err) {
+          console.error("❌ Error calling payment failed API:", err);
+        }
       });
     } catch (error) {
       console.error("❌ Error in payment:", error);
@@ -229,7 +334,7 @@ const Page = () => {
                 type="checkbox"
                 id="redeemWallet"
                 checked={redeemWallet}
-                onChange={() => setRedeemWallet(!redeemWallet)}
+                onChange={(e) => setRedeemWallet(e.target.checked)}
                 className="w-4 h-4 cursor-pointer"
               />
               <label htmlFor="redeemWallet" className="text-sm cursor-pointer">
@@ -284,7 +389,7 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Meal Type</span>
                   <span className="capitalize font-base secondary-font">
-                    {deitType}
+                    {dietType}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -323,7 +428,9 @@ const Page = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Sub Total</span>
-                  <span className="font-base secondary-font">₹{amount}</span>
+                  <span className="font-base secondary-font">
+                    ₹{amount || 0}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">
@@ -332,16 +439,24 @@ const Page = () => {
                   <span className="font-base secondary-font">₹{deliPrice}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-base secondary-font">Tax</span>
-                  <span className="font-base secondary-font">₹{tax}</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="font-base secondary-font">
                     Discount Amount
                   </span>
                   <span className="font-base secondary-font text-red-500">
-                    - ₹{(amount - finalPrice).toFixed(2)}
+                    - ₹{discountedAmount}
                   </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">
+                    Wallet Amount
+                  </span>
+                  <span className="font-base secondary-font text-red-500">
+                    - ₹{walletUsedAmount}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Tax</span>
+                  <span className="font-base secondary-font">₹{tax || 0}</span>
                 </div>
               </div>
 

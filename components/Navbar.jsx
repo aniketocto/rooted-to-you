@@ -23,7 +23,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const { clearPaymetSession } = usePaymentContext();
+  const { clearPaymentSession } = usePaymentContext();
+
 
   const router = useRouter();
   const pathname = usePathname();
@@ -70,7 +71,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("authenticatedUser");
     router.push("/");
-    clearPaymetSession();
+    clearPaymentSession();
     login(null);
   };
 

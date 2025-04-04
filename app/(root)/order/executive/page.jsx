@@ -25,23 +25,28 @@ import AlertBox from "@/components/AlertBox";
 
 const cuisineChoice = [
   {
-    id: "M",
+    id: "1",
+    itemCode: "M",
     label: "Maharshtra",
   },
   {
-    id: "B",
+    id: "2",
+    itemCode: "B",
     label: "Bengali",
   },
   {
-    id: "S",
-    label: "South India",
+    id: "3",
+    itemCode: "S",
+    label: "South Indian",
   },
   {
-    id: "G",
+    id: "4",
+    itemCode: "G",
     label: "Gujrati",
   },
   {
-    id: "P",
+    id: "5",
+    itemCode: "P",
     label: "Punjabi",
   },
 ];
@@ -50,7 +55,7 @@ const FormSchema = z.object({
   time: z.enum(["dinner", "lunch"], {
     required_error: "Please select time.",
   }),
-  dietType: z.enum(["veg", "non-veg"], {
+  dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
   cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
@@ -95,31 +100,34 @@ const Page = () => {
   const [basePrice, setBasePrice] = useState(0);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
-
-  const mealPrices = { lunch: 100, dinner: 120 };
-  const foodTypePrices = { veg: 0, "non-veg": 20 };
+  const [loading, setLoading] = useState(true);
+  const [boxes, setBoxes] = useState([]);
   const deliveringPrices = 50;
-
-  const subTotal = useMemo(() => {
-    if (selectedTime && selectedFoodType && highlightedDates.length > 0) {
-      const mealPrice = mealPrices[selectedTime] || 0;
-      const foodExtra = foodTypePrices[selectedFoodType] || 0;
-      const daysCount = highlightedDates.length;
-
-      const baseTotal = mealPrice + foodExtra;
-      setBasePrice(baseTotal);
-      const newSubTotal = (mealPrice + foodExtra) * daysCount;
-      setTotal(newSubTotal);
-      const newTaxAmount = (newSubTotal + deliveringPrices) * 0.18;
-      setTaxAmount(newTaxAmount.toFixed(2));
-      return newSubTotal + newTaxAmount + deliveringPrices;
-    }
-    return 0;
-  }, [selectedTime, selectedFoodType, highlightedDates]);
+  const gstTax = 0.6;
+  const selectedBoxId = 1;
 
   useEffect(() => {
-    form.setValue("cuisineChoice", selectedCuisines, { shouldValidate: true });
-  }, [selectedCuisines, form]);
+    const fetchBoxes = async () => {
+      try {
+        const response = await fetch(
+          "http://13.201.35.112:5000/api/v1/boxes/list"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch boxes");
+        }
+
+        const data = await response.json();
+        setBoxes(data.mealBoxes);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBoxes();
+  }, []);
 
   useEffect(() => {
     if (highlightedDates.length > 0) {
@@ -138,6 +146,35 @@ const Page = () => {
     form.setValue("weekendType", weekendType);
   }, [highlightedDates, weekendType, form]);
 
+  useEffect(() => {
+    form.setValue("cuisineChoice", selectedCuisines, { shouldValidate: true });
+  }, [selectedCuisines, form]);
+
+  useEffect(() => {
+    if (!boxes.length) return;
+
+    const selectedBox = boxes.find((box) => box.id === selectedBoxId);
+    if (!selectedBox) return;
+
+    let mealbasePrice;
+
+    if (selectedDuration === 7) {
+      mealbasePrice = selectedBox.weekPrice;
+    } else if (selectedDuration > 7) {
+      mealbasePrice = selectedBox.monthPrice;
+    } else {
+      return;
+    }
+
+    const beforeTax = mealbasePrice + deliveringPrices;
+    const tax = mealbasePrice * gstTax;
+    const finalSubTotal = beforeTax + tax;
+
+    setBasePrice(mealbasePrice);
+    setTaxAmount(tax.toFixed(2));
+    setTotal(finalSubTotal);
+  }, [selectedDuration, boxes]);
+
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
       prevCuisines.includes(id)
@@ -154,25 +191,36 @@ const Page = () => {
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
 
+    const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
+      selectedCuisines.includes(cuisine.id)
+    );
+
+    const itemCodes = selectedCuisineDetails.map((c) => c.itemCode).join(", ");
+    const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
+    const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
+
     const updatedData = {
       boxId: 1,
       customerId: userData?.id || null,
       status: userData?.status || "inactive",
-      amount: subTotal,
       subscriptionType: planType,
       startDate: data.selectedDates?.startDate || null,
       endDate: data.selectedDates?.endDate || null,
+      amount: basePrice,
+      cuisineChoice: cuisineIds,
+      itemCode: itemCodes,
+      itemNames: itemNames,
+      dietType: selectedFoodType,
+      weekendType: weekendType,
     };
 
     const sessionData = {
       ...updatedData,
       daysCount,
       sessionActive: true,
-      deliPrice: deliveringPrices,
-      tax: taxAmount,
-      deitType: selectedFoodType,
-      mealTime: selectedDuration,
-      basePrice: basePrice,
+      shippingAmount: deliveringPrices,
+      gst: gstTax,
+      mealTime: selectedTime,
     };
 
     startPaymentSession(sessionData);
@@ -201,7 +249,9 @@ const Page = () => {
           setIsSubmitting(false);
         }, 2000);
       } else {
-        setError(`❌ Subscription failed: ${result.message || "Unknown error"}`);
+        setError(
+          `❌ Subscription failed: ${result.message || "Unknown error"}`
+        );
       }
     } catch (error) {
       console.error("API Error:", error);
@@ -389,15 +439,15 @@ const Page = () => {
                             <FormControl>
                               <div className="relative w-full">
                                 <RadioGroupItem
-                                  value="non-veg"
-                                  id="non-veg"
+                                  value="non_veg"
+                                  id="non_veg"
                                   className="sr-only"
                                 />
                                 <FormLabel
-                                  htmlFor="non-veg"
+                                  htmlFor="non_veg"
                                   className={`flex justify-center text-sm items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
-                                  selectedFoodType === "non-veg"
+                                  selectedFoodType === "non_veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
                                     : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                 }`}
@@ -584,18 +634,6 @@ const Page = () => {
                     : "-----"}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Days</span>
-                <span className="font-base secondary-font">
-                  {highlightedDates.length}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Price</span>
-                <span className="font-base secondary-font">
-                  ₹{basePrice} / Meal Plan
-                </span>
-              </div>
             </div>
 
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
@@ -604,7 +642,7 @@ const Page = () => {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Sub Total</span>
-                <span className="font-base secondary-font">₹{total}</span>
+                <span className="font-base secondary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">
@@ -628,7 +666,7 @@ const Page = () => {
 
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
               <span className="font-base secondary-font">Grand Total</span>
-              <span className="font-base secondary-font">₹{subTotal}</span>
+              <span className="font-base secondary-font">₹{total}</span>
             </div>
           </div>
         </div>

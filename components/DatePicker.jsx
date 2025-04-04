@@ -68,9 +68,9 @@ const DatePicker = ({
         const weekNumber = Math.floor((newDate.getDate() - 1) / 7) + 1;
 
         if (
-          saturdayRule === "noSat" ||
+          saturdayRule === "none" ||
           (saturdayRule === "odd" && ![1, 3].includes(weekNumber)) ||
-          (saturdayRule === "2nd4thSat" && ![2, 4].includes(weekNumber))
+          (saturdayRule === "even" && ![2, 4].includes(weekNumber))
         ) {
           greyedOutDates.push(newDate);
           continue;
@@ -180,9 +180,9 @@ const DatePicker = ({
             className="border p-2 bg-[#03141c] rounded-lg w-full"
           >
             <option value="all">All Saturdays</option>
-            <option value="noSat">No Saturdays</option>
+            <option value="none">No Saturdays</option>
             <option value="odd">1st & 3rd Saturdays</option>
-            <option value="2nd4thSat">2nd & 4th Saturdays</option>
+            <option value="even">2nd & 4th Saturdays</option>
           </select>
         </div>
 

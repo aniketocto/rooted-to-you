@@ -173,28 +173,32 @@ const DetailForm = () => {
     };
 
     localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
+    router.push("/payment");
 
-    try {
-      const response = await fetch(
-        "http://13.201.35.112:5000/api/v1/customers/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userData.token}`,
-          },
-          body: JSON.stringify(updatedUser),
-        }
-      );
+    // try {
+    //   const response = await fetch(
+    //     "http://13.201.35.112:5000/api/v1/customers/create",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${userData.token}`,
+    //       },
+    //       body: JSON.stringify(updatedUser),
+    //     }
+    //   );
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      router.push("/payment");
-    } catch (error) {
-      console.error("Profile Update Error:", error.message);
-    }
+    //   if (!response.ok) {
+    //     const error = await response.json();
+    //     throw new Error(error.message);
+    //   }
+    //   router.push("/payment");
+    //   setIsSubmitting(true);
+    // } catch (error) {
+    //   console.error("Profile Update Error:", error.message);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   }
 
   if (isLoading) return <p>Loading...</p>;
