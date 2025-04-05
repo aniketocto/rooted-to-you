@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
-
 @custom-variant dark (&:is(.dark *));
-
 
 :root {
   --background-primary: #03141c;
@@ -14,14 +12,12 @@
   --font-base: 16px;
 }
 
-
 @font-face {
   font-family: "Karma";
   src: url("/fonts/Karma-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
-
 
 @font-face {
   font-family: "Minion";
@@ -30,34 +26,37 @@
   font-style: normal;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 body::-webkit-scrollbar {
   display: none;
 }
 
 body {
-  overflow: auto
+  overflow: auto;
 }
 
 body {
   @apply bg-[var(--background-primary)] text-[var(--primary-font-color)];
 }
 
-
 h1 {
   @apply text-[var(--secondary-color)] text-6xl;
 }
-
 
 h2 {
   @apply text-[var(--secondary-color)] text-6xl font-bold;
 }
 
-
 h3 {
   @apply text-[var(--secondary-color)] text-4xl font-bold;
 }
-
 
 h4 {
   @apply text-[var(--secondary-color)] text-2xl font-bold;
@@ -66,13 +65,9 @@ h5 {
   @apply text-[var(--secondary-color)] text-xl font-bold;
 }
 
-
 p {
   @apply text-[var(--primary-font-color)];
 }
-
-
-
 
 @layer components {
   .primary-color {
@@ -89,7 +84,7 @@ p {
     font-family: "Minion", sans-serif;
     line-height: normal;
   }
-  h3{
+  h3 {
     letter-spacing: 1px;
   }
   .font-base {
@@ -134,14 +129,12 @@ p {
     padding-left: 0;
   }
 
-
   /* Create custom list items with controllable images */
   .list-with-image li {
     position: relative;
     padding-left: 30px; /* Adjust based on your image size */
     margin-bottom: 10px;
   }
-
 
   .list-with-image li::before {
     content: "";
@@ -176,7 +169,6 @@ p {
   border-radius: 0 !important;
 }
 
-
 .rdrDateDisplayWrapper {
   border-top: 16px !important;
 }
@@ -184,15 +176,13 @@ p {
   justify-content: center !important;
 }
 
-
 .rdp-vhidden {
-  display: none !important;;
+  display: none !important;
 }
 .btnfont {
   font-size: 35px;
   margin-top: 5px;
 }
-
 
 .subbtnFont {
   font-size: 20px;
@@ -210,7 +200,6 @@ p {
   height: 500px;
 }
 
-
 @media screen and (min-width: 1600px) {
   .cusineBox {
     width: 320px;
@@ -224,7 +213,6 @@ p {
     margin-top: 5px;
   }
 }
-
 
 @media screen and (max-width: 1050px) {
   h1 {
@@ -240,7 +228,7 @@ p {
     font-size: 20px;
   }
   .font-base {
-    font-size: 18px
+    font-size: 18px;
   }
   .font-base-1 {
     font-size: 18px;
@@ -288,7 +276,7 @@ p {
   .font-base-1 {
     font-size: 12px;
     line-height: normal;
-}
+  }
   .font-base-3 {
     font-size: 12px;
     line-height: normal;
@@ -311,18 +299,17 @@ p {
   .cusineflexWrap {
     flex-wrap: wrap;
   }
-  .subbtnFont{
+  .subbtnFont {
     font-size: 12px;
   }
 }
-
 
 @media screen and (max-width: 500px) {
   h1 {
     font-size: 30px;
   }
   h2 {
-    font-size: 28px
+    font-size: 28px;
   }
   h3 {
     @apply text-[var(--secondary-color)] text-2xl font-bold;
@@ -337,11 +324,11 @@ p {
   .font-base-1 {
     font-size: 15px;
     line-height: normal;
-}
-.font-base-3 {
-  font-size: 15px;
-  line-height: normal;
-}
+  }
+  .font-base-3 {
+    font-size: 15px;
+    line-height: normal;
+  }
   .font-base-4 {
     font-size: 16px;
     line-height: normal;
@@ -367,7 +354,6 @@ p {
   }
 }
 
-
 @media screen and (max-width: 370px) {
   h1 {
     font-size: 25px;
@@ -376,7 +362,6 @@ p {
     font-size: 20px;
   }
 }
-
 
 @media screen and (max-width: 350px) {
   h1 {
@@ -409,8 +394,3 @@ p {
     height: 280px;
   }
 }
-
-
-
-
-

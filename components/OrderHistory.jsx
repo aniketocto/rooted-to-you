@@ -54,11 +54,6 @@ const OrderHistoryTable = () => {
             <TableCell>{order.yourOrder}</TableCell>
             <TableCell>{order.orderType}</TableCell>
             <TableCell>{order.location}</TableCell>
-            <TableCell>
-              <button className="bg-gray-600 text-white py-1 px-3 rounded-md hover:bg-gray-500">
-                Reorder
-              </button>
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>

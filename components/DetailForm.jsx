@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import LoadingSpinner from "./LoadingSpinner";
 
 const formSchema = z.object({
   firstName: z
@@ -93,6 +94,7 @@ const DetailForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
   const form = useForm({
@@ -114,48 +116,68 @@ const DetailForm = () => {
   });
 
   useEffect(() => {
-    async function loadUserData() {
+    const fetchUserProfile = async () => {
+      const storedUser = localStorage.getItem("authenticatedUser");
+      if (!storedUser) return;
+
+      const user = JSON.parse(storedUser);
+      const customerId = user?.id;
+      const token = user?.token;
+
+      if (!customerId || !token) return;
+
+      setIsAuthorized(true);
+      setIsLoading(true);
+
       try {
-        setIsLoading(true);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        const storedUser = localStorage.getItem("authenticatedUser");
-        if (storedUser) {
-          setIsAuthorized(true);
+        const result = await res.json();
+        const userData = result?.data;
+
+        if (res.ok && userData) {
+          const hasUserInfo =
+            userData.firstName ||
+            userData.lastName ||
+            userData.email ||
+            userData.phoneNumber;
+
+          if (hasUserInfo) {
+            form.reset({
+              firstName: userData.firstName || "",
+              lastName: userData.lastName || "",
+              phoneNumber: userData.phoneNumber || "",
+              email: userData.email || "",
+              companyName: userData.companyName || "",
+              dob: userData.dob ? new Date(userData.dob) : undefined,
+              address1: userData.address1 || "",
+              address2: userData.address2 || "",
+              department: userData.department || "",
+              designation: userData.designation || "",
+              pincode: userData.pincode || "",
+              city: userData.city || "",
+            });
+          }
         }
-
-        if (storedUser) {
-          const userData = JSON.parse(storedUser);
-
-          form.reset({
-            firstName: userData?.data?.firstName || "",
-            lastName: userData?.data?.lastName || "",
-            phoneNumber: userData?.data?.phoneNumber || "",
-            email: userData?.data?.email || "",
-            companyName: userData?.data?.companyName || "",
-            dob: userData?.data?.dob ? new Date(userData.data.dob) : new Date(),
-            address1: userData?.data?.address1 || "",
-            address2: userData?.data?.address2 || "",
-            department: userData?.data?.department || "",
-            designation: userData?.data?.designation || "",
-            pincode: userData?.data?.pincode || "",
-            city: userData?.data?.city || "",
-          });
-        }
-      } catch (error) {
-        console.error("Error loading user data:", error);
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
-    loadUserData();
+    fetchUserProfile();
   }, [form]);
 
   async function onSubmit(values) {
-    const updatedUserData = {
-      ...values,
-    };
-
     const storedUser = localStorage.getItem("authenticatedUser");
 
     if (!storedUser) {
@@ -164,44 +186,91 @@ const DetailForm = () => {
     }
 
     const userData = JSON.parse(storedUser);
-    const updatedUser = {
-      ...userData,
-      data: {
-        ...userData.data,
-        ...updatedUserData,
-      },
-    };
+    const customerId = userData?.id;
+    const token = userData?.token;
 
-    localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
-    router.push("/payment");
+    if (!customerId || !token) {
+      console.error("User ID or token missing");
+      return;
+    }
 
-    // try {
-    //   const response = await fetch(
-    //     "process.env.NEXT_PUBLIC_BASE_API_URL/api/v1/customers/create",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${userData.token}`,
-    //       },
-    //       body: JSON.stringify(updatedUser),
-    //     }
-    //   );
+    setIsSubmitting(true);
+    setErrorMessage("");
 
-    //   if (!response.ok) {
-    //     const error = await response.json();
-    //     throw new Error(error.message);
-    //   }
-    //   router.push("/payment");
-    //   setIsSubmitting(true);
-    // } catch (error) {
-    //   console.error("Profile Update Error:", error.message);
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+    try {
+      // 1. Check if the pincode is available
+      const checkResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/pincodes/check-availability?pincode=${values.pincode}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const checkData = await checkResponse.json();
+
+      if (!checkResponse.ok || !checkData.success) {
+        setErrorMessage("Sorry, we do not deliver to this pincode.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Update user profile
+      const updateRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!updateRes.ok) {
+        const error = await updateRes.json();
+        throw new Error(error.message || "Failed to update profile");
+      }
+
+      // 3. Fetch updated user profile
+      const fetchUpdatedRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedUser = await fetchUpdatedRes.json();
+      console.log("fetchUser", updatedUser);
+
+      if (fetchUpdatedRes.ok && updatedUser?.data) {
+        // Flatten and store
+        const newStoredUser = {
+          ...userData,
+          ...updatedUser.data,
+        };
+
+        localStorage.setItem(
+          "authenticatedUser",
+          JSON.stringify(newStoredUser)
+        );
+        router.push("/payment");
+      } else {
+        throw new Error("Failed to fetch updated user info");
+      }
+    } catch (error) {
+      console.error("Profile Update Error:", error.message);
+      setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="w-full h-full p-6">
@@ -326,22 +395,32 @@ const DetailForm = () => {
                         <Calendar
                           mode="single"
                           captionLayout="dropdown-buttons"
-                          selected={field.value}
+                          selected={field.value || undefined}
                           onSelect={field.onChange}
                           fromYear={1900}
-                          toYear={new Date().getFullYear()}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          toYear={2018}
                           initialFocus
+                          disabled={(date) =>
+                            date > new Date("2018-12-31") ||
+                            date < new Date("1900-01-01")
+                          }
                           classNames={{
-                            caption: "flex justify-center items-center gap-2",
-                            caption_label: "hidden", // 🔹 This hides the extra label
+                            root: "w-full max-w-md mx-auto border border-gray-200 rounded-lg shadow-sm bg-[#197a8a]",
+                            caption:
+                              "flex justify-center items-center gap-2 p-2",
+                            caption_label: "hidden", // ❌ Hide label
                             caption_dropdowns:
-                              "flex justify-center gap-2 bg-[#197a8a] p-2 rounded-md",
+                              "flex gap-2 bg-[#197a8a] p-2 rounded-md text-white", // ✅ Styled bg
                             dropdown:
-                              "bg-[#197a8a] text-white border-none px-2 py-1 rounded-md",
+                              "bg-[#197a8a] text-white border-none px-2 py-1 rounded-md appearance-none scrollbar-hide",
                             dropdown_icon: "text-white",
+                            table: "w-full border-collapse mt-2",
+                            head_row: "text-gray-500 text-sm",
+                            row: "text-center",
+                            cell: "w-10 h-10 text-sm hover:bg-[#197a8a] hover:text-white rounded-md transition",
+                            day_selected: "bg-white text-[#197a8a]",
+                            day_today: "",
+                            day_disabled: "text-gray-300 cursor-not-allowed",
                           }}
                         />
                       </PopoverContent>
@@ -487,6 +566,7 @@ const DetailForm = () => {
               />
             </div>
           </div>
+
           {isLoading ? (
             <p>Loading...</p>
           ) : isAuthorized ? (
@@ -515,6 +595,7 @@ const DetailForm = () => {
               </Link>
             </div>
           )}
+          {errorMessage && <p>{errorMessage}</p>}
         </form>
       </Form>
     </div>

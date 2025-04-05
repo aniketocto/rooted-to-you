@@ -103,7 +103,7 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
   const deliveringPrices = 50;
-  const gstTax = 0.6;
+  const gstTax = 0.06;
   const selectedBoxId = 1;
 
   useEffect(() => {
@@ -170,9 +170,9 @@ const Page = () => {
     const tax = mealbasePrice * gstTax;
     const finalSubTotal = beforeTax + tax;
 
-    setBasePrice(mealbasePrice);
+    setBasePrice(Math.round(mealbasePrice));
     setTaxAmount(tax.toFixed(2));
-    setTotal(finalSubTotal);
+    setTotal(Math.round(finalSubTotal));
   }, [selectedDuration, boxes]);
 
   const handleCuisineSelection = (id) => {
@@ -240,7 +240,6 @@ const Page = () => {
       );
 
       const result = await response.json();
-      console.log("API Response:", result);
 
       if (response.ok) {
         setIsSubmitting(true);

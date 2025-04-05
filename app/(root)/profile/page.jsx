@@ -7,62 +7,45 @@ import React, { useState, useEffect } from "react";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
   const [tempProfile, setTempProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
+  const [customerId, setCustomerId] = useState(null);
 
-  const handleFeatureUnavailable = (feature) => {
-    setError(`${feature} feature is coming soon!`);
-    setOpen(true);
-
-    // setTimeout(() => setOpen(false), 3000);
-  };
-
-  const mockProfile = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john@example.com",
-    phoneNumber: "1234567890",
-    dob: "1990-01-01",
-  };
-
-  const safeProfile = profile || mockProfile;
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+    if (storedUser?.id) {
+      setCustomerId(storedUser.id);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      if (!customerId) return;
+
       try {
-        const res = await fetch("/api/profile", { cache: "no-store" }); // adjust endpoint as needed
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`
+        );
+
         if (!res.ok) {
-          console.warn("API not available, using mock profile");
-          // fallback to mock profile
-          setProfile({
-            firstName: "John",
-            lastName: "Doe",
-            email: "john@example.com",
-            phoneNumber: "1234567890",
-            dob: "1990-01-01",
-          });
-          setTempProfile({
-            firstName: "John",
-            lastName: "Doe",
-            email: "john@example.com",
-            phoneNumber: "1234567890",
-            dob: "1990-01-01",
-          });
+          console.warn("Failed to fetch profile");
           return;
         }
-        // if (!res.ok) throw new Error("Failed to fetch profile data");
+
         const userData = await res.json();
-        setProfile(userData);
-        setTempProfile(userData);
+        if (userData?.data) {
+          setProfile(userData.data);
+          setTempProfile(userData.data); // Initialize tempProfile as well
+        }
       } catch (err) {
         console.error("Error loading profile:", err);
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [customerId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,34 +53,45 @@ const ProfilePage = () => {
   };
 
   const handleUpdateProfile = async () => {
-    if (JSON.stringify(profile) !== JSON.stringify(tempProfile)) {
-      try {
-        const res = await fetch("/api/profile", {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
+        {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(tempProfile),
-        });
+        }
+      );
 
-        if (!res.ok) throw new Error("Failed to update profile");
+      if (!res.ok) throw new Error("Failed to update profile");
 
-        const updatedProfile = await res.json();
-        setProfile(updatedProfile);
-        setTempProfile(updatedProfile);
-      } catch (err) {
-        console.error("Error updating profile:", err);
-      }
+      const updatedProfile = await res.json();
+      setProfile(updatedProfile);
+      setIsEditing(false);
+
+      // Update localStorage too
+      localStorage.setItem("authenticatedUser", JSON.stringify(updatedProfile));
+    } catch (err) {
+      console.error("Error updating profile:", err);
     }
-    setIsEditing(false);
   };
 
   const toggleEditMode = () => {
-    if (!isEditing && profile) {
-      setTempProfile(profile);
-    }
-    setIsEditing(!isEditing);
+    setIsEditing((prev) => !prev);
   };
 
-  // if (!profile) return <LoadingSpinner />;
+  const handleFeatureUnavailable = (feature) => {
+    setError(`${feature} feature is coming soon!`);
+    setOpen(true);
+  };
+
+  if (!tempProfile) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">
@@ -107,100 +101,50 @@ const ProfilePage = () => {
         width={1440}
         height={270}
         quality={100}
-        className="absolute top-0 z-[-1]"
+        className="absolute top-0 z-[-1] w-full"
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32  ">
+      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32">
         {/* Profile & Preferences Section */}
         <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
             Profile & Preferences
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* First Name */}
+            {[
+              { label: "First Name", name: "firstName" },
+              { label: "Last Name", name: "lastName" },
+              { label: "Email", name: "email", type: "email" },
+              { label: "Phone Number", name: "phoneNumber" },
+              { label: "Date of Birth", name: "dob", type: "date" },
+            ].map((field, i) => (
+              <div key={i}>
+                <h4 className="text-lg secondary-font mb-1">{field.label}</h4>
+                {isEditing ? (
+                  <input
+                    type={field.type || "text"}
+                    name={field.name}
+                    value={tempProfile?.[field.name] || ""}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
+                  />
+                ) : (
+                  <p className="text-lg">
+                    {field.name === "dob"
+                      ? tempProfile?.dob
+                        ? new Date(tempProfile.dob).toLocaleDateString("en-GB")
+                        : "N/A"
+                      : tempProfile?.[field.name] || "N/A"}
+                  </p>
+                )}
+              </div>
+            ))}
             <div>
-              <h4 className="text-lg secondary-font mb-1">First Name</h4>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="firstName"
-                  value={safeProfile?.firstName || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                />
-              ) : (
-                <p className="text-lg">{safeProfile.firstName || "N/A"}</p>
-              )}
+              <h4 className="text-lg secondary-font mb-1">Wallet</h4>
+              <p className="text-lg text-green-700 font-semibold">
+                ₹{profile?.wallet ?? "0.00"}
+              </p>
             </div>
 
-            {/* Last Name */}
-            <div>
-              <h4 className="text-lg secondary-font mb-1">Last Name</h4>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="lastName"
-                  value={safeProfile?.lastName || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                />
-              ) : (
-                <p className="text-lg">{safeProfile.lastName || "N/A"}</p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div>
-              <h4 className="text-lg secondary-font mb-1">Email</h4>
-              {isEditing ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={safeProfile?.email || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                />
-              ) : (
-                <p className="text-lg">{safeProfile.email || "N/A"}</p>
-              )}
-            </div>
-
-            {/* Phone Number */}
-            <div>
-              <h4 className="text-lg secondary-font mb-1">Phone Number</h4>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  value={safeProfile?.phoneNumber || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                />
-              ) : (
-                <p className="text-lg">{safeProfile.phoneNumber || "N/A"}</p>
-              )}
-            </div>
-
-            {/* Date of Birth */}
-            <div>
-              <h4 className="text-lg secondary-font mb-1">Date of Birth</h4>
-              {isEditing ? (
-                <input
-                  type="date"
-                  name="dob"
-                  value={safeProfile?.dob || ""}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-                />
-              ) : (
-                <p className="text-lg">
-                  {safeProfile.dob
-                    ? new Date(safeProfile.dob).toLocaleDateString("en-GB")
-                    : "N/A"}
-                </p>
-              )}
-            </div>
-
-            {/* Update/Save Button */}
             <div className="flex items-center justify-start">
               {isEditing ? (
                 <button
@@ -242,24 +186,21 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="flex justify-start mt-6 space-x-4">
-              <button
-                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500"
-                onClick={() => handleFeatureUnavailable("Pause")}
-              >
-                Pause
-              </button>
-              <button
-                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500"
-                onClick={() => handleFeatureUnavailable("Modify")}
-              >
-                Modify
-              </button>
-              <button
-                className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500"
-                onClick={() => handleFeatureUnavailable("Cancel")}
-              >
-                Cancel
-              </button>
+              {["Pause", "Modify", "Cancel"].map((action, i) => (
+                <button
+                  key={i}
+                  className={`py-2 px-4 rounded-md text-white ${
+                    action === "Pause"
+                      ? "bg-gray-600 hover:bg-gray-500"
+                      : action === "Modify"
+                      ? "bg-blue-600 hover:bg-blue-500"
+                      : "bg-red-600 hover:bg-red-500"
+                  }`}
+                  onClick={() => handleFeatureUnavailable(action)}
+                >
+                  {action}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -301,6 +242,7 @@ const ProfilePage = () => {
           <OrderHistoryTable className="mt-4" />
         </div>
       </div>
+
       <AlertBox
         open={open}
         setOpen={setOpen}

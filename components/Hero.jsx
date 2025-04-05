@@ -46,23 +46,20 @@ const Hero = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       const data = await response.json();
       console.log(data);
-      if (!response.ok) {
-        setErrorMessage(data.error || "Unavailable for delivery");
+
+      if (response.ok && data.success) {
+        setErrorMessage("✅ Delivery is available in your area!");
+        setDeliverState(true);
       } else {
-        if (data && data.isAvailable) {
-          console.log("checked and available");
-          setErrorMessage("Available for delivery in this area.");
-          setDeliverState(true);
-        } else {
-          console.log("checked and unavailable");
-          setDeliverState(false);
-          setErrorMessage("Available for delivery in this area.");
-        }
+        setErrorMessage("❌ Sorry, we don't deliver to this area yet.");
+        setDeliverState(false);
       }
     } catch (error) {
-      setErrorMessage("Network error. Please try again.");
+      console.error(error);
+      setDeliverState(false);
     } finally {
       setIsLoading(false);
     }
@@ -111,16 +108,23 @@ const Hero = () => {
               />
               <Button
                 type="submit"
-                className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5"
+                disabled={isLoading}
+                className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
               >
                 <p className="primary-font subbtnFont uppercase text-[#03141C]!">
-                  Get Started
+                  {isLoading ? "Checking..." : "Get Started"}
                 </p>
               </Button>
             </form>
-            <div className="h-5">
+            <div className="h-5" aria-live="polite">
               {errorMessage && (
-                <p className="text-red-500 font-base">{errorMessage}</p>
+                <p
+                  className={`text-sm font-medium ${
+                    deliverState ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {errorMessage}
+                </p>
               )}
             </div>
           </Form>

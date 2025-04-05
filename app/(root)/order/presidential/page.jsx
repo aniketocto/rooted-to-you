@@ -164,7 +164,7 @@ const Page = () => {
     form.setValue("weekendType", weekendType);
   }, [highlightedDates, weekendType, form]);
 
-  console.log(highlightedDates)
+  console.log(highlightedDates);
 
   useEffect(() => {
     if (!boxes.length) return;
@@ -187,9 +187,9 @@ const Page = () => {
     const tax = mealbasePrice * gstTax;
     const finalSubTotal = beforeTax + tax;
 
-    setBasePrice(mealbasePrice);
+    setBasePrice(Math.round(mealbasePrice));
     setTaxAmount(tax.toFixed(2));
-    setTotal(finalSubTotal);
+    setTotal(Math.round(finalSubTotal));
   }, [selectedDuration, boxes]);
 
   function handleCuisineSelection(id) {

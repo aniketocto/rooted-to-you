@@ -52,21 +52,22 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(true);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(0);
 
   const { startPaymentSession } = usePaymentContext();
 
   useEffect(() => {
     let interval;
-    if (!resendDisabled && timer > 0) {
+    if (showOtpInput && timer > 0) {
       interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
-    } else if (timer === 0) {
+    }
+    if (timer === 0) {
       setResendDisabled(false);
     }
     return () => clearInterval(interval);
-  }, [resendDisabled, timer]);
+  }, [showOtpInput, timer]);
 
   const onChange = (e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -99,7 +100,7 @@ const Page = () => {
         setShowOtpInput(true);
         setIsLoading(false);
         setResendDisabled(true);
-        setTimer(30);
+        setTimer(120);
       } else {
         setErrorMessage(otpData.error || "Failed to send OTP.");
         setIsLoading(false);
@@ -160,11 +161,34 @@ const Page = () => {
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
+    if (resendDisabled) return;
+
+    setResendDisabled(true);
+    setTimer(120);
     setOtp("");
     setInvalidIndexes([]);
-    setResendDisabled(true);
-    setTimer(30);
+
+    try {
+      const phoneNumber = form.getValues("phoneNumber");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber }),
+        }
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage("Failed to resend OTP.");
+        setResendDisabled(false);
+      }
+    } catch (error) {
+      setErrorMessage("Network error. Please try again.");
+      setResendDisabled(false);
+    }
   };
 
   return (
@@ -244,7 +268,7 @@ const Page = () => {
                       ))}
                     </InputOTPGroup>
                   </InputOTP>
-                  {/* <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center">
                     <p className="flex items-center justify-center gap-2 text-xl">
                       <Image
                         src="/images/timer.png"
@@ -252,15 +276,22 @@ const Page = () => {
                         width={20}
                         height={20}
                       />
-                      {timer}
+                      {`${String(Math.floor(timer / 60)).padStart(
+                        2,
+                        "0"
+                      )}:${String(timer % 60).padStart(2, "0")}`}
                     </p>
                     <p
-                      className="primary-font text-lg hover:text-xl cursor-pointer hover:text-[#e6af55]! transition-all duration-500"
-                      onClick={() => alert("Otp Resend")}
+                      className={`primary-font text-lg  transition-all duration-500 ${
+                        resendDisabled
+                          ? "text-gray-500 cursor-not-allowed"
+                          : "cursor-pointer hover:text-[#e6af55]! hover:text-xl "
+                      }`}
+                      onClick={handleResend}
                     >
                       Resend OTP
                     </p>
-                  </div> */}
+                  </div>
                   <p className="primary-font text-red-500!">{errorMessage}</p>
                   <div className="flex space-x-2">
                     <Button

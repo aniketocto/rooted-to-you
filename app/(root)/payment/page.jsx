@@ -23,11 +23,10 @@ const Page = () => {
   const [discountedAmount, setDiscountedAmount] = useState(0);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
+  const [token, setToken] = useState("")
   const router = useRouter();
   const deliPrice = 50;
   const [walletUsedAmount, setWalletUsedAmount] = useState(0);
-  // let walletBalance = userDetails?.data?.walletBalance || 0;
-  let walletBalance = 500;
 
   const [finalPrice, setFinalPrice] = useState(0);
 
@@ -59,6 +58,26 @@ const Page = () => {
   const [availableCoupons, setAvailableCoupons] = useState([]);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("authenticatedUser");
+
+    // if (!storedUser || !paymentSession?.sessionActive) {
+    //   console.warn("Unauthorized access attempt, redirecting...");
+    //   router.replace("/");
+    //   return;
+    // }
+
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      setUserDetails(parsedUser);
+      setToken(parsedUser?.token); // ✅ works now
+      setWalletUsedAmount(parsedUser?.wallet)
+      
+    } catch (error) {
+      console.error("Error parsing authenticated user:", error);
+    }
+  }, [paymentSession, router]);
+
+  useEffect(() => {
     const fetchCoupons = async () => {
       try {
         const response = await fetch(
@@ -74,13 +93,51 @@ const Page = () => {
     fetchCoupons();
   }, []);
 
-  const handleApplyCoupon = () => {
+  const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       setCouponMessage("Please enter a coupon code");
       setCouponValid(false);
       setActiveCoupon(null);
       return;
     }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/coupons/apply`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            code: couponCode,
+            value: amount,
+            boxId: boxId,
+            subscriptionType: subscriptionType,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setCouponMessage(data.message || "Coupon applied successfully!");
+        setCouponValid(true);
+        setActiveCoupon(data.coupons);
+      } else {
+        setCouponMessage(data.error || "Invalid Coupon Code!");
+        setCouponValid(false);
+        setActiveCoupon(null);
+      }
+    } catch (error) {
+      console.error("Coupon apply error:", error);
+      setCouponMessage("Not a valid Coupon Code!");
+      setCouponValid(false);
+      setActiveCoupon(null);
+    }
+
+    console.log("Active Coupon", activeCoupon);
 
     const matchedCoupon = availableCoupons.find(
       (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
@@ -138,7 +195,7 @@ const Page = () => {
 
     // Calculate wallet deduction if enabled
     const walletDeduction = redeemWallet
-      ? Math.min(walletBalance, priceAfterDiscount)
+      ? Math.min(walletUsedAmount, priceAfterDiscount)
       : 0;
 
     const afterWallet = priceAfterDiscount - walletDeduction;
@@ -146,41 +203,22 @@ const Page = () => {
     const total = afterWallet + calculatedGst + deliPrice;
 
     setDiscountedAmount(discount);
-    setWalletUsedAmount(walletDeduction);
     setTax(calculatedGst);
     setFinalPrice(Math.max(Math.round(total * 100) / 100, 0));
   };
-  //walletBalance update after deductioin
+
   useEffect(() => {
     recalculatePricing();
   }, [
     redeemWallet,
     amount,
-    walletBalance,
+    walletUsedAmount,
     gst,
     paymentSession,
     userDetails,
     couponValid,
     activeCoupon,
   ]);
-
-  const token = userDetails?.data?.token;
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("authenticatedUser");
-
-    if (!storedUser || !paymentSession?.sessionActive) {
-      console.warn("Unauthorized access attempt, redirecting...");
-      router.replace("/");
-      return;
-    }
-
-    try {
-      setUserDetails(JSON.parse(storedUser));
-    } catch (error) {
-      console.error("Error parsing authenticated user:", error);
-    }
-  }, [paymentSession, router]);
 
   useEffect(() => {}, [userDetails, paymentSession]);
 
@@ -194,7 +232,7 @@ const Page = () => {
         shippingAmount: deliPrice || 0,
         discount: discountedAmount || 0,
         gst: tax || 0,
-        walletAmount: walletBalance,
+        walletAmount: walletUsedAmount,
         couponCode: couponValue,
         subscriptionType: subscriptionType,
         boxId: boxId,
@@ -213,7 +251,6 @@ const Page = () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/order`,
         {
-          //api/v1/payments/order -> order_id  - recieved
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -228,7 +265,7 @@ const Page = () => {
       }
 
       const data = await response.json();
-      if (!data.id) {
+      if (!data.orderId) {
         setError("Invalid order ID received");
       }
 
@@ -250,7 +287,7 @@ const Page = () => {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
+                  Authorization: `Bearer ${userDetails?.token}`,
                 },
                 body: JSON.stringify({
                   // ...payload,
@@ -393,7 +430,7 @@ const Page = () => {
                 className="w-4 h-4 cursor-pointer"
               />
               <label htmlFor="redeemWallet" className="text-sm cursor-pointer">
-                Redeem from Wallet (₹{walletBalance})
+                Redeem from Wallet (₹{walletUsedAmount})
               </label>
             </div>
 
