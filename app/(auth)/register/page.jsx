@@ -80,7 +80,7 @@ const Page = () => {
     try {
       // Step 1: Send Mobile Number to `/api/v1/customers/login`
       const response = await fetch(
-        "http://13.201.35.112:5000/api/v1/customers/login",
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -105,6 +105,7 @@ const Page = () => {
         setIsLoading(false);
       }
     } catch (error) {
+      console.log(" err ", error);
       setErrorMessage("Network error. Please try again.");
       setIsLoading(false);
     }
@@ -129,7 +130,7 @@ const Page = () => {
       }
 
       const response = await fetch(
-        "http://13.201.35.112:5000/api/v1/customers/verifyOtp",
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/verifyOtp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

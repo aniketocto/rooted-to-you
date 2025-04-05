@@ -177,7 +177,7 @@ const DetailForm = () => {
 
     // try {
     //   const response = await fetch(
-    //     "http://13.201.35.112:5000/api/v1/customers/create",
+    //     "process.env.NEXT_PUBLIC_BASE_API_URL/api/v1/customers/create",
     //     {
     //       method: "POST",
     //       headers: {

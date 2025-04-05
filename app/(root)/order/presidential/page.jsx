@@ -115,7 +115,7 @@ const Page = () => {
     const fetchBoxes = async () => {
       try {
         const response = await fetch(
-          "http://13.201.35.112:5000/api/v1/boxes/list"
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/boxes/list`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch boxes");
@@ -173,6 +173,7 @@ const Page = () => {
     let mealbasePrice;
 
     if (selectedDuration === 7) {
+      console.log(" selected box ", selectedBox);
       mealbasePrice = selectedBox.weekPrice;
     } else if (selectedDuration > 7) {
       mealbasePrice = selectedBox.monthPrice;
@@ -245,7 +246,7 @@ const Page = () => {
 
     try {
       const response = await fetch(
-        "http://13.201.35.112:5000/api/v1/subscriptions/buy",
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/buy`,
         {
           method: "POST",
           headers: {

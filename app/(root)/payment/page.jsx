@@ -62,7 +62,7 @@ const Page = () => {
     const fetchCoupons = async () => {
       try {
         const response = await fetch(
-          "http://13.201.35.112:5000/api/v1/coupons/list?size=10"
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/coupons/list?size=10`
         );
         const data = await response.json();
         setAvailableCoupons(data?.coupons || []);
@@ -133,7 +133,7 @@ const Page = () => {
         discount = parseFloat(activeCoupon.value);
       }
     }
-    setCouponValue(discount)
+    setCouponValue(discount);
     const priceAfterDiscount = Math.max(price - discount, 0);
 
     // Calculate wallet deduction if enabled
@@ -189,7 +189,7 @@ const Page = () => {
 
     try {
       const payload = {
-        amount,
+        amount: Math.round(finalPrice),
         currency: "INR",
         shippingAmount: deliPrice || 0,
         discount: discountedAmount || 0,
@@ -211,7 +211,7 @@ const Page = () => {
 
       console.log("pay data", payload);
       const response = await fetch(
-        "http://13.201.35.112:5000/api/v1/payments/order",
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/order`,
         {
           //api/v1/payments/order -> order_id  - recieved
           method: "POST",
@@ -234,19 +234,18 @@ const Page = () => {
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: finalPrice * 100, // Razorpay expects amount in paise
+        amount: Math.round(finalPrice) * 100, // Razorpay expects amount in paise
         currency: "INR",
         name: "Rooted to You",
         description: "Meal Order",
-        order_id: data.orderId, //orderId here
+        order_id: data.id, //orderId here
         handler: async function (response) {
           alert(
             "✅ Payment Successful! Payment ID: " + response.razorpay_payment_id
           );
-
           try {
             const successResponse = await fetch(
-              "http://13.201.35.112:5000/api/v1/payments/success",
+              `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/success`,
               {
                 method: "POST",
                 headers: {
@@ -254,9 +253,9 @@ const Page = () => {
                   Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                  ...payload,
+                  // ...payload,
                   razorpayPaymentId: response.razorpay_payment_id,
-                  razorpayOrderId: response.razorpay_order_id,
+                  orderCreationId: response.razorpay_order_id,
                   razorpaySignature: response.razorpay_signature,
                 }),
               }
@@ -292,16 +291,19 @@ const Page = () => {
         `);
 
         try {
-          await fetch("http://13.201.35.112:5000/api/v1/payments/failed", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              orderId: data.orderId, // <- This is the orderId you got from /payments/order
-            }),
-          });
+          await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/failed`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                orderId: data.orderId, // <- This is the orderId you got from /payments/order
+              }),
+            }
+          );
         } catch (err) {
           console.error("❌ Error calling payment failed API:", err);
         }

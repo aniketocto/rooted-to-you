@@ -40,7 +40,7 @@ const Hero = () => {
 
     try {
       const response = await fetch(
-        `http://13.201.35.112:5000/api/v1/pincodes/check-availability?pincode=${values.zipCode}`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/pincodes/check-availability?pincode=${values.zipCode}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
