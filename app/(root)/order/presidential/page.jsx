@@ -686,12 +686,6 @@ const Page = () => {
                 <span className="font-base secondary-font">Tax</span>
                 <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">
-                  Discount Amount
-                </span>
-                <span className="font-base secondary-font">₹0.00</span>
-              </div>
             </div>
 
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">

@@ -13,16 +13,21 @@ import AlertBox from "@/components/AlertBox";
 const Page = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [tax, setTax] = useState();
+  const [tax, setTax] = useState(0);
   const [couponCode, setCouponCode] = useState("");
+  const [couponMessage, setCouponMessage] = useState("");
+  const [couponValid, setCouponValid] = useState(false);
+  const [activeCoupon, setActiveCoupon] = useState(null);
+  const [couponValue, setCouponValue] = useState(0);
   const [redeemWallet, setRedeemWallet] = useState(false);
-  const [discountedAmount, setDiscountedAmount] = useState();
+  const [discountedAmount, setDiscountedAmount] = useState(0);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const deliPrice = 50;
   const [walletUsedAmount, setWalletUsedAmount] = useState(0);
-  let walletBalance = userDetails?.data?.walletBalance || 0;
+  // let walletBalance = userDetails?.data?.walletBalance || 0;
+  let walletBalance = 500;
 
   const [finalPrice, setFinalPrice] = useState(0);
 
@@ -60,7 +65,7 @@ const Page = () => {
           "http://13.201.35.112:5000/api/v1/coupons/list?size=10"
         );
         const data = await response.json();
-        setAvailableCoupons(data?.data || []);
+        setAvailableCoupons(data?.coupons || []);
       } catch (error) {
         console.error("Failed to fetch coupons:", error);
       }
@@ -69,48 +74,97 @@ const Page = () => {
     fetchCoupons();
   }, []);
 
-  useEffect(() => {
-    if (!paymentSession || !userDetails) return;
-
-    let price = amount || 0;
-    let discount = 0;
+  const handleApplyCoupon = () => {
+    if (!couponCode.trim()) {
+      setCouponMessage("Please enter a coupon code");
+      setCouponValid(false);
+      setActiveCoupon(null);
+      return;
+    }
 
     const matchedCoupon = availableCoupons.find(
       (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
     );
 
     if (matchedCoupon) {
-      if (matchedCoupon.discountType === "percentage") {
-        discount = (price * matchedCoupon.discountValue) / 100;
-      } else if (matchedCoupon.discountType === "fixed") {
-        discount = matchedCoupon.discountValue;
+      // Check if the coupon is applicable for the current subscription type and box
+      const isApplicable =
+        matchedCoupon.subscriptionType === subscriptionType &&
+        matchedCoupon.boxId.toString() === boxId.toString();
+
+      if (isApplicable && matchedCoupon.status === "active") {
+        // Check if the coupon is valid for the current date
+        const now = new Date();
+        const validFrom = new Date(matchedCoupon.validFrom);
+        const validTo = new Date(matchedCoupon.validTo);
+
+        if (now >= validFrom && now <= validTo) {
+          setCouponMessage("Coupon applied successfully!");
+          setCouponValid(true);
+          setActiveCoupon(matchedCoupon);
+        } else {
+          setCouponMessage("This coupon has expired or is not yet valid");
+          setCouponValid(false);
+          setActiveCoupon(null);
+        }
+      } else {
+        setCouponMessage("This coupon is not applicable for your current plan");
+        setCouponValid(false);
+        setActiveCoupon(null);
+      }
+    } else {
+      setCouponMessage("Invalid coupon code");
+      setCouponValid(false);
+      setActiveCoupon(null);
+    }
+  };
+
+  const recalculatePricing = () => {
+    if (!paymentSession || !userDetails) return;
+
+    let price = amount || 0;
+    let discount = 0;
+
+    // Calculate coupon discount if valid
+    if (couponValid && activeCoupon) {
+      if (activeCoupon.discountType === "percentage") {
+        discount = (price * parseFloat(activeCoupon.value)) / 100;
+      } else if (activeCoupon.discountType === "fixed") {
+        discount = parseFloat(activeCoupon.value);
       }
     }
-
+    setCouponValue(discount)
     const priceAfterDiscount = Math.max(price - discount, 0);
+
+    // Calculate wallet deduction if enabled
     const walletDeduction = redeemWallet
       ? Math.min(walletBalance, priceAfterDiscount)
       : 0;
+
     const afterWallet = priceAfterDiscount - walletDeduction;
-    const calculatedGst = afterWallet * gst;
+    const calculatedGst = afterWallet * (gst || 0);
     const total = afterWallet + calculatedGst + deliPrice;
 
     setDiscountedAmount(discount);
     setWalletUsedAmount(walletDeduction);
     setTax(calculatedGst);
-    setFinalPrice(Math.max(total, 0));
+    setFinalPrice(Math.max(Math.round(total * 100) / 100, 0));
+  };
+
+  useEffect(() => {
+    recalculatePricing();
   }, [
-    couponCode,
     redeemWallet,
     amount,
     walletBalance,
     gst,
     paymentSession,
     userDetails,
-    availableCoupons,
+    couponValid,
+    activeCoupon,
   ]);
 
-  const token = userDetails?.data.token;
+  const token = userDetails?.data?.token;
 
   useEffect(() => {
     const storedUser = localStorage.getItem("authenticatedUser");
@@ -123,7 +177,6 @@ const Page = () => {
 
     try {
       setUserDetails(JSON.parse(storedUser));
-      console.log("pay data", paymentSession);
     } catch (error) {
       console.error("Error parsing authenticated user:", error);
     }
@@ -142,7 +195,7 @@ const Page = () => {
         discount: discountedAmount || 0,
         gst: tax || 0,
         walletAmount: walletBalance,
-        couponCode: couponCode,
+        couponCode: couponValue,
         subscriptionType: subscriptionType,
         boxId: boxId,
         dietType: dietType,
@@ -156,7 +209,7 @@ const Page = () => {
         itemNames: itemNames,
       };
 
-      //
+      console.log("pay data", payload);
       const response = await fetch(
         "http://13.201.35.112:5000/api/v1/payments/order",
         {
@@ -338,23 +391,47 @@ const Page = () => {
                 className="w-4 h-4 cursor-pointer"
               />
               <label htmlFor="redeemWallet" className="text-sm cursor-pointer">
-                Redeem from Wallet
+                Redeem from Wallet (₹{walletBalance})
               </label>
             </div>
 
-            {/* Coupon Code Input */}
+            {/* Coupon Code Input with Apply Button */}
             <div className="mt-4">
               <label htmlFor="couponCode" className="text-sm block mb-1">
                 Coupon Code
               </label>
-              <input
-                type="text"
-                id="couponCode"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                placeholder="Enter coupon code"
-                className="border p-2 w-full rounded-md"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  id="couponCode"
+                  value={couponCode}
+                  onChange={(e) => {
+                    setCouponCode(e.target.value);
+                    if (couponValid) {
+                      setCouponValid(false);
+                      setCouponMessage("");
+                      setActiveCoupon(null);
+                    }
+                  }}
+                  placeholder="Enter coupon code"
+                  className="border p-2 flex-grow rounded-md"
+                />
+                <Button
+                  onClick={handleApplyCoupon}
+                  className="bg-[#197A8A] hover:bg-[#156b79] text-white"
+                >
+                  Apply
+                </Button>
+              </div>
+              {couponMessage && (
+                <p
+                  className={`text-sm mt-1 ${
+                    couponValid ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {couponMessage}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2 text-sm my-8">
@@ -363,7 +440,9 @@ const Page = () => {
                 disabled={isProcessing}
                 className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
               >
-                {isProcessing ? "Processing..." : `Pay ₹${finalPrice}`}
+                {isProcessing
+                  ? "Processing..."
+                  : `Pay ₹${finalPrice.toFixed(2)}`}
               </Button>
             </div>
           </div>
@@ -414,12 +493,6 @@ const Page = () => {
                   <span className="font-base secondary-font">Days</span>
                   <span className="font-base secondary-font">{daysCount}</span>
                 </div>
-                {/* <div className="flex justify-between">
-                  <span className="font-base secondary-font">Price</span>
-                  <span className="font-base secondary-font">
-                    ₹110.00 / Meal Plan
-                  </span>
-                </div> */}
               </div>
 
               <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
@@ -429,40 +502,50 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Sub Total</span>
                   <span className="font-base secondary-font">
-                    ₹{amount || 0}
+                    ₹{(amount || 0).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">
                     Delivery Charges
                   </span>
-                  <span className="font-base secondary-font">₹{deliPrice}</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="font-base secondary-font">
-                    Discount Amount
-                  </span>
-                  <span className="font-base secondary-font text-red-500">
-                    - ₹{discountedAmount}
+                    ₹{deliPrice.toFixed(2)}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">
-                    Wallet Amount
-                  </span>
-                  <span className="font-base secondary-font text-red-500">
-                    - ₹{walletUsedAmount}
-                  </span>
-                </div>
+                {discountedAmount > 0 && (
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Discount Amount
+                    </span>
+                    <span className="font-base secondary-font text-red-500">
+                      - ₹{discountedAmount.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {walletUsedAmount > 0 && (
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Wallet Amount
+                    </span>
+                    <span className="font-base secondary-font text-red-500">
+                      - ₹{walletUsedAmount.toFixed(2)}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Tax</span>
-                  <span className="font-base secondary-font">₹{tax || 0}</span>
+                  <span className="font-base secondary-font">
+                    ₹{(tax || 0).toFixed(2)}
+                  </span>
                 </div>
               </div>
 
               <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
                 <span className="font-base secondary-font">Grand Total</span>
-                <span className="font-base secondary-font">₹{finalPrice}</span>
+                <span className="font-base secondary-font">
+                  ₹{finalPrice.toFixed(2)}
+                </span>
               </div>
             </div>
           </div>

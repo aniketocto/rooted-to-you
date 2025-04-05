@@ -61,10 +61,10 @@ const OrderPage = () => {
               </ul>
             </div>
             <Button
-              className="primary-font uppercase text-lg bg-[#e6af55] text-center cursor-pointer font-semibold"
+              className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
               onClick={() => handleNavigate("/order/executive")}
             >
-              <p className="text-[#03141C]!">Subscribe Now</p>
+              <p className="text-[#03141C]! btnfont mt-3!">Subscribe Now</p>
             </Button>
           </div>
         </div>
@@ -93,10 +93,10 @@ const OrderPage = () => {
               </ul>
             </div>
             <Button
-              className="primary-font uppercase text-lg bg-[#e6af55] text-center cursor-pointer font-semibold"
+              className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
               onClick={() => handleNavigate("/order/presidential")}
             >
-              <p className="text-[#03141C]!">Subscribe Now</p>
+              <p className="text-[#03141C]! btnfont mt-3!">Subscribe Now</p>
             </Button>
           </div>
         </div>

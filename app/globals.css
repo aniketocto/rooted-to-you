@@ -117,7 +117,7 @@ p {
   }
   .hero-bg {
     background-image: url("/images/Hero-Banner.jpg");
-    background-position: center;
+    background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
   }
