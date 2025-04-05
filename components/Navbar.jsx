@@ -24,12 +24,9 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const { clearPaymentSession } = usePaymentContext();
-
-
+  const [userData, setUserData] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
-
-  const { user, login } = useAuth();
   const timeoutRef = useRef(null); // ✅ Use useRef to prevent re-renders
 
   useEffect(() => {
@@ -74,6 +71,34 @@ const Navbar = () => {
     clearPaymentSession();
     login(null);
   };
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+
+      if (!storedUser?.id || !storedUser?.token) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${storedUser.id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${storedUser.token}`,
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch user details");
+
+        const result = await res.json();
+        setUserData(result.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
 
   return (
     <div
@@ -112,12 +137,11 @@ const Navbar = () => {
             ))}
           </div>
 
-          {user ? (
+          {userData ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-md border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <CircleUserRound />
-                {user?.data?.firstName || ""}{" "}
-                {user?.data?.lastName || "User Name"}
+                {userData?.firstName || ""} {userData?.lastName || "User Name"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="glass-effect">
                 <Link href="/profile">
@@ -156,14 +180,14 @@ const Navbar = () => {
 
         {/* Mobile Menu Button and Login */}
         <div className="md:hidden flex items-center gap-2">
-          {user ? (
+          {userData ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <Avatar>
                   <AvatarFallback>
-                    {user?.data
-                      ? `${user.data.firstName?.[0] || ""}${
-                          user.data.lastName?.[0] || ""
+                    {userData
+                      ? `${userData.firstName?.[0] || ""}${
+                          userData.lastName?.[0] || ""
                         }`.toUpperCase()
                       : "U"}
                   </AvatarFallback>
@@ -172,8 +196,8 @@ const Navbar = () => {
 
               <DropdownMenuContent className="glass-effect">
                 <DropdownMenuLabel>
-                  {user?.data?.firstName || ""}{" "}
-                  {user?.data?.lastName || "User Name"}
+                  {userData?.firstName || ""}{" "}
+                  {userData?.lastName || "User Name"}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="border border-neonGreen" />
                 <Link href="/profile">

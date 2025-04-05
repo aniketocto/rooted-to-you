@@ -60,11 +60,11 @@ const Page = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("authenticatedUser");
 
-    // if (!storedUser || !paymentSession?.sessionActive) {
-    //   console.warn("Unauthorized access attempt, redirecting...");
-    //   router.replace("/");
-    //   return;
-    // }
+    if (!storedUser || !paymentSession?.sessionActive) {
+      console.warn("Unauthorized access attempt, redirecting...");
+      router.replace("/");
+      return;
+    }
 
     try {
       const parsedUser = JSON.parse(storedUser);

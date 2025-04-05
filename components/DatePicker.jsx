@@ -19,6 +19,7 @@ const DatePicker = ({
   const [saturdayOption, setSaturdayOption] = useState("all");
   const [excludedDates, setExcludedDates] = useState([]);
   const [hasUserSelected, setHasUserSelected] = useState(false);
+  const [holidayDates, setHolidayDates] = useState([]);
 
   useEffect(() => {
     // Only generate dates if user has made a selection
@@ -52,6 +53,33 @@ const DatePicker = ({
     }
   }, [startDate, selectedDays, onDateChange, onSelectedDaysChange]);
 
+  useEffect(() => {
+    async function fetchHolidays() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/holidays/list`
+        );
+        const json = await res.json();
+
+
+        if (json.success && Array.isArray(json.holidays)) {
+          const holidays = json.holidays.map((item) => {
+            const date = new Date(item.date);
+            date.setHours(0, 0, 0, 0); 
+            return date;
+          });
+
+          setHolidayDates(holidays);
+        }
+      } catch (error) {
+        console.error("Failed to fetch holidays:", error);
+      }
+    }
+
+    fetchHolidays();
+  }, []);
+
+
   const generateHighlightedDates = (start, days, saturdayRule) => {
     const validDates = [];
     const greyedOutDates = [];
@@ -83,8 +111,11 @@ const DatePicker = ({
     if (onDateChange) {
       onDateChange(validDates);
     }
-    setExcludedDates(greyedOutDates);
+    const allExcluded = [...greyedOutDates, ...holidayDates];
+    
+    setExcludedDates(allExcluded);
   };
+
 
   const handleSelect = (ranges) => {
     const selectedStartDate = new Date(ranges.selection.startDate);
@@ -187,11 +218,15 @@ const DatePicker = ({
         </div>
 
         <DateRange
-          ranges={[{
-            startDate: startDate || new Date(),
-            endDate: startDate ? addDays(startDate, selectedDays - 1) : new Date(),
-            key: "selection",
-          }]}
+          ranges={[
+            {
+              startDate: startDate || new Date(),
+              endDate: startDate
+                ? addDays(startDate, selectedDays - 1)
+                : new Date(),
+              key: "selection",
+            },
+          ]}
           className="rounded-lg"
           onChange={handleSelect}
           minDate={addDays(startOfTomorrow(), 1)}

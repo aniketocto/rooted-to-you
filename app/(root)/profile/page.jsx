@@ -69,8 +69,14 @@ const ProfilePage = () => {
       setProfile(updatedProfile);
       setIsEditing(false);
 
-      // Update localStorage too
-      localStorage.setItem("authenticatedUser", JSON.stringify(updatedProfile));
+      // ✅ Preserve original auth structure (token, etc.)
+      const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
+      const updatedUser = {
+        ...storedUser, // keep token/id/etc.
+        ...updatedProfile, // overwrite with updated profile fields
+      };
+
+      localStorage.setItem("authenticatedUser", JSON.stringify(updatedUser));
     } catch (err) {
       console.error("Error updating profile:", err);
     }
@@ -84,14 +90,6 @@ const ProfilePage = () => {
     setError(`${feature} feature is coming soon!`);
     setOpen(true);
   };
-
-  if (!tempProfile) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
-  }
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">

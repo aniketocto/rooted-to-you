@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // Assuming you have shadcn table components
+} from "@/components/ui/table"; 
 
 const OrderHistoryTable = () => {
   const orders = [

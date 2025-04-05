@@ -77,6 +77,7 @@ const FormSchema = z.object({
     }
   ),
   weekendType: z.string(),
+  selectedDatesArray: z.array(z.date()).optional(),
 });
 
 const Page = () => {
@@ -278,6 +279,9 @@ const Page = () => {
       setError("❌ An error occurred while submitting subscription.");
     }
   }
+
+  // const values = form.getValues();
+  // console.log(values.selectedDatesArray);
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-52">
@@ -567,6 +571,7 @@ const Page = () => {
                                   shouldValidate: true,
                                 }
                               );
+                              form.setValue("selectedDatesArray", dates);
                             }
                           }}
                           onWeekendRuleChange={(rule) => {
