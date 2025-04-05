@@ -164,6 +164,8 @@ const Page = () => {
     form.setValue("weekendType", weekendType);
   }, [highlightedDates, weekendType, form]);
 
+  console.log(highlightedDates)
+
   useEffect(() => {
     if (!boxes.length) return;
 

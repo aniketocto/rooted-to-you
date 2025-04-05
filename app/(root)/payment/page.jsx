@@ -150,7 +150,7 @@ const Page = () => {
     setTax(calculatedGst);
     setFinalPrice(Math.max(Math.round(total * 100) / 100, 0));
   };
-
+  //walletBalance update after deductioin
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -228,7 +228,7 @@ const Page = () => {
       }
 
       const data = await response.json();
-      if (!data.orderId) {
+      if (!data.id) {
         setError("Invalid order ID received");
       }
 
