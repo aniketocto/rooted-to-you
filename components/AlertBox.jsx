@@ -13,7 +13,6 @@ import {
 const AlertBox = ({
   open,
   setOpen,
-  title,
   description,
   cancelText = "Close",
 }) => {
@@ -21,11 +20,13 @@ const AlertBox = ({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className="glass-effect">
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle></AlertDialogTitle>
+          <AlertDialogDescription className='text-2xl secondary-font'>
+            {description}
+            </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setOpen(false)}>
+          <AlertDialogCancel onClick={() => setOpen(false)} >
             {cancelText}
           </AlertDialogCancel>
         </AlertDialogFooter>

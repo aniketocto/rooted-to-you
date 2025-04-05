@@ -180,7 +180,7 @@ p {
   display: none !important;
 }
 .btnfont {
-  font-size: 35px;
+  font-size: 25px;
   margin-top: 5px;
 }
 
@@ -210,6 +210,10 @@ p {
   }
   .subbtnFont {
     font-size: 25px;
+    margin-top: 5px;
+  }
+  .btnfont {
+    font-size: 35px;
     margin-top: 5px;
   }
 }

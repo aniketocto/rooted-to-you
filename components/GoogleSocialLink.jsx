@@ -21,14 +21,11 @@ const GoogleSocialLink = () => {
   const handleSuccess = ({ provider, data }) => {
     console.log("Google Login Success:", provider, data);
 
-    // const userData = {
-    //   name: data.name,
-    //   email: data.email,
-    //   token: data.access_token,
-    // };
-
-    // login(userData);
-    // router.push("/");
+    const userData = {
+      token: data.access_token,
+    };
+    login(userData);
+    router.push("/");
   };
 
   const handleFailure = () => {
@@ -54,12 +51,7 @@ const GoogleSocialLink = () => {
       </LoginSocialGoogle>
 
       {/* ✅ Use reusable AlertBox */}
-      <AlertBox
-        open={open}
-        setOpen={setOpen}
-        title="Error"
-        description={error}
-      />
+      <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );
 };

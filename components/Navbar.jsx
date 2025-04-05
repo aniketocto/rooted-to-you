@@ -24,53 +24,16 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const { clearPaymentSession } = usePaymentContext();
-  const [userData, setUserData] = useState(null);
+  const { user, logout, setUser } = useAuth();
+
   const router = useRouter();
   const pathname = usePathname();
-  const timeoutRef = useRef(null); // ✅ Use useRef to prevent re-renders
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY === 0) {
-        setIsVisible(true);
-        return;
-      }
-
-      if (currentScrollY > scrollY) {
-        setIsVisible(false);
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-      } else {
-        setIsVisible(true);
-        if (currentScrollY > 0) {
-          if (timeoutRef.current) clearTimeout(timeoutRef.current);
-          timeoutRef.current = setTimeout(() => {
-            if (window.scrollY > 0) {
-              setIsVisible(false);
-            }
-          }, 3000);
-        }
-      }
-      setScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [scrollY]);
-
   const handleLogout = () => {
-    localStorage.removeItem("authenticatedUser");
+    logout();
     router.push("/");
     clearPaymentSession();
-    login(null);
   };
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -91,14 +54,28 @@ const Navbar = () => {
         if (!res.ok) throw new Error("Failed to fetch user details");
 
         const result = await res.json();
-        setUserData(result.data);
+        setUser(result.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserDetails();
-  }, []);
+  }, [setUser]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsVisible(scrollY > currentScrollY || currentScrollY < 100); // Show if scrolling up or at the top
+      setScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollY]);
 
   return (
     <div
@@ -124,24 +101,24 @@ const Navbar = () => {
               <Link
                 key={label}
                 href={href}
-                className={`relative primary-font pb-1 transition-all duration-300 
-                ${
-                  pathname === href
-                    ? "border-b-2 border-[#b88e56]"
-                    : "border-b-2 border-transparent"
-                } 
-                hover:border-[#b88e56]`}
+                className={`relative primary-font pb-1 transition-all duration-300
+                    ${
+                      pathname === href
+                        ? "border-b-2 border-[#b88e56]"
+                        : "border-b-2 border-transparent"
+                    }
+                    hover:border-[#b88e56]`}
               >
                 {label}
               </Link>
             ))}
           </div>
 
-          {userData ? (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-md border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <CircleUserRound />
-                {userData?.firstName || ""} {userData?.lastName || "User Name"}
+                {user?.firstName || ""} {user?.lastName || "User Name"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="glass-effect">
                 <Link href="/profile">
@@ -180,14 +157,14 @@ const Navbar = () => {
 
         {/* Mobile Menu Button and Login */}
         <div className="md:hidden flex items-center gap-2">
-          {userData ? (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <Avatar>
                   <AvatarFallback>
-                    {userData
-                      ? `${userData.firstName?.[0] || ""}${
-                          userData.lastName?.[0] || ""
+                    {user
+                      ? `${user.firstName?.[0] || ""}${
+                          user.lastName?.[0] || ""
                         }`.toUpperCase()
                       : "U"}
                   </AvatarFallback>
@@ -196,8 +173,7 @@ const Navbar = () => {
 
               <DropdownMenuContent className="glass-effect">
                 <DropdownMenuLabel>
-                  {userData?.firstName || ""}{" "}
-                  {userData?.lastName || "User Name"}
+                  {user?.firstName || ""} {user?.lastName || "User Name"}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="border border-neonGreen" />
                 <Link href="/profile">

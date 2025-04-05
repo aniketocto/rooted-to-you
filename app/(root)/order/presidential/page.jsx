@@ -22,6 +22,7 @@ import DatePicker from "@/components/DatePicker";
 import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
+import { useRouter } from "next/navigation";
 
 const cuisineChoice = [
   {
@@ -92,6 +93,7 @@ const Page = () => {
     },
   });
 
+  const router = useRouter();
   const { startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
@@ -211,15 +213,16 @@ const Page = () => {
     const planType = daysCount > 7 ? "monthly" : "weekly";
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
-
+    const token = userData?.token;
+  
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
     );
-
+  
     const itemCodes = selectedCuisineDetails.map((c) => c.itemCode).join(", ");
     const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
     const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
-
+  
     const updatedData = {
       boxId: 2,
       customerId: userData?.id || null,
@@ -234,7 +237,7 @@ const Page = () => {
       dietType: selectedFoodType,
       weekendType: weekendType,
     };
-
+  
     const sessionData = {
       ...updatedData,
       daysCount,
@@ -243,11 +246,34 @@ const Page = () => {
       gst: gstTax,
       mealTime: selectedTime,
     };
-
-    startPaymentSession(sessionData);
-    const token = userData?.token;
-
+  
     try {
+      // ✅ Step 1: Check if user already has an active subscription
+      const activeRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        }
+      );
+  
+      const activeData = await activeRes.json();
+  
+      if (activeData.success && activeData.status === "active") {
+        setError("You already have an active subscription.");
+        setOpen(true);
+        setTimeout(() => {
+          router.push("/profile");
+        }, 5000);
+        return;
+      }
+  
+      // ✅ Step 2: Start payment session if no active subscription
+      startPaymentSession(sessionData);
+  
+      // ✅ Step 3: Proceed to buy subscription
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/buy`,
         {
@@ -259,10 +285,10 @@ const Page = () => {
           body: JSON.stringify(updatedData),
         }
       );
-
+  
       const result = await response.json();
       console.log("API Response:", result);
-
+  
       if (response.ok) {
         setIsSubmitting(true);
         setTimeout(() => {
@@ -270,16 +296,16 @@ const Page = () => {
           setIsSubmitting(false);
         }, 2000);
       } else {
-        setError(
-          `❌ Subscription failed: ${result.message || "Unknown error"}`
-        );
+        setError(`❌ Subscription failed: ${result.message || "Unknown error"}`);
+        setOpen(true);
       }
     } catch (error) {
       console.error("API Error:", error);
       setError("❌ An error occurred while submitting subscription.");
+      setOpen(true);
     }
   }
-
+  
   // const values = form.getValues();
   // console.log(values.selectedDatesArray);
 
@@ -706,7 +732,6 @@ const Page = () => {
       <AlertBox
         open={open}
         setOpen={setOpen}
-        title="Error"
         description={error}
       />
     </section>

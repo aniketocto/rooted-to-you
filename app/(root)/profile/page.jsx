@@ -92,7 +92,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-20">
+    <section className="w-full h-fit flex justify-center items-center my-16">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -101,9 +101,9 @@ const ProfilePage = () => {
         quality={100}
         className="absolute top-0 z-[-1] w-full"
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32">
+      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32 ">
         {/* Profile & Preferences Section */}
-        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8">
+        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
             Profile & Preferences
           </h3>
@@ -233,7 +233,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Order History */}
-        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 my-10">
+        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 my-10 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
             Order History
           </h3>

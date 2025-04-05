@@ -593,7 +593,6 @@ const Page = () => {
       <AlertBox
         open={open}
         setOpen={setOpen}
-        title="Error"
         description={error}
       />
     </section>

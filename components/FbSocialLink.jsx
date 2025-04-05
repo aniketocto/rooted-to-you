@@ -58,7 +58,6 @@ const FbSocialLink = () => {
       <AlertBox
         open={open}
         setOpen={setOpen}
-        title="Error"
         description={error}
       />
     </div>
