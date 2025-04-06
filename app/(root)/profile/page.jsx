@@ -12,6 +12,8 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [customerId, setCustomerId] = useState(null);
+  const [activeSubscription, setActiveSubscription] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
@@ -21,30 +23,47 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfileAndSubscription = async () => {
       if (!customerId) return;
 
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`
         );
-
-        if (!res.ok) {
-          console.warn("Failed to fetch profile");
-          return;
+        if (res.ok) {
+          const userData = await res.json();
+          if (userData?.data) {
+            setProfile(userData.data);
+            setTempProfile(userData.data);
+          }
         }
 
-        const userData = await res.json();
-        if (userData?.data) {
-          setProfile(userData.data);
-          setTempProfile(userData.data); // Initialize tempProfile as well
+        const subRes = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${customerId}`,
+          {
+            method: "POST", // 👈 Use POST here
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (subRes.ok) {
+          const subData = await subRes.json();
+          console.log("subData", subData);
+
+          if (subData?.subscription) {
+            setActiveSubscription(subData.subscription);
+          }
         }
       } catch (err) {
-        console.error("Error loading profile:", err);
+        console.error("Error loading profile/subscription:", err);
+      } finally {
+        setLoading(false); // 🟡 Mark loading as done
       }
     };
 
-    fetchProfile();
+    fetchProfileAndSubscription();
   }, [customerId]);
 
   const handleInputChange = (e) => {
@@ -169,20 +188,25 @@ const ProfilePage = () => {
             <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
               Active Subscription
             </h3>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <h4 className="text-lg secondary-font mb-1">Plan:</h4>
-                <p className="text-lg">Executive Meal</p>
+            {activeSubscription ? (
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                  <h4 className="text-lg secondary-font mb-1">Plan:</h4>
+                  <p className="text-lg">Executive Meal</p>
+                </div>
+                <div>
+                  <h4 className="text-lg secondary-font mb-1">Billing:</h4>
+                  <p className="text-lg capitalize">
+                    {activeSubscription.subscriptionType}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-lg secondary-font mb-1">Billing:</h4>
-                <p className="text-lg">Monthly</p>
-              </div>
-              <div>
-                <h4 className="text-lg secondary-font mb-1">Next Meal:</h4>
-                <p className="text-lg">Maharashtrian Cuisine</p>
-              </div>
-            </div>
+            ) : (
+              <p className="text-gray-500 text-sm mt-4">
+                No active subscription found.
+              </p>
+            )}
+
             <div className="flex justify-start mt-6 space-x-4">
               {["Pause", "Modify", "Cancel"].map((action, i) => (
                 <button

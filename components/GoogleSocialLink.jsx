@@ -13,19 +13,47 @@ const LoginSocialGoogle = dynamic(
 );
 
 const GoogleSocialLink = () => {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const router = useRouter();
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const handleSuccess = ({ provider, data }) => {
+  const handleSuccess = async ({ provider, data }) => {
     console.log("Google Login Success:", provider, data);
 
-    const userData = {
-      token: data.access_token,
-    };
-    login(userData);
-    router.push("/");
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/google`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: data.access_token }),
+        }
+      );
+
+      const res = await response.json();
+      if (response.ok && res?.data && res?.token) {
+        const userData = {
+          id: res.data.id,
+          data: res.data,
+          token: res.token,
+          status: res.data.status,
+        };
+        login(userData);
+        // startPaymentSession(userData);
+
+        router.push("/");
+      } else {
+        setError("Google login failed. Please try again.");
+        setOpen(true);
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      setError("Network error. Please try again.");
+      setOpen(true);
+    }
   };
 
   const handleFailure = () => {

@@ -98,10 +98,10 @@ const OrderHistory = () => {
                 {sub.dietType || "—"}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
-                {new Date(sub.startDate).toLocaleDateString()}
+                {new Date(sub.startDate).toDateString()}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
-                {new Date(sub.endDate).toLocaleDateString()}
+                {new Date(sub.endDate).toDateString()}
               </TableCell>
             </TableRow>
           ))}

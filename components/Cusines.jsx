@@ -57,7 +57,7 @@ const Cuisines = () => {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setHoveredCard(null);
-    }, 2000);
+    }, 1000);
   };
 
 

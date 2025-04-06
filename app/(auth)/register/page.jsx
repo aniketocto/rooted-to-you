@@ -148,7 +148,7 @@ const Page = () => {
           token: data.token,
           status: data.data.status,
         };
-        startPaymentSession(userData);
+        // startPaymentSession(userData);
         login(userData);
         router.push("/");
       } else {
@@ -299,7 +299,7 @@ const Page = () => {
                       onClick={() => setShowOtpInput(false)}
                       className="w-1/2 bg-[#E6AF55] text-lg text-[#03141C]! primary-font cursor-pointer"
                     >
-                      Back
+                      <p className="font-base mt-1">Back</p>
                     </Button>
                     <Button
                       type="button"
@@ -307,7 +307,9 @@ const Page = () => {
                       disabled={otp.length !== 6}
                       className="w-1/2 bg-[#E6AF55] text-lg text-[#03141C] primary-font cursor-pointer"
                     >
-                      {isLoading ? "Verifying..." : "Verify"}
+                      <p className="font-base mt-1">
+                        {isLoading ? "Verifying..." : "Verify"}
+                      </p>
                     </Button>
                   </div>
                 </div>
@@ -318,7 +320,9 @@ const Page = () => {
                   disabled={form.formState.errors.phoneNumber || isLoading}
                   className="w-full bg-[#E6AF55] text-lg flex justify-center items-center text-[#03141C] primary-font cursor-pointer"
                 >
-                  <p>{isLoading ? "Sending OTP..." : "Send OTP"}</p>
+                  <p className="font-base mt-1">
+                    {isLoading ? "Sending OTP..." : "Send OTP"}
+                  </p>
                 </Button>
               )}
             </form>

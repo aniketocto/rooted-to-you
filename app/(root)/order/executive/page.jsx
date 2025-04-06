@@ -23,6 +23,7 @@ import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const cuisineChoice = [
   {
@@ -59,15 +60,20 @@ const FormSchema = z.object({
   dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineChoice: z
-    .array(z.string())
-    .min(3, { message: "Select at least 3 cuisines." }),
-  selectedDates: z.object({
-    startDate: z.date(),
-    endDate: z.date(),
-    count: z.number().min(1),
+  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
+    message: "Select upto 3 cuisines.",
   }),
-  weekendType: z.enum(["all", "none", "odd", "even"]),
+  selectedDates: z.object(
+    {
+      startDate: z.date(),
+      endDate: z.date(),
+      count: z.number().min(1),
+    },
+    {
+      required_error: "Please select valid dates.",
+    }
+  ),
+  weekendType: z.string(),
   selectedDatesArray: z.array(z.date()).optional(),
 });
 
@@ -83,7 +89,7 @@ const Page = () => {
     },
   });
 
-  const router = useRouter();
+ 
   const { startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
@@ -154,23 +160,24 @@ const Page = () => {
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealBasePrice = 0;
+    let mealbasePrice;
 
     if (selectedDuration === 7) {
-      mealBasePrice = selectedBox.weekPrice;
+      mealbasePrice = selectedBox.weekPrice;
     } else if (selectedDuration > 7) {
-      mealBasePrice = selectedBox.monthPrice;
+      mealbasePrice = selectedBox.monthPrice;
     } else {
       return;
     }
 
-    const tax = mealBasePrice * gstTax; // GST only on meal base price
-    const finalTotal = mealBasePrice + tax + deliveringPrices;
+    const beforeTax = mealbasePrice + deliveringPrices;
+    const tax = mealbasePrice * gstTax;
+    const finalSubTotal = beforeTax + tax;
 
-    setBasePrice(Math.round(mealBasePrice)); // Whole number
-    setTaxAmount(tax.toFixed(2)); // 2 decimal places
-    setTotal(Math.round(finalTotal)); // Whole number
-  }, [selectedDuration, boxes, selectedBoxId, deliveringPrices, gstTax]);
+    setBasePrice(Math.round(mealbasePrice));
+    setTaxAmount(tax.toFixed(2));
+    setTotal(Math.round(finalSubTotal));
+  }, [selectedDuration, boxes]);
 
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
@@ -182,15 +189,28 @@ const Page = () => {
     );
   };
 
-  // Submit function
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
+    const formattedDateArray =
+      data.selectedDatesArray?.map((date) =>
+        format(new Date(date), "yyyy-MM-dd")
+      ) || [];
+    const formattedStartDate = data.selectedDates?.startDate
+      ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
+      : null;
+
+    const formattedEndDate = data.selectedDates?.endDate
+      ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
+      : null;
 
     const token = userData?.token;
     const customerId = userData?.id;
+
+    
+    console.log(token)
 
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
@@ -222,6 +242,7 @@ const Page = () => {
       shippingAmount: deliveringPrices,
       gst: gstTax,
       mealTime: selectedTime,
+      selectedDatesArray: formattedDateArray,
     };
 
     try {
@@ -241,14 +262,9 @@ const Page = () => {
 
       const activeData = await activeRes.json();
 
-      console.log("activeRes", activeData);
-
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
         const selectedStartDate = new Date(data.selectedDates?.startDate);
-
-        console.log("existing" + existingEndDate);
-        console.log("selected" + selectedStartDate);
 
         if (selectedStartDate <= existingEndDate) {
           const formattedEndDate = existingEndDate.toLocaleDateString("en-IN", {
@@ -268,7 +284,6 @@ const Page = () => {
       // ✅ Start payment session
       startPaymentSession(sessionData);
 
-      // Optional UI feedback
       setIsSubmitting(true);
       setTimeout(() => {
         setDetailFormat((prev) => !prev);
@@ -281,8 +296,6 @@ const Page = () => {
     }
   }
 
-  // const values = form.getValues();
-  // console.log(values.selectedDatesArray);
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-52">

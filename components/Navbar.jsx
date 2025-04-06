@@ -24,7 +24,7 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const { clearPaymentSession } = usePaymentContext();
-  const { user, logout, setUser } = useAuth();
+  const { user, logout } = useAuth();
 
   const router = useRouter();
   const pathname = usePathname();

@@ -23,6 +23,7 @@ import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const cuisineChoice = [
   {
@@ -211,6 +212,18 @@ const Page = () => {
     const userData = storedUser ? JSON.parse(storedUser) : null;
     const token = userData?.token;
 
+    const formattedDateArray =
+      data.selectedDatesArray?.map((date) =>
+        format(new Date(date), "yyyy-MM-dd")
+      ) || [];
+    const formattedStartDate = data.selectedDates?.startDate
+      ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
+      : null;
+
+    const formattedEndDate = data.selectedDates?.endDate
+      ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
+      : null;
+
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
     );
@@ -224,8 +237,8 @@ const Page = () => {
       customerId: userData?.id || null,
       status: userData?.status || "inactive",
       subscriptionType: planType,
-      startDate: data.selectedDates?.startDate || null,
-      endDate: data.selectedDates?.endDate || null,
+      startDate: formattedStartDate || null,
+      endDate: formattedEndDate || null,
       amount: basePrice,
       cuisineChoice: cuisineIds,
       itemCode: itemCodes,
@@ -241,6 +254,7 @@ const Page = () => {
       shippingAmount: deliveringPrices,
       gst: gstTax,
       mealTime: selectedTime,
+      selectedDatesArray: formattedDateArray,
     };
 
     try {
@@ -279,7 +293,7 @@ const Page = () => {
         }
       }
 
-      // Start payment session
+      // ✅ Start payment session
       startPaymentSession(sessionData);
 
       setIsSubmitting(true);
@@ -672,18 +686,6 @@ const Page = () => {
                         highlightedDates.length - 1
                       ].toDateString()
                     : "-----"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Days</span>
-                <span className="font-base secondary-font">
-                  {highlightedDates.length}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Price</span>
-                <span className="font-base secondary-font">
-                  ₹{basePrice} / Meal Plan
                 </span>
               </div>
             </div>

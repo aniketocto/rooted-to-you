@@ -61,11 +61,10 @@ const DatePicker = ({
         );
         const json = await res.json();
 
-
         if (json.success && Array.isArray(json.holidays)) {
           const holidays = json.holidays.map((item) => {
             const date = new Date(item.date);
-            date.setHours(0, 0, 0, 0); 
+            date.setHours(0, 0, 0, 0);
             return date;
           });
 
@@ -79,16 +78,24 @@ const DatePicker = ({
     fetchHolidays();
   }, []);
 
-
   const generateHighlightedDates = (start, days, saturdayRule) => {
     const validDates = [];
     const greyedOutDates = [];
 
+    if (!start || !days) {
+      onDateChange([]);
+      return;
+    }
+
+    const startCopy = new Date(start);
+    startCopy.setHours(12, 0, 0, 0); // Avoid timezone shifts
+
     for (let i = 0; i < days; i++) {
-      const newDate = addDays(start, i);
+      const newDate = addDays(startCopy, i);
+      newDate.setHours(12, 0, 0, 0);
 
       if (isSunday(newDate)) {
-        greyedOutDates.push(newDate);
+        greyedOutDates.push(new Date(newDate));
         continue;
       }
 
@@ -100,22 +107,30 @@ const DatePicker = ({
           (saturdayRule === "odd" && ![1, 3].includes(weekNumber)) ||
           (saturdayRule === "even" && ![2, 4].includes(weekNumber))
         ) {
-          greyedOutDates.push(newDate);
+          greyedOutDates.push(new Date(newDate));
           continue;
         }
       }
 
-      validDates.push(newDate);
+      const isHoliday = holidayDates.some(
+        (holiday) =>
+          holiday.getFullYear() === newDate.getFullYear() &&
+          holiday.getMonth() === newDate.getMonth() &&
+          holiday.getDate() === newDate.getDate()
+      );
+
+      if (isHoliday) {
+        greyedOutDates.push(new Date(newDate));
+        continue;
+      }
+
+      validDates.push(new Date(newDate));
     }
 
-    if (onDateChange) {
-      onDateChange(validDates);
-    }
-    const allExcluded = [...greyedOutDates, ...holidayDates];
-    
-    setExcludedDates(allExcluded);
+    // 🚫 No formatting to string here
+    onDateChange(validDates);
+    setExcludedDates(greyedOutDates);
   };
-
 
   const handleSelect = (ranges) => {
     const selectedStartDate = new Date(ranges.selection.startDate);
@@ -133,6 +148,7 @@ const DatePicker = ({
             value={selectedDays?.toString() || ""}
             onValueChange={(value) => {
               setSelectedDays(parseInt(value));
+              // Re-trigger date calculation if user has already selected a date
               if (startDate) {
                 setTimeout(
                   () =>
@@ -232,7 +248,7 @@ const DatePicker = ({
           moveRangeOnFirstSelection={false}
           rangeColors={["#e6af55"]}
           disabledDates={excludedDates}
-          showSelectionPreview={false}
+          showSelectionPreview={true}
           months={1}
           direction="vertical"
         />

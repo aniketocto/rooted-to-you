@@ -50,6 +50,7 @@ const Page = () => {
     dietType,
     weekendType,
     daysCount,
+    selectedDatesArray,
     sessionActive,
     shippingAmount,
     gst,
@@ -57,9 +58,9 @@ const Page = () => {
   } = paymentSession || {};
 
   const formattedStartDate =
-    startDate instanceof Date ? startDate.toLocaleDateString() : startDate;
+    startDate instanceof Date ? startDate.toDateString() : startDate;
   const formattedEndDate =
-    endDate instanceof Date ? endDate.toLocaleDateString() : endDate;
+    endDate instanceof Date ? endDate.toDateString() : endDate;
 
   useEffect(() => {
     // if (!user || !paymentSession?.sessionActive) {
@@ -215,7 +216,7 @@ const Page = () => {
     setTax(Math.round(calculatedGst));
     setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
-
+  console.log("Final Price",finalPrice)
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -228,10 +229,10 @@ const Page = () => {
     couponValid,
     activeCoupon,
   ]);
-
+  const amountInPaise = finalPrice * 100;
   const handlePayment = async () => {
     setIsProcessing(true);
-
+    
     try {
       const payload = {
         amount: finalPrice,
@@ -253,11 +254,12 @@ const Page = () => {
         itemCode: itemCode,
         itemNames: itemNames,
         deliveryType: mealTime,
+        selectedDates: selectedDatesArray,
       };
 
       console.log("pay data", payload);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/order`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/order`,  //create-order
         {
           method: "POST",
           headers: {
@@ -276,10 +278,12 @@ const Page = () => {
       if (!data.orderId) {
         setError("Invalid order ID received");
       }
-
+      const razorPayAmount = data.amount * 100;
+      console.log(razorPayAmount)
+      console.log("Amount in paise", amountInPaise)
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: Math.round(finalPrice) * 100, // Razorpay expects amount in paise
+        amount: amountInPaise.toString(), // Razorpay expects amount in paise
         currency: "INR",
         name: "Rooted to You",
         description: "Meal Order",
@@ -303,13 +307,13 @@ const Page = () => {
                   orderCreationId: response.razorpay_order_id,
                   razorpaySignature: response.razorpay_signature,
                 }),
-              } 
+              }
             );
 
             const result = await successResponse.json();
             console.log("✅ Payment Success API Response:", result);
             clearPaymentSession();
-            router.push("/profile");
+            // router.push("/profile");
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
@@ -492,9 +496,7 @@ const Page = () => {
                 disabled={isProcessing}
                 className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
               >
-                {isProcessing
-                  ? "Processing..."
-                  : `Pay ₹${finalPrice}`}
+                {isProcessing ? "Processing..." : `Pay ₹${finalPrice}`}
               </Button>
             </div>
           </div>
@@ -590,9 +592,7 @@ const Page = () => {
 
               <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
                 <span className="font-base secondary-font">Grand Total</span>
-                <span className="font-base secondary-font">
-                  ₹{finalPrice}
-                </span>
+                <span className="font-base secondary-font">₹{finalPrice}</span>
               </div>
             </div>
           </div>
