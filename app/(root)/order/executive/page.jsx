@@ -59,20 +59,15 @@ const FormSchema = z.object({
   dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
-    message: "Select upto 3 cuisines.",
+  cuisineChoice: z
+    .array(z.string())
+    .min(3, { message: "Select at least 3 cuisines." }),
+  selectedDates: z.object({
+    startDate: z.date(),
+    endDate: z.date(),
+    count: z.number().min(1),
   }),
-  selectedDates: z.object(
-    {
-      startDate: z.date(),
-      endDate: z.date(),
-      count: z.number().min(1),
-    },
-    {
-      required_error: "Please select valid dates.",
-    }
-  ),
-  weekendType: z.string(),
+  weekendType: z.enum(["all", "none", "odd", "even"]),
   selectedDatesArray: z.array(z.date()).optional(),
 });
 
@@ -105,7 +100,7 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  const deliveringPrices = 50;
+  const deliveringPrices = 1500;
   const gstTax = 0.06;
   const selectedBoxId = 1;
 
@@ -159,24 +154,23 @@ const Page = () => {
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealbasePrice;
+    let mealBasePrice = 0;
 
     if (selectedDuration === 7) {
-      mealbasePrice = selectedBox.weekPrice;
+      mealBasePrice = selectedBox.weekPrice;
     } else if (selectedDuration > 7) {
-      mealbasePrice = selectedBox.monthPrice;
+      mealBasePrice = selectedBox.monthPrice;
     } else {
       return;
     }
 
-    const beforeTax = mealbasePrice + deliveringPrices;
-    const tax = mealbasePrice * gstTax;
-    const finalSubTotal = beforeTax + tax;
+    const tax = mealBasePrice * gstTax; // GST only on meal base price
+    const finalTotal = mealBasePrice + tax + deliveringPrices;
 
-    setBasePrice(Math.round(mealbasePrice));
-    setTaxAmount(tax.toFixed(2));
-    setTotal(Math.round(finalSubTotal));
-  }, [selectedDuration, boxes]);
+    setBasePrice(Math.round(mealBasePrice)); // Whole number
+    setTaxAmount(tax.toFixed(2)); // 2 decimal places
+    setTotal(Math.round(finalTotal)); // Whole number
+  }, [selectedDuration, boxes, selectedBoxId, deliveringPrices, gstTax]);
 
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
@@ -188,6 +182,7 @@ const Page = () => {
     );
   };
 
+  // Submit function
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
@@ -230,60 +225,58 @@ const Page = () => {
     };
 
     try {
-      // Step 1: Check if an active subscription exists
       const activeRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${customerId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
-      );
-
-      const activeData = await activeRes.json();
-
-      if (activeData.success && activeData.status === "active") {
-        setError("You already have an active subscription.");
-        setOpen(true);
-        setTimeout(() => {
-          router.push("/profile");
-        }, 5000);
-        return;
-      }
-
-      // Step 3: Proceed to buy subscription
-      startPaymentSession(sessionData);
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/buy`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",
           },
-          body: JSON.stringify(updatedData),
+          body: JSON.stringify({
+            startDate: data.selectedDates?.startDate,
+          }),
         }
       );
 
-      const result = await response.json();
+      const activeData = await activeRes.json();
 
-      if (response.ok) {
-        setIsSubmitting(true);
-        setTimeout(() => {
-          setDetailFormat((prev) => !prev);
-          setIsSubmitting(false);
-        }, 2000);
-      } else {
-        setError(
-          `❌ Subscription failed: ${result.message || "Unknown error"}`
-        );
-        setOpen(true);
+      console.log("activeRes", activeData);
+
+      if (activeData.success && activeData.status === "active") {
+        const existingEndDate = new Date(activeData.subscription.endDate);
+        const selectedStartDate = new Date(data.selectedDates?.startDate);
+
+        console.log("existing" + existingEndDate);
+        console.log("selected" + selectedStartDate);
+
+        if (selectedStartDate <= existingEndDate) {
+          const formattedEndDate = existingEndDate.toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          setError(
+            `❌ You already have an active subscription that ends on ${formattedEndDate}. Please select a start date after this.`
+          );
+          setOpen(true);
+          return;
+        }
       }
+
+      // ✅ Start payment session
+      startPaymentSession(sessionData);
+
+      // Optional UI feedback
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setDetailFormat((prev) => !prev);
+        setIsSubmitting(false);
+      }, 2000);
     } catch (error) {
       console.error("API Error:", error);
-      setError("❌ An error occurred while submitting subscription.");
+      setError("❌ An error occurred while checking subscription.");
       setOpen(true);
     }
   }

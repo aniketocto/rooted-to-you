@@ -110,8 +110,8 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  const deliveringPrices = 50;
-  const gstTax = 0.6;
+  const deliveringPrices = 1500;
+  const gstTax = 0.06;
   const selectedBoxId = 2;
 
   useEffect(() => {
@@ -167,33 +167,29 @@ const Page = () => {
     form.setValue("weekendType", weekendType);
   }, [highlightedDates, weekendType, form]);
 
-  console.log(highlightedDates);
-
   useEffect(() => {
     if (!boxes.length) return;
 
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealbasePrice;
+    let mealBasePrice = 0;
 
     if (selectedDuration === 7) {
-      console.log(" selected box ", selectedBox);
-      mealbasePrice = selectedBox.weekPrice;
+      mealBasePrice = selectedBox.weekPrice;
     } else if (selectedDuration > 7) {
-      mealbasePrice = selectedBox.monthPrice;
+      mealBasePrice = selectedBox.monthPrice;
     } else {
       return;
     }
 
-    const beforeTax = mealbasePrice + deliveringPrices;
-    const tax = mealbasePrice * gstTax;
-    const finalSubTotal = beforeTax + tax;
+    const tax = mealBasePrice * gstTax; // GST only on meal base price
+    const finalTotal = mealBasePrice + tax + deliveringPrices;
 
-    setBasePrice(Math.round(mealbasePrice));
-    setTaxAmount(tax.toFixed(2));
-    setTotal(Math.round(finalSubTotal));
-  }, [selectedDuration, boxes]);
+    setBasePrice(Math.round(mealBasePrice)); // Whole number
+    setTaxAmount(tax.toFixed(2)); // 2 decimal places
+    setTotal(Math.round(finalTotal)); // Whole number
+  }, [selectedDuration, boxes, selectedBoxId, deliveringPrices, gstTax]);
 
   function handleCuisineSelection(id) {
     let updatedCuisines;
@@ -214,15 +210,15 @@ const Page = () => {
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
     const token = userData?.token;
-  
+
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
     );
-  
+
     const itemCodes = selectedCuisineDetails.map((c) => c.itemCode).join(", ");
     const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
     const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
-  
+
     const updatedData = {
       boxId: 2,
       customerId: userData?.id || null,
@@ -237,7 +233,7 @@ const Page = () => {
       dietType: selectedFoodType,
       weekendType: weekendType,
     };
-  
+
     const sessionData = {
       ...updatedData,
       daysCount,
@@ -246,66 +242,58 @@ const Page = () => {
       gst: gstTax,
       mealTime: selectedTime,
     };
-  
+
     try {
-      // ✅ Step 1: Check if user already has an active subscription
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
-      );
-  
-      const activeData = await activeRes.json();
-  
-      if (activeData.success && activeData.status === "active") {
-        setError("You already have an active subscription.");
-        setOpen(true);
-        setTimeout(() => {
-          router.push("/profile");
-        }, 5000);
-        return;
-      }
-  
-      // ✅ Step 2: Start payment session if no active subscription
-      startPaymentSession(sessionData);
-  
-      // ✅ Step 3: Proceed to buy subscription
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/buy`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",
           },
-          body: JSON.stringify(updatedData),
+          body: JSON.stringify({
+            startDate: data.selectedDates?.startDate,
+          }),
         }
       );
-  
-      const result = await response.json();
-      console.log("API Response:", result);
-  
-      if (response.ok) {
-        setIsSubmitting(true);
-        setTimeout(() => {
-          setDetailFormat((prev) => !prev);
-          setIsSubmitting(false);
-        }, 2000);
-      } else {
-        setError(`❌ Subscription failed: ${result.message || "Unknown error"}`);
-        setOpen(true);
+
+      const activeData = await activeRes.json();
+
+      if (activeData.success && activeData.status === "active") {
+        const existingEndDate = new Date(activeData.subscription.endDate);
+        const selectedStartDate = new Date(data.selectedDates?.startDate);
+
+        if (selectedStartDate <= existingEndDate) {
+          const formattedEndDate = existingEndDate.toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          setError(
+            `❌ You already have an active subscription that ends on ${formattedEndDate}. Please select a start date after this.`
+          );
+          setOpen(true);
+          return;
+        }
       }
+
+      // Start payment session
+      startPaymentSession(sessionData);
+
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setDetailFormat((prev) => !prev);
+        setIsSubmitting(false);
+      }, 2000);
     } catch (error) {
       console.error("API Error:", error);
-      setError("❌ An error occurred while submitting subscription.");
+      setError("❌ An error occurred while checking subscription.");
       setOpen(true);
     }
   }
-  
+
   // const values = form.getValues();
   // console.log(values.selectedDatesArray);
 
@@ -717,7 +705,7 @@ const Page = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Tax</span>
+                <span className="font-base secondary-font">GST</span>
                 <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
             </div>
@@ -729,11 +717,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <AlertBox
-        open={open}
-        setOpen={setOpen}
-        description={error}
-      />
+      <AlertBox open={open} setOpen={setOpen} description={error} />
     </section>
   );
 };

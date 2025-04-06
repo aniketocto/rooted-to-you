@@ -133,7 +133,6 @@ const DatePicker = ({
             value={selectedDays?.toString() || ""}
             onValueChange={(value) => {
               setSelectedDays(parseInt(value));
-              // Re-trigger date calculation if user has already selected a date
               if (startDate) {
                 setTimeout(
                   () =>
@@ -233,7 +232,7 @@ const DatePicker = ({
           moveRangeOnFirstSelection={false}
           rangeColors={["#e6af55"]}
           disabledDates={excludedDates}
-          showSelectionPreview={true}
+          showSelectionPreview={false}
           months={1}
           direction="vertical"
         />

@@ -9,28 +9,33 @@ import { usePaymentContext } from "@/app/context/PaymentContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AlertBox from "@/components/AlertBox";
+import { useAuth } from "@/app/context/AuthContext";
 
 const Page = () => {
-  const [userDetails, setUserDetails] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [tax, setTax] = useState(0);
-  const [couponCode, setCouponCode] = useState("");
-  const [couponMessage, setCouponMessage] = useState("");
-  const [couponValid, setCouponValid] = useState(false);
-  const [activeCoupon, setActiveCoupon] = useState(null);
-  const [couponValue, setCouponValue] = useState(0);
-  const [redeemWallet, setRedeemWallet] = useState(false);
-  const [discountedAmount, setDiscountedAmount] = useState(0);
-  const [error, setError] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [token, setToken] = useState("")
+  const { user } = useAuth();
   const router = useRouter();
-  const deliPrice = 50;
+  const { clearPaymentSession, paymentSession } = usePaymentContext();
+
+  const [token, setToken] = useState(null);
   const [walletUsedAmount, setWalletUsedAmount] = useState(0);
+  const [redeemWallet, setRedeemWallet] = useState(false);
+
+  const [availableCoupons, setAvailableCoupons] = useState([]);
+  const [activeCoupon, setActiveCoupon] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponValue, setCouponValue] = useState(0);
+  const [couponValid, setCouponValid] = useState(false);
+  const [couponMessage, setCouponMessage] = useState("");
+  const [discountedAmount, setDiscountedAmount] = useState(0);
+
+  const [tax, setTax] = useState(0);
+
+  const [error, setError] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [finalPrice, setFinalPrice] = useState(0);
 
-  const { clearPaymentSession, paymentSession } = usePaymentContext();
   const {
     boxId,
     customerId,
@@ -55,27 +60,21 @@ const Page = () => {
     startDate instanceof Date ? startDate.toLocaleDateString() : startDate;
   const formattedEndDate =
     endDate instanceof Date ? endDate.toLocaleDateString() : endDate;
-  const [availableCoupons, setAvailableCoupons] = useState([]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("authenticatedUser");
+    // if (!user || !paymentSession?.sessionActive) {
+    //   console.warn("Unauthorized access attempt, redirecting...");
+    //   router.replace("/");
+    //   return;
+    // }
 
-    if (!storedUser || !paymentSession?.sessionActive) {
-      console.warn("Unauthorized access attempt, redirecting...");
-      router.replace("/");
-      return;
+    setToken(user?.token);
+    if (user?.wallet && user?.wallet > 0) {
+      setWalletUsedAmount(user?.wallet); // Initial wallet amount
     }
+  }, [user, paymentSession, router]);
 
-    try {
-      const parsedUser = JSON.parse(storedUser);
-      setUserDetails(parsedUser);
-      setToken(parsedUser?.token); // ✅ works now
-      setWalletUsedAmount(parsedUser?.wallet)
-      
-    } catch (error) {
-      console.error("Error parsing authenticated user:", error);
-    }
-  }, [paymentSession, router]);
+  console.log(walletUsedAmount);
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -177,34 +176,44 @@ const Page = () => {
   };
 
   const recalculatePricing = () => {
-    if (!paymentSession || !userDetails) return;
+    if (!paymentSession || !user) return;
 
-    let price = amount || 0;
-    let discount = 0;
+    const basePrice = amount || 0;
 
-    // Calculate coupon discount if valid
+    // Step 1: Calculate GST on base price
+    const calculatedGst = basePrice * (gst || 0);
+    const priceWithGst = basePrice + calculatedGst;
+
+    // Step 2: Add shipping
+    const totalBeforeDiscounts = priceWithGst + shippingAmount;
+
+    // Step 3: Apply coupon discount (on total before discounts)
+    let couponDiscount = 0;
     if (couponValid && activeCoupon) {
       if (activeCoupon.discountType === "percentage") {
-        discount = (price * parseFloat(activeCoupon.value)) / 100;
+        couponDiscount =
+          (totalBeforeDiscounts * parseFloat(activeCoupon.value)) / 100;
       } else if (activeCoupon.discountType === "fixed") {
-        discount = parseFloat(activeCoupon.value);
+        couponDiscount = parseFloat(activeCoupon.value);
       }
     }
-    setCouponValue(discount);
-    const priceAfterDiscount = Math.max(price - discount, 0);
 
-    // Calculate wallet deduction if enabled
+    const afterCoupon = Math.max(totalBeforeDiscounts - couponDiscount, 0);
+
+    // Step 4: Apply wallet deduction if enabled
     const walletDeduction = redeemWallet
-      ? Math.min(walletUsedAmount, priceAfterDiscount)
+      ? Math.min(walletUsedAmount, afterCoupon)
       : 0;
 
-    const afterWallet = priceAfterDiscount - walletDeduction;
-    const calculatedGst = afterWallet * (gst || 0);
-    const total = afterWallet + calculatedGst + deliPrice;
+    const finalTotal = Math.max(afterCoupon - walletDeduction, 0);
 
-    setDiscountedAmount(discount);
-    setTax(calculatedGst);
-    setFinalPrice(Math.max(Math.round(total * 100) / 100, 0));
+    // ✅ Final price should be whole number and in paise
+    const finalAmount = Math.round(finalTotal);
+
+    // Save computed values
+    setDiscountedAmount(Math.round(couponDiscount));
+    setTax(Math.round(calculatedGst));
+    setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
 
   useEffect(() => {
@@ -215,25 +224,23 @@ const Page = () => {
     walletUsedAmount,
     gst,
     paymentSession,
-    userDetails,
+    user,
     couponValid,
     activeCoupon,
   ]);
-
-  useEffect(() => {}, [userDetails, paymentSession]);
 
   const handlePayment = async () => {
     setIsProcessing(true);
 
     try {
       const payload = {
-        amount: Math.round(finalPrice),
+        amount: finalPrice,
         currency: "INR",
-        shippingAmount: deliPrice || 0,
+        shippingAmount: shippingAmount,
         discount: discountedAmount || 0,
-        gst: tax || 0,
-        walletAmount: walletUsedAmount,
-        couponCode: couponValue,
+        gst: tax,
+        walletAmount: walletUsedAmount || 0,
+        couponCode: couponCode,
         subscriptionType: subscriptionType,
         boxId: boxId,
         dietType: dietType,
@@ -245,6 +252,7 @@ const Page = () => {
         customerId: customerId,
         itemCode: itemCode,
         itemNames: itemNames,
+        deliveryType: mealTime,
       };
 
       console.log("pay data", payload);
@@ -287,7 +295,7 @@ const Page = () => {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${userDetails?.token}`,
+                  Authorization: `Bearer ${user?.token}`,
                 },
                 body: JSON.stringify({
                   // ...payload,
@@ -295,21 +303,21 @@ const Page = () => {
                   orderCreationId: response.razorpay_order_id,
                   razorpaySignature: response.razorpay_signature,
                 }),
-              }
+              } 
             );
 
             const result = await successResponse.json();
             console.log("✅ Payment Success API Response:", result);
             clearPaymentSession();
-            // router.push("/success");
+            router.push("/profile");
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
         },
         prefill: {
-          name: `${userDetails?.data?.firstName} ${userDetails?.data?.lastName}`,
-          email: userDetails?.data?.email,
-          contact: userDetails?.data?.phoneNumber,
+          name: `${user?.data?.firstName} ${user?.data?.lastName}`,
+          email: user?.data?.email,
+          contact: user?.data?.phoneNumber,
         },
         theme: { color: "#197a8a" },
       };
@@ -386,16 +394,16 @@ const Page = () => {
               <div className="flex justify-between">
                 <span>Full Name</span>
                 <span>
-                  {userDetails?.data?.firstName} {userDetails?.data?.lastName}
+                  {user?.firstName} {user?.lastName}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Mobile No.</span>
-                <span>{userDetails?.data?.phoneNumber}</span>
+                <span>{user?.phoneNumber}</span>
               </div>
               <div className="flex justify-between">
                 <span>Email Address</span>
-                <span>{userDetails?.data?.email}</span>
+                <span>{user?.email}</span>
               </div>
             </div>
 
@@ -408,12 +416,12 @@ const Page = () => {
               <div className="flex justify-start gap-5">
                 <span>Address:</span>
                 <span>
-                  {userDetails?.data?.address1} {userDetails?.data?.address2}
+                  {user?.address1} {user?.address2}
                 </span>
               </div>
               <div className="flex justify-start gap-12">
                 <span>City</span>
-                <span>{userDetails?.data?.city}</span>
+                <span>{user?.city}</span>
               </div>
             </div>
 
@@ -421,18 +429,23 @@ const Page = () => {
             <Separator className="w-full h-[2px] bg-[#D2D2D2]" />
 
             {/* Redeem Wallet Checkbox */}
-            <div className="flex items-center gap-2 mt-4">
-              <input
-                type="checkbox"
-                id="redeemWallet"
-                checked={redeemWallet}
-                onChange={(e) => setRedeemWallet(e.target.checked)}
-                className="w-4 h-4 cursor-pointer"
-              />
-              <label htmlFor="redeemWallet" className="text-sm cursor-pointer">
-                Redeem from Wallet (₹{walletUsedAmount})
-              </label>
-            </div>
+            {walletUsedAmount > 0 && (
+              <div className="flex items-center gap-2 mt-4">
+                <input
+                  type="checkbox"
+                  id="redeemWallet"
+                  checked={redeemWallet}
+                  onChange={(e) => setRedeemWallet(e.target.checked)}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <label
+                  htmlFor="redeemWallet"
+                  className="text-sm cursor-pointer"
+                >
+                  Redeem from Wallet (₹{walletUsedAmount})
+                </label>
+              </div>
+            )}
 
             {/* Coupon Code Input with Apply Button */}
             <div className="mt-4">
@@ -481,7 +494,7 @@ const Page = () => {
               >
                 {isProcessing
                   ? "Processing..."
-                  : `Pay ₹${finalPrice.toFixed(2)}`}
+                  : `Pay ₹${finalPrice}`}
               </Button>
             </div>
           </div>
@@ -528,10 +541,6 @@ const Page = () => {
                     {formattedEndDate}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Days</span>
-                  <span className="font-base secondary-font">{daysCount}</span>
-                </div>
               </div>
 
               <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
@@ -549,7 +558,7 @@ const Page = () => {
                     Delivery Charges
                   </span>
                   <span className="font-base secondary-font">
-                    ₹{deliPrice.toFixed(2)}
+                    ₹{shippingAmount}
                   </span>
                 </div>
                 {discountedAmount > 0 && (
@@ -562,18 +571,17 @@ const Page = () => {
                     </span>
                   </div>
                 )}
-                {walletUsedAmount > 0 && (
+                {redeemWallet && (
                   <div className="flex justify-between">
-                    <span className="font-base secondary-font">
-                      Wallet Amount
-                    </span>
+                    <span className="font-base secondary-font">Wallet</span>
                     <span className="font-base secondary-font text-red-500">
-                      - ₹{walletUsedAmount.toFixed(2)}
+                      - ₹{walletUsedAmount}
                     </span>
                   </div>
                 )}
+
                 <div className="flex justify-between">
-                  <span className="font-base secondary-font">Tax</span>
+                  <span className="font-base secondary-font">GST</span>
                   <span className="font-base secondary-font">
                     ₹{(tax || 0).toFixed(2)}
                   </span>
@@ -583,18 +591,14 @@ const Page = () => {
               <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
                 <span className="font-base secondary-font">Grand Total</span>
                 <span className="font-base secondary-font">
-                  ₹{finalPrice.toFixed(2)}
+                  ₹{finalPrice}
                 </span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <AlertBox
-        open={open}
-        setOpen={setOpen}
-        description={error}
-      />
+      <AlertBox open={open} setOpen={setOpen} description={error} />
     </section>
   );
 };

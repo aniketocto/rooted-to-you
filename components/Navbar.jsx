@@ -35,35 +35,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const storedUser = JSON.parse(localStorage.getItem("authenticatedUser"));
-
-      if (!storedUser?.id || !storedUser?.token) return;
-
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${storedUser.id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${storedUser.token}`,
-            },
-          }
-        );
-
-        if (!res.ok) throw new Error("Failed to fetch user details");
-
-        const result = await res.json();
-        setUser(result.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, [setUser]);
-
-  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsVisible(scrollY > currentScrollY || currentScrollY < 100); // Show if scrolling up or at the top
@@ -79,7 +50,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 ${
+      className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 navPadding ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -95,13 +66,13 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-between items-center gap-16">
-          <div className="flex flex-row font-base gap-10 items-center">
+        <div className="hidden md:flex justify-between items-center gap-16 md:gap-5 xl:gap-10">
+          <div className="flex flex-row font-base xl:gap-10 md:gap-5 mt-1  items-center">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={label}
                 href={href}
-                className={`relative primary-font pb-1 transition-all duration-300
+                className={`relative primary-font transition-all duration-300
                     ${
                       pathname === href
                         ? "border-b-2 border-[#b88e56]"

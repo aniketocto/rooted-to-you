@@ -304,9 +304,17 @@ p {
     flex-wrap: wrap;
   }
   .subbtnFont {
-    font-size: 12px;
+    font-size: 18px;
+  }
+  .navPadding {
+    padding: 15px;
+  }
+  .flexCol {
+    flex-direction: column;
   }
 }
+
+
 
 @media screen and (max-width: 500px) {
   h1 {
@@ -355,6 +363,9 @@ p {
   }
   .cusineFont {
     font-size: 27px;
+  }
+  .subbtnFont {
+    font-size: 25px;
   }
 }
 
