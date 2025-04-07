@@ -84,7 +84,7 @@ p {
     font-family: "Minion", sans-serif;
     line-height: normal;
   }
-  h3 {
+  h2, h3 {
     letter-spacing: 1px;
   }
   .font-base {
@@ -111,7 +111,8 @@ p {
     background-repeat: no-repeat;
   }
   .hero-bg {
-    background-image: url("/images/Hero-Banner.jpg");
+    /* background-image: url("/images/Hero-Banner.jpg"); */
+    background-image: url("/images/Hero-Banner-1.jpg");
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -187,7 +188,7 @@ p {
 
 .subbtnFont {
   font-size: 20px;
-  margin-top: 5px;
+  font-family: "Minion", sans-serif;
 }
 .cusineFont {
   font-size: 25px;
@@ -211,11 +212,16 @@ p {
   }
   .subbtnFont {
     font-size: 25px;
-    margin-top: 5px;
   }
   .btnfont {
     font-size: 35px;
     margin-top: 5px;
+  }
+}
+
+@media screen and (max-width: 1550px) {
+  .factFontSize {
+    font-size: 20px;
   }
 }
 
@@ -316,8 +322,6 @@ p {
   }
 }
 
-
-
 @media screen and (max-width: 500px) {
   h1 {
     font-size: 30px;
@@ -338,6 +342,9 @@ p {
   .font-base-1 {
     font-size: 15px;
     line-height: normal;
+  }
+  .cuisineExplore {
+    font-size: 12px;
   }
   .font-base-3 {
     font-size: 15px;

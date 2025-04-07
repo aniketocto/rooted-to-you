@@ -32,8 +32,15 @@ const OrderPage = () => {
         width={1440}
         height={270}
         quality={100}
-        className="absolute top-0 z-[-1] w-full"
+        className="absolute top-0 z-[-1] opacity-50 w-full"
       />
+      <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
+          <img
+            src="/images/about-deco.png"
+            alt="Section Divider"
+            className="w-full absolute"
+          />
+        </div>
       <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start md:mx-10 mx-5 gap-32">
         {/* Executive Meal */}
         <div className="flex justify-start items-start flex-col flexCol md:flex-row gap-5">
@@ -53,7 +60,7 @@ const OrderPage = () => {
               A wholesome, balanced meal with 5 to 6 curated components,
               delivering variety without the hassle.
             </p>
-            <div className="border border-[#e6af55] rounded-md p-5 md:p-10 mb-10">
+            <div className="border border-[#e6af55] rounded-md h-fit p-5 pb-0 md:p-10 md:pb-0 mb-10">
               <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
                 <li>
                   <span className="font-semibold">Zero Decision-Making</span>:
@@ -82,7 +89,7 @@ const OrderPage = () => {
             </Button>
           </div>
         </div>
-
+        
         {/* Presidential Meal */}
         <div className="flex justify-start items-start flex-col flexCol md:flex-row-reverse gap-10">
           <div className="rounded-md w-full md:w-1/2 h-full overflow-hidden">
@@ -101,7 +108,7 @@ const OrderPage = () => {
               An indulgent 8 to 9-component spread, designed for those who savor
               variety and richness.
             </p>
-            <div className="border border-[#e6af55] rounded-md p-5 md:p-10 mb-10">
+            <div className="border border-[#e6af55] rounded-md p-5 pb-0 md:p-10 md:pb-0 mb-10">
               <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
                 <li>
                   Personalized Experience: Choose 3 cuisines from 5 for a

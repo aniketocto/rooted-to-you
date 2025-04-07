@@ -4,12 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
-
 const Cuisines = () => {
   const router = useRouter();
   const [hoveredCard, setHoveredCard] = useState(false);
   const timeoutRef = useRef();
-
 
   const cuisines = [
     {
@@ -44,22 +42,16 @@ const Cuisines = () => {
     },
   ];
 
-
   const handleMouseEnter = (id) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+    clearTimeout(timeoutRef.current); // cancel closing if user comes back
     setHoveredCard(id);
   };
-
 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setHoveredCard(null);
-    }, 1000);
+    }, 1000); // 1 second delay before hiding
   };
-
 
   const handlePopupMouseEnter = () => {
     if (timeoutRef.current) {
@@ -68,18 +60,15 @@ const Cuisines = () => {
     }
   };
 
-
   const handlePopupMouseLeave = () => {
     handleMouseLeave();
   };
-
 
   return (
     <section className="w-full h-fit flex flex-col justify-center items-center gap-20 my-14">
       <h2 className="secondary-font text-4xl font-bold text-center mb-8">
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>
-
 
       <div className="flex flex-wrap justify-center gap-4">
         {cuisines.map((cuisine) => (
@@ -129,11 +118,11 @@ const Cuisines = () => {
             }}
           >
             <div className="h-full flex flex-col items-center justify-center relative">
-              <div className="flex-grow flex flex-col items-center justify-center rounded-lg p-6 mb-4 text-white">
+              <div className="flex-grow flex flex-col items-center md:gap-10 justify-center rounded-lg p-6 mb-4 text-white">
                 <h3 className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2">
                   {cuisines.find((c) => c.id === hoveredCard)?.name}
                 </h3>
-                <p className="text-center font-base-1 primary-font mb-4">
+                <p className="text-center cuisineExplore font-base-1 primary-font mb-4">
                   {cuisines.find((c) => c.id === hoveredCard)?.desc}
                 </p>
                 <Button
@@ -151,10 +140,4 @@ const Cuisines = () => {
   );
 };
 
-
 export default Cuisines;
-
-
-
-
-

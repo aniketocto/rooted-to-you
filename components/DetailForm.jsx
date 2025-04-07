@@ -258,6 +258,7 @@ const DetailForm = () => {
           "authenticatedUser",
           JSON.stringify(newStoredUser)
         );
+        
         router.push("/payment");
       } else {
         throw new Error("Failed to fetch updated user info");
@@ -293,7 +294,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="First Name"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -312,7 +313,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Last Name"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -333,7 +334,7 @@ const DetailForm = () => {
                         type="tel"
                         placeholder="Mobile Number"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={10}
                       />
                     </FormControl>
@@ -353,7 +354,7 @@ const DetailForm = () => {
                         type="email"
                         placeholder="Email Address"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -405,7 +406,7 @@ const DetailForm = () => {
                             date < new Date("1900-01-01")
                           }
                           classNames={{
-                            root: "w-full max-w-md mx-auto border border-gray-200 rounded-lg shadow-sm bg-[#197a8a]",
+                            root: "w-full max-w-md mx-auto border h-12 border-gray-200 rounded-lg shadow-sm bg-[#197a8a]",
                             caption:
                               "flex justify-center items-center gap-2 p-2",
                             caption_label: "hidden", // ❌ Hide label
@@ -441,7 +442,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Company"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -462,7 +463,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Department"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -481,7 +482,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Designation"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -500,7 +501,7 @@ const DetailForm = () => {
                     type="text"
                     placeholder="Address 1"
                     {...field}
-                    className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                    className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                   />
                 </FormControl>
                 <FormMessage className="text-red-500!" />
@@ -517,7 +518,7 @@ const DetailForm = () => {
                     type="text"
                     placeholder="Address 2"
                     {...field}
-                    className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                    className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                   />
                 </FormControl>
                 <FormMessage className="text-red-500!" />
@@ -536,7 +537,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="City"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={10}
                       />
                     </FormControl>
@@ -556,7 +557,7 @@ const DetailForm = () => {
                         type="number"
                         placeholder="Postal Code"
                         {...field}
-                        className="w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={6}
                       />
                     </FormControl>

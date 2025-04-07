@@ -42,7 +42,7 @@ const Footer = () => {
               400072
             </p>
           </div>
-          <div className="w-full flex flex-col md:flex-row justify-start xl:gap-10 lg:gap-5 gap-3 ">
+          <div className="w-full flex flex-col md:flex-row justify-start xl:gap-16 lg:gap-5 gap-3 ">
             <div className="flex flex-col gap-2">
               <p className="secondary-font font-base-1">Follow Us</p>
               <div className="w-full flex flex-row justify-start gap-3">

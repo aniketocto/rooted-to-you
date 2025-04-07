@@ -18,7 +18,7 @@ export default function Home() {
             {features.map(({ label, img }) => (
               <div
                 key={label}
-                className="p-4 h-[220px] border border-white rounded-sm flex flex-col gap-5 items-center justify-center"
+                className="p-4 h-[150px] border-white border-[0.5px] rounded-sm flex flex-col gap-5 items-center justify-center"
               >
                 <Image
                   src={img}
@@ -28,7 +28,7 @@ export default function Home() {
                   quality={100}
                   className="factImg"
                 />
-                <h4 className="secondary-font text-center text-[#E6AF55]!">
+                <h4 className="secondary-font text-center font-light! factFontSize text-[#E6AF55]!">
                   {label}
                 </h4>
               </div>
@@ -40,33 +40,44 @@ export default function Home() {
       {/* Steps */}
       <Steps />
 
+      {/* Decorative Divider Image */}
+      <div className="w-full relative z-[-1] mt-[-15%]">
+        <img
+          src="/images/about-deco.png"
+          alt="Section Divider"
+          className="w-full hidden md:block"
+        />
+      </div>
       {/* Cusines */}
-      <Cuisines />
+      <div className="w-full h-full mt-[-15%]">
+        <Cuisines />
+      </div>
 
       {/* Facts */}
-      <section className="w-full md:h-[400px] justify-center items-center my-20 flex relative">
-        <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 lg:grid-cols-4 gap-8  ">
-          <Image
-            src="/images/decorative.png"
-            alt=""
-            width={1440}
-            height={403}
-            quality={100}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:block hidden"
-          />
-
+      <section
+        className="w-full md:h-[400px] overflow-hidden justify-center items-center my-20 flex relative"
+        style={{
+          backgroundImage: "url('/images/about-deco.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "left center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8  ">
           {[
-            { value: "99%", text: "Record On-Time Delivery" },
-            { value: "50,000+", text: "Meals Delivered" },
             { value: "1000+", text: "Subscribers" },
+            { value: "50,000+", text: "Meals Delivered" },
             { value: "250+", text: "Postal Locations" },
+            { value: "99%", text: "Record On-Time Delivery" },
           ].map(({ value, text }, index) => (
             <div
               key={text}
               className="flex flex-col justify-center items-center gap-2 relative"
             >
               <h1 className="secondary-font">{value}</h1>
-              <p>{text}</p>
+              <p className="secondary-font xl:text-3xl md: text-center">
+                {text}
+              </p>
 
               {/* Add vertical separator for large screens between 1, 2, and 3 */}
               {index !== 3 && (

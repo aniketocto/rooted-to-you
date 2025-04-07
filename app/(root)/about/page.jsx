@@ -91,10 +91,10 @@ const Page = () => {
       {/* Subscribe Button */}
       <div className="w-full flex justify-center">
         <Button
-          className="primary-font uppercase font-base-1 mb-28 bg-[#e6af55] p-8 flex items-center justify-center text-center cursor-pointer font-semibold"
+          className="primary-font uppercase font-base-1 mb-28 bg-[#e6af55] p-5 flex items-center justify-center text-center cursor-pointer font-semibold"
           onClick={() => router.push("/order")}
         >
-          <p className="text-[#03141c]! btnfont">Subscribe Now</p>
+          <p className="text-[#03141c]! text-xl secondary-font">Subscribe Now</p>
         </Button>
       </div>
     </>

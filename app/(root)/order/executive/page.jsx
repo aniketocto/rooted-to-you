@@ -346,10 +346,10 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="lunch"
-                                  className={`flex justify-center items-center text-md h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "lunch"
-                                      ? "bg-[#e6af55] text-white border-gray-100"
+                                      ? "bg-[#e6af55] text-white  border-gray-100"
                                       : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                   }`}
                                 >
@@ -358,7 +358,7 @@ const Page = () => {
                                     alt="lunch"
                                     width={5}
                                     height={5}
-                                    className="w-6"
+                                    className="w-8"
                                   />
                                   Lunch
                                 </FormLabel>
@@ -377,7 +377,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="dinner"
-                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "dinner"
                                       ? "bg-[#e6af55] text-white border-gray-100"
@@ -389,7 +389,7 @@ const Page = () => {
                                     alt="lunch"
                                     width={20}
                                     height={10}
-                                    className="w-6"
+                                    className="w-8"
                                   />
                                   Dinner
                                 </FormLabel>
@@ -432,7 +432,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="veg"
-                                  className={`flex justify-center text-md items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
@@ -442,9 +442,9 @@ const Page = () => {
                                   <Image
                                     src="/images/veg.svg"
                                     alt="veg"
-                                    width={23}
-                                    height={23}
-                                    className="w-6"
+                                    width={6}
+                                    height={6}
+                                    className="w-8"
                                   />
                                   Veg
                                 </FormLabel>
@@ -463,7 +463,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="non_veg"
-                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center  items-center  gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "non_veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
@@ -554,7 +554,7 @@ const Page = () => {
           </div>
         )}
 
-        <div className="lg:w-1/2 w-full lg:sticky top-20 self-start px-4">
+        <div className="lg:w-1/2 w-full lg:sticky top-[10%] self-start px-4 mt-[5%]">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch

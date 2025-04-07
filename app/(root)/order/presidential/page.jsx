@@ -374,7 +374,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="lunch"
-                                  className={`flex justify-center items-center text-md h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                                                   ${
                                                                     selectedTime ===
                                                                     "lunch"
@@ -406,7 +406,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="dinner"
-                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                                                  ${
                                                                    selectedTime ===
                                                                    "dinner"
@@ -462,7 +462,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="veg"
-                                  className={`flex justify-center text-md items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                                                 ${
                                                                   selectedFoodType ===
                                                                   "veg"
@@ -494,7 +494,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="non_veg"
-                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                                                 ${
                                                                   selectedFoodType ===
                                                                   "non_veg"
@@ -554,7 +554,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor={id}
-                                  className={`flex justify-center text-md items-center h-12 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
+                                  className={`flex justify-center  items-center text-xl h-15 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
                                     selectedCuisines.includes(id)
                                       ? "bg-[#e6af55] text-white border-gray-100"
                                       : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"

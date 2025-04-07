@@ -175,7 +175,7 @@ const DatePicker = ({
                 <RadioGroupItem value="7" id="days7" className="sr-only" />
                 <label
                   htmlFor="days7"
-                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                     ${
                       selectedDays === 7
                         ? "bg-[#e6af55] text-white border-gray-100"
@@ -192,7 +192,7 @@ const DatePicker = ({
                 <RadioGroupItem value="30" id="days30" className="sr-only" />
                 <label
                   htmlFor="days30"
-                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                     ${
                       selectedDays === 30
                         ? "bg-[#e6af55] text-white border-gray-100"
@@ -261,11 +261,12 @@ const DatePicker = ({
                 );
               }
             }}
+            className="border-0"
           >
             <label htmlFor="weekendSelect" className="primary-font font-medium block mb-1">
               Weekends Type
             </label>
-            <SelectTrigger className="border-2 p-2 bg-[#e6af55] text-white rounded-md w-full">
+            <SelectTrigger className="border-2 p-2 text-xl h-15 bg-[#e6af55] text-white rounded-md w-full">
               <SelectValue placeholder="Select Saturdays secondary-font font-xl" />
             </SelectTrigger>
             <SelectContent className="rounded-lg bg-white text-black shadow-lg">
