@@ -18,17 +18,41 @@ const FbSocialLink = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const handleSuccess = ({ provider, data }) => {
+  const handleSuccess = async ({ provider, data }) => {
     console.log("Facebook Login Success:", provider, data);
 
-    const userData = {
-      name: data.name,
-      email: data.email,
-      token: data.access_token,
-    };
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: data.access_token }),
+        }
+      );
 
-    login(userData);
-    router.push("/");
+      const res = await response.json();
+
+      if (response.ok && res?.data && res?.token) {
+        const userData = {
+          id: res.data.id,
+          data: res.data,
+          token: res.token,
+          status: res.data.status,
+        };
+        login(userData);
+        router.push("/");
+      } else {
+        setError("Facebook login failed. Please try again.");
+        setOpen(true);
+      }
+    } catch (error) {
+      console.error("Facebook Login Error:", error);
+      setError("Network error. Please try again.");
+      setOpen(true);
+    }
   };
 
   const handleFailure = () => {
@@ -55,11 +79,7 @@ const FbSocialLink = () => {
         </LoginSocialFacebook>
       )}
 
-      <AlertBox
-        open={open}
-        setOpen={setOpen}
-        description={error}
-      />
+      <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );
 };

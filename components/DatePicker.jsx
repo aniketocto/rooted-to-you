@@ -7,6 +7,13 @@ import "react-date-range/dist/theme/default.css";
 import { addDays, isSaturday, isSunday, startOfTomorrow } from "date-fns";
 import { FormItem } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./ui/select";
 
 const DatePicker = ({
   onDateChange,
@@ -199,7 +206,7 @@ const DatePicker = ({
           </RadioGroup>
         </div>
 
-        <div className="mb-3 md:w-full w-[300px] ">
+        {/* <div className="mb-3 md:w-full w-[300px] ">
           <label htmlFor="weekendSelect" className="font-medium block mb-1">
             Weekends Type
           </label>
@@ -223,13 +230,71 @@ const DatePicker = ({
                 );
               }
             }}
-            className="border p-2 bg-[#03141c] rounded-lg w-full"
+            className="border-0 p-2 rounded-lg w-full bg-[#e6af55] text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#03141c]"
           >
-            <option value="all">All Saturdays</option>
-            <option value="none">No Saturdays</option>
-            <option value="odd">1st & 3rd Saturdays</option>
-            <option value="even">2nd & 4th Saturdays</option>
+            <option value="all" className="text-white">
+              All Saturdays
+            </option>
+            <option value="none" className="text-white">
+              No Saturdays
+            </option>
+            <option value="odd" className="text-white">
+              1st & 3rd Saturdays
+            </option>
+            <option value="even" className="text-white">
+              2nd & 4th Saturdays
+            </option>
           </select>
+        </div> */}
+
+        <div className="mb-3 md:w-full">
+          <Select
+            value={saturdayOption}
+            onValueChange={(value) => {
+              setSaturdayOption(value);
+              onWeekendRuleChange?.(value);
+              if (startDate) {
+                setTimeout(
+                  () =>
+                    generateHighlightedDates(startDate, selectedDays, value),
+                  0
+                );
+              }
+            }}
+          >
+            <label htmlFor="weekendSelect" className="primary-font font-medium block mb-1">
+              Weekends Type
+            </label>
+            <SelectTrigger className="border-2 p-2 bg-[#e6af55] text-white rounded-md w-full">
+              <SelectValue placeholder="Select Saturdays secondary-font font-xl" />
+            </SelectTrigger>
+            <SelectContent className="rounded-lg bg-white text-black shadow-lg">
+              <SelectItem
+                value="all"
+                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+              >
+                All Saturdays
+              </SelectItem>
+              <SelectItem
+                value="none"
+                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+              >
+                No Saturdays
+              </SelectItem>
+              <SelectItem
+                value="odd"
+                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+              >
+                1st & 3rd Saturdays
+              </SelectItem>
+              <SelectItem
+                value="even"
+                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+              >
+                2nd & 4th Saturdays
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <DateRange

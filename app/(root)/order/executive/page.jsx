@@ -60,9 +60,7 @@ const FormSchema = z.object({
   dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
-    message: "Select upto 3 cuisines.",
-  }),
+  cuisineChoice: z.array(z.number()).optional(),
   selectedDates: z.object(
     {
       startDate: z.date(),
@@ -83,17 +81,14 @@ const Page = () => {
     defaultValues: {
       time: undefined,
       dietType: undefined,
-      cuisineChoice: [],
       selectedDates: { startDate: undefined, endDate: undefined, count: 0 },
       weekendType: "all",
     },
   });
-
- 
+  const router = useRouter();
   const { startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
-  const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(7);
   const [weekendType, setWeekendRule] = useState("all");
   const [highlightedDates, setHighlightedDates] = useState([]);
@@ -109,6 +104,13 @@ const Page = () => {
   const deliveringPrices = 1500;
   const gstTax = 0.06;
   const selectedBoxId = 1;
+
+  useEffect(() => {
+    const user = localStorage.getItem("authenticatedUser");
+    if (!user) {
+      router.replace("/register"); 
+    }
+  }, [router]);
 
   useEffect(() => {
     const fetchBoxes = async () => {
@@ -151,10 +153,6 @@ const Page = () => {
   }, [highlightedDates, weekendType, form]);
 
   useEffect(() => {
-    form.setValue("cuisineChoice", selectedCuisines, { shouldValidate: true });
-  }, [selectedCuisines, form]);
-
-  useEffect(() => {
     if (!boxes.length) return;
 
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
@@ -179,16 +177,6 @@ const Page = () => {
     setTotal(Math.round(finalSubTotal));
   }, [selectedDuration, boxes]);
 
-  const handleCuisineSelection = (id) => {
-    setSelectedCuisines((prevCuisines) =>
-      prevCuisines.includes(id)
-        ? prevCuisines.filter((cuisine) => cuisine !== id)
-        : prevCuisines.length < 3
-        ? [...prevCuisines, id]
-        : prevCuisines
-    );
-  };
-
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
@@ -209,16 +197,9 @@ const Page = () => {
     const token = userData?.token;
     const customerId = userData?.id;
 
-    
-    console.log(token)
-
-    const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
-      selectedCuisines.includes(cuisine.id)
-    );
-
-    const itemCodes = selectedCuisineDetails.map((c) => c.itemCode).join(", ");
-    const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
-    const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
+    const cuisineIds = cuisineChoice.map((c) => c.id);
+    const itemCodes = cuisineChoice.map((c) => c.itemCode).join(", ");
+    const itemNames = cuisineChoice.map((c) => c.label).join(", ");
 
     const updatedData = {
       boxId: 1,
@@ -261,7 +242,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-
+      console.log(activeData);
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
         const selectedStartDate = new Date(data.selectedDates?.startDate);
@@ -296,9 +277,8 @@ const Page = () => {
     }
   }
 
-
   return (
-    <section className="w-full h-fit flex justify-center items-center my-52">
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -366,7 +346,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="lunch"
-                                  className={`flex justify-center items-center text-sm h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center items-center text-md h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "lunch"
                                       ? "bg-[#e6af55] text-white border-gray-100"
@@ -397,7 +377,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="dinner"
-                                  className={`flex justify-center text-sm items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "dinner"
                                       ? "bg-[#e6af55] text-white border-gray-100"
@@ -452,7 +432,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="veg"
-                                  className={`flex justify-center text-sm items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center text-md items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
@@ -483,7 +463,7 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="non_veg"
-                                  className={`flex justify-center text-sm items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "non_veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
@@ -504,53 +484,6 @@ const Page = () => {
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
-                      <FormMessage className="text-red-500!" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Cuisine Selection - with empty default state */}
-                <FormField
-                  control={form.control}
-                  name="cuisineChoice"
-                  render={() => (
-                    <FormItem>
-                      <div className="mb-4">
-                        <FormLabel className="text-base font-medium flex justify-between items-center">
-                          SELECT CUISINE
-                          <p className="text-[#e6af5z]!">
-                            Select Any 3 Cuisines
-                          </p>
-                        </FormLabel>
-                      </div>
-                      <div className="flex flex-wrap gap-3  w-full xl:w-[600px]">
-                        {cuisineChoice.map(({ id, label }) => (
-                          <FormItem key={id} className="w-44">
-                            <FormControl>
-                              <div className="relative w-full">
-                                <Checkbox
-                                  id={id}
-                                  checked={selectedCuisines.includes(id)}
-                                  onCheckedChange={() =>
-                                    handleCuisineSelection(id)
-                                  }
-                                  className="sr-only peer"
-                                />
-                                <FormLabel
-                                  htmlFor={id}
-                                  className={`flex justify-center text-sm items-center h-12 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
-                                    selectedCuisines.includes(id)
-                                      ? "bg-[#e6af55] text-white border-gray-100"
-                                      : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                                  }`}
-                                >
-                                  {label}
-                                </FormLabel>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        ))}
-                      </div>
                       <FormMessage className="text-red-500!" />
                     </FormItem>
                   )}
@@ -626,7 +559,7 @@ const Page = () => {
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-md">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Meal Plan</span>
                 <span className="capitalize font-base secondary-font">
@@ -678,7 +611,7 @@ const Page = () => {
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-md">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Sub Total</span>
                 <span className="font-base secondary-font">₹{basePrice}</span>

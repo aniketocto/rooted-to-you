@@ -12,7 +12,7 @@ export default function NotFound() {
       </h1>
 
       <p className="text-xl capitalize primary-font">
-        Tt seems you follow backlink
+        It seems you follow backlink
       </p>
 
       <div className="flex justify-center space-x-4">

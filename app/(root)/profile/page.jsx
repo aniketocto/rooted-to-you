@@ -192,7 +192,7 @@ const ProfilePage = () => {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div>
                   <h4 className="text-lg secondary-font mb-1">Plan:</h4>
-                  <p className="text-lg">Executive Meal</p>
+                  <p className="text-lg">{activeSubscription.id === 1 ? "Presidential" : "Executive"}</p>
                 </div>
                 <div>
                   <h4 className="text-lg secondary-font mb-1">Billing:</h4>

@@ -179,6 +179,7 @@ p {
 .rdp-vhidden {
   display: none !important;
 }
+
 .btnfont {
   font-size: 25px;
   margin-top: 5px;
@@ -311,6 +312,7 @@ p {
   }
   .flexCol {
     flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -365,7 +367,7 @@ p {
     font-size: 27px;
   }
   .subbtnFont {
-    font-size: 25px;
+    font-size: 20px;
   }
 }
 

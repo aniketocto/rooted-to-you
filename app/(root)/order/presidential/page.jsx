@@ -60,14 +60,9 @@ const FormSchema = z.object({
   dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineChoice: z
-    .array(z.string())
-    .refine(
-      (value) => value.length === 0 || (value.length >= 1 && value.length <= 5),
-      {
-        message: "You can select up to 5 cuisines.",
-      }
-    ),
+  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
+    message: "Select upto 3 cuisines.",
+  }),
   selectedDates: z.object(
     {
       startDate: z.date(),
@@ -88,12 +83,11 @@ const Page = () => {
     defaultValues: {
       time: undefined,
       dietType: undefined,
-      cuisineChoice: [1, 2, 3, 4, 5],
+      cuisineChoice: [],
       selectedDates: { startDate: undefined, endDate: undefined, count: 0 },
       weekendType: "all",
     },
   });
-
   const router = useRouter();
   const { startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
@@ -114,6 +108,13 @@ const Page = () => {
   const deliveringPrices = 1500;
   const gstTax = 0.06;
   const selectedBoxId = 2;
+
+  useEffect(() => {
+    const user = localStorage.getItem("authenticatedUser");
+    if (!user) {
+      router.replace("/register");
+    }
+  }, [router]);
 
   useEffect(() => {
     const fetchBoxes = async () => {
@@ -139,13 +140,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCuisines.length === 0) {
-      setSelectedCuisines(cuisineChoice.map((c) => c.id));
-    } else {
-      form.setValue("cuisineChoice", selectedCuisines, {
-        shouldValidate: true,
-      });
-    }
+    form.setValue("cuisineChoice", selectedCuisines, { shouldValidate: true });
   }, [selectedCuisines, form]);
 
   useEffect(() => {
@@ -192,19 +187,15 @@ const Page = () => {
     setTotal(Math.round(finalTotal)); // Whole number
   }, [selectedDuration, boxes, selectedBoxId, deliveringPrices, gstTax]);
 
-  function handleCuisineSelection(id) {
-    let updatedCuisines;
-    if (selectedCuisines.includes(id)) {
-      updatedCuisines = selectedCuisines.filter((cuisine) => cuisine !== id);
-    } else if (selectedCuisines.length < 5) {
-      updatedCuisines = [...selectedCuisines, id];
-    } else {
-      return;
-    }
-
-    setSelectedCuisines(updatedCuisines);
-  }
-
+  const handleCuisineSelection = (id) => {
+    setSelectedCuisines((prevCuisines) =>
+      prevCuisines.includes(id)
+        ? prevCuisines.filter((cuisine) => cuisine !== id)
+        : prevCuisines.length < 3
+        ? [...prevCuisines, id]
+        : prevCuisines
+    );
+  };
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
@@ -312,7 +303,7 @@ const Page = () => {
   // console.log(values.selectedDatesArray);
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-52">
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -383,19 +374,20 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="lunch"
-                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
-                                  ${
-                                    selectedTime === "lunch"
-                                      ? "bg-[#e6af55] text-white border-gray-100"
-                                      : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                                  }`}
+                                  className={`flex justify-center items-center text-md h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                                                  ${
+                                                                    selectedTime ===
+                                                                    "lunch"
+                                                                      ? "bg-[#e6af55] text-white border-gray-100"
+                                                                      : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                                                  }`}
                                 >
                                   <Image
-                                    src="/images/lunch.png"
+                                    src="/images/lunch.svg"
                                     alt="lunch"
-                                    width={20}
-                                    height={10}
-                                    className=" w-auto h-auto"
+                                    width={5}
+                                    height={5}
+                                    className="w-6"
                                   />
                                   Lunch
                                 </FormLabel>
@@ -414,19 +406,20 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="dinner"
-                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
-                                  ${
-                                    selectedTime === "dinner"
-                                      ? "bg-[#e6af55] text-white border-gray-100"
-                                      : "border-gray-200 hover:bg-gray-500 hover:text-white hover:border-gray-900"
-                                  }`}
+                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                                                 ${
+                                                                   selectedTime ===
+                                                                   "dinner"
+                                                                     ? "bg-[#e6af55] text-white border-gray-100"
+                                                                     : "border-gray-200 hover:bg-gray-500 hover:text-white hover:border-gray-900"
+                                                                 }`}
                                 >
                                   <Image
-                                    src="/images/dinner.png"
+                                    src="/images/dinner.svg"
                                     alt="lunch"
                                     width={20}
                                     height={10}
-                                    className=" w-auto h-auto"
+                                    className="w-6"
                                   />
                                   Dinner
                                 </FormLabel>
@@ -469,19 +462,20 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="veg"
-                                  className={`flex justify-center items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
-                                ${
-                                  selectedFoodType === "veg"
-                                    ? "bg-[#e6af55] text-white border-gray-100"
-                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                                }`}
+                                  className={`flex justify-center text-md items-center gap-5 h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                                                ${
+                                                                  selectedFoodType ===
+                                                                  "veg"
+                                                                    ? "bg-[#e6af55] text-white border-gray-100"
+                                                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                                                }`}
                                 >
                                   <Image
-                                    src="/images/veg.png"
+                                    src="/images/veg.svg"
                                     alt="veg"
-                                    width={25}
-                                    height={10}
-                                    className=" w-auto h-auto"
+                                    width={23}
+                                    height={23}
+                                    className="w-6"
                                   />
                                   Veg
                                 </FormLabel>
@@ -500,19 +494,20 @@ const Page = () => {
                                 />
                                 <FormLabel
                                   htmlFor="non_veg"
-                                  className={`flex justify-center items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
-                                ${
-                                  selectedFoodType === "non_veg"
-                                    ? "bg-[#e6af55] text-white border-gray-100"
-                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                                }`}
+                                  className={`flex justify-center text-md items-center h-12 w-full rounded-md border-2 cursor-pointer transition-all
+                                                                ${
+                                                                  selectedFoodType ===
+                                                                  "non_veg"
+                                                                    ? "bg-[#e6af55] text-white border-gray-100"
+                                                                    : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+                                                                }`}
                                 >
                                   <Image
-                                    src="/images/non-veg.png"
+                                    src="/images/nveg.svg"
                                     alt="Non veg"
                                     width={25}
                                     height={10}
-                                    className=" w-auto h-auto"
+                                    className="w-6"
                                   />
                                   Non Veg
                                 </FormLabel>
@@ -532,13 +527,15 @@ const Page = () => {
                   name="cuisineChoice"
                   render={() => (
                     <FormItem>
-                      <div className="">
+                      <div className="mb-4">
                         <FormLabel className="text-base font-medium flex justify-between items-center">
                           SELECT CUISINE
-                          <p>Remove any cuisine you don't want</p>
+                          <p className="text-[#e6af5z]!">
+                            Select Any 3 Cuisines
+                          </p>
                         </FormLabel>
                       </div>
-                      <div className="flex flex-wrap gap-3  w-full md:w-[600px]">
+                      <div className="flex flex-wrap gap-3  w-full xl:w-[600px]">
                         {cuisineChoice.map(({ id, label }) => (
                           <FormItem key={id} className="w-44">
                             <FormControl>
@@ -549,11 +546,15 @@ const Page = () => {
                                   onCheckedChange={() =>
                                     handleCuisineSelection(id)
                                   }
+                                  disabled={
+                                    selectedCuisines.length >= 3 &&
+                                    !selectedCuisines.includes(id)
+                                  }
                                   className="sr-only peer"
                                 />
                                 <FormLabel
                                   htmlFor={id}
-                                  className={`flex justify-center items-center h-12 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
+                                  className={`flex justify-center text-md items-center h-12 w-full text-center px-10 rounded-md border-2 cursor-pointer transition-all ${
                                     selectedCuisines.includes(id)
                                       ? "bg-[#e6af55] text-white border-gray-100"
                                       : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
@@ -641,7 +642,7 @@ const Page = () => {
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-md">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Meal Plan</span>
                 <span className="capitalize font-base secondary-font">
@@ -693,7 +694,7 @@ const Page = () => {
             <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-md">
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Sub Total</span>
                 <span className="font-base secondary-font">₹{basePrice}</span>

@@ -34,6 +34,7 @@ const GoogleSocialLink = () => {
       );
 
       const res = await response.json();
+      console.log("Google Login Response:", res);
       if (response.ok && res?.data && res?.token) {
         const userData = {
           id: res.data.id,
@@ -50,8 +51,8 @@ const GoogleSocialLink = () => {
         setOpen(true);
       }
     } catch (error) {
-      console.error("Google Login Error:", error);
-      setError("Network error. Please try again.");
+      console.log("Google Login Error:", error);
+      // setError("Network error. Please try again.");
       setOpen(true);
     }
   };

@@ -61,21 +61,68 @@ const Page = () => {
     startDate instanceof Date ? startDate.toDateString() : startDate;
   const formattedEndDate =
     endDate instanceof Date ? endDate.toDateString() : endDate;
-
   useEffect(() => {
-    // if (!user || !paymentSession?.sessionActive) {
-    //   console.warn("Unauthorized access attempt, redirecting...");
-    //   router.replace("/");
-    //   return;
-    // }
+    const fetchUserDetails = async () => {
+      const storedUser = localStorage.getItem("authenticatedUser");
 
-    setToken(user?.token);
-    if (user?.wallet && user?.wallet > 0) {
-      setWalletUsedAmount(user?.wallet); // Initial wallet amount
+      if (!storedUser) {
+        console.warn("🚫 No user in localStorage, redirecting...");
+        router.replace("/"); // Redirect to home/login if not authenticated
+        return;
+      }
+
+      const parsedUser = JSON.parse(storedUser);
+      setToken(parsedUser.token);
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/users/profile`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${parsedUser.token}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+        console.log("🔍 Profile API response:", data);
+
+        if (res.ok && data?.user) {
+          const updatedUser = {
+            ...parsedUser,
+            ...data.user,
+          };
+
+          // Optional: update wallet or other fields from response
+          setWalletUsedAmount(data.user.wallet || 0);
+
+          // Optionally update localStorage and context
+          localStorage.setItem(
+            "authenticatedUser",
+            JSON.stringify(updatedUser)
+          );
+          // If you're using context: setUser(updatedUser);
+        } else {
+          // console.error(
+          //   "❌ Failed to fetch user profile:",
+          //   data?.message || "Unknown error"
+          // );
+        }
+      } catch (err) {
+        // console.error("❌ Error fetching user details:", err);
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
+  useEffect(() => {
+    if (!paymentSession?.sessionActive) {
+      console.warn("🔒 Payment session not active, redirecting...");
+      router.replace("/");
     }
-  }, [user, paymentSession, router]);
-
-  console.log(walletUsedAmount);
+  }, [paymentSession]);
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -216,7 +263,7 @@ const Page = () => {
     setTax(Math.round(calculatedGst));
     setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
-  console.log("Final Price",finalPrice)
+  console.log("Final Price", finalPrice);
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -232,7 +279,7 @@ const Page = () => {
   const amountInPaise = finalPrice * 100;
   const handlePayment = async () => {
     setIsProcessing(true);
-    
+
     try {
       const payload = {
         amount: finalPrice,
@@ -259,7 +306,7 @@ const Page = () => {
 
       console.log("pay data", payload);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/order`,  //create-order
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
         {
           method: "POST",
           headers: {
@@ -279,8 +326,8 @@ const Page = () => {
         setError("Invalid order ID received");
       }
       const razorPayAmount = data.amount * 100;
-      console.log(razorPayAmount)
-      console.log("Amount in paise", amountInPaise)
+      console.log(razorPayAmount);
+      console.log("Amount in paise", amountInPaise);
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -313,7 +360,7 @@ const Page = () => {
             const result = await successResponse.json();
             console.log("✅ Payment Success API Response:", result);
             clearPaymentSession();
-            // router.push("/profile");
+            router.push("/profile");
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
