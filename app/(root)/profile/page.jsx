@@ -111,7 +111,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-16">
+    <section className="w-full h-fit flex justify-center items-center my-16 px-5 ">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"

@@ -68,8 +68,8 @@ const Hero = () => {
   return (
     <section className="w-full h-full flex justify-center items-center">
       <div className="hero-bg  w-full h-dvh flex flex-col items-start justify-center px-0 sm:px-10">
-        <div className="flex flex-col items-start justify-center w-full md:w-1/2 gap-5 mt-[10%] px-5">
-          <h1 className="primary-font text-[#E6AF55] font-bold">
+        <div className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-5">
+          <h1 className="secondary-font text-[#E6AF55] font-bold">
             Eat. Connect. Celebrate.
           </h1>
           <p className="primary-font font-base mb-5">

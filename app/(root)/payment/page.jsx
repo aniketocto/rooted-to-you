@@ -73,6 +73,7 @@ const Page = () => {
 
       const parsedUser = JSON.parse(storedUser);
       setToken(parsedUser.token);
+      setWalletUsedAmount(parsedUser.wallet || 0);
 
       try {
         const res = await fetch(
@@ -87,29 +88,6 @@ const Page = () => {
         );
 
         const data = await res.json();
-        console.log("🔍 Profile API response:", data);
-
-        if (res.ok && data?.user) {
-          const updatedUser = {
-            ...parsedUser,
-            ...data.user,
-          };
-
-          // Optional: update wallet or other fields from response
-          setWalletUsedAmount(data.user.wallet || 0);
-
-          // Optionally update localStorage and context
-          localStorage.setItem(
-            "authenticatedUser",
-            JSON.stringify(updatedUser)
-          );
-          // If you're using context: setUser(updatedUser);
-        } else {
-          // console.error(
-          //   "❌ Failed to fetch user profile:",
-          //   data?.message || "Unknown error"
-          // );
-        }
       } catch (err) {
         // console.error("❌ Error fetching user details:", err);
       }
@@ -117,6 +95,7 @@ const Page = () => {
 
     fetchUserDetails();
   }, []);
+  console.log(token)
   useEffect(() => {
     if (!paymentSession?.sessionActive) {
       console.warn("🔒 Payment session not active, redirecting...");
@@ -592,7 +571,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
+              <h2 className="text-2xl! primary-font font-bold border-y border-teal-600 py-2 pb-2 mt-4 mb-3 text-orange-300">
                 Bill Summary
               </h2>
               <div className="space-y-2 text-sm">

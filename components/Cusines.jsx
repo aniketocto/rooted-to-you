@@ -6,7 +6,8 @@ import { Button } from "./ui/button";
 
 const Cuisines = () => {
   const router = useRouter();
-  const [hoveredCard, setHoveredCard] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const [isHoveringPopup, setIsHoveringPopup] = useState(false);
   const timeoutRef = useRef();
 
   const cuisines = [
@@ -14,7 +15,7 @@ const Cuisines = () => {
       id: 1,
       name: "Maharashtrian Cuisine",
       img: "maharashtra.jpg",
-      desc: "A balance of fiery Kolhapuri curries, tangy aamti dal, and comforting bhakri, celebrating Maharashtra’s diverse flavors. Every bite tells a story of tradition, from Peshwa-era delicacies to rustic village-style cooking.",
+      desc: "A balance of fiery Kolhapuri curries, tangy aamti dal, and comforting bhakri, celebrating Maharashtra's diverse flavors. Every bite tells a story of tradition, from Peshwa-era delicacies to rustic village-style cooking.",
     },
     {
       id: 2,
@@ -43,25 +44,29 @@ const Cuisines = () => {
   ];
 
   const handleMouseEnter = (id) => {
-    clearTimeout(timeoutRef.current); // cancel closing if user comes back
+    clearTimeout(timeoutRef.current);
     setHoveredCard(id);
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setHoveredCard(null);
-    }, 1000); // 1 second delay before hiding
-  };
-
-  const handlePopupMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+    // Only start the timeout if we're not hovering the popup
+    if (!isHoveringPopup) {
+      timeoutRef.current = setTimeout(() => {
+        setHoveredCard(null);
+      }, 1000);
     }
   };
 
+  const handlePopupMouseEnter = () => {
+    clearTimeout(timeoutRef.current);
+    setIsHoveringPopup(true);
+  };
+
   const handlePopupMouseLeave = () => {
-    handleMouseLeave();
+    setIsHoveringPopup(false);
+    timeoutRef.current = setTimeout(() => {
+      setHoveredCard(null);
+    }, 1000);
   };
 
   return (
@@ -85,7 +90,7 @@ const Cuisines = () => {
             }}
           >
             <div className="flex flex-col items-center justify-center h-full p-4 gap-5">
-              <h5 className="text-center  secondary-font uppercase text-white! font-bold mb-2">
+              <h5 className="text-center secondary-font uppercase text-white! font-bold mb-2">
                 {cuisine.name}
               </h5>
               <Image
@@ -93,49 +98,50 @@ const Cuisines = () => {
                 alt={cuisine.name}
                 width={20}
                 height={28}
-                className=" w-auto h-auto"
+                className="w-auto h-auto"
               />
             </div>
           </div>
         ))}
-      </div>
-      {hoveredCard && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50"
-          onClick={() => setHoveredCard(null)}
-        >
+
+        {hoveredCard && (
           <div
-            className="bg-white shadow-2xl cusineBoxPop p-6 transform scale-110 transition-transform duration-300 relative overflow-hidden"
-            onMouseEnter={handlePopupMouseEnter}
-            onMouseLeave={handlePopupMouseLeave}
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundImage: `url('/images/${
-                cuisines.find((c) => c.id === hoveredCard)?.img
-              }')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50"
+            onClick={() => setHoveredCard(null)}
           >
-            <div className="h-full flex flex-col items-center justify-center relative">
-              <div className="flex-grow flex flex-col items-center md:gap-10 justify-center rounded-lg p-6 mb-4 text-white">
-                <h3 className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2">
-                  {cuisines.find((c) => c.id === hoveredCard)?.name}
-                </h3>
-                <p className="text-center cuisineExplore font-base-1 primary-font mb-4">
-                  {cuisines.find((c) => c.id === hoveredCard)?.desc}
-                </p>
-                <Button
-                  className="primary-font uppercase text-lg bg-[#e6af55]  text-center cursor-pointer font-semibold"
-                  onClick={() => router.push("/about")}
-                >
-                  <p className="text-[#03141C]! subbtnFont">Explore Now</p>
-                </Button>
+            <div
+              className="bg-white shadow-2xl cusineBoxPop p-6 transform scale-110 transition-transform duration-300 relative overflow-hidden"
+              onMouseEnter={handlePopupMouseEnter}
+              onMouseLeave={handlePopupMouseLeave}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                backgroundImage: `url('/images/${
+                  cuisines.find((c) => c.id === hoveredCard)?.img
+                }')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="h-full flex flex-col items-center justify-center relative">
+                <div className="flex-grow flex flex-col items-center md:gap-10 justify-center rounded-lg p-6 mb-4 text-white">
+                  <h3 className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2">
+                    {cuisines.find((c) => c.id === hoveredCard)?.name}
+                  </h3>
+                  <p className="text-center cuisineExplore font-base-1 primary-font mb-4">
+                    {cuisines.find((c) => c.id === hoveredCard)?.desc}
+                  </p>
+                  <Button
+                    className="primary-font uppercase text-lg bg-[#e6af55] text-center cursor-pointer font-semibold"
+                    onClick={() => router.push("/about")}
+                  >
+                    <p className="text-[#03141C]! subbtnFont">Explore Now</p>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 };

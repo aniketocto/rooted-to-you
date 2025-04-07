@@ -266,7 +266,7 @@ const DatePicker = ({
             <label htmlFor="weekendSelect" className="primary-font font-medium block mb-1">
               Weekends Type
             </label>
-            <SelectTrigger className="border-2 p-2 text-xl h-15 bg-[#e6af55] text-white rounded-md w-full">
+            <SelectTrigger className="border-2 p-2 text-xl h-14! bg-[#e6af55] text-white rounded-md max-w-full w-[365px]">
               <SelectValue placeholder="Select Saturdays secondary-font font-xl" />
             </SelectTrigger>
             <SelectContent className="rounded-lg bg-white text-black shadow-lg">

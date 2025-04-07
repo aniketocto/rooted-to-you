@@ -93,7 +93,7 @@ const formSchema = z.object({
 const DetailForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
@@ -258,8 +258,11 @@ const DetailForm = () => {
           "authenticatedUser",
           JSON.stringify(newStoredUser)
         );
-        
-        router.push("/payment");
+
+        setTimeout(() => {
+          setIsSubmitting(true);
+          router.push("/payment");
+        }, 2000);
       } else {
         throw new Error("Failed to fetch updated user info");
       }
@@ -294,7 +297,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="First Name"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border text-[20px]! h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -313,7 +316,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Last Name"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border text-[20px]! h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -334,7 +337,7 @@ const DetailForm = () => {
                         type="tel"
                         placeholder="Mobile Number"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border text-[20px]! h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={10}
                       />
                     </FormControl>
@@ -354,7 +357,7 @@ const DetailForm = () => {
                         type="email"
                         placeholder="Email Address"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -376,7 +379,7 @@ const DetailForm = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full bg-transparent pl-3 text-left font-normal",
+                              "w-full bg-transparent pl-3 h-12 text-left font-normal",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -406,7 +409,7 @@ const DetailForm = () => {
                             date < new Date("1900-01-01")
                           }
                           classNames={{
-                            root: "w-full max-w-md mx-auto border h-12 border-gray-200 rounded-lg shadow-sm bg-[#197a8a]",
+                            root: "w-full max-w-md mx-auto h-full border h-12 border-gray-200 rounded-lg shadow-sm bg-[#197a8a]",
                             caption:
                               "flex justify-center items-center gap-2 p-2",
                             caption_label: "hidden", // ❌ Hide label
@@ -442,7 +445,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Company"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -463,7 +466,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Department"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -482,7 +485,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="Designation"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -501,7 +504,7 @@ const DetailForm = () => {
                     type="text"
                     placeholder="Address 1"
                     {...field}
-                    className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                    className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                   />
                 </FormControl>
                 <FormMessage className="text-red-500!" />
@@ -518,7 +521,7 @@ const DetailForm = () => {
                     type="text"
                     placeholder="Address 2"
                     {...field}
-                    className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                    className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                   />
                 </FormControl>
                 <FormMessage className="text-red-500!" />
@@ -537,7 +540,7 @@ const DetailForm = () => {
                         type="text"
                         placeholder="City"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={10}
                       />
                     </FormControl>
@@ -557,7 +560,7 @@ const DetailForm = () => {
                         type="number"
                         placeholder="Postal Code"
                         {...field}
-                        className="w-full border h-12 border-gray-400 rounded-md bg-transparent px-3 py-2"
+                        className="w-full border h-12 text-[20px]! border-gray-400 rounded-md bg-transparent px-3 py-2"
                         maxLength={6}
                       />
                     </FormControl>
@@ -576,7 +579,9 @@ const DetailForm = () => {
               className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Processing..." : "Next"}
+              <p className="text-xl text-[#03141C]!  secondary-font">
+                {isSubmitting ? "Processing..." : "Next"}
+              </p>
               {!isSubmitting && (
                 <Image
                   src="/images/right-arrow.png"

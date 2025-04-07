@@ -108,7 +108,7 @@ const Page = () => {
   useEffect(() => {
     const user = localStorage.getItem("authenticatedUser");
     if (!user) {
-      router.replace("/register"); 
+      router.replace("/register");
     }
   }, [router]);
 
@@ -242,6 +242,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
+      // console.log(activeData)
       console.log(activeData);
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
@@ -267,7 +268,7 @@ const Page = () => {
 
       setIsSubmitting(true);
       setTimeout(() => {
-        setDetailFormat((prev) => !prev);
+        router.push("/details");
         setIsSubmitting(false);
       }, 2000);
     } catch (error) {
@@ -287,318 +288,296 @@ const Page = () => {
         quality={100} // Increase quality (0-100)
         className="absolute top-0 z-[-1] w-full"
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-baseline justify-center md:mx-10 mx-5">
-        {detailFormat ? (
-          <div className="flex md:w-1/2 w-full flex-col">
-            <Button
-              variant="ghost"
-              className="w-fit px-5 border-white border cursor-pointer ml-6"
-              onClick={() => setDetailFormat((prev) => !prev)}
+      <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
+        <div className="md:w-1/2 w-full h-full p-6">
+          <h2 className="text-2xl font-bold primary-font">Exectuive Meal</h2>
+          <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="md:w-2/3 w-full space-y-6 mt-10"
             >
-              <p className="flex justify-center items-center gap-5">
-                <Image
-                  src="/images/right-arrow.png"
-                  width={20}
-                  height={20}
-                  alt="Go Back"
-                  className="invert rotate-180"
-                />
-                Go Back
-              </p>
-            </Button>
-            <DetailForm />
-          </div>
-        ) : (
-          <div className="md:w-1/2 w-full h-full p-6">
-            <h2 className="text-2xl font-bold primary-font">Exectuive Meal</h2>
-            <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="md:w-2/3 w-full space-y-6 mt-10"
-              >
-                {/* Meal Time Selection */}
-                <FormField
-                  control={form.control}
-                  name="time"
-                  render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className="font-medium">
-                        SELECT MEAL TIME
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setSelectedTime(value);
-                          }}
-                          defaultValue={field.value}
-                          className="flex gap-4"
-                        >
-                          {/* Lunch Option */}
-                          <FormItem className="flex-1 m-0 p-0 space-y-0">
-                            <FormControl>
-                              <div className="relative w-full">
-                                <RadioGroupItem
-                                  value="lunch"
-                                  id="lunch"
-                                  className="sr-only"
-                                />
-                                <FormLabel
-                                  htmlFor="lunch"
-                                  className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+              {/* Meal Time Selection */}
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className="font-medium">
+                      SELECT MEAL TIME
+                    </FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setSelectedTime(value);
+                        }}
+                        defaultValue={field.value}
+                        className="flex gap-4"
+                      >
+                        {/* Lunch Option */}
+                        <FormItem className="flex-1 m-0 p-0 space-y-0">
+                          <FormControl>
+                            <div className="relative w-full">
+                              <RadioGroupItem
+                                value="lunch"
+                                id="lunch"
+                                className="sr-only"
+                              />
+                              <FormLabel
+                                htmlFor="lunch"
+                                className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "lunch"
                                       ? "bg-[#e6af55] text-white  border-gray-100"
                                       : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                   }`}
-                                >
-                                  <Image
-                                    src="/images/lunch.svg"
-                                    alt="lunch"
-                                    width={5}
-                                    height={5}
-                                    className="w-8"
-                                  />
-                                  Lunch
-                                </FormLabel>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-
-                          {/* Dinner Option */}
-                          <FormItem className="flex-1 m-0 p-0 space-y-0">
-                            <FormControl>
-                              <div className="relative w-full">
-                                <RadioGroupItem
-                                  value="dinner"
-                                  id="dinner"
-                                  className="sr-only"
+                              >
+                                <Image
+                                  src="/images/lunch.svg"
+                                  alt="lunch"
+                                  width={5}
+                                  height={5}
+                                  className="w-8"
                                 />
-                                <FormLabel
-                                  htmlFor="dinner"
-                                  className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+                                Lunch
+                              </FormLabel>
+                            </div>
+                          </FormControl>
+                        </FormItem>
+
+                        {/* Dinner Option */}
+                        <FormItem className="flex-1 m-0 p-0 space-y-0">
+                          <FormControl>
+                            <div className="relative w-full">
+                              <RadioGroupItem
+                                value="dinner"
+                                id="dinner"
+                                className="sr-only"
+                              />
+                              <FormLabel
+                                htmlFor="dinner"
+                                className={`flex justify-center  items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                   ${
                                     selectedTime === "dinner"
                                       ? "bg-[#e6af55] text-white border-gray-100"
                                       : "border-gray-200 hover:bg-gray-500 hover:text-white hover:border-gray-900"
                                   }`}
-                                >
-                                  <Image
-                                    src="/images/dinner.svg"
-                                    alt="lunch"
-                                    width={20}
-                                    height={10}
-                                    className="w-8"
-                                  />
-                                  Dinner
-                                </FormLabel>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage className="text-red-500!" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Meal Type Selection */}
-                <FormField
-                  control={form.control}
-                  name="dietType"
-                  render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className="font-medium">
-                        SELECT MEAL TYPE
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setSelectedFoodType(value);
-                          }}
-                          defaultValue={field.value}
-                          className="flex gap-4"
-                        >
-                          {/* Veg Option */}
-                          <FormItem className="flex-1 m-0 p-0 space-y-0">
-                            <FormControl>
-                              <div className="relative w-full">
-                                <RadioGroupItem
-                                  value="veg"
-                                  id="veg"
-                                  className="sr-only"
+                              >
+                                <Image
+                                  src="/images/dinner.svg"
+                                  alt="lunch"
+                                  width={20}
+                                  height={10}
+                                  className="w-8"
                                 />
-                                <FormLabel
-                                  htmlFor="veg"
-                                  className={`flex justify-center items-center gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+                                Dinner
+                              </FormLabel>
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage className="text-red-500!" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Meal Type Selection */}
+              <FormField
+                control={form.control}
+                name="dietType"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className="font-medium">
+                      SELECT MEAL TYPE
+                    </FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setSelectedFoodType(value);
+                        }}
+                        defaultValue={field.value}
+                        className="flex gap-4"
+                      >
+                        {/* Veg Option */}
+                        <FormItem className="flex-1 m-0 p-0 space-y-0">
+                          <FormControl>
+                            <div className="relative w-full">
+                              <RadioGroupItem
+                                value="veg"
+                                id="veg"
+                                className="sr-only"
+                              />
+                              <FormLabel
+                                htmlFor="veg"
+                                className={`flex justify-center items-center gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
                                     : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                 }`}
-                                >
-                                  <Image
-                                    src="/images/veg.svg"
-                                    alt="veg"
-                                    width={6}
-                                    height={6}
-                                    className="w-8"
-                                  />
-                                  Veg
-                                </FormLabel>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-
-                          {/* Non-Veg Option */}
-                          <FormItem className="flex-1 m-0 p-0 space-y-0">
-                            <FormControl>
-                              <div className="relative w-full">
-                                <RadioGroupItem
-                                  value="non_veg"
-                                  id="non_veg"
-                                  className="sr-only"
+                              >
+                                <Image
+                                  src="/images/veg.svg"
+                                  alt="veg"
+                                  width={6}
+                                  height={6}
+                                  className="w-8"
                                 />
-                                <FormLabel
-                                  htmlFor="non_veg"
-                                  className={`flex justify-center  items-center  gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+                                Veg
+                              </FormLabel>
+                            </div>
+                          </FormControl>
+                        </FormItem>
+
+                        {/* Non-Veg Option */}
+                        <FormItem className="flex-1 m-0 p-0 space-y-0">
+                          <FormControl>
+                            <div className="relative w-full">
+                              <RadioGroupItem
+                                value="non_veg"
+                                id="non_veg"
+                                className="sr-only"
+                              />
+                              <FormLabel
+                                htmlFor="non_veg"
+                                className={`flex justify-center  items-center  gap-3 text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                                 ${
                                   selectedFoodType === "non_veg"
                                     ? "bg-[#e6af55] text-white border-gray-100"
                                     : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                                 }`}
-                                >
-                                  <Image
-                                    src="/images/nveg.svg"
-                                    alt="Non veg"
-                                    width={25}
-                                    height={10}
-                                    className="w-6"
-                                  />
-                                  Non Veg
-                                </FormLabel>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage className="text-red-500!" />
-                    </FormItem>
-                  )}
-                />
+                              >
+                                <Image
+                                  src="/images/nveg.svg"
+                                  alt="Non veg"
+                                  width={25}
+                                  height={10}
+                                  className="w-6"
+                                />
+                                Non Veg
+                              </FormLabel>
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage className="text-red-500!" />
+                  </FormItem>
+                )}
+              />
 
-                {/* Date Selection */}
-                <FormField
-                  control={form.control}
-                  name="selectedDates"
-                  render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className="font-medium">
-                        SELECT YOUR MEAL DATES
-                      </FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          onDateChange={(dates) => {
-                            if (Array.isArray(dates) && dates.length > 0) {
-                              setHighlightedDates(dates);
-                              const startDate = dates[0];
-                              const endDate = dates[dates.length - 1];
+              {/* Date Selection */}
+              <FormField
+                control={form.control}
+                name="selectedDates"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className="font-medium">
+                      SELECT YOUR MEAL DATES
+                    </FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        onDateChange={(dates) => {
+                          if (Array.isArray(dates) && dates.length > 0) {
+                            setHighlightedDates(dates);
+                            const startDate = dates[0];
+                            const endDate = dates[dates.length - 1];
 
-                              form.setValue(
-                                "selectedDates",
-                                {
-                                  startDate,
-                                  endDate,
-                                  count: dates.length,
-                                },
-                                {
-                                  shouldValidate: true,
-                                }
-                              );
-                              form.setValue("selectedDatesArray", dates);
-                            }
-                          }}
-                          onWeekendRuleChange={(rule) => {
-                            setWeekendRule(rule);
-                            form.setValue("weekendType", rule);
-                          }}
-                          onSelectedDaysChange={(days) => {
-                            setSelectedDuration(days);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                            form.setValue(
+                              "selectedDates",
+                              {
+                                startDate,
+                                endDate,
+                                count: dates.length,
+                              },
+                              {
+                                shouldValidate: true,
+                              }
+                            );
+                            form.setValue("selectedDatesArray", dates);
+                          }
+                        }}
+                        onWeekendRuleChange={(rule) => {
+                          setWeekendRule(rule);
+                          form.setValue("weekendType", rule);
+                        }}
+                        onSelectedDaysChange={(days) => {
+                          setSelectedDuration(days);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <Button
-                  type="submit"
-                  className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Processing..." : "Next"}
-                  {!isSubmitting && (
-                    <Image
-                      src="/images/right-arrow.png"
-                      alt="right-arrow"
-                      width={20}
-                      height={15}
-                    />
-                  )}
-                </Button>
-              </form>
-            </Form>
-          </div>
-        )}
+              <Button
+                type="submit"
+                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-xl text-[#03141C] text-center"
+                disabled={isSubmitting}
+              >
+                <p className="text-xl text-[#03141C]!  secondary-font">{isSubmitting ? "Processing..." : "Next"}</p>
+                {!isSubmitting && (
+                  <Image
+                    src="/images/right-arrow.png"
+                    alt="right-arrow"
+                    width={20}
+                    height={15}
+                  />
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
 
-        <div className="lg:w-1/2 w-full lg:sticky top-[10%] self-start px-4 mt-[5%]">
-          <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
-            <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
+        <div className="lg:w-[40%] w-full lg:sticky top-[10%] self-start px-4 mt-[5%]">
+          <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
+            <h2 className="text-2xl! primary-font font-bold border-b border-white pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Plan</span>
-                <span className="capitalize font-base secondary-font">
+                <span className="font-base primary-font">Meal Plan</span>
+                <span className="capitalize font-base primary-font">
                   Executive
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Time</span>
-                <span className="capitalize font-base secondary-font">
-                  {selectedTime}
+                <span className="font-base primary-font">Meal Time</span>
+                <span className="capitalize font-base primary-font">
+                  {selectedTime || "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Type</span>
-                <span className="capitalize font-base secondary-font">
-                  {selectedFoodType}
+                <span className="font-base primary-font">Meal Type</span>
+                <span className="capitalize font-base primary-font">
+                  {selectedFoodType || "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Duration</span>
-                <span className="font-base secondary-font">
+                <span className="font-base primary-font">Duration</span>
+                <span className="font-base primary-font">
                   {selectedDuration === 7
                     ? "1 Week"
                     : selectedDuration
                     ? "1 Month"
-                    : ""}
+                    : "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Start date</span>
-                <span className="font-base secondary-font">
+                <span className="font-base primary-font">Start date</span>
+                <span className="font-base primary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[0].toDateString()
                     : "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">End date</span>
-                <span className="font-base secondary-font">
+                <span className="font-base primary-font">End date</span>
+                <span className="font-base primary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[
                         highlightedDates.length - 1
@@ -608,31 +587,31 @@ const Page = () => {
               </div>
             </div>
 
-            <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mt-4 mb-3 text-orange-300">
+            <h2 className="text-2xl! primary-font font-bold  border-y border-white py-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Sub Total</span>
-                <span className="font-base secondary-font">₹{basePrice}</span>
+                <span className="font-base primary-font">Sub Total</span>
+                <span className="font-base primary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">
+                <span className="font-base primary-font">
                   Delivery Charges
                 </span>
-                <span className="font-base secondary-font">
+                <span className="font-base primary-font">
                   ₹{deliveringPrices}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Tax</span>
-                <span className="font-base secondary-font">₹{taxAmount}</span>
+                <span className="font-base primary-font">Tax</span>
+                <span className="font-base primary-font">₹{taxAmount}</span>
               </div>
             </div>
 
-            <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span className="font-base secondary-font">Grand Total</span>
-              <span className="font-base secondary-font">₹{total}</span>
+            <div className="border-t border-white mt-4 pt-2 text-lg font-semibold flex justify-between">
+              <span className="font-base primary-font">Grand Total</span>
+              <span className="font-base primary-font">₹{total}</span>
             </div>
           </div>
         </div>

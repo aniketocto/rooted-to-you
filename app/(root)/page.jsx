@@ -49,7 +49,7 @@ export default function Home() {
         />
       </div>
       {/* Cusines */}
-      <div className="w-full h-full mt-[-15%]">
+      <div className="w-full h-full mt-[-22%]">
         <Cuisines />
       </div>
 
@@ -75,7 +75,7 @@ export default function Home() {
               className="flex flex-col justify-center items-center gap-2 relative"
             >
               <h1 className="secondary-font">{value}</h1>
-              <p className="secondary-font xl:text-3xl md: text-center">
+              <p className="primary-font xl:text-3xl md: text-center">
                 {text}
               </p>
 

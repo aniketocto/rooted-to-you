@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -22,7 +23,14 @@
 @font-face {
   font-family: "Minion";
   src: url("/fonts/Minion-Regular.otf") format("opentype");
-  font-weight: normal;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Minion";
+  src: url("/fonts/MinionPro-Bold.otf") format("opentype");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -76,6 +84,9 @@ p {
   .secondary-color {
     background-color: var(--secondary-color);
   }
+  .header-font {
+    font-family: "Crimson Pro", serif;
+  }
   .primary-font {
     font-family: "Karma", sans-serif;
     line-height: normal;
@@ -84,7 +95,8 @@ p {
     font-family: "Minion", sans-serif;
     line-height: normal;
   }
-  h2, h3 {
+  h2,
+  h3 {
     letter-spacing: 1px;
   }
   .font-base {
@@ -180,7 +192,9 @@ p {
 .rdp-vhidden {
   display: none !important;
 }
-
+h2 {
+  line-height: normal;
+}
 .btnfont {
   font-size: 25px;
   margin-top: 5px;
@@ -201,6 +215,8 @@ p {
   width: 500px;
   height: 500px;
 }
+
+
 
 @media screen and (min-width: 1600px) {
   .cusineBox {
@@ -375,6 +391,9 @@ p {
   }
   .subbtnFont {
     font-size: 20px;
+  }
+  .detailWidth {
+    width: 100%;
   }
 }
 
