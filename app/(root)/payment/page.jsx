@@ -315,9 +315,7 @@ const Page = () => {
         description: "Meal Order",
         order_id: data.id, //orderId here
         handler: async function (response) {
-          alert(
-            "✅ Payment Successful! Payment ID: " + response.razorpay_payment_id
-          );
+          
           try {
             const successResponse = await fetch(
               `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/success`,
@@ -338,8 +336,8 @@ const Page = () => {
 
             const result = await successResponse.json();
             console.log("✅ Payment Success API Response:", result);
-            clearPaymentSession();
             router.push("/profile");
+            clearPaymentSession();
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
