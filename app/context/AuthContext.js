@@ -50,12 +50,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
 
-  const login = async (userData) => {
-    // Save the token/id immediately
-    setUser(userData);
+   const login = async (userData) => {
     localStorage.setItem("authenticatedUser", JSON.stringify(userData));
 
-    // Then fetch full profile using the saved token
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${userData.id}`,
@@ -70,9 +67,17 @@ export const AuthProvider = ({ children }) => {
       if (!res.ok) throw new Error("Failed to fetch full user data");
 
       const result = await res.json();
-      setUser(result.data); // Now includes firstName, lastName, etc.
+
+      // Save complete user profile
+      const fullUser = {
+        ...result.data,
+        token: userData.token, // include token again
+      };
+      setUser(fullUser);
+      localStorage.setItem("authenticatedUser", JSON.stringify(fullUser));
     } catch (error) {
       console.error("Error fetching full user after login:", error);
+      setUser(userData); // fallback to basic info
     }
   };
 
