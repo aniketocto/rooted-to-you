@@ -260,8 +260,8 @@ const DetailForm = () => {
         );
 
         setTimeout(() => {
-          setIsSubmitting(true);
           router.push("/payment");
+          setIsSubmitting(false);
         }, 2000);
       } else {
         throw new Error("Failed to fetch updated user info");
