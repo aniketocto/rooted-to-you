@@ -27,29 +27,29 @@ import { format } from "date-fns";
 
 const cuisineChoice = [
   {
-    id: "1",
-    itemCode: "M",
-    label: "Maharshtra",
+    id: "6",
+    itemCode: "R",
+    label: "Random",
   },
   {
-    id: "2",
-    itemCode: "B",
-    label: "Bengali",
+    id: "6",
+    itemCode: "R",
+    label: "Random",
   },
   {
-    id: "3",
-    itemCode: "S",
-    label: "South Indian",
+    id: "6",
+    itemCode: "R",
+    label: "Random",
   },
   {
-    id: "4",
-    itemCode: "G",
-    label: "Gujrati",
+    id: "6",
+    itemCode: "R",
+    label: "Random",
   },
   {
-    id: "5",
-    itemCode: "P",
-    label: "Punjabi",
+    id: "6",
+    itemCode: "R",
+    label: "Random",
   },
 ];
 
