@@ -9,16 +9,15 @@ const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section
-        className="relative w-full h-dvh flex flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-center"
-      >
-
+      <section className="relative w-full h-dvh  flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-center hidden md:flex">
         <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
           <h1 className="secondary-font font-bold text-5xl md:text-7xl!">
             Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
           </h1>
         </div>
       </section>
+
+      <img src="/images/aboutMob.png" alt="" className="block md:hidden w-full mb-5" />
 
       <section className="w-full h-full px-8 md:px-32 mb-28 text-center">
         <p className="primary-font font-base-1">
@@ -81,7 +80,12 @@ const Page = () => {
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
             <h2 className="secondary-font text-2xl font-semibold">Vission</h2>
             <p className="primary-font font-base-1 text-left">
-            To redefine everyday dining by making fresh, nutritious, and expertly curated meals easily accessible to those with busy lifestyles. Rooted to You envisions a world where people no longer rely on unhealthy takeouts or struggle with meal prep—where wholesome, restaurant-quality food is just a doorstep away, offering convenience without compromise.
+              To redefine everyday dining by making fresh, nutritious, and
+              expertly curated meals easily accessible to those with busy
+              lifestyles. Rooted to You envisions a world where people no longer
+              rely on unhealthy takeouts or struggle with meal prep—where
+              wholesome, restaurant-quality food is just a doorstep away,
+              offering convenience without compromise.
             </p>
           </div>
         </div>
@@ -93,7 +97,9 @@ const Page = () => {
           className="primary-font uppercase font-base-1 mb-28 bg-[#e6af55] p-5 flex items-center justify-center text-center cursor-pointer font-semibold"
           onClick={() => router.push("/order")}
         >
-          <p className="text-[#03141c]! text-xl secondary-font">Subscribe Now</p>
+          <p className="text-[#03141c]! text-xl secondary-font">
+            Subscribe Now
+          </p>
         </Button>
       </div>
     </>
