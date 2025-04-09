@@ -78,7 +78,7 @@ const Page = () => {
             />
           </div>
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
-            <h2 className="secondary-font text-2xl font-semibold">Vission</h2>
+            <h2 className="secondary-font text-2xl font-semibold">Vision</h2>
             <p className="primary-font font-base-1 text-left">
               To redefine everyday dining by making fresh, nutritious, and
               expertly curated meals easily accessible to those with busy

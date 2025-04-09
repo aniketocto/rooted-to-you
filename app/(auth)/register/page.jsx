@@ -218,7 +218,7 @@ const Page = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="w-[30%] block text-[12px]! bg-[#03141c] pl-2 absolute left-5 top-[-5%]">
+                      <FormLabel className="w-fit block text-[12px]! bg-[#03141c] px-2 absolute left-5 top-[-5%]">
                         Mobile Number
                       </FormLabel>
                       <FormControl>

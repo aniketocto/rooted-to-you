@@ -61,9 +61,9 @@ const FormSchema = z.object({
     required_error: "Please select food type.",
   }),
   cuisineChoice: z
-  .array(z.string())
-  .min(1, "Select at least 1 cuisine")
-  .max(3, "You can select up to 3 cuisines"),
+    .array(z.string())
+    .min(1, "Select at least 1 cuisine")
+    .max(3, "You can select up to 3 cuisines"),
 
   selectedDates: z.object(
     {
@@ -238,7 +238,7 @@ const Page = () => {
       dietType: selectedFoodType,
       weekendType: weekendType,
     };
-    console.log(userData?.id)
+    console.log(userData?.id);
     const sessionData = {
       ...updatedData,
       daysCount,
@@ -264,7 +264,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-      console.log(activeData)
+      console.log(activeData);
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
@@ -305,15 +305,19 @@ const Page = () => {
 
   return (
     <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
-      <Image
+      {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100} // Increase quality (0-100)
         className="absolute top-0 z-[-1] w-full"
+      /> */}
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        alt=""
       />
-
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
           <h2 className="text-2xl font-bold primary-font">Presidential Meal</h2>
@@ -321,7 +325,7 @@ const Page = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="md:w-2/3 w-full space-y-6 mt-10"
+              className="lg:w-2/3 w-full space-y-6 mt-10"
             >
               {/* Meal Time Selection */}
               <FormField
@@ -505,13 +509,15 @@ const Page = () => {
                 name="cuisineChoice"
                 render={() => (
                   <FormItem>
-                    <div className="mb-4">
+                    <div className="mb-4 w-[90%]">
                       <FormLabel className="text-base font-medium flex justify-between items-center">
                         SELECT CUISINE
-                        <p className="text-[#e6af5z]!">Select Any 3 Cuisines</p>
+                        <p className="text-[#e6af5z]!">
+                          You can select upto 3 Cuisines
+                        </p>
                       </FormLabel>
                     </div>
-                    <div className="flex flex-wrap gap-3  w-full xl:w-[600px]">
+                    <div className="flex flex-wrap gap-3  w-full lg:w-[600px]">
                       {cuisineChoice.map(({ id, label }) => (
                         <FormItem key={id} className="w-44">
                           <FormControl>
@@ -678,9 +684,10 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
-                  ₹{deliveringPrices}
+                  ₹{selectedDuration ? deliveringPrices : 0}
                 </span>
               </div>
+
               <div className="flex justify-between">
                 <span className="font-base primary-font">GST</span>
                 <span className="font-base primary-font">₹{taxAmount}</span>
