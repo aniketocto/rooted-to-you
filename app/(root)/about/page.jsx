@@ -10,12 +10,11 @@ const Page = () => {
   return (
     <>
       <section
-        className="relative w-full md:h-[900px] flex flex-col justify-center items-start mb-32 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/about-banner.jpg')" }}
+        className="relative w-full h-dvh flex flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-center"
       >
 
         <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
-          <h1 className="secondary-font font-bold text-3xl md:text-7xl!">
+          <h1 className="secondary-font font-bold text-5xl md:text-7xl!">
             Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
           </h1>
         </div>

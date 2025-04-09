@@ -149,7 +149,7 @@ const DatePicker = ({
 
   return (
     <div className="relative flex flex-col items-start">
-      <div className="relative shadow-lg rounded-lg z-10">
+      <div className="relative shadow-lg flex justify-center flex-col rounded-lg z-10">
         <div className="mb-3 flex gap-4">
           <RadioGroup
             value={selectedDays?.toString() || ""}
@@ -263,7 +263,10 @@ const DatePicker = ({
             }}
             className="border-0"
           >
-            <label htmlFor="weekendSelect" className="primary-font font-medium block mb-1">
+            <label
+              htmlFor="weekendSelect"
+              className="primary-font font-medium block mb-1"
+            >
               Weekends Type
             </label>
             <SelectTrigger className="border-2 p-2 text-xl h-14! bg-[#e6af55] text-white rounded-md max-w-full w-[365px]">

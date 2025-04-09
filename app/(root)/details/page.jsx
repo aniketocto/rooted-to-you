@@ -33,16 +33,21 @@ const page = () => {
     }
   }, [router]);
   return (
-    <section className="w-full h-fit flex secondary-font justify-center items-center mt-52 mb-16">
-      <Image
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-20 lg:mt-52 lg:mb-20">
+      {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100} // Increase quality (0-100)
         className="absolute top-0 z-[-1] w-full"
+      /> */}
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        alt=""
       />
-      <div className="max-w-[1290px] w-full h-full flex flex-col md:flex-row items-end justify-center md:mx-10 mx-5">
+      <div className="max-w-[1290px] w-full h-full flex flexCol flex-col md:flex-row items-end justify-center md:mx-10 mx-5">
         <div className="flex detailWidth flex-1">
           <DetailForm />
         </div>
@@ -101,9 +106,7 @@ const page = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">
-                  Delivery Charges
-                </span>
+                <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
                   ₹{Math.round(shippingAmount)}
                 </span>

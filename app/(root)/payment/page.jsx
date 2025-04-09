@@ -13,6 +13,7 @@ import { useAuth } from "@/app/context/AuthContext";
 
 const Page = () => {
   const { user } = useAuth();
+  const [userData, setUserData] = useState(null);
   const router = useRouter();
   const { clearPaymentSession, paymentSession } = usePaymentContext();
 
@@ -74,10 +75,9 @@ const Page = () => {
       const parsedUser = JSON.parse(storedUser);
       setToken(parsedUser.token);
       setWalletUsedAmount(parsedUser.wallet || 0);
-
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/users/profile`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${parsedUser.id}`,
           {
             method: "GET",
             headers: {
@@ -88,14 +88,15 @@ const Page = () => {
         );
 
         const data = await res.json();
+        setUserData(data);
+        console.log(data);
       } catch (err) {
-        // console.error("❌ Error fetching user details:", err);
+        console.error("❌ Error fetching user details:", err);
       }
     };
 
     fetchUserDetails();
   }, []);
-  console.log(token)
   useEffect(() => {
     if (!paymentSession?.sessionActive) {
       console.warn("🔒 Payment session not active, redirecting...");
@@ -118,7 +119,7 @@ const Page = () => {
 
     fetchCoupons();
   }, []);
-
+  console.log(availableCoupons);
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       setCouponMessage("Please enter a coupon code");
@@ -218,8 +219,7 @@ const Page = () => {
     let couponDiscount = 0;
     if (couponValid && activeCoupon) {
       if (activeCoupon.discountType === "percentage") {
-        couponDiscount =
-          (totalBeforeDiscounts * parseFloat(activeCoupon.value)) / 100;
+        couponDiscount = (basePrice * parseFloat(activeCoupon.value)) / 100;
       } else if (activeCoupon.discountType === "fixed") {
         couponDiscount = parseFloat(activeCoupon.value);
       }
@@ -256,6 +256,7 @@ const Page = () => {
     activeCoupon,
   ]);
   const amountInPaise = finalPrice * 100;
+  const amountWallet = redeemWallet ? walletUsedAmount : 0;
   const handlePayment = async () => {
     setIsProcessing(true);
 
@@ -266,7 +267,7 @@ const Page = () => {
         shippingAmount: shippingAmount,
         discount: discountedAmount || 0,
         gst: tax,
-        walletAmount: walletUsedAmount || 0,
+        walletAmount: amountWallet,
         couponCode: couponCode,
         subscriptionType: subscriptionType,
         boxId: boxId,
@@ -315,7 +316,6 @@ const Page = () => {
         description: "Meal Order",
         order_id: data.id, //orderId here
         handler: async function (response) {
-          
           try {
             const successResponse = await fetch(
               `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/success`,
@@ -333,11 +333,10 @@ const Page = () => {
                 }),
               }
             );
-
-            const result = await successResponse.json();
-            console.log("✅ Payment Success API Response:", result);
             router.push("/profile");
-            clearPaymentSession();
+            setTimeout(() => {
+              clearPaymentSession();
+            }, 300);
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
@@ -392,7 +391,7 @@ const Page = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-52">
+    <section className="w-full h-fit flex justify-center items-center my-20 lg:mt-48 lg:mb-20">
       <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -403,14 +402,14 @@ const Page = () => {
       />
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5">
-        <div className="w-full my-10 px-5">
-          <h2 className="text-2xl font-bold primary-font text-left w-full">
+        <div className="w-full my-10 md:px-5">
+          <h2 className="text-3xl font-bold primary-font text-left w-full">
             Order Summary
           </h2>
           <Separator className="w-full h-[3px] bg-[#197A8A99]" />
         </div>
 
-        <div className="max-w-[1440px] w-[90%] flex flex-col md:flex-row items-start md:gap-10 md:mx-10 mx-5">
+        <div className="max-w-[1440px] md:w-[90%] w-full flex flex-col md:flex-row items-start md:gap-10 md:mx-10">
           {/* Personal Details */}
           <div className="md:w-1/2 w-full p-6">
             <h2 className="text-2xl! font-bold primary-font">
@@ -420,18 +419,18 @@ const Page = () => {
 
             <div className="space-y-2 text-sm my-8">
               <div className="flex justify-between">
-                <span>Full Name</span>
-                <span>
-                  {user?.firstName} {user?.lastName}
+                <span className="font-base secondary-font capitalize">Full Name</span>
+                <span className="font-base secondary-font capitalize">
+                  {userData?.data.firstName} {userData?.data.lastName}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span>Mobile No.</span>
-                <span>{user?.phoneNumber}</span>
+                <span className="font-base secondary-font capitalize">Mobile No.</span>
+                <span className="font-base secondary-font capitalize">{userData?.data.phoneNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span>Email Address</span>
-                <span>{user?.email}</span>
+                <span className="font-base secondary-font capitalize">Email Address</span>
+                <span className="font-base secondary-font">{userData?.data.email}</span>
               </div>
             </div>
 
@@ -442,14 +441,14 @@ const Page = () => {
 
             <div className="space-y-2 text-sm my-8">
               <div className="flex justify-start gap-5">
-                <span>Address:</span>
-                <span>
-                  {user?.address1} {user?.address2}
+                <span className="font-base secondary-font capitalize">Address:</span>
+                <span className="font-base secondary-font capitalize">
+                  {userData?.data.address1} {userData?.data.address2}
                 </span>
               </div>
               <div className="flex justify-start gap-12">
-                <span>City</span>
-                <span>{user?.city}</span>
+                <span className="font-base secondary-font capitalize">City</span>
+                <span className="font-base secondary-font capitalize">{userData?.data.city}</span>
               </div>
             </div>
 
@@ -498,9 +497,14 @@ const Page = () => {
                 />
                 <Button
                   onClick={handleApplyCoupon}
-                  className="bg-[#197A8A] hover:bg-[#156b79] text-white"
+                  disabled={!couponCode.trim() || couponMessage}
+                  className={`text-white transition-colors py-6 ${
+                    !couponCode.trim() || couponMessage
+                      ? "bg-gray-300 "
+                      : "bg-[#e6af55] hover:bg-[#d49c3e] cursor-pointer"
+                  }`}
                 >
-                  Apply
+                  <p className="font-base secondary-font text-[#03141C]!">Apply</p>
                 </Button>
               </div>
               {couponMessage && (
@@ -525,7 +529,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="lg:w-1/2 w-full lg:sticky top-20 self-start px-4">
+          <div className="lg:w-1/2 w-full self-start px-4">
             <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
               <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
                 Details for lunch
@@ -576,7 +580,7 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Sub Total</span>
                   <span className="font-base secondary-font">
-                    ₹{(amount || 0).toFixed(2)}
+                    ₹{(amount || 0)}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -593,7 +597,7 @@ const Page = () => {
                       Discount Amount
                     </span>
                     <span className="font-base secondary-font text-red-500">
-                      - ₹{discountedAmount.toFixed(2)}
+                      - ₹{discountedAmount}
                     </span>
                   </div>
                 )}

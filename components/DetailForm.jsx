@@ -128,6 +128,7 @@ const DetailForm = () => {
 
       setIsAuthorized(true);
       setIsLoading(true);
+      console.log("Local Data", storedUser)
 
       try {
         const res = await fetch(
@@ -142,6 +143,7 @@ const DetailForm = () => {
 
         const result = await res.json();
         const userData = result?.data;
+        console.log("userData", userData)
 
         if (res.ok && userData) {
           const hasUserInfo =
@@ -259,6 +261,8 @@ const DetailForm = () => {
           JSON.stringify(newStoredUser)
         );
 
+        console.log("Updatedlocal", newStoredUser)
+
         setTimeout(() => {
           router.push("/payment");
           setIsSubmitting(false);
@@ -269,9 +273,7 @@ const DetailForm = () => {
     } catch (error) {
       console.error("Profile Update Error:", error.message);
       setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
   }
 
   if (isLoading) return <LoadingSpinner />;

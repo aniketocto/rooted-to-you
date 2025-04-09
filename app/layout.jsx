@@ -1,8 +1,8 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "./context/AuthContext";
 import { PaymentProvider } from "./context/PaymentContext";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "Create Next App",

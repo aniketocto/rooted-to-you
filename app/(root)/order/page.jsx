@@ -25,23 +25,27 @@ const OrderPage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-52">
-      <Image
+    <section className="w-full h-fit flex justify-center items-center my-32 lg:mt-52 lg:mb-20">
+      {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100}
-        className="absolute top-0 z-[-1] opacity-50 w-full"
-      />
+        className="absolute w-full top-0 z-[-1] "
+        style={{
+          objectFit: "cover"
+        }}
+      /> */}
+      <img src="/images/nav-bg.jpg" className="absolute w-full h-1/3 object-cover z-[-1] top-0" alt="" />
       <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
-          <img
-            src="/images/about-deco.png"
-            alt="Section Divider"
-            className="w-full absolute"
-          />
-        </div>
-      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start md:mx-10 mx-5 gap-32">
+        <img
+          src="/images/about-deco.png"
+          alt="Section Divider"
+          className="w-full absolute"
+        />
+      </div>
+      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start md:mx-10 mx-5 xl:gap-32 gap-10">
         {/* Executive Meal */}
         <div className="flex justify-start items-start flex-col flexCol md:flex-row gap-5">
           <div className="rounded-md w-full md:w-1/2 h-full overflow-hidden">
@@ -89,7 +93,7 @@ const OrderPage = () => {
             </Button>
           </div>
         </div>
-        
+
         {/* Presidential Meal */}
         <div className="flex justify-start items-start flex-col flexCol md:flex-row-reverse gap-10">
           <div className="rounded-md w-full md:w-1/2 h-full overflow-hidden">

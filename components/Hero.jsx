@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import Image from "next/image";
 
 const formSchema = z.object({
   zipCode: z
@@ -66,13 +67,29 @@ const Hero = () => {
   };
 
   return (
-    <section className="w-full h-full flex justify-center items-center">
-      <div className="hero-bg  w-full h-dvh flex flex-col items-start justify-center px-0 sm:px-10">
-        <div className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-5">
+    <section className="w-full h-dvh flex justify-center items-center">
+      <Image
+        src="/images/Hero-Banner-1.jpg"
+        alt="banner"
+        width={1420}
+        height={0}
+        quality={100}
+        className="w-full absolute top-0 z-[-1] pointer-events-none hidden md:block"
+      />
+      <Image
+        src="/images/mobNav1.png"
+        alt="banner"
+        width={786}
+        height={1000}
+        quality={100}
+        className="w-full h-[750px] mobBanner absolute top-0 z-[-1] pointer-events-none block md:hidden"
+      />
+      <div className=" w-full h-full flex flex-col items-start justify-center px-0 sm:px-10">
+        <div className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-5">
           <h1 className="secondary-font text-[#E6AF55] font-bold">
             Eat. Connect. Celebrate.
           </h1>
-          <p className="primary-font font-base mb-5">
+          <p className="primary-font hero-font font-base mb-5">
             Say goodbye to unhealthy takeouts and meal-prep stress. Rooted to
             You brings expertly curated, fresh, and nutritious meals straight to
             your doorstep. Whether at home or the office, enjoy

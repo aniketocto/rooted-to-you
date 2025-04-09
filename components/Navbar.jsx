@@ -24,7 +24,7 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const { clearPaymentSession } = usePaymentContext();
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -47,7 +47,7 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrollY]);
-
+  if (loading) return null;
   return (
     <div
       className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 navPadding ${

@@ -60,9 +60,11 @@ const FormSchema = z.object({
   dietType: z.enum(["veg", "non_veg"], {
     required_error: "Please select food type.",
   }),
-  cuisineChoice: z.array(z.string()).refine((value) => value.length >= 3, {
-    message: "Select upto 3 cuisines.",
-  }),
+  cuisineChoice: z
+  .array(z.string())
+  .min(1, "Select at least 1 cuisine")
+  .max(3, "You can select up to 3 cuisines"),
+
   selectedDates: z.object(
     {
       startDate: z.date(),
@@ -96,7 +98,6 @@ const Page = () => {
   const [selectedDuration, setSelectedDuration] = useState(7);
   const [weekendType, setWeekendRule] = useState("all");
   const [highlightedDates, setHighlightedDates] = useState([]);
-  const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
@@ -237,7 +238,7 @@ const Page = () => {
       dietType: selectedFoodType,
       weekendType: weekendType,
     };
-
+    console.log(userData?.id)
     const sessionData = {
       ...updatedData,
       daysCount,
@@ -255,15 +256,15 @@ const Page = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
           },
-          body: JSON.stringify({
-            startDate: data.selectedDates?.startDate,
-          }),
+          // body: JSON.stringify({
+          //   startDate: data.selectedDates?.startDate,
+          // }),
         }
       );
 
       const activeData = await activeRes.json();
+      console.log(activeData)
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
@@ -289,7 +290,7 @@ const Page = () => {
 
       setIsSubmitting(true);
       setTimeout(() => {
-        router.push('/details')
+        router.push("/details");
         setIsSubmitting(false);
       }, 2000);
     } catch (error) {
@@ -597,7 +598,9 @@ const Page = () => {
                 className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
                 disabled={isSubmitting}
               >
-                <p className="text-xl text-[#03141C]!  secondary-font">{isSubmitting ? "Processing..." : "Next"}</p>
+                <p className="text-xl text-[#03141C]!  secondary-font">
+                  {isSubmitting ? "Processing..." : "Next"}
+                </p>
                 {!isSubmitting && (
                   <Image
                     src="/images/right-arrow.png"
@@ -673,9 +676,7 @@ const Page = () => {
                 <span className="font-base primary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">
-                  Delivery Charges
-                </span>
+                <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
                   ₹{deliveringPrices}
                 </span>

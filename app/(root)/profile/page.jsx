@@ -22,6 +22,7 @@ const ProfilePage = () => {
     }
   }, []);
 
+  console.log(customerId);
   useEffect(() => {
     const fetchProfileAndSubscription = async () => {
       if (!customerId) return;
@@ -111,14 +112,19 @@ const ProfilePage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-16 px-5 ">
-      <Image
+    <section className="w-full h-fit flex justify-center items-center md:my-16 px-5 ">
+      {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100}
         className="absolute top-0 z-[-1] w-full"
+      /> */}
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        alt=""
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32 ">
         {/* Profile & Preferences Section */}
@@ -192,7 +198,7 @@ const ProfilePage = () => {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div>
                   <h4 className="text-lg secondary-font mb-1">Plan:</h4>
-                   <p className="text-lg">
+                  <p className="text-lg">
                     {activeSubscription.id === 1 ? "Executive" : "Presidential"}
                   </p>
                 </div>
@@ -240,10 +246,16 @@ const ProfilePage = () => {
               />
             </div>
             <div className="flex justify-start gap-4 mb-4">
-              <button className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md">
+              <button
+                onClick={() => handleFeatureUnavailable("Update")}
+                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
+              >
                 Date
               </button>
-              <button className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md">
+              <button
+                onClick={() => handleFeatureUnavailable("Update")}
+                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
+              >
                 Time
               </button>
             </div>
@@ -259,7 +271,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Order History */}
-        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 my-10 rounded-md">
+        <div className="w-full h-fit bg-[#197A8A1A] px-5 md:px-10 py-12 mb-8 my-10 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
             Order History
           </h3>

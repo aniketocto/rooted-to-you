@@ -12,7 +12,7 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
       {/* Feature Section */}
-      <section className="w-full h-full flex justify-center items-center my-[100px]">
+      <section className="w-full h-full flex justify-center items-center md:my-24 featureBoxes">
         <div className="w-full h-full flex flex-wrap items-center justify-center md:mx-10 mx-5">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 w-full">
             {features.map(({ label, img }) => (
@@ -41,7 +41,7 @@ export default function Home() {
       <Steps />
 
       {/* Decorative Divider Image */}
-      <div className="w-full relative z-[-1] mt-[-15%]">
+      <div className="w-full absolute z-[-1] decoDiv">
         <img
           src="/images/about-deco.png"
           alt="Section Divider"
@@ -49,7 +49,7 @@ export default function Home() {
         />
       </div>
       {/* Cusines */}
-      <div className="w-full h-full mt-[-22%]">
+      <div className="w-full h-full">
         <Cuisines />
       </div>
 
@@ -75,9 +75,7 @@ export default function Home() {
               className="flex flex-col justify-center items-center gap-2 relative"
             >
               <h1 className="secondary-font">{value}</h1>
-              <p className="primary-font xl:text-3xl md: text-center">
-                {text}
-              </p>
+              <p className="primary-font xl:text-3xl md: text-center">{text}</p>
 
               {/* Add vertical separator for large screens between 1, 2, and 3 */}
               {index !== 3 && (

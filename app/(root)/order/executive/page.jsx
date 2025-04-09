@@ -235,9 +235,9 @@ const Page = () => {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",
           },
-          body: JSON.stringify({
-            startDate: data.selectedDates?.startDate,
-          }),
+          // body: JSON.stringify({
+          //   startDate: data.selectedDates?.startDate,
+          // }),
         }
       );
 
@@ -279,17 +279,22 @@ const Page = () => {
   }
 
   return (
-    <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
-      <Image
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-32 lg:mt-52 lg:mb-20">
+      {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
         height={270}
         quality={100} // Increase quality (0-100)
         className="absolute top-0 z-[-1] w-full"
+      /> */}
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        alt=""
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
-        <div className="md:w-1/2 w-full h-full p-6">
+      <div className="max-w-[1440px] w-full h-full flex flex-col flexCol md:flex-row items-center justify-center md:mx-10 mx-5">
+        <div className="md:w-1/2 wFull w-full h-full p-6">
           <h2 className="text-2xl font-bold primary-font">Exectuive Meal</h2>
           <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
           <Form {...form}>
@@ -519,7 +524,9 @@ const Page = () => {
                 className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-xl text-[#03141C] text-center"
                 disabled={isSubmitting}
               >
-                <p className="text-xl text-[#03141C]!  secondary-font">{isSubmitting ? "Processing..." : "Next"}</p>
+                <p className="text-xl text-[#03141C]!  secondary-font">
+                  {isSubmitting ? "Processing..." : "Next"}
+                </p>
                 {!isSubmitting && (
                   <Image
                     src="/images/right-arrow.png"
@@ -596,9 +603,7 @@ const Page = () => {
                 <span className="font-base primary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">
-                  Delivery Charges
-                </span>
+                <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
                   ₹{deliveringPrices}
                 </span>
