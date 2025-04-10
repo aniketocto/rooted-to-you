@@ -605,7 +605,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
-                  ₹{deliveringPrices}
+                  ₹{selectedDuration ? deliveringPrices : 0}
                 </span>
               </div>
               <div className="flex justify-between">

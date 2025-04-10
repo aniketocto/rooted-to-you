@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background-primary: #03141C;
+  --background-primary: #03141c;
   --primary-color: #197a8a;
   --secondary-color: #e6af55;
   --primary-font-color: #ffffff;
@@ -220,7 +220,7 @@ h2 {
 }
 
 .about-banner {
-  background-image: url('/images/about-banner.jpg');
+  background-image: url("/images/about-banner.jpg");
 }
 
 @media screen and (min-width: 1600px) {
@@ -239,7 +239,47 @@ h2 {
     margin-top: 5px;
   }
 }
+.borderImage {
+  position: relative;
+  overflow: hidden;
+  border-top-width: 30px;
+  border-bottom-width: 30px;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-style: solid;
+  border-image-source: url("/images/testi-border.png");
+  border-image-slice: 30;
+  border-image-repeat: round;
+}
 
+.borderImage::before,
+.borderImage::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 30px; /* or your image width */
+  height: 100%;
+  background-repeat: repeat-y;
+  background-size: cover;
+  z-index: 10;
+}
+
+.borderImage::before {
+  left: 0;
+  background-image: url("/images/vertiBorder.png"); /* left border */
+}
+
+.borderImage::after {
+  right: 0;
+  background-image: url("/images/vertiBorder.png"); /* right border (flip image if needed) */
+}
+.swiper-button-next, .swiper-button-prev {
+  position: relative !important;
+}
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  content: "" !important;
+}
 @media screen and (max-width: 1550px) {
   .factFontSize {
     font-size: 20px;
@@ -364,7 +404,7 @@ h2 {
     height: 100vh !important;
   }
   .about-banner {
-    background-image: url('/images/aboutmob.png');
+    background-image: url("/images/aboutmob.png");
   }
 }
 @media screen and (max-width: 500px) {

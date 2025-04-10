@@ -2,6 +2,7 @@ import Cuisines from "@/components/Cusines";
 import CusinesPlan from "@/components/CusinesPlan";
 import Hero from "@/components/Hero";
 import Steps from "@/components/Steps";
+import Testimonial from "@/components/Testimonial";
 import { Separator } from "@/components/ui/separator";
 import { features } from "@/lib/helper";
 import Image from "next/image";
@@ -88,6 +89,8 @@ export default function Home() {
 
       {/* Cusines Plan */}
       <CusinesPlan />
+
+      {/* <Testimonial /> */}
     </>
   );
 }
