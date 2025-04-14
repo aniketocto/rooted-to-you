@@ -47,7 +47,7 @@ body::-webkit-scrollbar {
 }
 
 body {
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 body {
@@ -221,7 +221,8 @@ h2 {
 }
 
 .about-banner {
-  background-image: url("/images/about-banner.jpg");
+  background-image: url("/images/about-banner.png");
+  background-position: center bottom;
 }
 
 @media screen and (min-width: 1600px) {

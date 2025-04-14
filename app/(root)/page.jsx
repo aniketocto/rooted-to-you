@@ -2,6 +2,7 @@ import CorporatePlan from "@/components/CorporatePlan";
 import Cuisines from "@/components/Cusines";
 import CusinesPlan from "@/components/CusinesPlan";
 import Hero from "@/components/Hero";
+import StatsSection from "@/components/StatsSection";
 import Steps from "@/components/Steps";
 import Testimonial from "@/components/Testimonial";
 import { Separator } from "@/components/ui/separator";
@@ -66,40 +67,7 @@ export default function Home() {
       </div>
 
       {/* Facts */}
-      <section
-        className="w-full md:h-[400px] overflow-hidden justify-center items-center my-20 flex relative"
-        style={{
-          backgroundImage: "url('/images/about-deco.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "bottom top",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div
-          className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8"
-          data-aos="zoom-in"
-        >
-          {[
-            { value: "1000+", text: "Subscribers" },
-            { value: "50,000+", text: "Meals Delivered" },
-            { value: "250+", text: "Postal Locations" },
-            { value: "99%", text: "Record On-Time Delivery" },
-          ].map(({ value, text }, index) => (
-            <div
-              key={text}
-              className="flex flex-col justify-center items-center gap-2 relative"
-            >
-              <h1 className="secondary-font">{value}</h1>
-              <p className="primary-font xl:text-3xl md: text-center">{text}</p>
-
-              {/* Add vertical separator for large screens between 1, 2, and 3 */}
-              {index !== 3 && (
-                <div className="hidden lg:block absolute right-[-20px] top-1/2 transform -translate-y-1/2 w-[2px] h-full bg-[#e6af55]"></div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <StatsSection />
 
       {/* Cusines Plan */}
       <CusinesPlan />
