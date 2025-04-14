@@ -56,7 +56,7 @@ const Footer = () => {
                     className="socialImg"
                   />
                 </a>
-                <a href="">
+                <a href="https://www.facebook.com/share/1DUG9Btxbg/" target="_blank">
                   <Image
                     src="/images/facebook.png"
                     alt="Facebook"
@@ -65,7 +65,7 @@ const Footer = () => {
                     className="socialImg"
                   />
                 </a>
-                <a href="">
+                <a href="https://www.linkedin.com/company/rooted-to-you/" target="_blank">
                   <Image
                     src="/images/linkedin.png"
                     alt="Linkedin"
