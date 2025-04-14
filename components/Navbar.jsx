@@ -25,6 +25,7 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const { clearPaymentSession } = usePaymentContext();
   const { user, logout, loading } = useAuth();
+  const isGlassVisible = isVisible && scrollY > 20;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -52,7 +53,7 @@ const Navbar = () => {
     <div
       className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 navPadding ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
+      } ${isGlassVisible ? "glass-effect border-0!" : ""}`}
     >
       <div className="w-full flex justify-between items-center secondary-font">
         <Link href="/">

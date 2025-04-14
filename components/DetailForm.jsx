@@ -128,7 +128,7 @@ const DetailForm = () => {
 
       setIsAuthorized(true);
       setIsLoading(true);
-      console.log("Local Data", storedUser)
+      console.log("Local Data", storedUser);
 
       try {
         const res = await fetch(
@@ -143,7 +143,7 @@ const DetailForm = () => {
 
         const result = await res.json();
         const userData = result?.data;
-        console.log("userData", userData)
+        console.log("userData", userData);
 
         if (res.ok && userData) {
           const hasUserInfo =
@@ -261,7 +261,7 @@ const DetailForm = () => {
           JSON.stringify(newStoredUser)
         );
 
-        console.log("Updatedlocal", newStoredUser)
+        console.log("Updatedlocal", newStoredUser);
 
         setTimeout(() => {
           router.push("/payment");
@@ -273,7 +273,7 @@ const DetailForm = () => {
     } catch (error) {
       console.error("Profile Update Error:", error.message);
       setErrorMessage("Something went wrong. Please try again.");
-    } 
+    }
   }
 
   if (isLoading) return <LoadingSpinner />;
@@ -576,23 +576,42 @@ const DetailForm = () => {
           {isLoading ? (
             <p>Loading...</p>
           ) : isAuthorized ? (
-            <Button
-              type="submit"
-              className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center"
-              disabled={isSubmitting}
-            >
-              <p className="text-xl text-[#03141C]!  secondary-font">
-                {isSubmitting ? "Processing..." : "Next"}
-              </p>
-              {!isSubmitting && (
+            <div className="flex w-full gap-2">
+              <Button
+                type="button"
+                className="bg-[#e6af55] flex-1 hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
+                disabled={isSubmitting}
+                onClick={() => router.back()}
+              >
                 <Image
                   src="/images/right-arrow.png"
                   alt="right-arrow"
                   width={20}
                   height={15}
+                  className=" rotate-180"
                 />
-              )}
-            </Button>
+                <p className="text-xl text-[#03141C]!  secondary-font">
+                  {isSubmitting ? "Back" : "Back"}
+                </p>
+              </Button>
+              <Button
+                type="submit"
+                className="bg-[#e6af55] flex-1 hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
+                disabled={isSubmitting}
+              >
+                <p className="text-xl text-[#03141C]!  secondary-font">
+                  {isSubmitting ? "Processing..." : "Next"}
+                </p>
+                {!isSubmitting && (
+                  <Image
+                    src="/images/right-arrow.png"
+                    alt="right-arrow"
+                    width={20}
+                    height={15}
+                  />
+                )}
+              </Button>
+            </div>
           ) : (
             <div className="text-center text-red-600 font-semibold">
               <Link

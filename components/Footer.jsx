@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { CancellationPolicyDialog } from "./CancellationPolicyDialog";
 
 
 const Footer = () => {
@@ -46,7 +47,7 @@ const Footer = () => {
             <div className="flex flex-col gap-2">
               <p className="secondary-font font-base-1">Follow Us</p>
               <div className="w-full flex flex-row justify-start gap-3">
-                <a href="">
+                <a href="https://www.instagram.com/rootedtoyou/" target="_blank">
                   <Image
                     src="/images/instagram.png"
                     alt="Instagram"
@@ -122,6 +123,7 @@ const Footer = () => {
         <Link href="/privacy_policy">Privacy Policy</Link>
         <Link href="/terms_condition">Terms & Conditions</Link>
         <Link href="/cancellation_policy">Cancellation Policy</Link>
+        <CancellationPolicyDialog />
       </div>
     </div>
   );

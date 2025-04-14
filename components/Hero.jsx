@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   zipCode: z
@@ -33,6 +34,10 @@ const Hero = () => {
       zipCode: "",
     },
   });
+
+  useEffect(() => {
+    localStorage.removeItem("mealFormData");
+  }, [])
 
   const onSubmit = async (values) => {
     setIsLoading(true);
@@ -69,7 +74,7 @@ const Hero = () => {
   return (
     <section className="w-full h-dvh flex justify-center items-center">
       <Image
-        src="/images/Hero-Banner-1.jpg"
+        src="/images/Hero-Banner-2.png"
         alt="banner"
         width={1420}
         height={0}
@@ -85,7 +90,7 @@ const Hero = () => {
         className="w-full h-[750px] mobBanner absolute top-0 z-[-1] pointer-events-none block md:hidden"
       />
       <div className=" w-full h-full flex flex-col items-start justify-center px-0 sm:px-10">
-        <div className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-5">
+        <div className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-5" data-aos="fade-right">
           <h1 className="secondary-font text-[#E6AF55] font-bold">
             Eat. Connect. Celebrate.
           </h1>

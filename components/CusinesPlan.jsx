@@ -12,11 +12,11 @@ const CusinesPlan = () => {
   return (
     <section className="w-[full] h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
       <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center py-10  md:mx-10 mx-5">
-        <h2 className="secondary-font text-center">Our Cuisine Plans</h2>
+        <h2 className="secondary-font text-center"  data-aos="fade-down">Our Cuisine Plans</h2>
         <div className="w-full h-full flex flex-wrap cusineflexWrap flexCol  justify-center flex-col md:flex-row items-center gap-2.5">
-          <div className="flex flex-1 h-full justify-center flex-col md:flex-row items-center gap-2.5">
+          <div className="flex flex-1 h-full justify-center flex-col md:flex-row items-center gap-2.5" data-aos="slide-right">
             <Image
-              src="/images/executive.png"
+              src="/images/exe.png"
               alt="executive"
               width={330}
               height={420}
@@ -51,9 +51,9 @@ const CusinesPlan = () => {
               </Button>
             </div>
           </div>
-          <div className="flex flex-1 h-full justify-center item-center flex-col md:flex-row-reverse items-center gap-2.5">
+          <div className="flex flex-1 h-full justify-center item-center flex-col md:flex-row-reverse items-center gap-2.5" data-aos="slide-left" data-aos-delay="500">
             <Image
-              src="/images/presidential.png"
+              src="/images/pre.png"
               alt="presidential "
               width={330}
               height={420}

@@ -40,7 +40,7 @@ const Page = () => {
 
       {/* Mission Section */}
       <section className="w-full flex flex-col items-center gap-10 mb-10 relative">
-        <div className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10">
+        <div className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10" data-aos="fade-left">
           <div className="md:w-[20%] w-full flex flex-row items-center justify-start">
             <Image
               src="/images/mission.png"
@@ -68,7 +68,7 @@ const Page = () => {
           className="absolute w-full h-auto md:block hidden z-0 pointer-events-none"
         />
 
-        <div className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10">
+        <div className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10"  data-aos="fade-right">
           <div className="md:w-[20%] w-full flex items-center justify-center">
             <Image
               src="/images/vission.png"

@@ -2,6 +2,7 @@
 import AlertBox from "@/components/AlertBox";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
+import PauseSubscriptionModal from "@/components/PauseSubscriptionModal";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -22,7 +23,6 @@ const ProfilePage = () => {
     }
   }, []);
 
-  console.log(customerId);
   useEffect(() => {
     const fetchProfileAndSubscription = async () => {
       if (!customerId) return;
@@ -123,10 +123,10 @@ const ProfilePage = () => {
       /> */}
       <img
         src="/images/nav-bg.jpg"
-        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
-      <div className="max-w-[1440px] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32 ">
+      <div className="max-w-[90%] w-full h-full flex flex-col items-center justify-center md:mx-10 mx-5 mt-32 ">
         {/* Profile & Preferences Section */}
         <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
@@ -199,7 +199,9 @@ const ProfilePage = () => {
                 <div>
                   <h4 className="text-lg secondary-font mb-1">Plan:</h4>
                   <p className="text-lg">
-                    {activeSubscription.id === 1 ? "Executive" : "Presidential"}
+                    {activeSubscription.boxId === 1
+                      ? "Executive"
+                      : "Presidential"}
                   </p>
                 </div>
                 <div>
@@ -216,21 +218,18 @@ const ProfilePage = () => {
             )}
 
             <div className="flex justify-start mt-6 space-x-4">
-              {["Pause", "Modify", "Cancel"].map((action, i) => (
-                <button
-                  key={i}
-                  className={`py-2 px-4 rounded-md text-white ${
-                    action === "Pause"
-                      ? "bg-gray-600 hover:bg-gray-500"
-                      : action === "Modify"
-                      ? "bg-blue-600 hover:bg-blue-500"
-                      : "bg-red-600 hover:bg-red-500"
-                  }`}
-                  onClick={() => handleFeatureUnavailable(action)}
-                >
-                  {action}
-                </button>
-              ))}
+              {activeSubscription && customerId && (
+                <PauseSubscriptionModal
+                  activeSubscription={activeSubscription}
+                  customerId={customerId}
+                />
+              )}
+              <button
+                className="py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-500"
+                onClick={() => handleFeatureUnavailable("Modify")}
+              >
+                Modify
+              </button>
             </div>
           </div>
 

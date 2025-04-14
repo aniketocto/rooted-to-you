@@ -14,6 +14,8 @@ const OrderPage = () => {
     if (user) {
       setIsLoggedIn(true);
     }
+
+    localStorage.removeItem("mealFormData")
   }, []);
 
   const handleNavigate = (path) => {
@@ -25,7 +27,7 @@ const OrderPage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-32 lg:mt-52 lg:mb-20">
+    <section className="w-full h-fit flex justify-center items-center my-32">
       {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -37,7 +39,11 @@ const OrderPage = () => {
           objectFit: "cover"
         }}
       /> */}
-      <img src="/images/nav-bg.jpg" className="absolute w-full h-1/3 object-cover z-[-1] top-0" alt="" />
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
+        alt=""
+      />
       <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
         <img
           src="/images/about-deco.png"
@@ -45,14 +51,14 @@ const OrderPage = () => {
           className="w-full absolute"
         />
       </div>
-      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start md:mx-10 mx-5 xl:gap-32 gap-10">
+      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start">
         {/* Executive Meal */}
-        <div className="flex justify-start items-start flex-col flexCol md:flex-row gap-5">
-          <div className="rounded-md w-full md:w-1/2 h-full overflow-hidden">
+        <div className="flex justify-center items-start flex-col flexCol md:flex-row gap-5">
+          <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
             <Image
-              src="/images/executive-meal.png"
-              width={612}
-              height={698}
+              src="/images/exe1.png"
+              width={512}
+              height={598}
               alt="Executive Meal"
             />
           </div>
@@ -95,12 +101,12 @@ const OrderPage = () => {
         </div>
 
         {/* Presidential Meal */}
-        <div className="flex justify-start items-start flex-col flexCol md:flex-row-reverse gap-10">
-          <div className="rounded-md w-full md:w-1/2 h-full overflow-hidden">
+        <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-10">
+          <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
             <Image
-              src="/images/presidential-meal.png"
-              width={612}
-              height={698}
+              src="/images/pre1.png"
+              width={512}
+              height={598}
               alt="Presidential Meal"
             />
           </div>
@@ -115,20 +121,20 @@ const OrderPage = () => {
             <div className="border border-[#e6af55] rounded-md p-5 pb-0 md:p-10 md:pb-0 mb-10">
               <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
                 <li>
-                  Personalized Experience: Choose 3 cuisines from 5 for a
-                  diverse dining journey.
+                  <span className="font-semibold">Personalized Experience</span>
+                  : Choose 3 cuisines from 5 for a diverse dining journey.
                 </li>
                 <li>
-                  Signature Dishes: Featuring chef-special creations for a
+                <span className="font-semibold">Signature Dishes</span>: Featuring chef-special creations for a
                   refined taste.
                 </li>
                 <li>
-                  Complete & Satisfying: Includes Rice, Dal, One Veg, Indian
+                <span className="font-semibold">Complete & Satisfying</span>: Includes Rice, Dal, One Veg, Indian
                   Breads, Salad, Entrée, Sweet, plus a choice of Papad, Pickle,
                   or Healthy Beverage, finished with Mukhwas.
                 </li>
                 <li>
-                  Elaborate Yet Compact: A well-balanced meal that blends
+                <span className="font-semibold">Elaborate Yet Compact</span>: A well-balanced meal that blends
                   indulgence with everyday ease.
                 </li>
               </ul>

@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/DatePicker";
-import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
@@ -98,6 +97,7 @@ const Page = () => {
   const [selectedDuration, setSelectedDuration] = useState(7);
   const [weekendType, setWeekendRule] = useState("all");
   const [highlightedDates, setHighlightedDates] = useState([]);
+  const [detailFormat, setDetailFormat] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxAmount, setTaxAmount] = useState(0);
   const [total, setTotal] = useState(0);
@@ -114,8 +114,50 @@ const Page = () => {
     const user = localStorage.getItem("authenticatedUser");
     if (!user) {
       router.replace("/register");
+      return;
     }
-  }, [router]);
+
+    // Load saved form data if it exists
+    const savedFormData = localStorage.getItem("mealFormData");
+    if (savedFormData) {
+      const parsedData = JSON.parse(savedFormData);
+
+      // Convert string dates back to Date objects
+      const reconvertedDates = parsedData.highlightedDates
+        ? parsedData.highlightedDates.map((dateStr) => new Date(dateStr))
+        : [];
+
+      // Restore form values with properly converted dates
+      if (parsedData.formValues?.selectedDates) {
+        const selectedDates = {
+          ...parsedData.formValues.selectedDates,
+          startDate: parsedData.formValues.selectedDates.startDate
+            ? new Date(parsedData.formValues.selectedDates.startDate)
+            : undefined,
+          endDate: parsedData.formValues.selectedDates.endDate
+            ? new Date(parsedData.formValues.selectedDates.endDate)
+            : undefined,
+        };
+        parsedData.formValues.selectedDates = selectedDates;
+      }
+
+      // Restore form state
+      form.reset(parsedData.formValues);
+
+      // Restore component state variables
+      setSelectedTime(parsedData.selectedTime || "");
+      setSelectedFoodType(parsedData.selectedFoodType || "");
+      setSelectedDuration(parsedData.selectedDuration || null);
+      setWeekendRule(parsedData.weekendType || "all");
+      setHighlightedDates(reconvertedDates);
+      setDetailFormat(parsedData.detailFormat || false);
+
+      // Restore cuisine choices
+      if (parsedData.selectedCuisines) {
+        setSelectedCuisines(parsedData.selectedCuisines);
+      }
+    }
+  }, [router, form]);
 
   useEffect(() => {
     const fetchBoxes = async () => {
@@ -248,7 +290,23 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-
+    // Save the current form state to localStorage
+    const formDataToSave = {
+      formValues: {
+        time: data.time,
+        dietType: data.dietType,
+        selectedDates: data.selectedDates,
+        weekendType: data.weekendType,
+      },
+      selectedTime,
+      selectedFoodType,
+      selectedDuration,
+      weekendType,
+      highlightedDates,
+      detailFormat,
+      selectedCuisines,
+    };
+    localStorage.setItem("mealFormData", JSON.stringify(formDataToSave));
     try {
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,

@@ -211,8 +211,9 @@ h2 {
   height: 280px;
 }
 .cusineBoxPop {
-  width: 500px;
+  width: 458px;
   height: 500px;
+  background: border-box;
 }
 
 .decoDiv {
@@ -273,7 +274,8 @@ h2 {
   right: 0;
   background-image: url("/images/vertiBorder.png"); /* right border (flip image if needed) */
 }
-.swiper-button-next, .swiper-button-prev {
+.swiper-button-next,
+.swiper-button-prev {
   position: relative !important;
 }
 .swiper-button-prev:after,
@@ -471,9 +473,7 @@ h2 {
   .hero-section {
     /* height: 80vh !important; */
   }
-  .featureBoxes {
-    /* margin-top: -100px; */
-  }
+
   .hero-font {
     text-shadow: 0 0 1px #000;
     font-size: 18px !important;

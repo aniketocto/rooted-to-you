@@ -109,8 +109,44 @@ const Page = () => {
     const user = localStorage.getItem("authenticatedUser");
     if (!user) {
       router.replace("/register");
+      return;
     }
-  }, [router]);
+
+    // Load saved form data if it exists
+    const savedFormData = localStorage.getItem("mealFormData");
+    if (savedFormData) {
+      const parsedData = JSON.parse(savedFormData);
+
+      // Convert string dates back to Date objects
+      const reconvertedDates = parsedData.highlightedDates
+        ? parsedData.highlightedDates.map((dateStr) => new Date(dateStr))
+        : [];
+
+      // Restore form values with properly converted dates
+      if (parsedData.formValues?.selectedDates) {
+        const selectedDates = {
+          ...parsedData.formValues.selectedDates,
+          startDate: parsedData.formValues.selectedDates.startDate
+            ? new Date(parsedData.formValues.selectedDates.startDate)
+            : undefined,
+          endDate: parsedData.formValues.selectedDates.endDate
+            ? new Date(parsedData.formValues.selectedDates.endDate)
+            : undefined,
+        };
+        parsedData.formValues.selectedDates = selectedDates;
+      }
+
+      form.reset(parsedData.formValues);
+
+      // Restore state values
+      setSelectedTime(parsedData.selectedTime || "");
+      setSelectedFoodType(parsedData.selectedFoodType || "");
+      setSelectedDuration(parsedData.selectedDuration || 7);
+      setWeekendRule(parsedData.weekendType || "all");
+      setHighlightedDates(reconvertedDates); // Use converted dates
+      setDetailFormat(parsedData.detailFormat || false);
+    }
+  }, [router, form]);
 
   useEffect(() => {
     const fetchBoxes = async () => {
@@ -173,10 +209,9 @@ const Page = () => {
     const finalSubTotal = beforeTax + tax;
 
     setBasePrice(Math.round(mealbasePrice));
-    setTaxAmount(tax.toFixed(2));
+    setTaxAmount(Math.round(tax));
     setTotal(Math.round(finalSubTotal));
   }, [selectedDuration, boxes]);
-
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
@@ -193,7 +228,7 @@ const Page = () => {
     const formattedEndDate = data.selectedDates?.endDate
       ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
       : null;
-
+    
     const token = userData?.token;
     const customerId = userData?.id;
 
@@ -225,7 +260,22 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-
+    // Save the current form state to localStorage
+    const formDataToSave = {
+      formValues: {
+        time: data.time,
+        dietType: data.dietType,
+        selectedDates: data.selectedDates,
+        weekendType: data.weekendType,
+      },
+      selectedTime,
+      selectedFoodType,
+      selectedDuration,
+      weekendType,
+      highlightedDates,
+      detailFormat,
+    };
+    localStorage.setItem("mealFormData", JSON.stringify(formDataToSave));
     try {
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
@@ -235,9 +285,6 @@ const Page = () => {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",
           },
-          // body: JSON.stringify({
-          //   startDate: data.selectedDates?.startDate,
-          // }),
         }
       );
 
@@ -481,7 +528,7 @@ const Page = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-1">
                     <FormLabel className="font-medium">
-                      SELECT YOUR MEAL DATES
+                      Select Subscription
                     </FormLabel>
                     <FormControl>
                       <DatePicker
@@ -512,6 +559,7 @@ const Page = () => {
                         onSelectedDaysChange={(days) => {
                           setSelectedDuration(days);
                         }}
+                        
                       />
                     </FormControl>
                     <FormMessage />
@@ -565,12 +613,12 @@ const Page = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Duration</span>
+                <span className="font-base primary-font">Plan</span>
                 <span className="font-base primary-font">
                   {selectedDuration === 7
-                    ? "1 Week"
+                    ? "Weekly"
                     : selectedDuration
-                    ? "1 Month"
+                    ? "Montly"
                     : "-----"}
                 </span>
               </div>

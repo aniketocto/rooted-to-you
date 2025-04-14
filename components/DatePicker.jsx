@@ -20,12 +20,51 @@ const DatePicker = ({
   onWeekendRuleChange,
   onSelectedDaysChange,
 }) => {
-  // Initialize selectedDays as null to not have any default radio option selected
-  const [startDate, setStartDate] = useState(null);
-  const [selectedDays, setSelectedDays] = useState(null); // no default selected day
-  const [saturdayOption, setSaturdayOption] = useState("all");
+  const loadSavedData = () => {
+    try {
+      const savedFormData = localStorage.getItem("mealFormData");
+      if (savedFormData) {
+        const parsedData = JSON.parse(savedFormData);
+
+        // Initialize with saved values when available
+        const initialStartDate =
+          parsedData.highlightedDates && parsedData.highlightedDates.length > 0
+            ? new Date(parsedData.highlightedDates[0])
+            : null;
+
+        const initialSelectedDays = parsedData.selectedDuration || null;
+        const initialWeekendRule = parsedData.weekendType || "all";
+
+        return {
+          startDate: initialStartDate,
+          selectedDays: initialSelectedDays,
+          saturdayOption: initialWeekendRule,
+        };
+      }
+    } catch (error) {
+      console.error("Error loading saved form data:", error);
+    }
+
+    // Default values if nothing in localStorage
+    return {
+      startDate: null,
+      selectedDays: null,
+      saturdayOption: "all",
+    };
+  };
+  // Get initial values
+  const initialValues = loadSavedData();
+
+  // Initialize state with loaded values
+  const [startDate, setStartDate] = useState(initialValues.startDate);
+  const [selectedDays, setSelectedDays] = useState(initialValues.selectedDays);
+  const [saturdayOption, setSaturdayOption] = useState(
+    initialValues.saturdayOption
+  );
   const [excludedDates, setExcludedDates] = useState([]);
-  const [hasUserSelected, setHasUserSelected] = useState(false);
+  const [hasUserSelected, setHasUserSelected] = useState(
+    !!initialValues.startDate
+  );
   const [holidayDates, setHolidayDates] = useState([]);
 
   useEffect(() => {
@@ -39,6 +78,8 @@ const DatePicker = ({
       }
     }
   }, [startDate, selectedDays, saturdayOption]);
+  
+
 
   useEffect(() => {
     if (startDate && selectedDays !== null) {

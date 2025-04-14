@@ -1,3 +1,4 @@
+import CorporatePlan from "@/components/CorporatePlan";
 import Cuisines from "@/components/Cusines";
 import CusinesPlan from "@/components/CusinesPlan";
 import Hero from "@/components/Hero";
@@ -13,18 +14,28 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
       {/* Feature Section */}
-      <section className="w-full h-full flex justify-center items-center md:my-24 featureBoxes">
+      <section
+        className="w-full h-[300px] flex justify-center items-center md:my-24 featureBoxes"
+        style={{
+          backgroundImage: "url('/images/about-deco.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "left top",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="w-full h-full flex flex-wrap items-center justify-center md:mx-10 mx-5">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 w-full">
-            {features.map(({ label, img }) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5 w-full">
+            {features.map(({ label, img }, index) => (
               <div
                 key={label}
-                className="p-4 h-[150px] border-white border-[0.5px] rounded-sm flex flex-col gap-5 items-center justify-center"
+                className="p-9 h-[150px] flex flex-col gap-5 items-center justify-center"
+                data-aos="fade-down"
+                data-aos-delay={index * 100} // stagger animation: 0ms, 100ms, 200ms...
               >
                 <Image
                   src={img}
                   alt={label}
-                  width={50}
+                  width={60}
                   height={50}
                   quality={100}
                   className="factImg"
@@ -42,13 +53,13 @@ export default function Home() {
       <Steps />
 
       {/* Decorative Divider Image */}
-      <div className="w-full absolute z-[-1] decoDiv">
+      {/* <div className="w-full absolute z-[-1] decoDiv">
         <img
           src="/images/about-deco.png"
           alt="Section Divider"
           className="w-full hidden md:block"
         />
-      </div>
+      </div> */}
       {/* Cusines */}
       <div className="w-full h-full">
         <Cuisines />
@@ -60,11 +71,14 @@ export default function Home() {
         style={{
           backgroundImage: "url('/images/about-deco.png')",
           backgroundSize: "cover",
-          backgroundPosition: "left center",
+          backgroundPosition: "bottom top",
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8  ">
+        <div
+          className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8"
+          data-aos="zoom-in"
+        >
           {[
             { value: "1000+", text: "Subscribers" },
             { value: "50,000+", text: "Meals Delivered" },
@@ -91,6 +105,9 @@ export default function Home() {
       <CusinesPlan />
 
       {/* <Testimonial /> */}
+
+      {/* Corporate Plan */}
+      {/* <CorporatePlan /> */}
     </>
   );
 }

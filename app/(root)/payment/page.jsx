@@ -334,8 +334,10 @@ const Page = () => {
               }
             );
             router.push("/profile");
+
             setTimeout(() => {
               clearPaymentSession();
+              localStorage.removeItem("mealFormData");
             }, 300);
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
@@ -376,6 +378,7 @@ const Page = () => {
               }),
             }
           );
+          localStorage.removeItem("mealFormData");
         } catch (err) {
           console.error("❌ Error calling payment failed API:", err);
         }
@@ -419,18 +422,28 @@ const Page = () => {
 
             <div className="space-y-2 text-sm my-8">
               <div className="flex justify-between">
-                <span className="font-base secondary-font capitalize">Full Name</span>
+                <span className="font-base secondary-font capitalize">
+                  Full Name
+                </span>
                 <span className="font-base secondary-font capitalize">
                   {userData?.data.firstName} {userData?.data.lastName}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font capitalize">Mobile No.</span>
-                <span className="font-base secondary-font capitalize">{userData?.data.phoneNumber}</span>
+                <span className="font-base secondary-font capitalize">
+                  Mobile No.
+                </span>
+                <span className="font-base secondary-font capitalize">
+                  {userData?.data.phoneNumber}
+                </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base secondary-font capitalize">Email Address</span>
-                <span className="font-base secondary-font">{userData?.data.email}</span>
+                <span className="font-base secondary-font capitalize">
+                  Email Address
+                </span>
+                <span className="font-base secondary-font">
+                  {userData?.data.email}
+                </span>
               </div>
             </div>
 
@@ -441,14 +454,20 @@ const Page = () => {
 
             <div className="space-y-2 text-sm my-8">
               <div className="flex justify-start gap-5">
-                <span className="font-base secondary-font capitalize">Address:</span>
+                <span className="font-base secondary-font capitalize">
+                  Address:
+                </span>
                 <span className="font-base secondary-font capitalize">
                   {userData?.data.address1} {userData?.data.address2}
                 </span>
               </div>
               <div className="flex justify-start gap-12">
-                <span className="font-base secondary-font capitalize">City</span>
-                <span className="font-base secondary-font capitalize">{userData?.data.city}</span>
+                <span className="font-base secondary-font capitalize">
+                  City
+                </span>
+                <span className="font-base secondary-font capitalize">
+                  {userData?.data.city}
+                </span>
               </div>
             </div>
 
@@ -504,7 +523,9 @@ const Page = () => {
                       : "bg-[#e6af55] hover:bg-[#d49c3e] cursor-pointer"
                   }`}
                 >
-                  <p className="font-base secondary-font text-[#03141C]!">Apply</p>
+                  <p className="font-base secondary-font text-[#03141C]!">
+                    Apply
+                  </p>
                 </Button>
               </div>
               {couponMessage && (
@@ -518,11 +539,28 @@ const Page = () => {
               )}
             </div>
 
-            <div className="space-y-2 text-sm my-8">
+            <div className="gap-2 text-sm my-8 flex">
+              <Button
+                type="button"
+                className="bg-[#e6af55] flex-1 hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
+                disabled={isProcessing}
+                onClick={() => router.back()}
+              >
+                <Image
+                  src="/images/right-arrow.png"
+                  alt="right-arrow"
+                  width={20}
+                  height={15}
+                  className=" rotate-180"
+                />
+                <p className="text-xl text-[#03141C]!  secondary-font">
+                  {isProcessing ? "Back" : "Back"}
+                </p>
+              </Button>
               <Button
                 onClick={handlePayment}
                 disabled={isProcessing}
-                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
+                className="bg-[#e6af55] flex-1/2 hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
               >
                 {isProcessing ? "Processing..." : `Pay ₹${finalPrice}`}
               </Button>
@@ -580,7 +618,7 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Sub Total</span>
                   <span className="font-base secondary-font">
-                    ₹{(amount || 0)}
+                    ₹{amount || 0}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -596,7 +634,7 @@ const Page = () => {
                     <span className="font-base secondary-font">
                       Discount Amount
                     </span>
-                    <span className="font-base secondary-font text-red-500">
+                    <span className="font-base secondary-font text-[#BAD398]">
                       - ₹{discountedAmount}
                     </span>
                   </div>
@@ -604,7 +642,7 @@ const Page = () => {
                 {redeemWallet && (
                   <div className="flex justify-between">
                     <span className="font-base secondary-font">Wallet</span>
-                    <span className="font-base secondary-font text-red-500">
+                    <span className="font-base secondary-font text-[#BAD398]">
                       - ₹{walletUsedAmount}
                     </span>
                   </div>
@@ -612,9 +650,7 @@ const Page = () => {
 
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">GST</span>
-                  <span className="font-base secondary-font">
-                    ₹{(tax || 0).toFixed(2)}
-                  </span>
+                  <span className="font-base secondary-font">₹{tax || 0}</span>
                 </div>
               </div>
 
