@@ -38,10 +38,10 @@ const GoogleSocialLink = () => {
 
       if (response.ok) {
         const userData = {
-          // id: res.data.id,
-          // data: res.data,
+          id: res.data.id,
+          data: res.data,
           token: res.token,
-          // status: res.data.status,
+          status: res.data.status,
         };
         console.log(userData);
         
