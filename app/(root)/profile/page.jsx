@@ -224,12 +224,14 @@ const ProfilePage = () => {
                   customerId={customerId}
                 />
               )}
-              <button
-                className="py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-500"
-                onClick={() => handleFeatureUnavailable("Modify")}
-              >
-                Modify
-              </button>
+              {activeSubscription && (
+                <button
+                  className="py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-500"
+                  onClick={() => handleFeatureUnavailable("Modify")}
+                >
+                  Modify
+                </button>
+              )}
             </div>
           </div>
 

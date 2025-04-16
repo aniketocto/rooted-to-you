@@ -10,6 +10,7 @@ const RootLayout = ({ children }) => {
     Aos.init({
       duration: 800,
       once: false,
+      mirror: false
     });
     Aos.refresh();
   }, []);

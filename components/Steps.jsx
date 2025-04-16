@@ -8,8 +8,8 @@ import { Button } from "./ui/button";
 const Steps = () => {
   const router = useRouter();
   return (
-    <section className="w-full h-fit flex flex-col justify-center items-center relative gap-5 my-10">
-      <img src="/images/about-deco.png" className="img-fluid rounded-top w-full absolute z-[-1] bottom-[-25%]" alt="" />
+    <section className="w-full h-fit flex flex-col justify-center items-center relative gap-5 my-10 overflow-hidden">
+      <img src="/images/about-deco.png" className=" w-full h-full sm:h-auto  absolute object-cover opacity-80 z-[-1] top-0 sm:top-1/2" alt="" />
 
       <div className=" w-full h-fit flex flex-wrap items-center gap-10  xl:gap-20 justify-center py-10 md:px-10 px-5">
         <h2 className="secondary-font text-center" data-aos="fade-down">

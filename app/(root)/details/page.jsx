@@ -32,6 +32,13 @@ const page = () => {
       router.replace("/register");
     }
   }, [router]);
+  useEffect(() => {
+    if (!paymentSession?.sessionActive) {
+      console.warn("🔒 Payment session not active, redirecting...");
+      router.replace("/");
+    }
+  }, [paymentSession]);
+
   return (
     <section className="w-full h-fit flex secondary-font justify-center items-center my-20 lg:mt-52 lg:mb-20">
       {/* <Image

@@ -21,6 +21,7 @@ import {
   isEqual,
   differenceInCalendarDays,
 } from "date-fns";
+import AlertBox from "./AlertBox";
 
 export default function PauseSubscriptionModal({
   activeSubscription,
@@ -29,6 +30,8 @@ export default function PauseSubscriptionModal({
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [popopen, setPopOpen] = useState(false);
 
   const now = new Date();
   const hour = now.getHours();
@@ -83,12 +86,14 @@ export default function PauseSubscriptionModal({
       if (res.ok) {
         setOpen(false);
         setSelectedDate(null);
+        setPopOpen(true)
+        setError("We have pause for that day")
       } else {
-        alert("Pause failed: " + (data?.message || "Something went wrong."));
+        setError( "Something went wrong.");
       }
     } catch (err) {
       console.error("Pause error:", err);
-      alert("Error while pausing subscription.");
+      setError("Error while pausing subscription.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +121,7 @@ export default function PauseSubscriptionModal({
           </DialogHeader>
 
           {/* ✅ Note Message */}
-          <div className="text-sm text-yellow-300 text-center mb-2 px-4">
+          <div className="text-sm text-white text-center mb-2 px-4">
             Please note: You can only pause a date by 4:00 PM on the day before.
           </div>
 
@@ -132,13 +137,7 @@ export default function PauseSubscriptionModal({
                 highlighted: highlightedDates,
               }}
               disabled={isDisabled}
-              modifiersStyles={{
-                highlighted: {
-                  backgroundColor: "#f59e0b",
-                  color: "white",
-                  fontWeight: "bold",
-                },
-              }}
+              
               styles={{
                 day: { margin: "0.2em" },
                 caption: { color: "#fff" },
@@ -175,6 +174,8 @@ export default function PauseSubscriptionModal({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertBox open={popopen} setOpen={setPopOpen} description={error} />
     </>
   );
 }

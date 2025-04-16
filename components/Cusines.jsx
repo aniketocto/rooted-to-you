@@ -9,6 +9,7 @@ const Cuisines = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isHoveringPopup, setIsHoveringPopup] = useState(false);
   const timeoutRef = useRef();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const cuisines = [
     {
@@ -46,32 +47,44 @@ const Cuisines = () => {
   const handleMouseEnter = (id) => {
     clearTimeout(timeoutRef.current);
     setHoveredCard(id);
+    setTimeout(() => {
+      setIsPopupVisible(true);
+    }, 10); // Immediately show the popup
   };
 
   const handleMouseLeave = () => {
-    // Only start the timeout if we're not hovering the popup
+    // Only start the timeout if we're not hovering over the popup
     if (!isHoveringPopup) {
       timeoutRef.current = setTimeout(() => {
-        setHoveredCard(null);
-      }, 100);
+        setIsPopupVisible(false); // Close the popup after delay
+        setHoveredCard(null); // Unmount after animation
+      }, 1000); // Delay closing the popup for 1 second
     }
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupVisible(false); // Close popup immediately
+    timeoutRef.current = setTimeout(() => {
+      setHoveredCard(null); // Unmount after animation
+    }, 300); // Match the transition duration for smooth closing
   };
 
   const handlePopupMouseEnter = () => {
     clearTimeout(timeoutRef.current);
-    setIsHoveringPopup(true);
+    setIsHoveringPopup(true); // Keep popup open if hovering over it
   };
 
   const handlePopupMouseLeave = () => {
     setIsHoveringPopup(false);
     timeoutRef.current = setTimeout(() => {
-      setHoveredCard(null);
-    }, 100);
+      setIsPopupVisible(false); // Close popup after 1 second
+      setHoveredCard(null); // Unmount after animation
+    }, 500); // Wait for 1 second before closing the popup
   };
 
   return (
     <section className="w-full h-fit flex relative flex-col justify-center items-center gap-20 my-14">
-      <h2 className="secondary-font text-4xl font-bold text-center mb-8">
+      <h2 className="secondary-font w-full px-2 font-bold text-center mb-8">
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>
 
@@ -106,11 +119,15 @@ const Cuisines = () => {
 
         {hoveredCard && (
           <div
-             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50"
-            onClick={() => setHoveredCard(null)}
+            className="absolute top-1/3 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50"
+            onClick={handlePopupClose}
           >
             <div
-              className="bg-white shadow-2xl cusineBoxPop p-6 transform scale-110 transition-transform duration-1000 relative overflow-hidden"
+              className={`bg-white shadow-2xl cusineBoxPop p-6 transition-all duration-700 ease-in-out origin-center relative overflow-hidden
+                ${
+                  isPopupVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                }
+              `}
               onMouseEnter={handlePopupMouseEnter}
               onMouseLeave={handlePopupMouseLeave}
               onClick={(e) => e.stopPropagation()}
@@ -120,7 +137,8 @@ const Cuisines = () => {
                 }')`,
                 backgroundSize: "contain",
                 backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
+                backgroundRepeat: "no-repeat",
+                zIndex: 1000,
               }}
             >
               <div className="h-full flex flex-col items-center justify-center relative">
@@ -128,7 +146,7 @@ const Cuisines = () => {
                   <h3 className="text-center secondary-font text-2xl uppercase text-black! font-bold mb-2">
                     {cuisines.find((c) => c.id === hoveredCard)?.name}
                   </h3>
-                  <p className="text-center cuisineExplore font-base-1 text-black! text-shadow-lg/30 primary-font mb-4">
+                  <p className="text-center cuisineExplore font-base-1 font-semibold text-black! text-shadow-lg/30 primary-font mb-4">
                     {cuisines.find((c) => c.id === hoveredCard)?.desc}
                   </p>
                   <Button

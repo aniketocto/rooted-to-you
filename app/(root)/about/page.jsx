@@ -9,7 +9,7 @@ const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative w-full h-dvh  flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-center hidden md:flex">
+      <section className="relative w-full h-fix-screen  flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
         <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
           <h1 className="secondary-font font-bold text-5xl md:text-7xl!">
             Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
@@ -39,7 +39,7 @@ const Page = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="w-full flex flex-col items-center gap-10 mb-10 relative">
+      <section className="w-full flex flex-col items-center gap-10 mb-10 relative  overflow-hidden">
         <div className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10" data-aos="fade-left">
           <div className="md:w-[20%] w-full flex flex-row items-center justify-start">
             <Image
@@ -47,6 +47,7 @@ const Page = () => {
               width={379}
               height={452}
               alt="Our Mission"
+              className="w-[50%] sm:w-full"
             />
           </div>
           <div className="md:w-[60%] w-full flex justify-center items-start gap-5 flex-col">
@@ -69,12 +70,13 @@ const Page = () => {
         />
 
         <div className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10"  data-aos="fade-right">
-          <div className="md:w-[20%] w-full flex items-center justify-center">
+          <div className="md:w-[20%] w-full flex items-center justify-end">
             <Image
               src="/images/vission.png"
               width={379}
               height={452}
               alt="Our Mission"
+              className="w-[50%] sm:w-full"
             />
           </div>
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">

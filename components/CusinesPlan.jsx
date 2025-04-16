@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 const CusinesPlan = () => {
   const router = useRouter();
   return (
-    <section className="w-[full] h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
+    <section className="w-[full] h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10 overflow-hidden">
       <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center py-10  md:mx-10 mx-5">
         <h2 className="secondary-font text-center"  data-aos="fade-down">Our Cuisine Plans</h2>
         <div className="w-full h-full flex flex-wrap cusineflexWrap flexCol  justify-center flex-col md:flex-row items-center gap-2.5">

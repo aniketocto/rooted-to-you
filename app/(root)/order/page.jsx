@@ -27,7 +27,7 @@ const OrderPage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-32">
+    <section className="w-full h-fit flex justify-center items-center my-32  px-5">
       {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
