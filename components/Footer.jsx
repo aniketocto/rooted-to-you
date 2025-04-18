@@ -123,7 +123,7 @@ const Footer = () => {
         <Link href="/privacy_policy">Privacy Policy</Link>
         <Link href="/terms_condition">Terms & Conditions</Link>
         <Link href="/cancellation_policy">Cancellation Policy</Link>
-        <CancellationPolicyDialog />
+        {/* <CancellationPolicyDialog /> */}
       </div>
     </div>
   );

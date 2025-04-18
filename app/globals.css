@@ -232,7 +232,9 @@ h2 {
   background-image: url("/images/about-banner.png");
   background-position: center bottom;
 }
-
+.faqFont {
+  font-size: 30px;
+}
 @media screen and (min-width: 1600px) {
   .cusineBox {
     width: 320px;
@@ -425,6 +427,9 @@ h2 {
     background-position: center top;
     background-size: cover;
   }
+  .faqFont {
+    font-size: 25px;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -504,6 +509,9 @@ h2 {
     text-shadow: 0 0 1px #000;
     font-size: 18px !important;
   }
+  .faqFont {
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 380px) {
@@ -519,6 +527,7 @@ h2 {
   .mobBanner {
     height: 600px;
   }
+
 }
 
 @media screen and (max-width: 350px) {
@@ -550,5 +559,8 @@ h2 {
   .cusineBoxPop {
     width: 280px;
     height: 280px;
+  }
+  .faqFont {
+    font-size: 17px;
   }
 }
