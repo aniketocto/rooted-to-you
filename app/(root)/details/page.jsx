@@ -122,7 +122,7 @@ const page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">GST</span>
                 <span className="font-base primary-font">
-                  ₹{(amount * gst || 0).toFixed(2)}
+                  ₹{Math.round(amount * gst || 0)}
                 </span>
               </div>
             </div>

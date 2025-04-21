@@ -106,7 +106,8 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  const deliveringPrices = 1500;
+  // const deliveringPrices = 1500;
+  const [deliveryPrice, setDeliveryPrice] = useState(1500);
   const gstTax = 0.06;
   const selectedBoxId = 2;
 
@@ -212,23 +213,26 @@ const Page = () => {
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealBasePrice = 0;
+    let mealBasePrice;
+    let currentDeliveryPrice;
 
     if (selectedDuration === 7) {
       mealBasePrice = selectedBox.weekPrice;
+      currentDeliveryPrice = 400;
     } else if (selectedDuration > 7) {
       mealBasePrice = selectedBox.monthPrice;
+      currentDeliveryPrice = 1500;
     } else {
       return;
     }
-
-    const tax = mealBasePrice * gstTax; // GST only on meal base price
-    const finalTotal = mealBasePrice + tax + deliveringPrices;
+    setDeliveryPrice(currentDeliveryPrice);
+    const tax = mealBasePrice * gstTax; 
+    const finalTotal = mealBasePrice + tax + deliveryPrice;
 
     setBasePrice(Math.round(mealBasePrice)); // Whole number
-    setTaxAmount(tax.toFixed(2)); // 2 decimal places
+    setTaxAmount(Math.round(tax)); // 2 decimal places
     setTotal(Math.round(finalTotal)); // Whole number
-  }, [selectedDuration, boxes, selectedBoxId, deliveringPrices, gstTax]);
+  }, [selectedDuration, boxes, selectedBoxId, deliveryPrice, gstTax]);
 
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
@@ -285,7 +289,7 @@ const Page = () => {
       ...updatedData,
       daysCount,
       sessionActive: true,
-      shippingAmount: deliveringPrices,
+      shippingAmount: deliveryPrice,
       gst: gstTax,
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
@@ -373,7 +377,7 @@ const Page = () => {
       /> */}
       <img
         src="/images/nav-bg.jpg"
-        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
@@ -742,7 +746,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
-                  ₹{selectedDuration ? deliveringPrices : 0}
+                  ₹{selectedDuration ? deliveryPrice : 0}
                 </span>
               </div>
 

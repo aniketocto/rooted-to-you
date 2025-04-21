@@ -23,7 +23,7 @@ import DetailForm from "@/components/DetailForm";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 const cuisineChoice = [
   {
@@ -101,7 +101,8 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  const deliveringPrices = 1500;
+  // const deliveringPrices = 1500;
+  const [deliveryPrice, setDeliveryPrice] = useState(1500);
   const gstTax = 0.06;
   const selectedBoxId = 1;
 
@@ -195,23 +196,29 @@ const Page = () => {
     if (!selectedBox) return;
 
     let mealbasePrice;
+    let currentDeliveryPrice;
 
     if (selectedDuration === 7) {
       mealbasePrice = selectedBox.weekPrice;
+      currentDeliveryPrice = 400;
     } else if (selectedDuration > 7) {
       mealbasePrice = selectedBox.monthPrice;
+      currentDeliveryPrice = 1500;
     } else {
       return;
     }
 
-    const beforeTax = mealbasePrice + deliveringPrices;
+    setDeliveryPrice(currentDeliveryPrice);
+    const beforeTax = mealbasePrice + deliveryPrice;
     const tax = mealbasePrice * gstTax;
     const finalSubTotal = beforeTax + tax;
 
     setBasePrice(Math.round(mealbasePrice));
     setTaxAmount(Math.round(tax));
     setTotal(Math.round(finalSubTotal));
+
   }, [selectedDuration, boxes]);
+
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = daysCount > 7 ? "monthly" : "weekly";
@@ -228,7 +235,7 @@ const Page = () => {
     const formattedEndDate = data.selectedDates?.endDate
       ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
       : null;
-    
+
     const token = userData?.token;
     const customerId = userData?.id;
 
@@ -255,11 +262,12 @@ const Page = () => {
       ...updatedData,
       daysCount,
       sessionActive: true,
-      shippingAmount: deliveringPrices,
+      shippingAmount: deliveryPrice,
       gst: gstTax,
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
+    console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -337,7 +345,7 @@ const Page = () => {
       /> */}
       <img
         src="/images/nav-bg.jpg"
-        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
@@ -559,7 +567,6 @@ const Page = () => {
                         onSelectedDaysChange={(days) => {
                           setSelectedDuration(days);
                         }}
-                        
                       />
                     </FormControl>
                     <FormMessage />
@@ -653,7 +660,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">Delivery Charges</span>
                 <span className="font-base primary-font">
-                  ₹{selectedDuration ? deliveringPrices : 0}
+                  ₹{selectedDuration ? deliveryPrice : 0}
                 </span>
               </div>
               <div className="flex justify-between">
