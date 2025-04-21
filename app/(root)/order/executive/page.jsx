@@ -189,35 +189,32 @@ const Page = () => {
     form.setValue("weekendType", weekendType);
   }, [highlightedDates, weekendType, form]);
 
-  useEffect(() => {
+useEffect(() => {
     if (!boxes.length) return;
 
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealbasePrice;
+    let mealBasePrice;
     let currentDeliveryPrice;
 
     if (selectedDuration === 7) {
-      mealbasePrice = selectedBox.weekPrice;
+      mealBasePrice = selectedBox.weekPrice;
       currentDeliveryPrice = 400;
     } else if (selectedDuration > 7) {
-      mealbasePrice = selectedBox.monthPrice;
+      mealBasePrice = selectedBox.monthPrice;
       currentDeliveryPrice = 1500;
     } else {
       return;
     }
-
     setDeliveryPrice(currentDeliveryPrice);
-    const beforeTax = mealbasePrice + deliveryPrice;
-    const tax = mealbasePrice * gstTax;
-    const finalSubTotal = beforeTax + tax;
+    const tax = mealBasePrice * gstTax;
+    const finalTotal = mealBasePrice + tax + deliveryPrice;
 
-    setBasePrice(Math.round(mealbasePrice));
-    setTaxAmount(Math.round(tax));
-    setTotal(Math.round(finalSubTotal));
-
-  }, [selectedDuration, boxes]);
+    setBasePrice(Math.round(mealBasePrice)); // Whole number
+    setTaxAmount(Math.round(tax)); // 2 decimal places
+    setTotal(Math.round(finalTotal)); // Whole number
+  }, [selectedDuration, boxes, selectedBoxId, deliveryPrice, gstTax]);
 
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
