@@ -13,7 +13,8 @@ export const PaymentProvider = ({ children }) => {
 
   const startPaymentSession = (sessionData) => {
     setPaymentSession(sessionData);
-    console.log("Session Data:", sessionData);   };
+    // console.log("Session Data:", sessionData);
+  };
 
 
   const clearPaymentSession = () => {

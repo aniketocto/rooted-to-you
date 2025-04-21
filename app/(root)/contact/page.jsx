@@ -49,7 +49,7 @@ const ContactUs = () => {
   });
   function onSubmit(values) {
     setIsSubmitting(true);
-    console.log(values);
+    // console.log(values);
 
     setTimeout(() => {
       setIsSubmitting(false);

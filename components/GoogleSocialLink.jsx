@@ -13,7 +13,7 @@ const GoogleSocialLink = () => {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = async (credentialResponse) => {
-    console.log(credentialResponse);
+    // console.log(credentialResponse);
 
     try {
       if (!credentialResponse) {
@@ -29,12 +29,12 @@ const GoogleSocialLink = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ token: credentialResponse.credential }), // ✅ correct shape
+          body: JSON.stringify({ token: credentialResponse.credential }), 
         }
       );
 
       const res = await response.json();
-      console.log("Google Login Backend Response:", res);
+      // console.log("Google Login Backend Response:", res);
 
       if (response.ok) {
         const userData = {
@@ -43,7 +43,7 @@ const GoogleSocialLink = () => {
           token: res.token,
           status: res.data.status,
         };
-        console.log(userData);
+        // console.log(userData);
         
         login(userData);
 

@@ -284,7 +284,6 @@ const Page = () => {
       dietType: selectedFoodType,
       weekendType: weekendType,
     };
-    console.log(userData?.id);
     const sessionData = {
       ...updatedData,
       daysCount,

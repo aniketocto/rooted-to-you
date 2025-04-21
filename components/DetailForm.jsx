@@ -128,7 +128,7 @@ const DetailForm = () => {
 
       setIsAuthorized(true);
       setIsLoading(true);
-      console.log("Local Data", storedUser);
+      // console.log("Local Data", storedUser);
 
       try {
         const res = await fetch(
@@ -143,7 +143,7 @@ const DetailForm = () => {
 
         const result = await res.json();
         const userData = result?.data;
-        console.log("userData", userData);
+        // console.log("userData", userData);
 
         if (res.ok && userData) {
           const hasUserInfo =
@@ -247,7 +247,7 @@ const DetailForm = () => {
       );
 
       const updatedUser = await fetchUpdatedRes.json();
-      console.log("fetchUser", updatedUser);
+      // console.log("fetchUser", updatedUser);
 
       if (fetchUpdatedRes.ok && updatedUser?.data) {
         // Flatten and store
@@ -261,7 +261,7 @@ const DetailForm = () => {
           JSON.stringify(newStoredUser)
         );
 
-        console.log("Updatedlocal", newStoredUser);
+        // console.log("Updatedlocal", newStoredUser);
 
         setTimeout(() => {
           router.push("/payment");

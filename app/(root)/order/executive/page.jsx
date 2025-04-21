@@ -267,7 +267,6 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-    console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -297,8 +296,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-      // console.log(activeData)
-      console.log(activeData);
+      
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
         const selectedStartDate = new Date(data.selectedDates?.startDate);

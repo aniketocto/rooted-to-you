@@ -45,7 +45,7 @@ const CorporatePlan = () => {
   const isSubmitting = form.formState.isSubmitting;
 
   const onSubmit = (data) => {
-    console.log("Submitted:", data);
+    // console.log("Submitted:", data);
     // handle submission
   };
 

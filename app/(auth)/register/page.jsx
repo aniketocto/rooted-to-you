@@ -106,8 +106,8 @@ const Page = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log(" err ", error);
-      setErrorMessage("Network error. Please try again.");
+      console.error("Login error:", error); 
+      setErrorMessage("Something went wrong. Please try again."); 
       setIsLoading(false);
     }
   };

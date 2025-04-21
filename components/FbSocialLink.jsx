@@ -19,7 +19,7 @@ const FbSocialLink = () => {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = async ({ provider, data }) => {
-    console.log("Facebook Login Success:", provider, data);
+    // console.log("Facebook Login Success:", provider, data);
 
     try {
       const response = await fetch(

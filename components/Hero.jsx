@@ -54,7 +54,7 @@ const Hero = () => {
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (response.ok && data.success) {
         setErrorMessage("✅ Delivery is available in your area!");
