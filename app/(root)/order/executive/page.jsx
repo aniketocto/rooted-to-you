@@ -195,29 +195,40 @@ const Page = () => {
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
     if (!selectedBox) return;
 
-    let mealbasePrice;
+    let mealBasePrice;
     let currentDeliveryPrice;
 
     if (selectedDuration === 7) {
-      mealbasePrice = selectedBox.weekPrice;
+      mealBasePrice = selectedBox.weekPrice;
       currentDeliveryPrice = 400;
     } else if (selectedDuration > 7) {
-      mealbasePrice = selectedBox.monthPrice;
+      mealBasePrice = selectedBox.monthPrice;
       currentDeliveryPrice = 1500;
     } else {
       return;
     }
 
+    console.log("Meal Base Price:", mealBasePrice);
+    console.log("Delivery Price:", currentDeliveryPrice);
+
+    const tax = mealBasePrice * gstTax;
+    console.log("Tax:", tax);
+
+    const finalTotal = mealBasePrice + tax + currentDeliveryPrice;
+    console.log("Final Total:", finalTotal);
+
+    console.log({
+      mealBasePrice,
+      tax,
+      currentDeliveryPrice,
+      finalTotal,
+    });
+
     setDeliveryPrice(currentDeliveryPrice);
-    const beforeTax = mealbasePrice + deliveryPrice;
-    const tax = mealbasePrice * gstTax;
-    const finalSubTotal = beforeTax + tax;
-
-    setBasePrice(Math.round(mealbasePrice));
+    setBasePrice(Math.round(mealBasePrice));
     setTaxAmount(Math.round(tax));
-    setTotal(Math.round(finalSubTotal));
-
-  }, [selectedDuration, boxes]);
+    setTotal(Math.round(finalTotal));
+  }, [selectedDuration, boxes, selectedBoxId, gstTax]);
 
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
@@ -267,6 +278,7 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
+    console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -296,7 +308,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-      
+
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
         const selectedStartDate = new Date(data.selectedDates?.startDate);

@@ -225,14 +225,28 @@ const Page = () => {
     } else {
       return;
     }
-    setDeliveryPrice(currentDeliveryPrice);
-    const tax = mealBasePrice * gstTax; 
-    const finalTotal = mealBasePrice + tax + deliveryPrice;
 
-    setBasePrice(Math.round(mealBasePrice)); // Whole number
-    setTaxAmount(Math.round(tax)); // 2 decimal places
-    setTotal(Math.round(finalTotal)); // Whole number
-  }, [selectedDuration, boxes, selectedBoxId, deliveryPrice, gstTax]);
+    console.log("Meal Base Price:", mealBasePrice);
+    console.log("Delivery Price:", currentDeliveryPrice);
+
+    const tax = mealBasePrice * gstTax;
+    console.log("Tax:", tax);
+
+    const finalTotal = mealBasePrice + tax + currentDeliveryPrice; 
+    console.log("Final Total:", finalTotal);
+
+    console.log({
+      mealBasePrice,
+      tax,
+      currentDeliveryPrice,
+      finalTotal,
+    });
+
+    setDeliveryPrice(currentDeliveryPrice); 
+    setBasePrice(Math.round(mealBasePrice));
+    setTaxAmount(Math.round(tax));
+    setTotal(Math.round(finalTotal));
+  }, [selectedDuration, boxes, selectedBoxId, gstTax]); 
 
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
@@ -293,6 +307,7 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
+    // console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -708,9 +723,9 @@ const Page = () => {
                 <span className="font-base primary-font">Duration</span>
                 <span className="font-base primary-font">
                   {selectedDuration === 7
-                    ? "1 Week"
+                    ? "Weekly"
                     : selectedDuration
-                    ? "1 Month"
+                    ? "Montly"
                     : ""}
                 </span>
               </div>
