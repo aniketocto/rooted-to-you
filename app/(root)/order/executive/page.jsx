@@ -103,7 +103,7 @@ const Page = () => {
   const [boxes, setBoxes] = useState([]);
   // const deliveringPrices = 1500;
   const [deliveryPrice, setDeliveryPrice] = useState(1500);
-  const gstTax = 0.06;
+  const gstTax = 0.05;
   const selectedBoxId = 1;
 
   useEffect(() => {
