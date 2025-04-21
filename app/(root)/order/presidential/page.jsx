@@ -689,7 +689,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base primary-font">Meal Plan</span>
                 <span className="capitalize font-base primary-font">
-                  Presidentail
+                  Presidential
                 </span>
               </div>
               <div className="flex justify-between">
