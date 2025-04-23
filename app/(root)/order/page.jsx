@@ -152,7 +152,7 @@ const OrderPage = () => {
         </div>
       </section>
       {/* Trial Plan */}
-      <section className="flex justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
+      {/* <section className="flex justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
         <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
           <Image
             src="/images/exe.png"
@@ -195,7 +195,7 @@ const OrderPage = () => {
             </p>
           </Button>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };
