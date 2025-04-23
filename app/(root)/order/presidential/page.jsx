@@ -740,9 +740,9 @@ const Page = () => {
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base secondary-font">Meal Plan</span>
-                <span className="capitalize font-base secondary-font">
-                  Presidential
+                <span className="font-base primary-font">Meal Plan</span>
+                <span className="capitalize font-base primary-font">
+                  Presidentail
                 </span>
               </div>
               <div className="flex justify-between">
