@@ -1,20 +1,34 @@
 import "./globals.css";
-import Footer from "@/components/Footer";
-import { AuthProvider } from "./context/AuthContext";
-import { PaymentProvider } from "./context/PaymentContext";
-import Navbar from "@/components/Navbar";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import ClientWrapper from "./ClientWrapper";
 import Script from "next/script";
+
+export const metadata = {
+  title: "Rooted To You",
+  description:
+    "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
+  openGraph: {
+    title: "Rooted To you",
+    description:
+      "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
+    url: "https://www.rootedtoyou.com/",
+    siteName: "Rooted To you",
+    images: [
+      {
+        url: "https://yourwebsite.com/og-image.jpg", // Full URL of your OG image
+        width: 1200,
+        height: 630,
+        alt: "An awesome description of the image",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Rooted to you</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-        
         {/* Meta Pixel Code */}
         <Script
           id="facebook-pixel"
@@ -60,7 +74,8 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body className="antialiased flex justify-center items-center flex-col min-w-screen min-h-screen">
+
+      <body className="flex justify-center items-center flex-col min-w-screen min-h-screen">
         {/* Google Tag Manager (noscript) */}
         <div
           dangerouslySetInnerHTML={{
@@ -85,17 +100,8 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        <GoogleOAuthProvider
-          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-        >
-          <AuthProvider>
-            <PaymentProvider>
-              <Navbar />
-              <div className="flex-1 w-full">{children}</div>
-              <Footer />
-            </PaymentProvider>
-          </AuthProvider>
-        </GoogleOAuthProvider>
+
+        <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
   );
