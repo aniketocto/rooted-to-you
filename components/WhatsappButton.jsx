@@ -22,7 +22,7 @@ export default function WhatsAppButton() {
     <>
       {showButton && (
         <a
-          href="https://wa.me/9307623665" // <-- replace with your WhatsApp link
+          href="https://wa.me/+9118002680268" // <-- replace with your WhatsApp link
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 z-50"
