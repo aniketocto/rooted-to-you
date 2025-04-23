@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
@@ -19,18 +19,9 @@ export default function StatsSection() {
   return (
     <section
       ref={ref}
-      className="w-full md:h-[400px] overflow-hidden justify-center items-center my-20 flex relative"
-      style={{
-        backgroundImage: "url('/images/about-deco.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "bottom top",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="w-full md:h-[400px] overflow-hidden justify-center items-center flex relative"
     >
-      <div
-        className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8"
-        data-aos="zoom-in"
-      >
+      <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map(({ value, suffix, text }, index) => (
           <div
             key={text}

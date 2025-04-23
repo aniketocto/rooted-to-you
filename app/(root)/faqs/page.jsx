@@ -1,3 +1,4 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   Accordion,
   AccordionContent,
@@ -13,7 +14,8 @@ const page = () => {
         className="absolute w-full h-1/3 object-cover z-[-1] top-0"
         alt=""
       />
-      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-center md:mx-10 mx-5">
+      <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-center md:mx-10 mx-5">
+        <Breadcrumbs />
         <h2 className="secondary-font text-[#e6af55] text-center w-full mb-10">
           FAQs
         </h2>

@@ -1,0 +1,30 @@
+.trial {
+  padding-top: 50px;
+}
+.trial p {
+  text-align: center;
+  font-family: "Glacial Indifference", sans-serif;
+  font-size: 25px;
+}
+
+.trial h3 {
+  text-align: center;
+  font-family: "Minion", sans-serif;
+  font-size: 55px;
+  width: 100%;
+  line-height: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .trial {
+    margin: 30px 0;
+    padding-top: 0;
+  }
+  .trial p {
+    font-size: 18px;
+  }
+  .trial h3 {
+    font-size: 30px;
+    line-height: 30px;
+  }
+}

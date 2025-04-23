@@ -28,7 +28,7 @@ const cuisineChoice = [
   {
     id: "1",
     itemCode: "M",
-    label: "Maharshtra",
+    label: "Maharashtra",
   },
   {
     id: "2",
@@ -106,10 +106,11 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  // const deliveringPrices = 1500;
   const [deliveryPrice, setDeliveryPrice] = useState(1500);
-  const gstTax = 0.05;
+  const [isTrial, setIsTrial] = useState(false);
   const selectedBoxId = 2;
+  const gstTax = isTrial ? 0 : 0.05;
+  const TRIAL_PRICE = 449;
 
   useEffect(() => {
     const user = localStorage.getItem("authenticatedUser");
@@ -208,6 +209,12 @@ const Page = () => {
   }, [highlightedDates, weekendType, form]);
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const isTrial = queryParams.get("mode") === "trial"; // fix here!
+    setIsTrial(isTrial);
+  }, []);
+
+  useEffect(() => {
     if (!boxes.length) return;
 
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
@@ -215,38 +222,33 @@ const Page = () => {
 
     let mealBasePrice;
     let currentDeliveryPrice;
+    let tax = gstTax;
+    let finalTotal;
 
-    if (selectedDuration === 7) {
+    if (isTrial) {
+      // For trial, the TRIAL_PRICE is the final total amount (all-inclusive)
+      finalTotal = TRIAL_PRICE;
+      mealBasePrice = TRIAL_PRICE;
+      currentDeliveryPrice = 0;
+    } else if (selectedDuration === 7) {
       mealBasePrice = selectedBox.weekPrice;
       currentDeliveryPrice = 400;
+      tax = mealBasePrice * gstTax;
+      finalTotal = mealBasePrice + tax + currentDeliveryPrice;
     } else if (selectedDuration > 7) {
       mealBasePrice = selectedBox.monthPrice;
       currentDeliveryPrice = 1500;
+      tax = mealBasePrice * gstTax;
+      finalTotal = mealBasePrice + tax + currentDeliveryPrice;
     } else {
       return;
     }
 
-    console.log("Meal Base Price:", mealBasePrice);
-    console.log("Delivery Price:", currentDeliveryPrice);
-
-    const tax = mealBasePrice * gstTax;
-    console.log("Tax:", tax);
-
-    const finalTotal = mealBasePrice + tax + currentDeliveryPrice; 
-    console.log("Final Total:", finalTotal);
-
-    console.log({
-      mealBasePrice,
-      tax,
-      currentDeliveryPrice,
-      finalTotal,
-    });
-
-    setDeliveryPrice(currentDeliveryPrice); 
+    setDeliveryPrice(currentDeliveryPrice);
     setBasePrice(Math.round(mealBasePrice));
     setTaxAmount(Math.round(tax));
     setTotal(Math.round(finalTotal));
-  }, [selectedDuration, boxes, selectedBoxId, gstTax]); 
+  }, [selectedDuration, boxes, selectedBoxId, gstTax, isTrial]);
 
   const handleCuisineSelection = (id) => {
     setSelectedCuisines((prevCuisines) =>
@@ -258,8 +260,8 @@ const Page = () => {
     );
   };
   async function onSubmit(data) {
-    const daysCount = data.selectedDates?.count || 0;
-    const planType = daysCount > 7 ? "monthly" : "weekly";
+    const daysCount = isTrial ? 1 : data.selectedDates?.count || 0;
+    const planType = isTrial ? "trial" : daysCount > 7 ? "monthly" : "weekly";
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
     const token = userData?.token;
@@ -268,13 +270,19 @@ const Page = () => {
       data.selectedDatesArray?.map((date) =>
         format(new Date(date), "yyyy-MM-dd")
       ) || [];
-    const formattedStartDate = data.selectedDates?.startDate
-      ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
-      : null;
+    const formattedStartDate =
+      isTrial && highlightedDates[0]
+        ? format(new Date(highlightedDates[0]), "yyyy-MM-dd")
+        : data.selectedDates?.startDate
+        ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
+        : null;
 
-    const formattedEndDate = data.selectedDates?.endDate
-      ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
-      : null;
+    const formattedEndDate =
+      isTrial && highlightedDates[0]
+        ? format(new Date(highlightedDates[0]), "yyyy-MM-dd") // Same as start date for trial
+        : data.selectedDates?.endDate
+        ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
+        : null;
 
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
@@ -291,12 +299,12 @@ const Page = () => {
       subscriptionType: planType,
       startDate: formattedStartDate || null,
       endDate: formattedEndDate || null,
-      amount: basePrice,
+      amount: isTrial ? TRIAL_PRICE : basePrice,
       cuisineChoice: cuisineIds,
       itemCode: itemCodes,
       itemNames: itemNames,
       dietType: selectedFoodType,
-      weekendType: weekendType,
+      weekendType: isTrial ? "all" : weekendType, // For trial, always include weekends
     };
     const sessionData = {
       ...updatedData,
@@ -306,8 +314,9 @@ const Page = () => {
       gst: gstTax,
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
+      isTrial: isTrial, // Add a flag to indicate it's a trial
     };
-    // console.log("Session Data:", sessionData);
+    console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -381,14 +390,6 @@ const Page = () => {
 
   return (
     <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
-      {/* <Image
-        src="/images/nav-bg.jpg"
-        alt="bg"
-        width={1440}
-        height={270}
-        quality={100} // Increase quality (0-100)
-        className="absolute top-0 z-[-1] w-full"
-      /> */}
       <img
         src="/images/nav-bg.jpg"
         className="absolute w-full h-[300px] object-cover z-[-1] top-0"
@@ -396,7 +397,10 @@ const Page = () => {
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
-          <h2 className="text-2xl font-bold primary-font">Presidential Meal</h2>
+        {/* <Breadcrumbs /> */}
+          <h2 className="text-2xl font-bold secondary-font">
+            Presidential Meal
+          </h2>
           <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
           <Form {...form}>
             <form
@@ -643,31 +647,65 @@ const Page = () => {
                       <DatePicker
                         onDateChange={(dates) => {
                           if (Array.isArray(dates) && dates.length > 0) {
-                            setHighlightedDates(dates);
-                            const startDate = dates[0];
-                            const endDate = dates[dates.length - 1];
+                            // For trial mode, force exactly one day
+                            if (isTrial) {
+                              const selectedDate = dates[0]; // Take only the first selected date
+                              setHighlightedDates([selectedDate]);
 
-                            form.setValue(
-                              "selectedDates",
-                              {
-                                startDate,
-                                endDate,
-                                count: dates.length,
-                              },
-                              {
-                                shouldValidate: true,
-                              }
-                            );
-                            form.setValue("selectedDatesArray", dates);
+                              form.setValue(
+                                "selectedDates",
+                                {
+                                  startDate: selectedDate,
+                                  endDate: selectedDate, // Same as start date for trial
+                                  count: 1, // Always 1 for trial
+                                },
+                                {
+                                  shouldValidate: true,
+                                }
+                              );
+                              form.setValue("selectedDatesArray", [
+                                selectedDate,
+                              ]);
+                            } else {
+                              // Original behavior for non-trial mode
+                              setHighlightedDates(dates);
+                              const startDate = dates[0];
+                              const endDate = dates[dates.length - 1];
+
+                              form.setValue(
+                                "selectedDates",
+                                {
+                                  startDate,
+                                  endDate,
+                                  count: dates.length,
+                                },
+                                {
+                                  shouldValidate: true,
+                                }
+                              );
+                              form.setValue("selectedDatesArray", dates);
+                            }
                           }
                         }}
                         onWeekendRuleChange={(rule) => {
-                          setWeekendRule(rule);
-                          form.setValue("weekendType", rule);
+                          // For trial mode, always use "all" weekend rule
+                          if (isTrial) {
+                            setWeekendRule("all");
+                            form.setValue("weekendType", "all");
+                          } else {
+                            setWeekendRule(rule);
+                            form.setValue("weekendType", rule);
+                          }
                         }}
                         onSelectedDaysChange={(days) => {
-                          setSelectedDuration(days);
+                          // For trial mode, always force days to be 1
+                          if (isTrial) {
+                            setSelectedDuration(1);
+                          } else {
+                            setSelectedDuration(days);
+                          }
                         }}
+                        isTrial={isTrial}
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
@@ -697,49 +735,49 @@ const Page = () => {
         </div>
         <div className="lg:w-[40%] w-full lg:sticky top-20 self-start px-4">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
-            <h2 className="text-2xl! primary-font font-bold border-b border-white pb-2 mb-3 text-[#e6af55]">
+            <h2 className="text-2xl! secondary-font font-bold border-b border-white pb-2 mb-3 text-[#e6af55]">
               Details for lunch
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Plan</span>
-                <span className="capitalize font-base primary-font">
-                  Presidentail
+                <span className="font-base secondary-font">Meal Plan</span>
+                <span className="capitalize font-base secondary-font">
+                  Presidential
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Time</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Time</span>
+                <span className="capitalize font-base secondary-font">
                   {selectedTime}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Type</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Type</span>
+                <span className="capitalize font-base secondary-font">
                   {selectedFoodType}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Duration</span>
-                <span className="font-base primary-font">
-                  {selectedDuration === 7
-                    ? "Weekly"
-                    : selectedDuration
-                    ? "Montly"
-                    : ""}
+                <span className="font-base secondary-font">Duration</span>
+                <span className="font-base secondary-font capitalize">
+                  {isTrial
+                    ? "trial"
+                    : selectedDuration > 7
+                    ? "monthly"
+                    : "weekly"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Start date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Start date</span>
+                <span className="font-base secondary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[0].toDateString()
                     : "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">End date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">End date</span>
+                <span className="font-base secondary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[
                         highlightedDates.length - 1
@@ -749,30 +787,32 @@ const Page = () => {
               </div>
             </div>
 
-            <h2 className="text-2xl! primary-font font-bold border-y border-white py-2 mt-4 mb-3 text-orange-300">
+            <h2 className="text-2xl! secondary-font font-bold border-y border-white py-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Sub Total</span>
-                <span className="font-base primary-font">₹{basePrice}</span>
+                <span className="font-base secondary-font">Sub Total</span>
+                <span className="font-base secondary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Delivery Charges</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">
+                  Delivery Charges
+                </span>
+                <span className="font-base secondary-font">
                   ₹{selectedDuration ? deliveryPrice : 0}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="font-base primary-font">GST</span>
-                <span className="font-base primary-font">₹{taxAmount}</span>
+                <span className="font-base secondary-font">Tax(G.S.T.)</span>
+                <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
             </div>
 
             <div className="border-t border-white mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span className="font-base primary-font">Grand Total</span>
-              <span className="font-base primary-font">₹{total}</span>
+              <span className="font-base secondary-font">Grand Total</span>
+              <span className="font-base secondary-font">₹{total}</span>
             </div>
           </div>
         </div>

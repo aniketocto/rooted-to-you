@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Image from "next/image";
 import { useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Autoplay } from "swiper/modules";
 
 const formSchema = z.object({
   zipCode: z
@@ -70,87 +73,160 @@ const Hero = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    const setVH = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-    setVH();
 
-    window.addEventListener("resize", setVH);
-    return () => window.removeEventListener("resize", setVH);
-  }, []);
   return (
-    <section className="w-full  flex justify-center items-center hero-bg">
-      <div
-        className=" w-full h-full flex flex-col items-start justify-center px-0 sm:px-10"
-        style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+    <section className="w-full h-dvh  flex justify-center items-center ">
+      <Swiper
+        className="mySwiper w-full h-full"
+        modules={[Autoplay]}
+        loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
       >
-        <div
-          className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-5"
-          data-aos="fade-right"
-        >
-          <h1 className="secondary-font text-[#E6AF55] font-bold">
-            Eat. Connect. Celebrate.
-          </h1>
-          <p className="primary-font hero-font font-base mb-5">
-            Say goodbye to unhealthy takeouts and meal-prep stress. Rooted to
-            You brings expertly curated, fresh, and nutritious meals straight to
-            your doorstep. Whether at home or the office, enjoy
-            restaurant-quality food at everyday prices.
-          </p>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="gap-5 flex flex-col md:flex-row w-44 md:w-96"
+        <SwiperSlide>
+          <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-center px-0 sm:px-10">
+            <div
+              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] pl-8"
+              data-aos="fade-right"
             >
-              <FormField
-                control={form.control}
-                name="zipCode"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Enter your Pin Code"
-                        {...field}
-                        maxLength={6}
-                        pattern="[0-9]{6}"
-                        inputMode="numeric"
-                        onInput={(e) => {
-                          e.target.value = e.target.value.replace(/\D/g, "");
-                        }}
-                        className="md:w-[350px] w-[200px] border border-gray-400 rounded-md bg-transparent px-3 py-2"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-500!" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
-              >
-                <p className="secondary-font subbtnFont uppercase text-[#03141C]!">
-                  {isLoading ? "Checking..." : "Get Started"}
-                </p>
-              </Button>
-            </form>
-            <div className="h-5" aria-live="polite">
-              {errorMessage && (
-                <p
-                  className={`text-sm font-medium ${
-                    deliverState ? "text-green-600" : "text-red-600"
-                  }`}
+              <h1 className="secondary-font text-[#E6AF55] font-bold">
+                Eat. <br /> Connect. <br />Celebrate.
+              </h1>
+              <p className="primary-font hero-font font-base mb-5">
+                With Rooted, indulge in the authenticity of Indian flavours and
+                cuisines, connect with vibrant regional cultures, and celebrate
+                the joy of discovery and sharing wholesome meals.
+              </p>
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="gap-5 flex flex-col md:flex-row w-44 md:w-96"
                 >
-                  {errorMessage}
-                </p>
-              )}
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="Enter your Pin Code"
+                            {...field}
+                            maxLength={6}
+                            pattern="[0-9]{6}"
+                            inputMode="numeric"
+                            onInput={(e) => {
+                              e.target.value = e.target.value.replace(
+                                /\D/g,
+                                ""
+                              );
+                            }}
+                            className="md:w-[350px] w-[200px] border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-500!" />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
+                  >
+                    <p className="secondary-font subbtnFont uppercase text-[#03141C]!">
+                      {isLoading ? "Checking..." : "Get Started"}
+                    </p>
+                  </Button>
+                </form>
+                <div className="h-5" aria-live="polite">
+                  {errorMessage && (
+                    <p
+                      className={`text-sm font-medium ${
+                        deliverState ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {errorMessage}
+                    </p>
+                  )}
+                </div>
+              </Form>
             </div>
-          </Form>
-        </div>
-      </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className=" w-full h-full hero-bg-2 flex flex-col items-start justify-center px-0 sm:px-10">
+            <div
+              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] pl-8"
+              data-aos="fade-right"
+            >
+              <h1 className="secondary-font text-[#E6AF55] font-bold">
+                New Day, <br /> New Cuisine, <br /> New Meal.
+              </h1>
+              <p className="primary-font hero-font font-base mb-5">
+                Say goodbye to unhealthy takeouts and meal-prep stress. Rooted
+                to You brings expertly curated, fresh, and nutritious meals
+                straight to your doorstep. Whether at home or the office, enjoy
+                restaurant-quality food at everyday prices.
+              </p>
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="gap-5 flex flex-col md:flex-row w-44 md:w-96"
+                >
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="Enter your Pin Code"
+                            {...field}
+                            maxLength={6}
+                            pattern="[0-9]{6}"
+                            inputMode="numeric"
+                            onInput={(e) => {
+                              e.target.value = e.target.value.replace(
+                                /\D/g,
+                                ""
+                              );
+                            }}
+                            className="md:w-[350px] w-[200px] border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-500!" />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
+                  >
+                    <p className="secondary-font subbtnFont uppercase text-[#03141C]!">
+                      {isLoading ? "Checking..." : "Get Started"}
+                    </p>
+                  </Button>
+                </form>
+                <div className="h-5" aria-live="polite">
+                  {errorMessage && (
+                    <p
+                      className={`text-sm font-medium ${
+                        deliverState ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {errorMessage}
+                    </p>
+                  )}
+                </div>
+              </Form>
+            </div>
+          </div>
+        </SwiperSlide>
+      </Swiper>
     </section>
   );
 };

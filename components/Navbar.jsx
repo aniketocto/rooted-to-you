@@ -19,16 +19,21 @@ import { navLinks } from "@/lib/helper";
 import { useAuth } from "@/app/context/AuthContext";
 import { usePaymentContext } from "@/app/context/PaymentContext";
 
+import '../app/styles/navbar.css'
+
 const Navbar = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+
   const { clearPaymentSession } = usePaymentContext();
   const { user, logout, loading } = useAuth();
   const isGlassVisible = isVisible && scrollY > 20;
 
   const router = useRouter();
   const pathname = usePathname();
+
   const handleLogout = () => {
     logout();
     router.push("/");
@@ -36,9 +41,13 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsVisible(scrollY > currentScrollY || currentScrollY < 100); // Show if scrolling up or at the top
+      setIsVisible(scrollY > currentScrollY || currentScrollY < 100); // Show if scrolling up or at top
       setScrollY(currentScrollY);
     };
 
@@ -48,7 +57,9 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrollY]);
-  if (loading) return null;
+
+  if (!isMounted || loading) return null;
+  
   return (
     <div
       className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 navPadding ${

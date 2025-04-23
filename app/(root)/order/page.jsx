@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import "./order.css";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const OrderPage = () => {
   const router = useRouter();
@@ -15,7 +17,7 @@ const OrderPage = () => {
       setIsLoggedIn(true);
     }
 
-    localStorage.removeItem("mealFormData")
+    localStorage.removeItem("mealFormData");
   }, []);
 
   const handleNavigate = (path) => {
@@ -27,8 +29,9 @@ const OrderPage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center my-32  px-5">
-      {/* <Image
+    <>
+      <section className="w-full h-fit flex justify-center items-center mt-32  px-5">
+        {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
         width={1440}
@@ -39,116 +42,161 @@ const OrderPage = () => {
           objectFit: "cover"
         }}
       /> */}
-      <img
-        src="/images/nav-bg.jpg"
-        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
-        alt=""
-      />
-      <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
         <img
-          src="/images/about-deco.png"
-          alt="Section Divider"
-          className="w-full absolute"
+          src="/images/nav-bg.jpg"
+          className="absolute w-full h-[300px] object-cover z-[-1] top-0"
+          alt=""
         />
-      </div>
-      <div className="max-w-[1240px] w-full h-full flex flex-col items-baseline justify-start">
-        {/* Executive Meal */}
-        <div className="flex justify-center items-start flex-col flexCol md:flex-row gap-5">
-          <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
-            <Image
-              src="/images/exe1.png"
-              width={512}
-              height={598}
-              alt="Executive Meal"
-            />
-          </div>
-          <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
-            <h2 className="secondary-font mb-5 font-light">
-              The Executive Meal
-            </h2>
-            <p className="primary-font font-base-1 mb-5">
-              A wholesome, balanced meal with 5 to 6 curated components,
-              delivering variety without the hassle.
-            </p>
-            <div className="border border-[#e6af55] rounded-md h-fit p-5 pb-0 md:p-10 md:pb-0 mb-10">
-              <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
-                <li>
-                  <span className="font-semibold">Zero Decision-Making</span>:
-                  Enjoy a new cuisine every day.
-                </li>
-                <li>
-                  <span className="font-semibold">Balanced & Nourishing</span>:
-                  Thoughtfully designed for taste and well-being.
-                </li>
-                <li>
-                  <span className="font-semibold">Complete Meal</span>: Includes
-                  rice, Dal, one vegetable, Indian breads, plus a choice of
-                  snack, sweet, or salad.
-                </li>
-                <li>
-                  <span className="font-semibold">Seamless Convenience</span>:
-                  Quick, satisfying, and hassle-free.
-                </li>
-              </ul>
-            </div>
-            <Button
-              className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
-              onClick={() => handleNavigate("/order/executive")}
-            >
-              <p className="text-[#03141C]! btnfont">Subscribe Now</p>
-            </Button>
-          </div>
+        <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
+          <img
+            src="/images/about-deco.png"
+            alt="Section Divider"
+            className="w-full absolute"
+          />
         </div>
+        <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-start">
+          <Breadcrumbs />
+          {/* Executive Meal */}
+          <div className="flex justify-center h-fit md:h-[500px] items-start flex-col flexCol md:flex-row gap-5">
+            <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
+              <Image
+                src="/images/exe1.png"
+                width={412}
+                height={498}
+                alt="Executive Meal"
+              />
+            </div>
+            <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
+              <h2 className="secondary-font font-light">The Executive Meal</h2>
+              <p className="primary-font text-sm">(5 to 6 components)</p>
+              <p className="primary-font font-base-1 mb-5">
+                <em>
+                  Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
+                  Salad
+                </em>
+              </p>
+              <div className="border border-[#e6af55] rounded-md p-5 pb-0 md:pb-0 mb-10">
+                <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
+                  <li>
+                    <span className="font-semibold">Zero Decision-Making</span>:
+                    Enjoy a new cuisine every day.
+                  </li>
+                  <li>
+                    <span className="font-semibold">Balanced & Nourishing</span>
+                    : Thoughtfully designed for taste and well-being.
+                  </li>
+                  <li>
+                    <span className="font-semibold">Seamless Convenience</span>:
+                    Quick, satisfying, and hassle-free.
+                  </li>
+                </ul>
+              </div>
+              <Button
+                className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
+                onClick={() => handleNavigate("/order/executive")}
+              >
+                <p className="text-[#03141C]! btnfont">Subscribe Now</p>
+              </Button>
+            </div>
+          </div>
 
-        {/* Presidential Meal */}
-        <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-10">
-          <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
-            <Image
-              src="/images/pre1.png"
-              width={512}
-              height={598}
-              alt="Presidential Meal"
-            />
-          </div>
-          <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
-            <h2 className="secondary-font mb-5 font-light">
-              The Presidential Meal
-            </h2>
-            <p className="primary-font font-base-1 mb-5">
-              An indulgent 8 to 9-component spread, designed for those who savor
-              variety and richness.
-            </p>
-            <div className="border border-[#e6af55] rounded-md p-5 pb-0 md:p-10 md:pb-0 mb-10">
-              <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
-                <li>
-                  <span className="font-semibold">Personalized Experience</span>
-                  : Choose 3 cuisines from 5 for a diverse dining journey.
-                </li>
-                <li>
-                <span className="font-semibold">Signature Dishes</span>: Featuring chef-special creations for a
-                  refined taste.
-                </li>
-                <li>
-                <span className="font-semibold">Complete & Satisfying</span>: Includes Rice, Dal, One Veg, Indian
-                  Breads, Salad, Entrée, Sweet, plus a choice of Papad, Pickle,
-                  or Healthy Beverage, finished with Mukhwas.
-                </li>
-                <li>
-                <span className="font-semibold">Elaborate Yet Compact</span>: A well-balanced meal that blends
-                  indulgence with everyday ease.
-                </li>
-              </ul>
+          {/* Presidential Meal */}
+          <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-10">
+            <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
+              <Image
+                src="/images/pre1.png"
+                width={412}
+                height={498}
+                alt="Presidential Meal"
+              />
             </div>
-            <Button
-              className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
-              onClick={() => handleNavigate("/order/presidential")}
-            >
-              <p className="text-[#03141C]! btnfont">Subscribe Now</p>
-            </Button>
+            <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
+              <h2 className="secondary-font mb-5 font-light">
+                The Presidential Meal
+              </h2>
+              <p className="primary-font text-sm">(8 to 9 components)</p>
+              <p className="primary-font font-base-1 mb-5">
+                <em>
+                  Rice, Dal, One Veg, Indian Breads, Salad, Entree, Sweet, Papad
+                  / Pickle / Healthy Beverage, Mukhwas
+                </em>
+              </p>
+              <div className="border border-[#e6af55] rounded-md p-5 pb-0 md:pb-0 mb-10">
+                <ul className="list-with-image list-inside primary-font pl-5 mb-8 font-base-1 space-y-4">
+                  <li>
+                    <span className="font-semibold">
+                      Personalized Experience
+                    </span>
+                    : Choose 3 cuisines from 5 for a diverse dining journey.
+                  </li>
+                  <li>
+                    <span className="font-semibold">Elaborate Yet Compact</span>
+                    : A well-balanced meal that blends indulgence with everyday
+                    ease.
+                  </li>
+                  <li>
+                    <span className="font-semibold">Complete & Satisfying</span>
+                    : A fulfilling dining experience crafted to nourish,
+                    delight, and leave you content.
+                  </li>
+                </ul>
+              </div>
+              <Button
+                className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
+                onClick={() => handleNavigate("/order/presidential")}
+              >
+                <p className="text-[#03141C]! btnfont">Subscribe Now</p>
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {/* Trial Plan */}
+      <section className="flex justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
+        <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
+          <Image
+            src="/images/exe.png"
+            alt="executive"
+            width={330}
+            height={420}
+            quality={100}
+          />
+          <h3 className="mb-5 secondary-font">Executive Meal</h3>
+          <Button
+            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
+            onClick={() => router.push("/order/executive?mode=trial")}
+          >
+            <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
+          </Button>
+        </div>
+        <div className="trial w-full md:w-[40%] h-full flex justify-center items-center flex-col">
+          <p>Taste First, Subscribe Later.</p>
+          <h3>Try a Rooted Meal - Just One Click Away!</h3>
+          <p>
+            Authenticated Indian meals crafted with love <br />
+            No Commitment. Just Pure Flavour
+          </p>
+        </div>
+        <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
+          <Image
+            src="/images/pre.png"
+            alt="executive"
+            width={330}
+            height={420}
+            quality={100}
+          />
+          <h3 className="mb-5 secondary-font">Presidential Meal</h3>
+          <Button
+            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
+            onClick={() => router.push("/order/presidential?mode=trial")}
+          >
+            <p className="text-[#03141C]! subbtnFont secondary-font">
+              Subscribe Now
+            </p>
+          </Button>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -1,0 +1,9 @@
+.main-head {
+    line-height: 60px;
+}
+
+@media screen and (max-width: 768px) {
+    .main-head {
+        line-height: normal;
+    }
+}

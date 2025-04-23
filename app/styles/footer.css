@@ -1,0 +1,29 @@
+.footer-font {
+  font-size: 20px;
+  font-family: "Glacial Indifference", sans-serif;
+  line-height: normal;
+}
+
+.footer-head {
+  font-size: 20px;
+  font-family: "Glacial Indifference", sans-serif;
+  line-height: normal;
+}
+
+@media screen and (max-width: 1050px) {
+  .footer-font {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer-font {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .footer-font {
+    font-size: 15px;
+  }
+}

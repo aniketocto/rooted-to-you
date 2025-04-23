@@ -1,13 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CancellationPolicyDialog } from "./CancellationPolicyDialog";
-
+import "../app/styles/footer.css";
 
 const Footer = () => {
   return (
     <div className="footer-bg flex-col secondary-font w-full h-fit flex justify-center items-center px-6 lg:px-15 xl:px-20">
-      <Image src='/images/footer-border.png' alt="" width={1420} height={20} className="w-full" />
+      <Image
+        src="/images/footer-border.png"
+        alt=""
+        width={1420}
+        height={20}
+        className="w-full"
+      />
       <div className="flex h-fit py-12 md:flex-row flex-col justify-around item-start gap-5">
         <div className="md:w-[40%] h-full flex flex-col justify-items-start items-start gap-4">
           <Image
@@ -17,59 +22,93 @@ const Footer = () => {
             height={130}
           />
           <div className="flex flex-col">
-            <p className="primary-font font-base-1 mt-2">
-              Ingenium Food Ventures Pvt Ltd. <br />
-              Delivering a real taste of India through authentic and diverse
-              flavors, we bring the essence of regional cultures to your
-              doorstep, ensuring you always stay true to your roots.
+            <p className="primary-font font-base mt-2">
+              <strong className="footer-head">
+                {" "}
+                Ingenium Food Ventures Pvt Ltd.
+              </strong>{" "}
+              <br />
+              <span className="footer-font">
+                Delivering a real taste of India through authentic and diverse
+                flavors, we bring the essence of regional cultures to your
+                doorstep, ensuring you always stay true to your roots.
+              </span>
             </p>
           </div>
-        </div>
-        <div className="md:w-[20%] h-full flex flex-col justify-start gap-4 items-start md:ml-14">
-          <p className="font-base">Quick Links</p>
-          <div className="flex flex-col justify-around items-start gap-3 primary-font!">
-            <Link href="/">Home</Link>
-            <Link href="/about">Why Rooted?</Link>
-            <Link href="/">Meal Plans</Link>
-            <Link href="/blogs">Blogs</Link>
-            <Link href="/contact">Contact Us</Link>
-          </div>
-        </div>
-        <div className="md:w-[40%] h-full flex flex-col justify-start items-start gap-5">
           <div>
-            <p className="primary-font font-base-1 mt-2">
-              Address: Ingenium Food Ventures Pvt Ltd. Unit 10 & 11, Ground
-              Floor, Narayan Plaza Building, Saki Vihar Road, Mumbai, MH -
-              400072
+            <p className="primary-font font-base mt-2">
+              <strong className="footer-head">Address:</strong> <br />
+              <span className="footer-font">
+                Ingenium Food Ventures Pvt Ltd. Unit 10 & 11, Ground Floor,
+                Narayan Plaza Building, Saki Vihar Road, Mumbai, MH - 400072
+              </span>
             </p>
           </div>
-          <div className="w-full flex flex-col md:flex-row justify-start xl:gap-16 lg:gap-5 gap-3 ">
+        </div>
+        <div className="md:w-[30%] h-full flex flex-col justify-center gap-2 items-start md:mt-12  md:pl-20">
+          <p className="primary-font footer-head mt-2">
+            <strong>Quick Links</strong>
+          </p>
+          <div className="flex flex-col justify-around text-lg items-start gap-1 primary-font!">
+            <Link href="/" className="footer-font">
+              Home
+            </Link>
+            <Link href="/about" className="footer-font">
+              Our Roots
+            </Link>
+            <Link href="/order" className="footer-font">
+              Meal Plans
+            </Link>
+            <Link href="/b2b" className="footer-font">
+              B2B
+            </Link>
+            <Link href="/blogs" className="footer-font">
+              Blogs
+            </Link>
+            <Link href="/contact" className="footer-font">
+              Contact Us
+            </Link>
+          </div>
+        </div>
+        <div className="md:w-[30%] h-full flex flex-col justify-start items-start gap-5  md:mt-12">
+          <div className="w-full flex flex-col justify-start gap-3">
             <div className="flex flex-col gap-2">
-              <p className="secondary-font font-base-1">Follow Us</p>
+              <p className="primary-font footer-head mt-2">
+                <strong>Follow Us</strong>
+              </p>
               <div className="w-full flex flex-row justify-start gap-3">
-                <a href="https://www.instagram.com/rootedtoyou/" target="_blank">
+                <a
+                  href="https://www.instagram.com/rootedtoyou/"
+                  target="_blank"
+                >
                   <Image
                     src="/images/instagram.png"
                     alt="Instagram"
-                    width={40}
+                    width={30}
                     height={100}
                     className="socialImg"
                   />
                 </a>
-                <a href="https://www.facebook.com/share/1DUG9Btxbg/" target="_blank">
+                <a
+                  href="https://www.facebook.com/share/1DUG9Btxbg/"
+                  target="_blank"
+                >
                   <Image
                     src="/images/facebook.png"
                     alt="Facebook"
-                    width={40}
+                    width={30}
                     height={100}
                     className="socialImg"
                   />
                 </a>
-                <a href="https://www.linkedin.com/company/rooted-to-you/" target="_blank">
+                <a
+                  href="https://www.linkedin.com/company/rooted-to-you/"
+                  target="_blank"
+                >
                   <Image
                     src="/images/linkedin.png"
                     alt="Linkedin"
-                    width={40}
+                    width={30}
                     height={100}
                     className="socialImg"
                   />
@@ -77,7 +116,9 @@ const Footer = () => {
               </div>
             </div>
             <div className="w-full flex-col flex justify-around gap-2">
-              <p className="secondary-font font-base-1">Call Us</p>
+              <p className="primary-font font-base-1">
+                <strong>Call Us</strong>
+              </p>
               <a href="tel: +912260600012">
                 <p className="secondary-font font-base-1 flex justify-start gap-2 items-center">
                   <Image
@@ -122,17 +163,11 @@ const Footer = () => {
       <div className="w-full max-w-7xl sm:h-28 h-fit py-5 flex justify-around flex-col gap-4 sm:gap-0 sm:flex-row items-center secondary-font font-base-1">
         <Link href="/privacy_policy">Privacy Policy</Link>
         <Link href="/terms_condition">Terms & Conditions</Link>
-        <Link href="/cancellation_policy">Cancellation Policy</Link>
+        <Link href="/faqs">FAQs</Link>
         {/* <CancellationPolicyDialog /> */}
       </div>
     </div>
   );
 };
 
-
 export default Footer;
-
-
-
-
-

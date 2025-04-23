@@ -10,12 +10,16 @@ const RootLayout = ({ children }) => {
     Aos.init({
       duration: 800,
       once: true,
-      mirror: false
+      mirror: false,
     });
     Aos.refresh();
   }, []);
 
-  return <PaymentProvider>{children}</PaymentProvider>;
+  return (
+    <PaymentProvider>
+      {children}
+    </PaymentProvider>
+  );
 };
 
 export default RootLayout;

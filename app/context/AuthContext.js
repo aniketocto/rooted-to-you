@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
           const result = await res.json();
           setUser(result.data);
         } else {
-          setUser(null);
+          setUser(storedUser);
         }
       } catch (error) {
         console.error("Failed to load user:", error);

@@ -14,11 +14,13 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
+import { is } from "date-fns/locale";
 
 const DatePicker = ({
   onDateChange,
   onWeekendRuleChange,
   onSelectedDaysChange,
+  isTrial,
 }) => {
   const loadSavedData = () => {
     try {
@@ -78,8 +80,6 @@ const DatePicker = ({
       }
     }
   }, [startDate, selectedDays, saturdayOption]);
-  
-
 
   useEffect(() => {
     if (startDate && selectedDays !== null) {
@@ -191,169 +191,150 @@ const DatePicker = ({
   return (
     <div className="relative flex flex-col items-start">
       <div className="relative shadow-lg flex justify-center flex-col rounded-lg z-10">
-        <div className="mb-3 flex gap-4">
-          <RadioGroup
-            value={selectedDays?.toString() || ""}
-            onValueChange={(value) => {
-              setSelectedDays(parseInt(value));
-              // Re-trigger date calculation if user has already selected a date
-              if (startDate) {
-                setTimeout(
-                  () =>
-                    generateHighlightedDates(
-                      startDate,
-                      parseInt(value),
-                      saturdayOption
-                    ),
-                  0
-                );
-              }
-            }}
-            className="flex gap-4 w-full"
-          >
-            <FormItem className="flex-1 m-0 p-0 space-y-0">
-              <div className="relative w-full">
-                <RadioGroupItem value="7" id="days7" className="sr-only" />
-                <label
-                  htmlFor="days7"
-                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+        <div className="mb-3 max-w-[90%] flex gap-4">
+          {!isTrial && (
+            <RadioGroup
+              value={selectedDays?.toString() || ""}
+              onValueChange={(value) => {
+                setSelectedDays(parseInt(value));
+                // Re-trigger date calculation if user has already selected a date
+                if (startDate) {
+                  setTimeout(
+                    () =>
+                      generateHighlightedDates(
+                        startDate,
+                        parseInt(value),
+                        saturdayOption
+                      ),
+                    0
+                  );
+                }
+              }}
+              className="flex gap-4 w-full"
+            >
+              <FormItem className="flex-1 m-0 p-0 space-y-0">
+                <div className="relative w-full">
+                  <RadioGroupItem value="7" id="days7" className="sr-only" />
+                  <label
+                    htmlFor="days7"
+                    className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                     ${
                       selectedDays === 7
                         ? "bg-[#e6af55] text-white border-gray-100"
                         : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                     }`}
-                >
-                  1 Week
-                </label>
-              </div>
-            </FormItem>
+                  >
+                    1 Week
+                  </label>
+                </div>
+              </FormItem>
 
-            <FormItem className="flex-1 m-0 p-0 space-y-0">
-              <div className="relative w-full">
-                <RadioGroupItem value="30" id="days30" className="sr-only" />
-                <label
-                  htmlFor="days30"
-                  className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+              <FormItem className="flex-1 m-0 p-0 space-y-0">
+                <div className="relative w-full">
+                  <RadioGroupItem value="30" id="days30" className="sr-only" />
+                  <label
+                    htmlFor="days30"
+                    className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
                     ${
                       selectedDays === 30
                         ? "bg-[#e6af55] text-white border-gray-100"
                         : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
                     }`}
-                >
-                  1 Month
-                </label>
-              </div>
-            </FormItem>
-          </RadioGroup>
+                  >
+                    1 Month
+                  </label>
+                </div>
+              </FormItem>
+            </RadioGroup>
+          )}
         </div>
 
-        {/* <div className="mb-3 md:w-full w-[300px] ">
-          <label htmlFor="weekendSelect" className="font-medium block mb-1">
-            Weekends Type
-          </label>
-          <select
-            id="weekendSelect"
-            value={saturdayOption}
-            onChange={(e) => {
-              setSaturdayOption(e.target.value);
-              if (onWeekendRuleChange) {
-                onWeekendRuleChange(e.target.value);
-              }
-              if (startDate) {
-                setTimeout(
-                  () =>
-                    generateHighlightedDates(
-                      startDate,
-                      selectedDays,
-                      e.target.value
-                    ),
-                  0
-                );
-              }
-            }}
-            className="border-0 p-2 rounded-lg w-full bg-[#e6af55] text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#03141c]"
-          >
-            <option value="all" className="text-white">
-              All Saturdays
-            </option>
-            <option value="none" className="text-white">
-              No Saturdays
-            </option>
-            <option value="odd" className="text-white">
-              1st & 3rd Saturdays
-            </option>
-            <option value="even" className="text-white">
-              2nd & 4th Saturdays
-            </option>
-          </select>
-        </div> */}
-
-        <div className="mb-3 md:w-full">
-          <Select
-            value={saturdayOption}
-            onValueChange={(value) => {
-              setSaturdayOption(value);
-              onWeekendRuleChange?.(value);
-              if (startDate) {
-                setTimeout(
-                  () =>
-                    generateHighlightedDates(startDate, selectedDays, value),
-                  0
-                );
-              }
-            }}
-            className="border-0"
-          >
-            <label
-              htmlFor="weekendSelect"
-              className="primary-font font-medium block mb-1"
+        {!isTrial && (
+          <div className="mb-3 max-w-[90%] md:w-full">
+            <Select
+              value={saturdayOption}
+              onValueChange={(value) => {
+                setSaturdayOption(value);
+                onWeekendRuleChange?.(value);
+                if (startDate) {
+                  setTimeout(
+                    () =>
+                      generateHighlightedDates(startDate, selectedDays, value),
+                    0
+                  );
+                }
+              }}
+              className="border-0"
             >
-              Weekends Type
-            </label>
-            <SelectTrigger className="border-2 p-2 text-xl h-14! bg-[#e6af55] text-white rounded-md max-w-full w-[365px]">
-              <SelectValue placeholder="Select Saturdays secondary-font font-xl" />
-            </SelectTrigger>
-            <SelectContent className="rounded-lg bg-white text-black shadow-lg">
-              <SelectItem
-                value="all"
-                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+              <label
+                htmlFor="weekendSelect"
+                className="primary-font font-medium block mb-1"
               >
-                All Saturdays
-              </SelectItem>
-              <SelectItem
-                value="none"
-                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
-              >
-                No Saturdays
-              </SelectItem>
-              <SelectItem
-                value="odd"
-                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
-              >
-                1st & 3rd Saturdays
-              </SelectItem>
-              <SelectItem
-                value="even"
-                className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
-              >
-                2nd & 4th Saturdays
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+                Weekends Type
+              </label>
+              <SelectTrigger className="border-2 p-2 text-xl h-14! bg-[#e6af55] text-white rounded-md max-w-full w-[365px]">
+                <SelectValue placeholder="Select Saturdays secondary-font font-xl" />
+              </SelectTrigger>
+              <SelectContent className="rounded-lg bg-white text-black shadow-lg">
+                <SelectItem
+                  value="all"
+                  className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+                >
+                  All Saturdays
+                </SelectItem>
+                <SelectItem
+                  value="none"
+                  className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+                >
+                  No Saturdays
+                </SelectItem>
+                <SelectItem
+                  value="odd"
+                  className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+                >
+                  1st & 3rd Saturdays
+                </SelectItem>
+                <SelectItem
+                  value="even"
+                  className="hover:bg-[#03141c] secondary-font font-xl hover:text-white px-3 py-2 cursor-pointer rounded-md transition-colors"
+                >
+                  2nd & 4th Saturdays
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         <DateRange
           ranges={[
             {
               startDate: startDate || new Date(),
-              endDate: startDate
+              endDate: isTrial
+                ? startDate || new Date()
+                : startDate
                 ? addDays(startDate, selectedDays - 1)
                 : new Date(),
               key: "selection",
             },
           ]}
           className="rounded-lg"
-          onChange={handleSelect}
+          onChange={(ranges) => {
+            const selectedStartDate = new Date(ranges.selection.startDate);
+            selectedStartDate.setHours(0, 0, 0, 0); // Normalize
+
+            if (isTrial) {
+              // For trial → only one date
+              setStartDate(selectedStartDate);
+              setHasUserSelected(true);
+              onDateChange([
+                { startDate: selectedStartDate, endDate: selectedStartDate },
+              ]);
+            } else {
+              // For non-trial → normal behavior
+              setStartDate(selectedStartDate);
+              setHasUserSelected(true);
+            }
+          }}
           minDate={addDays(startOfTomorrow(), 1)}
           moveRangeOnFirstSelection={false}
           rangeColors={["#e6af55"]}

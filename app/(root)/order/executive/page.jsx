@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -24,6 +23,7 @@ import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
 import { format, set } from "date-fns";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const cuisineChoice = [
   {
@@ -344,7 +344,7 @@ const Page = () => {
   }
 
   return (
-    <section className="w-full h-fit flex secondary-font justify-center items-center my-32 lg:mt-52 lg:mb-20">
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-20">
       {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -360,7 +360,8 @@ const Page = () => {
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
-          <h2 className="text-2xl font-bold primary-font">Exectuive Meal</h2>
+        <Breadcrumbs />
+          <h2 className="text-2xl font-bold secondary-font">Executive Meal</h2>
           <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
           <Form {...form}>
             <form
@@ -607,49 +608,49 @@ const Page = () => {
 
         <div className="lg:w-[40%] w-full lg:sticky top-[10%] self-start px-4 mt-[5%]">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
-            <h2 className="text-2xl! primary-font font-bold border-b border-white pb-2 mb-3 text-orange-300">
+            <h2 className="text-2xl! secondary-font font-bold border-b border-white pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Plan</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Plan</span>
+                <span className="capitalize font-base secondary-font">
                   Executive
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Time</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Time</span>
+                <span className="capitalize font-base secondary-font">
                   {selectedTime || "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Type</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Type</span>
+                <span className="capitalize font-base secondary-font">
                   {selectedFoodType || "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Plan</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Plan</span>
+                <span className="font-base secondary-font">
                   {selectedDuration === 7
                     ? "Weekly"
                     : selectedDuration
-                    ? "Montly"
+                    ? "Monthly"
                     : "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Start date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Start date</span>
+                <span className="font-base secondary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[0].toDateString()
                     : "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">End date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">End date</span>
+                <span className="font-base secondary-font">
                   {highlightedDates.length > 0
                     ? highlightedDates[
                         highlightedDates.length - 1
@@ -659,29 +660,29 @@ const Page = () => {
               </div>
             </div>
 
-            <h2 className="text-2xl! primary-font font-bold  border-y border-white py-2 mt-4 mb-3 text-orange-300">
+            <h2 className="text-2xl! secondary-font font-bold  border-y border-white py-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Sub Total</span>
-                <span className="font-base primary-font">₹{basePrice}</span>
+                <span className="font-base secondary-font">Sub Total</span>
+                <span className="font-base secondary-font">₹{basePrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Delivery Charges</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Delivery Charges</span>
+                <span className="font-base secondary-font">
                   ₹{selectedDuration ? deliveryPrice : 0}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Tax</span>
-                <span className="font-base primary-font">₹{taxAmount}</span>
+                <span className="font-base secondary-font">Tax(G.S.T.)</span>
+                <span className="font-base secondary-font">₹{taxAmount}</span>
               </div>
             </div>
 
             <div className="border-t border-white mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span className="font-base primary-font">Grand Total</span>
-              <span className="font-base primary-font">₹{total}</span>
+              <span className="font-base secondary-font">Grand Total</span>
+              <span className="font-base secondary-font">₹{total}</span>
             </div>
           </div>
         </div>

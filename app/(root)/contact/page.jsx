@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -66,7 +67,8 @@ const ContactUs = () => {
         quality={100}
         className="absolute top-0 z-[-1]"
       />
-      <div className="max-w-[1340px] w-full h-full flex flex-col items-baseline justify-center md:mx-10 mx-5 mt-26">
+      <div className="max-w-[1340px] w-full h-full flex flex-col items-baseline justify-center md:mx-10 mx-5 mt-10">
+        <Breadcrumbs />
         <div className="flex w-full justify-center items-center">
           <div className="w-[80%]">
             <p className="primary-font text-2xl! mb-5">Get Started</p>

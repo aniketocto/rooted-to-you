@@ -14,33 +14,33 @@ const Cuisines = () => {
   const cuisines = [
     {
       id: 1,
-      name: "Maharashtrian Cuisine",
+      name: "Maharashtr-ian Cuisine",
       img: "Maharshtra.png",
-      desc: "A balance of fiery Kolhapuri curries, tangy aamti dal, and comforting bhakri, celebrating Maharashtra's diverse flavors. Every bite tells a story of tradition, from Peshwa-era delicacies to rustic village-style cooking.",
+      desc: "Experience the bold and earthy flavours of the Vidarbha region, the subtle sweetness infused in the cuisine of the Peshwas, and the fiery zest of Kolhapur dishes uncovering dishes that area testament to the state's vibrant culture and traditions.",
     },
     {
       id: 2,
       name: "Punjabi Cuisine",
       img: "Punjabi.png",
-      desc: "From creamy dal makhani to tandoori-kissed rotis, Punjabi food is rich, robust, and packed with soul-satisfying flavors. Slow-cooked dals and smoky tandoori dishes bring the true essence of North India to your plate.",
+      desc: "At Rooted, we believe in exploring beyond the roti, naan, sarso da saag, and butter chicken. While the classics hold a special place in our hearts, the culinary treasure trove of Northern India is brimming with undiscovered gems that await your palate.",
     },
     {
       id: 3,
       name: "South Indian  Cuisine",
       img: "SouthIndia.png",
-      desc: "Chettinad spices, Udupi classics, and Malabar seafood, South Indian cuisine is a vibrant blend of textures and aromas. Fragrant coconut, curry leaves, and tamarind create layers of depth in every dish.",
+      desc: "Imagine savouring the rich, layered complexity of Chettinad cuisine, the earthy comforts of Udupis vegetarian fare and the delicate seafood wonders of the Malabar coast. We are passionate about introducing you to the lesser-known yet incredibly flavorful dishes that define the essence of Southern India.",
     },
     {
       id: 4,
       name: "Gujarati Cuisine",
       img: "Gujrat.png",
-      desc: "Soft theplas, fragrant undhiyu, and comforting khichdi, Gujarati food is a harmony of flavors, perfect for any occasion. A cuisine where sweetness meets spice, turning even the simplest meal into a celebration.",
+      desc: "Embark on a culinary exploration with the Gujarati Culinary Landscape where the ethos of simplicity meets the essence of lavishness in every dish. Each dish, though simple in its ingredients, is lavish in its preparation and presentation, embodies the spirit of Gujarati hospitality where every guest is treated like royalty.",
     },
     {
       id: 5,
       name: "Bengali Cuisine",
       img: "Bengal.png",
-      desc: "Mustard-laced fish curries, delicate posto, and melt-in-your-mouth sweets, Bengali cuisine is a feast for the senses. Every meal is a poetic blend of flavors, deeply rooted in age-old culinary traditions.",
+      desc: "Witness first-hand, the Bengali JholJhaal, where stories are rooted in spices, sweets and inter mingle with longstanding traditions, coming from the lanes of Kolkata to the shores of the Sundarbans.",
     },
   ];
 
@@ -58,7 +58,7 @@ const Cuisines = () => {
       timeoutRef.current = setTimeout(() => {
         setIsPopupVisible(false); // Close the popup after delay
         setHoveredCard(null); // Unmount after animation
-      }, 1000); // Delay closing the popup for 1 second
+      }, 500); // Delay closing the popup for 1 second
     }
   };
 
@@ -143,10 +143,20 @@ const Cuisines = () => {
             >
               <div className="h-full flex flex-col items-center justify-center relative">
                 <div className="flex-grow flex flex-col items-center gap-2 justify-center rounded-lg p-6 mb-4 text-white">
-                  <h3 className="text-center secondary-font text-2xl uppercase text-black! font-bold mb-2">
+                  <h3
+                    className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
+                    style={{
+                      textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                    }}
+                  >
                     {cuisines.find((c) => c.id === hoveredCard)?.name}
                   </h3>
-                  <p className="text-center cuisineExplore font-base-1 font-semibold text-black! text-shadow-lg/30 primary-font mb-4">
+                  <p
+                    className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
+                    style={{
+                      textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                    }}
+                  >
                     {cuisines.find((c) => c.id === hoveredCard)?.desc}
                   </p>
                   <Button

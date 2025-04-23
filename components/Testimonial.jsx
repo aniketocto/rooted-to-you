@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 
 export default function Testimonial() {
   return (
-    <div className="relative px-4 py-12">
+    <div className="relative md:px-4 md:py-12 p-4" >
       <Swiper
         slidesPerView={1.3}
         centeredSlides={true}
@@ -26,15 +26,15 @@ export default function Testimonial() {
       >
         {/* Slide 1 */}
         <SwiperSlide>
-          <div className="flex items-center w-full flex-col md:flex-row min-h-[300px] overflow-hidden px-10 py-2 borderImage">
-            <div className="w-1/3 h-full">
+          <div className="flex items-center w-full flex-col md:flex-row min-h-[300px] overflow-hidden md:px-10 px-2 py-2 borderImage">
+            <div className="w-1/3  h-full">
               <img
                 src="/images/testimonial1.jpg"
                 alt="Henry Paddington"
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <div className="w-2/3 px-6 py-4 text-white">
+            <div className="w-full md:w-2/3 px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
                 <span className="text-2xl!">"</span>Our team consists of highly
                 qualified specialists with international experience in the field

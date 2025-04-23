@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -14,9 +13,15 @@
 }
 
 @font-face {
-  font-family: "Karma";
-  src: url("/fonts/Karma-Regular.ttf") format("truetype");
-  font-weight: normal;
+  font-family: "Glacial Indifference";
+  src: url("/fonts/GlacialIndifference-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("/fonts/GlacialIndifference-Bold.otf") format("opentype");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -49,13 +54,18 @@ body::-webkit-scrollbar {
 body {
   overflow-x: hidden;
   box-sizing: border-box;
+  background-image: url("/images/Home Page.jpg");
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
 .h-fix-screen {
   height: calc(var(--vh, 1vh) * 100);
 }
 
 body {
-  @apply bg-[var(--background-primary)] text-[var(--primary-font-color)];
+  @apply text-[var(--primary-font-color)];
 }
 
 h1 {
@@ -88,11 +98,8 @@ p {
   .secondary-color {
     background-color: var(--secondary-color);
   }
-  .header-font {
-    font-family: "Crimson Pro", serif;
-  }
   .primary-font {
-    font-family: "Karma", sans-serif;
+    font-family: "Glacial Indifference", sans-serif;
     line-height: normal;
   }
   .secondary-font {
@@ -126,26 +133,31 @@ p {
     background-size: cover;
     background-repeat: no-repeat;
   }
-  .hero-bg {
-    background-image: url("/images/Hero-Banner-2.png");
+  .hero-bg-1 {
+    background-image: url("/images/Hero-Banner-1.png");
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
   }
+  .hero-bg-2 {
+    background-image: url("/images/Home-banner-2.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
   .glass-effect {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
   }
-  /* Remove the default list style */
+
   .list-with-image {
     list-style: none;
     padding-left: 0;
   }
 
-  /* Create custom list items with controllable images */
   .list-with-image li {
     position: relative;
     padding-left: 30px; /* Adjust based on your image size */
@@ -204,12 +216,16 @@ h2 {
 }
 .btnfont {
   font-size: 25px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
+  font-family: "Minion", sans-serif;
+  text-transform: uppercase;
 }
 
 .subbtnFont {
-  font-size: 20px;
-  font-family: "Minion", sans-serif;
+  font-size: 25px;
+  font-family: "Minion", sans-serif !important;
+  /* margin-top: 5px; */
+  font-weight: bold;
 }
 .cusineFont {
   font-size: 25px;
@@ -228,13 +244,10 @@ h2 {
   top: 240%;
 }
 
-.about-banner {
-  background-image: url("/images/about-banner.png");
-  background-position: center bottom;
-}
 .faqFont {
   font-size: 30px;
 }
+
 @media screen and (min-width: 1600px) {
   .cusineBox {
     width: 320px;
@@ -254,14 +267,14 @@ h2 {
 .borderImage {
   position: relative;
   overflow: hidden;
-  border-top-width: 30px;
-  border-bottom-width: 30px;
+  border-top-width: 10px;
+  border-bottom-width: 10px;
   border-left-width: 0;
   border-right-width: 0;
-  border-style: solid;
+  border-style: dashed;
   border-image-source: url("/images/testi-border.png");
   border-image-slice: 30;
-  border-image-repeat: round;
+  border-image-repeat: repeat;
 }
 
 .borderImage::before,
@@ -269,7 +282,7 @@ h2 {
   content: "";
   position: absolute;
   top: 0;
-  width: 30px; /* or your image width */
+  width: 12px; /* or your image width */
   height: 100%;
   background-repeat: repeat-y;
   background-size: cover;
@@ -356,11 +369,6 @@ h2 {
   .decoDiv {
     top: 240%;
   }
-  .hero-bg {
-    background-image: url("/images/Hero-Banner-2.png");
-    background-position: center top;
-    background-size: contain;
-  }
 }
 @media screen and (max-width: 850px) {
   h1 {
@@ -422,11 +430,6 @@ h2 {
     /* top: 240%; */
     display: none;
   }
-  .hero-bg {
-    background-image: url("/images/mobNav1.png");
-    background-position: center top;
-    background-size: cover;
-  }
   .faqFont {
     font-size: 25px;
   }
@@ -438,6 +441,18 @@ h2 {
   }
   .about-banner {
     background-image: url("/images/aboutmob.png");
+  }
+  .hero-bg-1 {
+    background-image: url("/images/mobNav.jpg");
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .hero-bg-2 {
+    background-image: url("/images/mobNav.jpg");
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }
 @media screen and (max-width: 500px) {
@@ -527,7 +542,6 @@ h2 {
   .mobBanner {
     height: 600px;
   }
-
 }
 
 @media screen and (max-width: 350px) {

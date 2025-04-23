@@ -135,7 +135,7 @@ const CorporatePlan = () => {
                         <FormControl>
                           <Input
                             type="tel"
-                            placeholder="phoneNumber Number"
+                            placeholder="Phone Number"
                             maxLength={10}
                             {...field}
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
