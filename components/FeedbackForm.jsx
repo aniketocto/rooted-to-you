@@ -37,18 +37,15 @@ const FeedbackForm = () => {
   const isSubmitting = form.formState.isSubmitting;
 
   const onSubmit = (data) => {
-    // console.log("Submitted:", data);
+    console.log("Submitted:", data);
+    form.reset(); // Reset the form after submission
     // handle submission
   };
 
   return (
-    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
-      <img
-        src="/images/decorative.png"
-        className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
-        alt=""
-      />
-      <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center   md:mx-10 mx-5">
+    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-start items-start gap-5 my-10">
+      
+      <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center ">
         <div className="w-full flex flexCol gap-10">
           <div className="flex-1 flex w-full justify-center items-center">
             <Form {...form}>

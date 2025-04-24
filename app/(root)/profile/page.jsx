@@ -128,7 +128,7 @@ const ProfilePage = () => {
         className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
-      <div className="max-w-[90%] w-full h-full flex flex-col items-start justify-center md:mx-10 mx-5 mt-32 ">
+      <div className="max-w-[80%] w-full h-full flex flex-col items-start justify-center md:mx-10 mx-5 mt-32 ">
         <Breadcrumbs />
         {/* Profile & Preferences Section */}
         <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 rounded-md">
@@ -238,7 +238,10 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 bg-[#197A8A1A] rounded-md">
+          <div className="w-full md:w-1/2 bg-[#197A8A1A]  p-6 rounded-md">
+            <h3 className="primary-font text-[#e6af55] text-xl font-semibold ">
+              Feedback Form
+            </h3>
             <FeedbackForm />
           </div>
         </div>
