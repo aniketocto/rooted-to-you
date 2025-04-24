@@ -51,7 +51,7 @@ const page = () => {
       /> */}
       <img
         src="/images/nav-bg.jpg"
-        className="absolute w-full h-1/3 object-cover z-[-1] top-0"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
       <div className="max-w-[1290px] w-full h-full flex flexCol flex-col md:flex-row items-end justify-center md:mx-10 mx-5">

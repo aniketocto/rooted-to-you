@@ -30,28 +30,41 @@ const Page = () => {
       />
 
       <section className="w-full h-full px-8 md:px-15 md:my-28 my-10 text-center">
-        
         <h2 className="main-head secondary-font w-full font-semibold mb-5">
           Here’s how partnering with Rooted can transform your business
-          environment:
+          environment
         </h2>
       </section>
 
       {/* Mission Section */}
       <section className="w-full flex flex-col items-center gap-10 mb-10 relative  overflow-hidden">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
+        <img
+          src="/images/decorative.png"
+          className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
+        <img
+          src="/images/decorative.png"
+          className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <div
           className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex flex-row items-center justify-start">
-            <Image
-              src="/images/mission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/mission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-center items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
               Boost Inter-Cultural Respectability Amongst Employees{" "}
@@ -71,15 +84,14 @@ const Page = () => {
           className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex items-center justify-end">
-            <Image
-              src="/images/vission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/vission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
               Bolsters Creativity by Reducing Food Monotony
@@ -93,20 +105,18 @@ const Page = () => {
             </p>
           </div>
         </div>
-
         <div
           className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex flex-row items-center justify-start">
-            <Image
-              src="/images/mission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/mission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-center items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
               Increases Post-Lunch Productivity
@@ -115,7 +125,8 @@ const Page = () => {
               Our approach to a balanced and wholesome meal ensures that
               employees are content with joy, without being overly heavy,
               keeping your team energised, focused, and ready to tackle the
-              challenges of the afternoon with renewed vigour.
+              challenges of the afternoon with renewed vigour.s a powerful tool
+              for promoting inter-cultural respect.
             </p>
           </div>
         </div>
@@ -124,15 +135,14 @@ const Page = () => {
           className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex items-center justify-end">
-            <Image
-              src="/images/vission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/vission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
               Encourages Interaction
@@ -150,25 +160,24 @@ const Page = () => {
           className="md:w-full z-10 w-[90%] flex items-center flex-col md:flex-row justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex flex-row items-center justify-start">
-            <Image
-              src="/images/mission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/mission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-center items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
-              Curtails Operating Costs of CafeteriasManaging
+              Curtails Operating Costs of Cafeterias
             </h4>
             <p className="primary-font font-base-1 text-left">
-              Cafeterias Managing an in-house cafeteria can be a significant
-              financial and operational burden.Partnering with Rooted proves to
-              be a highly cost-effective alternative, eliminating the need for
-              extensive cafeteria operations while still providing your
-              employees with high-quality, diverse dining options.
+              Managing an in-house cafeteria can be a significant financial and
+              operational burden.Partnering with Rooted proves to be a highly
+              cost-effective alternative, eliminating the need for extensive
+              cafeteria operations while still providing your employees with
+              high-quality, diverse dining options.
             </p>
           </div>
         </div>
@@ -177,15 +186,14 @@ const Page = () => {
           className="md:w-full z-10 w-[90%] flex flex-col md:flex-row-reverse items-center justify-center gap-10"
           data-aos="fade-up"
         >
-          <div className="md:w-[20%] w-full flex items-center justify-end">
-            <Image
-              src="/images/vission.png"
-              width={379}
-              height={452}
-              alt="Our Mission"
-              className="w-[50%] sm:w-full"
-            />
-          </div>
+          <Image
+            src="/images/vission.png"
+            width={379}
+            height={452}
+            alt="Our Mission"
+            className="w-[200px]"
+          />
+
           <div className="md:w-[60%] w-full flex justify-end items-start gap-5 flex-col">
             <h4 className="primary-font text-white! font-semibold">
               Promotes Sustainability

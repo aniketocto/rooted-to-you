@@ -84,6 +84,12 @@ const Cuisines = () => {
 
   return (
     <section className="w-full h-fit flex relative flex-col justify-center items-center gap-20 my-14">
+     
+      <img
+        src="/images/decorative.png"
+        className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
+        alt=""
+      />
       <h2 className="secondary-font w-full px-2 font-bold text-center mb-8">
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>

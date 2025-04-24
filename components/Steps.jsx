@@ -45,6 +45,8 @@ const Steps = () => {
 
   return (
     <section className="w-full h-fit flex flex-col justify-center items-center relative gap-5 my-10 overflow-hidden">
+      <img src="/images/decorative.png" className="absolute top-0 -z-1 h-[500px] md:w-full object-cover" alt="" />
+      <img src="/images/decorative.png" className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover" alt="" />
       <div className="w-full h-fit flex flex-wrap items-center gap-10 xl:gap-20 justify-center py-10 md:px-10 px-5">
         <h2
           className="secondary-font  text-center"
@@ -93,7 +95,7 @@ const Steps = () => {
         </div>
 
         <Button
-          className="primary-font uppercase text-lg bg-[#e6af55] p-5 text-center cursor-pointer font-semibold"
+          className="primary-font uppercase text-lg bg-[#e6af55] p-3 md:p-5 text-center cursor-pointer font-semibold"
           onClick={() => router.push("/order")}
         >
           <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>

@@ -45,6 +45,11 @@ const Page = () => {
 
       {/* Purpose Section */}
       <section className="about-section">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <div
           className="md:w-full z-10 w-full flex items-center flex-col md:flex-row justify-start gap-10"
           data-aos="fade-up"
@@ -76,6 +81,11 @@ const Page = () => {
 
       {/* Values */}
       <section className="about-section">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <h2 className="secondary-font  font-semibold mb-15">Values</h2>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15">
           <div className="flex-1/2 flex flex-col items-start justify-start gap-5">
@@ -126,6 +136,11 @@ const Page = () => {
 
       {/* Team */}
       <section className="about-section my-32! h-[70dvh]">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <div className="relative flex flex-col md:flex-row items-start justify-start gap-15">
           <div className="flex-1/2 flex flex-col md:flex-row items-start justify-start gap-5 ">
             <img src="/images/main.png" />
@@ -172,17 +187,37 @@ const Page = () => {
 
       {/* Partners */}
       <section className="about-section py-5! borders relative overflow-hidden">
-        <img src="/images/about-deco.png" className="absolute w-full z-[-1]" alt="" />
+        <img
+          src="/images/decorative.png"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <div>
           <h2 className="secondary-font  font-semibold mb-10">
             Our Business Partners
           </h2>
           <div>
             <div className="flex flex-wrap items-center justify-around gap-5 px-[5% ] mt-5">
-              <img src="/images/partner1.png" className="w-[50%] md:w-[25%]" alt="" />
-              <img src="/images/partner2.png" className="w-[100px] md:w-[150px]" alt="" />
-              <img src="/images/partner3.png" className="w-[100px] md:w-[150px]" alt="" />
-              <img src="/images/partner4.png" className="w-[50%] md:w-[25%]" alt="" />
+              <img
+                src="/images/partner1.png"
+                className="w-[50%] md:w-[25%]"
+                alt=""
+              />
+              <img
+                src="/images/partner2.png"
+                className="w-[100px] md:w-[150px]"
+                alt=""
+              />
+              <img
+                src="/images/partner3.png"
+                className="w-[100px] md:w-[150px]"
+                alt=""
+              />
+              <img
+                src="/images/partner4.png"
+                className="w-[50%] md:w-[25%]"
+                alt=""
+              />
             </div>
           </div>
         </div>

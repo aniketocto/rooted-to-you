@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
-import { is } from "date-fns/locale";
 
 const DatePicker = ({
   onDateChange,
@@ -192,61 +191,84 @@ const DatePicker = ({
     <div className="relative flex flex-col items-start">
       <div className="relative shadow-lg flex justify-center flex-col rounded-lg z-10">
         <div className="mb-3 max-w-[90%] flex gap-4">
-          {!isTrial && (
-            <RadioGroup
-              value={selectedDays?.toString() || ""}
-              onValueChange={(value) => {
-                setSelectedDays(parseInt(value));
-                // Re-trigger date calculation if user has already selected a date
-                if (startDate) {
-                  setTimeout(
-                    () =>
-                      generateHighlightedDates(
-                        startDate,
-                        parseInt(value),
-                        saturdayOption
-                      ),
-                    0
-                  );
-                }
-              }}
-              className="flex gap-4 w-full"
-            >
+          <RadioGroup
+            value={selectedDays?.toString() || ""}
+            onValueChange={(value) => {
+              setSelectedDays(parseInt(value));
+              if (startDate) {
+                setTimeout(
+                  () =>
+                    generateHighlightedDates(
+                      startDate,
+                      parseInt(value),
+                      saturdayOption
+                    ),
+                  0
+                );
+              }
+            }}
+            className="flex gap-4 w-full"
+          >
+            {/* Trial Radio - Show only when isTrial is true */}
+            {isTrial && (
+              <FormItem className="flex-1 m-0 p-0 space-y-0">
+                <div className="relative w-full">
+                  <RadioGroupItem value="1" id="days1" className="sr-only" />
+                  <label
+                    htmlFor="days1"
+                    className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
+            ${
+              selectedDays === 1
+                ? "bg-[#e6af55] text-white border-gray-100"
+                : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+            }`}
+                  >
+                    Trial
+                  </label>
+                </div>
+              </FormItem>
+            )}
+
+            {/* 1 Week Radio - Show only if NOT Trial */}
+            {!isTrial && (
               <FormItem className="flex-1 m-0 p-0 space-y-0">
                 <div className="relative w-full">
                   <RadioGroupItem value="7" id="days7" className="sr-only" />
                   <label
                     htmlFor="days7"
                     className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
-                    ${
-                      selectedDays === 7
-                        ? "bg-[#e6af55] text-white border-gray-100"
-                        : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                    }`}
+            ${
+              selectedDays === 7
+                ? "bg-[#e6af55] text-white border-gray-100"
+                : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+            }`}
                   >
                     1 Week
                   </label>
                 </div>
               </FormItem>
+            )}
 
+            {/* 1 Month Radio - Show only if NOT Trial */}
+            {!isTrial && (
               <FormItem className="flex-1 m-0 p-0 space-y-0">
                 <div className="relative w-full">
                   <RadioGroupItem value="30" id="days30" className="sr-only" />
                   <label
                     htmlFor="days30"
                     className={`flex justify-center items-center text-xl h-15 w-full rounded-md border-2 cursor-pointer transition-all
-                    ${
-                      selectedDays === 30
-                        ? "bg-[#e6af55] text-white border-gray-100"
-                        : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
-                    }`}
+            ${
+              selectedDays === 30
+                ? "bg-[#e6af55] text-white border-gray-100"
+                : "border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900"
+            }`}
                   >
                     1 Month
                   </label>
                 </div>
               </FormItem>
-            </RadioGroup>
-          )}
+            )}
+          </RadioGroup>
         </div>
 
         {!isTrial && (
@@ -304,14 +326,11 @@ const DatePicker = ({
             </Select>
           </div>
         )}
-
         <DateRange
           ranges={[
             {
               startDate: startDate || new Date(),
-              endDate: isTrial
-                ? startDate || new Date()
-                : startDate
+              endDate: startDate
                 ? addDays(startDate, selectedDays - 1)
                 : new Date(),
               key: "selection",
@@ -322,18 +341,8 @@ const DatePicker = ({
             const selectedStartDate = new Date(ranges.selection.startDate);
             selectedStartDate.setHours(0, 0, 0, 0); // Normalize
 
-            if (isTrial) {
-              // For trial → only one date
-              setStartDate(selectedStartDate);
-              setHasUserSelected(true);
-              onDateChange([
-                { startDate: selectedStartDate, endDate: selectedStartDate },
-              ]);
-            } else {
-              // For non-trial → normal behavior
-              setStartDate(selectedStartDate);
-              setHasUserSelected(true);
-            }
+            setStartDate(selectedStartDate);
+            setHasUserSelected(true);
           }}
           minDate={addDays(startOfTomorrow(), 1)}
           moveRangeOnFirstSelection={false}

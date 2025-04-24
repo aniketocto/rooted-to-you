@@ -21,6 +21,11 @@ export default function StatsSection() {
       ref={ref}
       className="w-full md:h-[400px] overflow-hidden justify-center items-center flex relative"
     >
+      <img
+        src="/images/decorative.png"
+        className="absolute -bottom-5 -z-1 h-[500px] md:w-full object-cover"
+        alt=""
+      />
       <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map(({ value, suffix, text }, index) => (
           <div

@@ -131,7 +131,7 @@ const Navbar = () => {
                 height={15}
                 className=""
               />
-              <span className="primary-font text-lg font-medium text-[#03141C] mt-1.5">
+              <span className="primary-font text-lg font-medium text-[#03141C]">
                 Login
               </span>
             </Button>
@@ -142,7 +142,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center gap-2">
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
+              <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] blur-lg secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <Avatar>
                   <AvatarFallback>
                     {user
@@ -197,7 +197,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden absolute top-20 right-0 w-3xs rounded-md glass-effect shadow-md z-40 py-6">
+        <div className="md:hidden absolute top-20 right-0 w-3xs rounded-md bg-[#197a8a] glass-effect shadow-md z-40 py-6">
           <div className="flex flex-col items-center gap-6">
             {navLinks.map(({ href, label }) => (
               <Link

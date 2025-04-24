@@ -88,7 +88,7 @@ const Hero = () => {
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-center px-0 sm:px-10">
             <div
-              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] pl-8"
+              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8"
               data-aos="fade-right"
             >
               <h1 className="secondary-font text-[#E6AF55] font-bold">
@@ -158,7 +158,7 @@ const Hero = () => {
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-2 flex flex-col items-start justify-center px-0 sm:px-10">
             <div
-              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] pl-8"
+              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-8"
               data-aos="fade-right"
             >
               <h1 className="secondary-font text-[#E6AF55] font-bold">

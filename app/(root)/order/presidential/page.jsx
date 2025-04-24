@@ -107,8 +107,8 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
   const [deliveryPrice, setDeliveryPrice] = useState(1500);
-  const [isTrial, setIsTrial] = useState(false);
   const selectedBoxId = 2;
+  const [isTrial, setIsTrial] = useState(false);
   const gstTax = isTrial ? 0 : 0.05;
   const TRIAL_PRICE = 449;
 
@@ -260,29 +260,21 @@ const Page = () => {
     );
   };
   async function onSubmit(data) {
-    const daysCount = isTrial ? 1 : data.selectedDates?.count || 0;
+    const daysCount = data.selectedDates?.count || 0;
     const planType = isTrial ? "trial" : daysCount > 7 ? "monthly" : "weekly";
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
-    const token = userData?.token;
-
     const formattedDateArray =
       data.selectedDatesArray?.map((date) =>
         format(new Date(date), "yyyy-MM-dd")
       ) || [];
-    const formattedStartDate =
-      isTrial && highlightedDates[0]
-        ? format(new Date(highlightedDates[0]), "yyyy-MM-dd")
-        : data.selectedDates?.startDate
-        ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
-        : null;
+    const formattedStartDate = data.selectedDates?.startDate
+      ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
+      : null;
 
-    const formattedEndDate =
-      isTrial && highlightedDates[0]
-        ? format(new Date(highlightedDates[0]), "yyyy-MM-dd") // Same as start date for trial
-        : data.selectedDates?.endDate
-        ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
-        : null;
+    const formattedEndDate = data.selectedDates?.endDate
+      ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
+      : null;
 
     const selectedCuisineDetails = cuisineChoice.filter((cuisine) =>
       selectedCuisines.includes(cuisine.id)
@@ -299,12 +291,12 @@ const Page = () => {
       subscriptionType: planType,
       startDate: formattedStartDate || null,
       endDate: formattedEndDate || null,
-      amount: isTrial ? TRIAL_PRICE : basePrice,
+      amount: basePrice,
       cuisineChoice: cuisineIds,
       itemCode: itemCodes,
       itemNames: itemNames,
       dietType: selectedFoodType,
-      weekendType: isTrial ? "all" : weekendType, // For trial, always include weekends
+      weekendType: weekendType,
     };
     const sessionData = {
       ...updatedData,
@@ -314,7 +306,6 @@ const Page = () => {
       gst: gstTax,
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
-      isTrial: isTrial, // Add a flag to indicate it's a trial
     };
     console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
@@ -397,7 +388,7 @@ const Page = () => {
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
-        {/* <Breadcrumbs /> */}
+          {/* <Breadcrumbs /> */}
           <h2 className="text-2xl font-bold secondary-font">
             Presidential Meal
           </h2>
@@ -647,63 +638,30 @@ const Page = () => {
                       <DatePicker
                         onDateChange={(dates) => {
                           if (Array.isArray(dates) && dates.length > 0) {
-                            // For trial mode, force exactly one day
-                            if (isTrial) {
-                              const selectedDate = dates[0]; // Take only the first selected date
-                              setHighlightedDates([selectedDate]);
+                            setHighlightedDates(dates);
+                            const startDate = dates[0];
+                            const endDate = dates[dates.length - 1];
 
-                              form.setValue(
-                                "selectedDates",
-                                {
-                                  startDate: selectedDate,
-                                  endDate: selectedDate, // Same as start date for trial
-                                  count: 1, // Always 1 for trial
-                                },
-                                {
-                                  shouldValidate: true,
-                                }
-                              );
-                              form.setValue("selectedDatesArray", [
-                                selectedDate,
-                              ]);
-                            } else {
-                              // Original behavior for non-trial mode
-                              setHighlightedDates(dates);
-                              const startDate = dates[0];
-                              const endDate = dates[dates.length - 1];
-
-                              form.setValue(
-                                "selectedDates",
-                                {
-                                  startDate,
-                                  endDate,
-                                  count: dates.length,
-                                },
-                                {
-                                  shouldValidate: true,
-                                }
-                              );
-                              form.setValue("selectedDatesArray", dates);
-                            }
+                            form.setValue(
+                              "selectedDates",
+                              {
+                                startDate,
+                                endDate,
+                                count: dates.length,
+                              },
+                              {
+                                shouldValidate: true,
+                              }
+                            );
+                            form.setValue("selectedDatesArray", dates);
                           }
                         }}
                         onWeekendRuleChange={(rule) => {
-                          // For trial mode, always use "all" weekend rule
-                          if (isTrial) {
-                            setWeekendRule("all");
-                            form.setValue("weekendType", "all");
-                          } else {
-                            setWeekendRule(rule);
-                            form.setValue("weekendType", rule);
-                          }
+                          setWeekendRule(rule);
+                          form.setValue("weekendType", rule);
                         }}
                         onSelectedDaysChange={(days) => {
-                          // For trial mode, always force days to be 1
-                          if (isTrial) {
-                            setSelectedDuration(1);
-                          } else {
-                            setSelectedDuration(days);
-                          }
+                          setSelectedDuration(days);
                         }}
                         isTrial={isTrial}
                       />

@@ -54,10 +54,7 @@ body::-webkit-scrollbar {
 body {
   overflow-x: hidden;
   box-sizing: border-box;
-  background-image: url("/images/Home Page.jpg");
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: var(--background-primary);
 }
 
 .h-fix-screen {

@@ -284,7 +284,7 @@ const Page = () => {
         selectedDates: selectedDatesArray,
       };
 
-      // console.log("pay data", payload);
+      console.log("pay data", payload);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
         {
@@ -306,8 +306,8 @@ const Page = () => {
         setError("Invalid order ID received");
       }
       const razorPayAmount = data.amount * 100;
-      // console.log(razorPayAmount);
-      // console.log("Amount in paise", amountInPaise);
+      console.log(razorPayAmount);
+      console.log("Amount in paise", amountInPaise);
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -333,8 +333,10 @@ const Page = () => {
                 }),
               }
             );
+            const successData = await successResponse.json();
+            console.log("Payment Success:", successData);
             router.push("/profile");
-
+            
             setTimeout(() => {
               clearPaymentSession();
               localStorage.removeItem("mealFormData");

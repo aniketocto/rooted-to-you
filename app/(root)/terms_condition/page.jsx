@@ -4,9 +4,9 @@ import React from "react";
 const page = () => {
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 mt-36">
-      <img
+        <img
         src="/images/nav-bg.jpg"
-        className="absolute w-full h-auto object-cover z-[-1] top-0"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
 

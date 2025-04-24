@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import WhatsAppButton from "@/components/WhatsappButton";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -59,20 +60,20 @@ const ContactUs = () => {
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20">
-      <Image
+      <WhatsAppButton />
+      <img
         src="/images/nav-bg.jpg"
-        alt="bg"
-        width={1440}
-        height={270}
-        quality={100}
-        className="absolute top-0 z-[-1]"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
+        alt=""
       />
       <div className="max-w-[1340px] w-full h-full flex flex-col items-baseline justify-center md:mx-10 mx-5 mt-10">
         <Breadcrumbs />
         <div className="flex w-full justify-center items-center">
           <div className="w-[80%]">
             <p className="primary-font text-2xl! mb-5">Get Started</p>
-            <h1 className="text-[#d49c3e]! text-7xl! secondary-font font-extrabold">Get in touch with us. We're here to assist you.</h1>
+            <h1 className="text-[#d49c3e]! text-7xl! secondary-font font-extrabold">
+              Get in touch with us. We're here to assist you.
+            </h1>
           </div>
           <div className="w-[20%] flex flex-col gap-5 items-end justify-center">
             <a href="" className="border border-white rounded-full w-fit p-3">

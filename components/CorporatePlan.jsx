@@ -23,8 +23,8 @@ const formSchema = z.object({
   phoneNumberNumber: z.string().refine((value) => /^[6-9]\d{9}$/.test(value), {
     message: "Please enter a valid 10-digit phoneNumber number.",
   }),
-  company: z.string().min(1, "Comapany name is required"),
-  designation: z.string().min(1, "Designation name is required"),
+  company: z.string().min(1, "Comapany name is required").optional(),
+  designation: z.string().min(1, "Designation name is required").optional(),
   message: z.string().min(1, "Message is required"),
 });
 
@@ -50,7 +50,12 @@ const CorporatePlan = () => {
   };
 
   return (
-    <section className="w-[full] h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
+    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
+      <img
+        src="/images/decorative.png"
+        className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
+        alt=""
+      />
       <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center py-10  md:mx-10 mx-5">
         <h2 className="secondary-font text-center" data-aos="fade-down">
           For Corporate Plans

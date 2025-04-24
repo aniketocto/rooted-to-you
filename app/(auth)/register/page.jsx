@@ -299,7 +299,7 @@ const Page = () => {
                       onClick={() => setShowOtpInput(false)}
                       className="w-1/2 bg-[#E6AF55] text-lg text-[#03141C]! primary-font cursor-pointer"
                     >
-                      <p className="font-base mt-1">Back</p>
+                      <p className="font-base ">Back</p>
                     </Button>
                     <Button
                       type="button"
@@ -307,7 +307,7 @@ const Page = () => {
                       disabled={otp.length !== 6}
                       className="w-1/2 bg-[#E6AF55] text-lg text-[#03141C] primary-font cursor-pointer"
                     >
-                      <p className="font-base mt-1">
+                      <p className="font-base ">
                         {isLoading ? "Verifying..." : "Verify"}
                       </p>
                     </Button>
@@ -320,7 +320,7 @@ const Page = () => {
                   disabled={form.formState.errors.phoneNumber || isLoading}
                   className="w-full bg-[#E6AF55] text-lg flex justify-center items-center text-[#03141C] primary-font cursor-pointer"
                 >
-                  <p className="font-base mt-1">
+                  <p className="font-base">
                     {isLoading ? "Sending OTP..." : "Send OTP"}
                   </p>
                 </Button>

@@ -101,10 +101,11 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
-  // const deliveringPrices = 1500;
   const [deliveryPrice, setDeliveryPrice] = useState(1500);
-  const gstTax = 0.05;
   const selectedBoxId = 1;
+  const [isTrial, setIsTrial] = useState(false);
+  const gstTax = isTrial ? 0 : 0.05;
+  const TRIAL_PRICE = 379;
 
   useEffect(() => {
     const user = localStorage.getItem("authenticatedUser");
@@ -190,6 +191,13 @@ const Page = () => {
   }, [highlightedDates, weekendType, form]);
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const isTrial = queryParams.get("mode") === "trial"; // fix here!
+    setIsTrial(isTrial);
+  }, []);
+
+
+  useEffect(() => {
     if (!boxes.length) return;
 
     const selectedBox = boxes.find((box) => box.id === selectedBoxId);
@@ -197,42 +205,37 @@ const Page = () => {
 
     let mealBasePrice;
     let currentDeliveryPrice;
+    let tax = gstTax;
+    let finalTotal;
 
-    if (selectedDuration === 7) {
+    if (isTrial) {
+      // For trial, the TRIAL_PRICE is the final total amount (all-inclusive)
+      finalTotal = TRIAL_PRICE;
+      mealBasePrice = TRIAL_PRICE;
+      currentDeliveryPrice = 0;
+    } else if (selectedDuration === 7) {
       mealBasePrice = selectedBox.weekPrice;
       currentDeliveryPrice = 400;
+      tax = mealBasePrice * gstTax;
+      finalTotal = mealBasePrice + tax + currentDeliveryPrice;
     } else if (selectedDuration > 7) {
       mealBasePrice = selectedBox.monthPrice;
       currentDeliveryPrice = 1500;
+      tax = mealBasePrice * gstTax;
+      finalTotal = mealBasePrice + tax + currentDeliveryPrice;
     } else {
       return;
     }
-
-    console.log("Meal Base Price:", mealBasePrice);
-    console.log("Delivery Price:", currentDeliveryPrice);
-
-    const tax = mealBasePrice * gstTax;
-    console.log("Tax:", tax);
-
-    const finalTotal = mealBasePrice + tax + currentDeliveryPrice;
-    console.log("Final Total:", finalTotal);
-
-    console.log({
-      mealBasePrice,
-      tax,
-      currentDeliveryPrice,
-      finalTotal,
-    });
 
     setDeliveryPrice(currentDeliveryPrice);
     setBasePrice(Math.round(mealBasePrice));
     setTaxAmount(Math.round(tax));
     setTotal(Math.round(finalTotal));
-  }, [selectedDuration, boxes, selectedBoxId, gstTax]);
+  }, [selectedDuration, boxes, selectedBoxId, gstTax, isTrial]);
 
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
-    const planType = daysCount > 7 ? "monthly" : "weekly";
+    const planType = isTrial ? "trial" : daysCount > 7 ? "monthly" : "weekly";
     const storedUser = localStorage.getItem("authenticatedUser");
     const userData = storedUser ? JSON.parse(storedUser) : null;
     const formattedDateArray =
@@ -578,6 +581,7 @@ const Page = () => {
                         onSelectedDaysChange={(days) => {
                           setSelectedDuration(days);
                         }}
+                        isTrial={isTrial}
                       />
                     </FormControl>
                     <FormMessage />
@@ -632,12 +636,12 @@ const Page = () => {
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Plan</span>
-                <span className="font-base secondary-font">
-                  {selectedDuration === 7
-                    ? "Weekly"
-                    : selectedDuration
-                    ? "Monthly"
-                    : "-----"}
+                <span className="font-base secondary-font capitalize">
+                {isTrial
+                    ? "trial"
+                    : selectedDuration > 7
+                    ? "monthly"
+                    : "weekly"}
                 </span>
               </div>
               <div className="flex justify-between">

@@ -30,7 +30,7 @@ const OrderPage = () => {
 
   return (
     <>
-      <section className="w-full h-fit flex justify-center items-center mt-32  px-5">
+      <section className="w-full h-fit flex justify-center items-center mt-32 px-5">
         {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -47,13 +47,7 @@ const OrderPage = () => {
           className="absolute w-full h-[300px] object-cover z-[-1] top-0"
           alt=""
         />
-        <div className="w-full absolute top-[100%]  z-[-1] mt-[-15%]">
-          <img
-            src="/images/about-deco.png"
-            alt="Section Divider"
-            className="w-full absolute"
-          />
-        </div>
+
         <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-start">
           <Breadcrumbs />
           {/* Executive Meal */}
@@ -66,9 +60,14 @@ const OrderPage = () => {
                 alt="Executive Meal"
               />
             </div>
-            <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
-              <h2 className="secondary-font font-light">The Executive Meal</h2>
-              <p className="primary-font text-sm">(5 to 6 components)</p>
+            <div className="w-full h-full flex flex-col items-start justify-start">
+              <h2 className="secondary-font font-light">
+                The Executive Meal{" "}
+                <span className="primary-font text-white! text-sm">
+                  (5 to 6 components)
+                </span>
+              </h2>
+
               <p className="primary-font font-base-1 mb-5">
                 <em>
                   Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
@@ -95,7 +94,7 @@ const OrderPage = () => {
                 className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
                 onClick={() => handleNavigate("/order/executive")}
               >
-                <p className="text-[#03141C]! btnfont">Subscribe Now</p>
+                <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
               </Button>
             </div>
           </div>
@@ -110,11 +109,14 @@ const OrderPage = () => {
                 alt="Presidential Meal"
               />
             </div>
-            <div className="w-full md:w-1/2 h-full flex flex-col items-start justify-start">
+            <div className="w-full h-full flex flex-col items-end justify-start">
               <h2 className="secondary-font mb-5 font-light">
-                The Presidential Meal
+                The Presidential Meal{" "}
+                <span className="primary-font text-white! text-sm">
+                  (8 to 9 components)
+                </span>
               </h2>
-              <p className="primary-font text-sm">(8 to 9 components)</p>
+
               <p className="primary-font font-base-1 mb-5">
                 <em>
                   Rice, Dal, One Veg, Indian Breads, Salad, Entree, Sweet, Papad
@@ -145,14 +147,24 @@ const OrderPage = () => {
                 className="primary-font font-base-1 mb-28 bg-[#e6af55] p-6 flex items-center justify-center text-center cursor-pointer font-semibold"
                 onClick={() => handleNavigate("/order/presidential")}
               >
-                <p className="text-[#03141C]! btnfont">Subscribe Now</p>
+                <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
               </Button>
             </div>
           </div>
         </div>
+        <img
+          src="/images/decorative.png"
+          className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
       </section>
       {/* Trial Plan */}
-      {/* <section className="flex justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
+      <section className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
+          alt=""
+        />
         <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
           <Image
             src="/images/exe.png"
@@ -195,7 +207,7 @@ const OrderPage = () => {
             </p>
           </Button>
         </div>
-      </section> */}
+      </section>
     </>
   );
 };
