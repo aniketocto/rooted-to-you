@@ -109,7 +109,7 @@ const OrderPage = () => {
                 alt="Presidential Meal"
               />
             </div>
-            <div className="w-full h-full flex flex-col items-end justify-start">
+            <div className="w-full h-full flex flex-col items-start justify-start">
               <h2 className="secondary-font mb-5 font-light">
                 The Presidential Meal{" "}
                 <span className="primary-font text-white! text-sm">

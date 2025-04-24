@@ -10,7 +10,7 @@ const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative w-full  flex-col justify-end md:justify-center about-banner items-start hidden md:flex">
+      <section className="relative w-full h-dvh flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
         <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
           <h1 className="secondary-font font-bold text-[6vw]!">
             Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
@@ -88,8 +88,8 @@ const Page = () => {
         />
         <h2 className="secondary-font  font-semibold mb-15">Values</h2>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15">
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5">
-            <h3 className="primary-font text-white! text-2xl font-semibold">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl  border-[#e6af55]">
+            <h3 className="primary-font text-white!  text-2xl font-semibold">
               Reconnect
             </h3>
             <p className="primary-font font-base-1 text-left">
@@ -98,7 +98,7 @@ const Page = () => {
               conversations and creating moments thatbring us closer.
             </p>
           </div>
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55]">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Share
             </h3>
@@ -111,7 +111,7 @@ const Page = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15 mt-15">
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55] ">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Sustain
             </h3>
@@ -121,7 +121,7 @@ const Page = () => {
               disposal—offering a guilt-free meal and a healthier planet.
             </p>
           </div>
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55]">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Rebuild
             </h3>

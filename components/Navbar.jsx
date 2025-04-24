@@ -62,7 +62,7 @@ const Navbar = () => {
   
   return (
     <div
-      className={`w-full h-20 flex justify-center items-center px-5 md:px-20 fixed top-0 z-50 transition-transform duration-300 navPadding ${
+      className={`w-full h-20 flex justify-center items-center px-5 md:px-18 fixed top-0 z-50 transition-transform duration-300 navPadding ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${isGlassVisible ? "glass-effect border-0!" : ""}`}
     >
@@ -151,7 +151,7 @@ const Navbar = () => {
                         }`.toUpperCase()
                       : "U"}
                   </AvatarFallback>
-                </Avatar>
+                </Avatar>          
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="glass-effect">

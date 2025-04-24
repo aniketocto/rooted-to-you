@@ -58,7 +58,7 @@ const Cuisines = () => {
       timeoutRef.current = setTimeout(() => {
         setIsPopupVisible(false); // Close the popup after delay
         setHoveredCard(null); // Unmount after animation
-      }, 10); // Delay closing the popup for 1 second
+      }, 50); // Delay closing the popup for 1 second
     }
   };
 
@@ -84,17 +84,11 @@ const Cuisines = () => {
 
   return (
     <section className="w-full h-fit flex relative flex-col justify-center items-center gap-20 my-14">
-     
-      <img
-        src="/images/decorative.png"
-        className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"
-        alt=""
-      />
       <h2 className="secondary-font w-full px-2 font-bold text-center mb-8">
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>
 
-      <div className="flex flex-wrap justify-center ">
+      <div className="flex flex-wrap justify-center">
         {cuisines.map((cuisine) => (
           <div
             key={cuisine.id}

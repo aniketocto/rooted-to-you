@@ -5,7 +5,7 @@ import "../app/styles/footer.css";
 
 const Footer = () => {
   return (
-    <div className="footer-bg flex-col secondary-font w-full h-fit flex justify-center items-center px-6 lg:px-15 xl:px-20">
+    <div className="footer-bg flex-col secondary-font w-full h-fit flex justify-center items-center px-5 md:px-18 ">
       <Image
         src="/images/footer-border.png"
         alt=""

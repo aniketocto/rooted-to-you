@@ -80,9 +80,11 @@ const Hero = () => {
         className="mySwiper w-full h-full"
         modules={[Autoplay]}
         loop={true}
+        speed={1000}
+        allowTouchMove={false}
         autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
+          delay: 4000,
+          disableOnInteraction: true,
         }}
       >
         <SwiperSlide>

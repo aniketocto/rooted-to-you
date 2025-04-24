@@ -10,7 +10,7 @@ const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative w-full flex-col justify-end md:justify-center items-start mb-32 bg-cover bg-bottom hidden md:flex">
+      <section className="relative w-full h-dvh flex-col justify-end md:justify-center items-start mb-32 bg-cover bg-bottom hidden md:flex">
         {/* <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
           <h1 className="secondary-font font-bold text-5xl md:text-7xl!">
             Rooted in <br /> Tradition, <br /> Crafted for <br /> Today

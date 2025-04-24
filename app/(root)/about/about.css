@@ -1,9 +1,9 @@
 .about-banner {
   background-image: url("/images/about-banner.jpg");
-  background-position: center bottom;
+  background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
-  height: 850px;
+  height: 100dvh;
 }
 
 .about-section {
@@ -29,8 +29,8 @@
   border-left-width: 0;
   border-right-width: 0;
   border-style: solid;
-  border-image-source: url("/images/line.png");
-  border-image-slice: 15;
+  border-image-source: url("/images/Line.png");
+  border-image-slice: 30;
   border-image-repeat: round;
 }
 

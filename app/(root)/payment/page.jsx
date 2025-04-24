@@ -651,7 +651,7 @@ const Page = () => {
                 )}
 
                 <div className="flex justify-between">
-                  <span className="font-base secondary-font">Tax(G.S.T.)</span>
+                  <span className="font-base secondary-font">Tax (G.S.T.)</span>
                   <span className="font-base secondary-font">₹{tax || 0}</span>
                 </div>
               </div>

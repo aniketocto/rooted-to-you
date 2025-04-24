@@ -76,7 +76,11 @@ const ContactUs = () => {
             </h1>
           </div>
           <div className="w-[20%] flex flex-col gap-5 items-end justify-center">
-            <a href="" className="border border-white rounded-full w-fit p-3">
+            <a
+              href="https://www.instagram.com/rootedtoyou/"
+              target="_blank"
+              className="border border-white rounded-full w-fit p-3"
+            >
               <Image
                 src="/images/instagram.png"
                 alt="Instagram"
@@ -84,7 +88,11 @@ const ContactUs = () => {
                 height={100}
               />
             </a>
-            <a href="" className="border border-white rounded-full w-fit p-3">
+            <a
+              href="https://www.linkedin.com/company/rooted-to-you/"
+              target="_blank"
+              className="border border-white rounded-full w-fit p-3"
+            >
               <Image
                 src="/images/linkedin.png"
                 alt="Linkedin"
@@ -93,7 +101,11 @@ const ContactUs = () => {
               />
             </a>
 
-            <a href="" className="border border-white rounded-full w-fit p-3">
+            <a
+              href="https://www.facebook.com/share/1DUG9Btxbg/"
+              target="_blank"
+              className="border border-white rounded-full w-fit p-3"
+            >
               <Image
                 src="/images/facebook.png"
                 alt="Facebook"

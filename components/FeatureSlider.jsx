@@ -8,7 +8,7 @@ import { features } from "@/lib/helper";
 const FeatureSlider = () => {
   const settings = {
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: 7,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 0, 
@@ -23,7 +23,7 @@ const FeatureSlider = () => {
       {
         breakpoint: 1280, // screens < 1280px
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
         },
       },
       {
@@ -54,7 +54,7 @@ const FeatureSlider = () => {
               alt={feature.label}
               className="w-20 h-20 md:w-24 md:h-24 mb-2 object-contain"
             />
-            <p className="text-center text-sm md:text-base primary-font px-5">
+            <p className="text-center text-sm md:text-lg primary-font px-5">
               {feature.label}
             </p>
           </div>

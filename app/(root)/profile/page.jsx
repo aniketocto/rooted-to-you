@@ -240,7 +240,7 @@ const ProfilePage = () => {
 
           <div className="w-full md:w-1/2 bg-[#197A8A1A]  p-6 rounded-md">
             <h3 className="primary-font text-[#e6af55] text-xl font-semibold ">
-              Feedback Form
+              Feedback
             </h3>
             <FeedbackForm />
           </div>
