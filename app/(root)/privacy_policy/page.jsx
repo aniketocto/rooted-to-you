@@ -2,6 +2,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import React from "react";
 
 const page = () => {
+  
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 mt-36">
       <img

@@ -58,7 +58,7 @@ const Cuisines = () => {
       timeoutRef.current = setTimeout(() => {
         setIsPopupVisible(false); // Close the popup after delay
         setHoveredCard(null); // Unmount after animation
-      }, 500); // Delay closing the popup for 1 second
+      }, 10); // Delay closing the popup for 1 second
     }
   };
 
@@ -94,7 +94,7 @@ const Cuisines = () => {
         A Culinary Journey Across India, <br /> One Meal at a Time
       </h2>
 
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center ">
         {cuisines.map((cuisine) => (
           <div
             key={cuisine.id}
@@ -165,12 +165,6 @@ const Cuisines = () => {
                   >
                     {cuisines.find((c) => c.id === hoveredCard)?.desc}
                   </p>
-                  <Button
-                    className="primary-font uppercase text-lg bg-[#e6af55] text-center cursor-pointer font-semibold"
-                    onClick={() => router.push("/about")}
-                  >
-                    <p className="text-[#03141C]! subbtnFont">Explore Now</p>
-                  </Button>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 import AlertBox from "@/components/AlertBox";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import FeedbackForm from "@/components/FeedbackForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
 import PauseSubscriptionModal from "@/components/PauseSubscriptionModal";
@@ -237,39 +238,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 bg-[#197A8A1A] p-6 rounded-md">
-            <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
-              Change Delivery
-            </h3>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="New Address"
-                className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
-              />
-            </div>
-            <div className="flex justify-start gap-4 mb-4">
-              <button
-                onClick={() => handleFeatureUnavailable("Update")}
-                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
-              >
-                Date
-              </button>
-              <button
-                onClick={() => handleFeatureUnavailable("Update")}
-                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
-              >
-                Time
-              </button>
-            </div>
-            <div className="flex justify-start">
-              <button
-                className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
-                onClick={() => handleFeatureUnavailable("Change Address")}
-              >
-                Update Delivery
-              </button>
-            </div>
+          <div className="w-full md:w-1/2 bg-[#197A8A1A] rounded-md">
+            <FeedbackForm />
           </div>
         </div>
 

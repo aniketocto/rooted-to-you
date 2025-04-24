@@ -142,7 +142,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center gap-2">
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] blur-lg secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
+              <DropdownMenuTrigger className="rounded-full border bg-[#F0F0F0] secondary-font text-black flex gap-2 justify-center items-center outline-0 cursor-pointer border-amber-50 w-fit px-5 h-10 overflow-hidden">
                 <Avatar>
                   <AvatarFallback>
                     {user

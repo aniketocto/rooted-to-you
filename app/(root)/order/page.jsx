@@ -165,7 +165,7 @@ const OrderPage = () => {
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
           alt=""
         />
-        <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
+        <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
             src="/images/exe.png"
             alt="executive"
@@ -181,7 +181,7 @@ const OrderPage = () => {
             <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
           </Button>
         </div>
-        <div className="trial w-full md:w-[40%] h-full flex justify-center items-center flex-col">
+        <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col">
           <p>Taste First, Subscribe Later.</p>
           <h3>Try a Rooted Meal - Just One Click Away!</h3>
           <p>
@@ -189,7 +189,7 @@ const OrderPage = () => {
             No Commitment. Just Pure Flavour
           </p>
         </div>
-        <div className="w-full md:w-[30%] flex justify-center items-center flex-col">
+        <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
             src="/images/pre.png"
             alt="executive"
