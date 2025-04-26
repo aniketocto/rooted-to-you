@@ -137,8 +137,8 @@ const Hero = () => {
                     disabled={isLoading}
                     className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
                   >
-                    <p className="secondary-font subbtnFont uppercase text-[#03141C]!">
-                      {isLoading ? "Checking..." : "Get Started"}
+                    <p className="secondary-font subbtnFont  text-[#03141C]!">
+                      {isLoading ? "Checking..." : "Check Pincode"}
                     </p>
                   </Button>
                 </form>
@@ -208,8 +208,8 @@ const Hero = () => {
                     disabled={isLoading}
                     className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
                   >
-                    <p className="secondary-font subbtnFont uppercase text-[#03141C]!">
-                      {isLoading ? "Checking..." : "Get Started"}
+                    <p className="secondary-font subbtnFont  text-[#03141C]!">
+                      {isLoading ? "Checking..." : "Check Pincode"}
                     </p>
                   </Button>
                 </form>

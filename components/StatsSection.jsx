@@ -4,10 +4,9 @@ import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 const stats = [
-  { value: 1000, suffix: "+", text: "Subscribers" },
-  { value: 50000, suffix: "+", text: "Meals Delivered" },
-  { value: 250, suffix: "+", text: "Postal Locations" },
-  { value: 99, suffix: "%", text: "Record On-Time Delivery" },
+  { value: 350, suffix: "+", text: "Subscribers" },
+  { value:  10000, suffix: "+", text: "Meals Delivered" },
+  { value: 60, suffix: "+", text: "Postal Locations" },
 ];
 
 export default function StatsSection() {
@@ -26,7 +25,7 @@ export default function StatsSection() {
         className="absolute -bottom-5 -z-1 h-[500px] md:w-full object-cover"
         alt=""
       />
-      <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-[100%] w-full h-[20vh] grid grid-cols-3 md:grid-cols-3 gap-8">
         {stats.map(({ value, suffix, text }, index) => (
           <div
             key={text}

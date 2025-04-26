@@ -79,7 +79,7 @@ const Cuisines = () => {
     timeoutRef.current = setTimeout(() => {
       setIsPopupVisible(false); // Close popup after 1 second
       setHoveredCard(null); // Unmount after animation
-    }, 500); // Wait for 1 second before closing the popup
+    }, 50); // Wait for 1 second before closing the popup
   };
 
   return (
