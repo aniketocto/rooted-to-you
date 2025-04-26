@@ -591,7 +591,7 @@ const Page = () => {
 
               <Button
                 type="submit"
-                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-xl text-[#03141C] text-center"
+                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-xl text-[#03141C] text-center cursor-pointer"
                 disabled={isSubmitting}
               >
                 <p className="text-xl text-[#03141C]!  secondary-font">

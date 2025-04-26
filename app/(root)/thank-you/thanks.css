@@ -1,0 +1,22 @@
+.thanks-head {
+  font-size: 156px;
+  font-weight: bold;
+  font-family: "Minion", sans-serif;
+}
+
+.thanks-text {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "Glacial Indifference", sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+  .thanks-head {
+    font-size: 80px !important;
+  }
+  .thanks-text {
+    font-size: 20px;
+  }
+    
+}

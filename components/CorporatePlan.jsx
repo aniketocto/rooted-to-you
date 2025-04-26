@@ -61,7 +61,7 @@ const CorporatePlan = () => {
           For Corporate Plans
         </h2>
         <div className="w-full flex flexCol gap-10">
-          <div className="flex-1 flex justify-between flex-col">
+          <div className="flex-1 flex justify-start gap-10 flex-col">
             <h3 className="secondary-font">
               Let's discuss how we can make your work environment a better
               place.

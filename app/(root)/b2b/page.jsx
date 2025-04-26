@@ -4,23 +4,33 @@ import CorporatePlan from "@/components/CorporatePlan";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./b2b.css";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative w-full h-dvh flex-col justify-end md:justify-center items-start mb-32 bg-cover bg-bottom hidden md:flex">
-        {/* <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
-          <h1 className="secondary-font font-bold text-5xl md:text-7xl!">
-            Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
+      <section className="relative w-full h-dvh flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
+        <div className="flex flex-col items-start justify-center w-full md:w-[40%] gap-5 mt-[10%] px-8 bcb-banner">
+          <h1 className="secondary-font text-[#E6AF55] font-bold">
+            Convenient.
+            <br /> Diverse. <br />
+            Inclusive.
           </h1>
-        </div> */}
-        <img
-          src="/images/about-banner.jpg"
-          alt="B2B banner"
-          className="w-full object-cover"
-        />
+          <p className="primary-font hero-font font-base mb-5">
+            Hassle-free for employees and cost-effective for corporates, Rooted
+            brings peopletogether through their shared love for food, fostering
+            a culture of mutual respect.
+          </p>
+          <Button
+            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
+            onClick={() => router.push("/order")}
+          >
+            <p className="text-[#03141C]! subbtnFont secondary-font">
+              Subscribe Now
+            </p>
+          </Button>
+        </div>
       </section>
 
       <img
@@ -58,7 +68,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/mission.png"
+            src="/images/bcb1.png"
             width={379}
             height={452}
             alt="Our Mission"
@@ -85,7 +95,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/vission.png"
+            src="/images/bcb2.png"
             width={379}
             height={452}
             alt="Our Mission"
@@ -110,7 +120,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/mission.png"
+            src="/images/bcb3.png"
             width={379}
             height={452}
             alt="Our Mission"
@@ -136,7 +146,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/vission.png"
+            src="/images/bcb4.png"
             width={379}
             height={452}
             alt="Our Mission"
@@ -161,7 +171,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/mission.png"
+            src="/images/bcb5.png"
             width={379}
             height={452}
             alt="Our Mission"
@@ -187,7 +197,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/vission.png"
+            src="/images/bcb6.png"
             width={379}
             height={452}
             alt="Our Mission"

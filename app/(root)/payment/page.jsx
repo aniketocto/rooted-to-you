@@ -89,7 +89,7 @@ const Page = () => {
 
         const data = await res.json();
         setUserData(data);
-        // console.log(data);
+        // console.log("User data:", data);
       } catch (err) {
         console.error("❌ Error fetching user details:", err);
       }
@@ -97,6 +97,8 @@ const Page = () => {
 
     fetchUserDetails();
   }, []);
+
+
   useEffect(() => {
     if (!paymentSession?.sessionActive) {
       console.warn("🔒 Payment session not active, redirecting...");
@@ -282,9 +284,13 @@ const Page = () => {
         itemNames: itemNames,
         deliveryType: mealTime,
         selectedDates: selectedDatesArray,
+        address1: userData?.data?.address1, 
+        address2: userData?.data?.address2,
+        city: userData?.data?.city,
+        pincode: userData?.data?.pincode,
       };
 
-      console.log("pay data", payload);
+      // console.log("pay data", payload);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
         {
@@ -306,8 +312,8 @@ const Page = () => {
         setError("Invalid order ID received");
       }
       const razorPayAmount = data.amount * 100;
-      console.log(razorPayAmount);
-      console.log("Amount in paise", amountInPaise);
+      // console.log(razorPayAmount);
+      // console.log("Amount in paise", amountInPaise);
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -334,8 +340,8 @@ const Page = () => {
               }
             );
             const successData = await successResponse.json();
-            console.log("Payment Success:", successData);
-            router.push("/profile");
+            // console.log("Payment Success:", successData);
+            router.push("/thank-you");
             
             setTimeout(() => {
               clearPaymentSession();

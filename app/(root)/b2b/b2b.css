@@ -1,9 +1,21 @@
 .main-head {
-    line-height: 60px;
+  line-height: 60px;
 }
-
+.about-banner {
+  background-image: url("/images/bcb-banner.jpg");
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100dvh;
+}
+.bcb-banner {
+  padding-left: 5%;
+}
 @media screen and (max-width: 768px) {
-    .main-head {
-        line-height: normal;
-    }
+  .main-head {
+    line-height: normal;
+  }
+  .bcb-banner {
+    padding-left: 0px;
+  }
 }
