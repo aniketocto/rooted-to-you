@@ -178,7 +178,7 @@ const OrderPage = () => {
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
             onClick={() => router.push("/order/executive?mode=trial")}
           >
-            <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
+            <p className="text-[#03141C]! subbtnFont">Order Now</p>
           </Button>
         </div>
         <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col">
@@ -203,7 +203,7 @@ const OrderPage = () => {
             onClick={() => router.push("/order/presidential?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
-              Subscribe Now
+              Order Now
             </p>
           </Button>
         </div>
