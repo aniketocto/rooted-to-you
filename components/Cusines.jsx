@@ -17,29 +17,34 @@ const Cuisines = () => {
       name: "Maharashtr-ian Cuisine",
       img: "Maharshtra.png",
       desc: "Experience the bold and earthy flavours of the Vidarbha region, the subtle sweetness infused in the cuisine of the Peshwas, and the fiery zest of Kolhapur dishes uncovering dishes that area testament to the state's vibrant culture and traditions.",
+      popup: "punjabi.png",
     },
     {
       id: 2,
       name: "Punjabi Cuisine",
       img: "Punjabi.png",
       desc: "At Rooted, we believe in exploring beyond the roti, naan, sarso da saag, and butter chicken. While the classics hold a special place in our hearts, the culinary treasure trove of Northern India is brimming with undiscovered gems that await your palate.",
+      popup: "pun.jpg",
     },
     {
       id: 3,
       name: "South Indian  Cuisine",
       img: "SouthIndia.png",
       desc: "Imagine savouring the rich, layered complexity of Chettinad cuisine, the earthy comforts of Udupis vegetarian fare and the delicate seafood wonders of the Malabar coast. We are passionate about introducing you to the lesser-known yet incredibly flavorful dishes that define the essence of Southern India.",
+      popup: "gujrat.png",
     },
     {
       id: 4,
       name: "Gujarati Cuisine",
       img: "Gujrat.png",
       desc: "Embark on a culinary exploration with the Gujarati Culinary Landscape where the ethos of simplicity meets the essence of lavishness in every dish. Each dish, though simple in its ingredients, is lavish in its preparation and presentation, embodies the spirit of Gujarati hospitality where every guest is treated like royalty.",
+      popup: "southIndia.png",
     },
     {
       id: 5,
       name: "Bengali Cuisine",
       img: "Bengal.png",
+      popup: "bengal.png",
       desc: "Witness first-hand, the Bengali JholJhaal, where stories are rooted in spices, sweets and inter mingle with longstanding traditions, coming from the lanes of Kolkata to the shores of the Sundarbans.",
     },
   ];
@@ -120,7 +125,7 @@ const Cuisines = () => {
         {hoveredCard && (
           <div className="absolute top-1/3 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50 pointer-events-none">
             <div
-              className={`bg-white shadow-2xl cusineBoxPop p-6 transition-all duration-700 ease-in-out origin-center relative overflow-hidden 
+              className={`bg-white shadow-2xl cusineBoxPop p-6 transition-all duration-700 ease-in-out origin-center relative overflow-hidden  rounded-2xl
             ${
               isPopupVisible
                 ? "scale-100 opacity-100 pointer-events-auto"
@@ -133,7 +138,7 @@ const Cuisines = () => {
               style={{
                 backgroundImage: hoveredCard
                   ? `url('/images/${
-                      cuisines.find((c) => c.id === hoveredCard)?.img
+                      cuisines.find((c) => c.id === hoveredCard)?.popup
                     }')`
                   : "none",
                 backgroundSize: "contain",
@@ -145,24 +150,27 @@ const Cuisines = () => {
               <div className="h-full flex flex-col items-center justify-center relative">
                 <div className="flex-grow flex flex-col items-center gap-2 justify-center rounded-lg p-6 mb-4 text-white">
                   {hoveredCard && (
-                    <>
-                      <h3
-                        className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
-                        style={{
-                          textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                        }}
-                      >
-                        {cuisines.find((c) => c.id === hoveredCard)?.name}
-                      </h3>
-                      <p
-                        className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
-                        style={{
-                          textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                        }}
-                      >
-                        {cuisines.find((c) => c.id === hoveredCard)?.desc}
-                      </p>
-                    </>
+                    <div className="flex flex-row items-center justify-center h-full">
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        {/* <h3
+                          className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
+                          style={{
+                            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                          }}
+                        >
+                          {cuisines.find((c) => c.id === hoveredCard)?.name}
+                        </h3>
+                        <p
+                          className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
+                          style={{
+                            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                          }}
+                        >
+                          {cuisines.find((c) => c.id === hoveredCard)?.desc}
+                        </p> */}
+                      </div>
+                      {/* <img src="/images/pre.png" alt="" width={100} /> */}
+                    </div>
                   )}
                 </div>
               </div>

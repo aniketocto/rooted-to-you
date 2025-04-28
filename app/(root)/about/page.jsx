@@ -200,7 +200,7 @@ const Page = () => {
             <div className="flex flex-wrap items-center justify-around gap-5 px-[5% ] mt-5">
               <img
                 src="/images/partner1.png"
-                className="w-[50%] md:w-[15%]"
+                className="w-[40%] md:w-[15%]"
                 alt=""
               />
               <img
@@ -215,12 +215,17 @@ const Page = () => {
               />
               <img
                 src="/images/partner4.png"
-                className="w-[50%] md:w-[15%]"
+                className="w-[40%] md:w-[15%]"
                 alt=""
               />
               <img
                 src="/images/partner5.png"
-                className="w-[50%] md:w-[20%]"
+                className="w-[40%] md:w-[20%]"
+                alt=""
+              />
+              <img
+                src="/images/partner6.png"
+                className="w-[40%] md:w-[10%]"
                 alt=""
               />
             </div>
