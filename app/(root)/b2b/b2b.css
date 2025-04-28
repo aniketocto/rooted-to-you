@@ -15,7 +15,8 @@
   .main-head {
     line-height: normal;
   }
-  .bcb-banner {
-    padding-left: 0px;
+
+  .about-banner {
+    background-image: url("/images/mobnav.jpg");
   }
 }

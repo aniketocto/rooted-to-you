@@ -10,8 +10,8 @@ const Page = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative w-full h-dvh flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
-        <div className="flex flex-col items-start justify-center w-full md:w-[40%] gap-5 mt-[10%] px-8 bcb-banner">
+      <section className="relative w-full h-dvh flex-col justify-center about-banner items-center mb-32 bg-cover bg-bottom flex">
+        <div className="flex flex-col items-start justify-center w-full md:w-[40%] gap-5 mt-[10%] py-5 px-8 bcb-banner">
           <h1 className="secondary-font text-[#E6AF55] font-bold">
             Convenient.
             <br /> Diverse. <br />
@@ -33,11 +33,7 @@ const Page = () => {
         </div>
       </section>
 
-      <img
-        src="/images/aboutMob.png"
-        alt=""
-        className="block md:hidden w-full mb-5"
-      />
+  
 
       <section className="w-full h-full px-8 md:px-15 md:my-28 my-10 text-center">
         <h2 className="main-head secondary-font w-full font-semibold mb-5">
