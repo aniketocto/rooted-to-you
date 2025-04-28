@@ -49,7 +49,7 @@ const Cuisines = () => {
     setHoveredCard(id);
     setTimeout(() => {
       setIsPopupVisible(true);
-    }, 10); // Immediately show the popup
+    }, 80); // Immediately show the popup
   };
 
   const handleMouseLeave = () => {
@@ -118,23 +118,24 @@ const Cuisines = () => {
         ))}
 
         {hoveredCard && (
-          <div
-            className="absolute top-1/3 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50"
-            onClick={handlePopupClose}
-          >
+          <div className="absolute top-1/3 flex items-center justify-center w-fit h-fit bg-opacity-50 z-50 pointer-events-none">
             <div
-              className={`bg-white shadow-2xl cusineBoxPop p-6 transition-all duration-700 ease-in-out origin-center relative overflow-hidden
-                ${
-                  isPopupVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                }
-              `}
+              className={`bg-white shadow-2xl cusineBoxPop p-6 transition-all duration-700 ease-in-out origin-center relative overflow-hidden 
+            ${
+              isPopupVisible
+                ? "scale-100 opacity-100 pointer-events-auto"
+                : "scale-0 opacity-0"
+            }
+            `}
               onMouseEnter={handlePopupMouseEnter}
               onMouseLeave={handlePopupMouseLeave}
               onClick={(e) => e.stopPropagation()}
               style={{
-                backgroundImage: `url('/images/${
-                  cuisines.find((c) => c.id === hoveredCard)?.img
-                }')`,
+                backgroundImage: hoveredCard
+                  ? `url('/images/${
+                      cuisines.find((c) => c.id === hoveredCard)?.img
+                    }')`
+                  : "none",
                 backgroundSize: "contain",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -143,22 +144,26 @@ const Cuisines = () => {
             >
               <div className="h-full flex flex-col items-center justify-center relative">
                 <div className="flex-grow flex flex-col items-center gap-2 justify-center rounded-lg p-6 mb-4 text-white">
-                  <h3
-                    className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
-                    style={{
-                      textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    {cuisines.find((c) => c.id === hoveredCard)?.name}
-                  </h3>
-                  <p
-                    className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
-                    style={{
-                      textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    {cuisines.find((c) => c.id === hoveredCard)?.desc}
-                  </p>
+                  {hoveredCard && (
+                    <>
+                      <h3
+                        className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
+                        style={{
+                          textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                        }}
+                      >
+                        {cuisines.find((c) => c.id === hoveredCard)?.name}
+                      </h3>
+                      <p
+                        className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
+                        style={{
+                          textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+                        }}
+                      >
+                        {cuisines.find((c) => c.id === hoveredCard)?.desc}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
