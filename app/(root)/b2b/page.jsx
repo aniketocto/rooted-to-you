@@ -19,7 +19,7 @@ const Page = () => {
           </h1>
           <p className="primary-font hero-font font-base mb-5">
             Hassle-free for employees and cost-effective for corporates, Rooted
-            brings peopletogether through their shared love for food, fostering
+            brings people together through their shared love for food, fostering
             a culture of mutual respect.
           </p>
           <Button
