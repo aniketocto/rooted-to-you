@@ -17,7 +17,7 @@ const Cuisines = () => {
       name: "Maharashtr-ian Cuisine",
       img: "Maharshtra.png",
       desc: "Experience the bold and earthy flavours of the Vidarbha region, the subtle sweetness infused in the cuisine of the Peshwas, and the fiery zest of Kolhapur dishes uncovering dishes that area testament to the state's vibrant culture and traditions.",
-      popup: "punjabi.png",
+      popup: "maha.jpg",
     },
     {
       id: 2,
@@ -31,20 +31,20 @@ const Cuisines = () => {
       name: "South Indian  Cuisine",
       img: "SouthIndia.png",
       desc: "Imagine savouring the rich, layered complexity of Chettinad cuisine, the earthy comforts of Udupis vegetarian fare and the delicate seafood wonders of the Malabar coast. We are passionate about introducing you to the lesser-known yet incredibly flavorful dishes that define the essence of Southern India.",
-      popup: "gujrat.png",
+      popup: "s-india.jpg",
     },
     {
       id: 4,
       name: "Gujarati Cuisine",
       img: "Gujrat.png",
       desc: "Embark on a culinary exploration with the Gujarati Culinary Landscape where the ethos of simplicity meets the essence of lavishness in every dish. Each dish, though simple in its ingredients, is lavish in its preparation and presentation, embodies the spirit of Gujarati hospitality where every guest is treated like royalty.",
-      popup: "southIndia.png",
+      popup: "guju.jpg",
     },
     {
       id: 5,
       name: "Bengali Cuisine",
       img: "Bengal.png",
-      popup: "bengal.png",
+      popup: "beng.jpg",
       desc: "Witness first-hand, the Bengali JholJhaal, where stories are rooted in spices, sweets and inter mingle with longstanding traditions, coming from the lanes of Kolkata to the shores of the Sundarbans.",
     },
   ];
