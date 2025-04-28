@@ -28,10 +28,9 @@ export default function Home() {
       {/* Cuisines Plan */}
       <CusinesPlan />
 
-      {/* <Testimonial /> */}
+      <Testimonial />
       <WhatsAppButton />
       {/* Corporate Plan */}
-      {/* <CorporatePlan /> */}
     </>
   );
 }
