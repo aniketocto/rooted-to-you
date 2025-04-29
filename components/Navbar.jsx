@@ -60,11 +60,12 @@ const Navbar = () => {
 
   if (!isMounted || loading) return null;
   
+
   return (
     <div
       className={`w-full h-20 flex justify-center items-center px-5 md:px-18 fixed top-0 z-50 transition-transform duration-300 navPadding ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${isGlassVisible ? "backdrop-blur-lg  border-0! shadow-2xl" : ""}`}
+      } ${isGlassVisible ? "backdrop-blur-lg   border-0! shadow-2xl" : ""}`}
     >
       <div className="w-full flex justify-between items-center secondary-font">
         <Link href="/">

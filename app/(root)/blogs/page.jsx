@@ -93,9 +93,9 @@ const Blogs = () => {
               href={blog.id}
               key={blog.id}
               className="group block transform transition-transform duration-300 hover:scale-105"
-              style={{boxShadow: "5px 5px 20px rgba(0, 0, 0)"}}
+              style={{boxShadow: "5px 5px 20px #000"}}
             >
-              <div className="glass-effect rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full" >
+              <div className="glass-effect border-[#e6af55] rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full" >
                 {/* Blog Image */}
                 <div className="h-48 overflow-hidden">
                   <img

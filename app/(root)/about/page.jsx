@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import "./about.css";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const Page = () => {
   const router = useRouter();
