@@ -529,6 +529,9 @@ h2 {
   h1 {
     font-size: 25px;
   }
+  h5{
+    font-size: 15px;
+  }
   .btnfont {
     font-size: 20px;
   }
@@ -538,6 +541,10 @@ h2 {
   .mobBanner {
     height: 600px;
   }
+  .cusineBox {
+    width: 150px;
+    height: 150px;
+}
 }
 
 @media screen and (max-width: 350px) {
@@ -574,3 +581,4 @@ h2 {
     font-size: 17px;
   }
 }
+
