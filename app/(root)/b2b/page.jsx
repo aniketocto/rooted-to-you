@@ -11,13 +11,13 @@ const Page = () => {
   return (
     <>
       <section className="relative w-full h-dvh flex-col justify-center b2b-banner items-start mb-32 bg-cover bg-bottom flex">
-        <div className="flex flex-col items-start justify-center w-full md:w-[40%] gap-5 mt-[10%] px-8 bcb-banner">
-          <h1 className="secondary-font text-[#E6AF55] font-bold">
+        <div className="flex flex-col items-center md:items-start justify-center w-full md:w-[40%] gap-5 -mt-[10%] md:mt-[10%] px-8 bcb-banner">
+          <h1 className="secondary-font text-[#E6AF55] font-bold hidden md:block">
             Convenient.
             <br /> Diverse. <br />
             Inclusive.
           </h1>
-          <p className="primary-font hero-font font-base mb-5">
+          <p className="primary-font hero-font font-base mb-5 hidden md:block ">
             Hassle-free for employees and cost-effective for corporates, Rooted
             brings people together through their shared love for food, fostering
             a culture of mutual respect.

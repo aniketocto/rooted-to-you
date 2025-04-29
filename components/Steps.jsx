@@ -56,7 +56,7 @@ const Steps = () => {
           Effortless, Healthy Eating in <br /> Just 4 Steps
         </h2>
 
-        <div className="grid w-full grid-cols-2 place-content-center sm:grid-cols-2 lg:grid-cols-4 md:gap-0 gap-5">
+        <div className="grid w-full grid-cols-2 place-content-center sm:grid-cols-2 lg:grid-cols-4  gap-5">
           {steps.map((step, index) => (
             <div
               key={index}

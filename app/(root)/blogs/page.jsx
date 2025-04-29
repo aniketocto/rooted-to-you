@@ -61,29 +61,41 @@ const Blogs = () => {
   ];
 
   return (
-    <section className="w-full h-fit flex justify-center flex-col items-center mt-32 px-[5%] pb-20">
+    <section className="w-full h-fit flex justify-center flex-col items-center ">
       {/* Background Image */}
       <img
-        src="/images/nav-bg.jpg"
-        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
+        src="/images/blog-bnr.jpg"
+        className=" w-full hidden md:block object-cover z-[-1] top-0"
         alt="Background"
       />
-      <div className="max-w-[1350px] w-full h-full flex flex-col items-center justify-start">
-        {/* Page Title */}
-        <h1 className="text-4xl font-bold mb-12 text-center secondary-font">
-          Our Blog
-        </h1>
+      <img
+        src="/images/blog-mob.png"
+        className=" w-full md:hidden block object-cover z-[-1] top-0"
+        alt="Background"
+      />
 
+      <div className=" w-full h-full flex flex-col items-center justify-start mt-32 pb-20 overflow-hidden relative">
+        <img
+          src="/images/decorative.png"
+          className="absolute top-0 -z-1 h-[500px]  w-full object-cover"
+          alt=""
+        />
+        <img
+          src="/images/decorative.png"
+          className="absolute bottom-0 -z-1 h-[500px]  w-full object-cover"
+          alt=""
+        />
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+        <div className="max-w-[85%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
           {blogPosts.map((blog) => (
             <a
               target="_blank"
               href={blog.id}
               key={blog.id}
               className="group block transform transition-transform duration-300 hover:scale-105"
+              style={{boxShadow: "5px 5px 20px rgba(0, 0, 0)"}}
             >
-              <div className="glass-effect rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full">
+              <div className="glass-effect rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full" >
                 {/* Blog Image */}
                 <div className="h-48 overflow-hidden">
                   <img

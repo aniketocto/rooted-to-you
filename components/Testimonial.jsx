@@ -7,8 +7,12 @@ import "swiper/css/navigation";
 
 export default function Testimonial() {
   return (
-    <div className="relative md:px-4 md:py-12 p-4">
-       <img src="/images/decorative.png" className="absolute bottom-0 -z-1 h-[500px] hidden lg:block w-full object-cover" alt="" />
+    <div className="relative md:px-4 md:py-12 p-4 overflow-hidden">
+      <img
+        src="/images/decorative.png"
+        className="absolute bottom-0 -z-1 h-[500px]  w-full object-cover"
+        alt=""
+      />
       <h2 className="secondary-font text-center mb-10" data-aos="fade-down">
         Testimonials
       </h2>
@@ -307,7 +311,7 @@ export default function Testimonial() {
           <button className="swiper-button-prev secondary-font text-white!">
             Prev
           </button>
-          <hr className="w-10 h-0.5 bg-white"/>
+          <hr className="w-10 h-0.5 bg-white" />
           <button className="swiper-button-next secondary-font text-white!">
             Next
           </button>
