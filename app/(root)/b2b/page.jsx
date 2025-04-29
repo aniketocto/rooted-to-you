@@ -167,7 +167,7 @@ const Page = () => {
           data-aos="fade-up"
         >
           <Image
-            src="/images/bcb5.png"
+            src="/images/bcb5new.png"
             width={379}
             height={452}
             alt="Our Mission"

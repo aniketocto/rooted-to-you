@@ -87,7 +87,7 @@ const Page = () => {
         />
         <h2 className="secondary-font  font-semibold mb-15">Values</h2>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15">
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl  border-[#e6af55]">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 h-fit md:h-fit lg:h-[230px] xl:h-[200px] p-5 rounded-xl  border-[#e6af55]">
             <h3 className="primary-font text-white!  text-2xl font-semibold">
               Reconnect
             </h3>
@@ -97,7 +97,7 @@ const Page = () => {
               conversations and creating moments that bring us closer.
             </p>
           </div>
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55]">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 h-fit md:h-fit lg:h-[230px] xl:h-[200px] rounded-xl border-[#e6af55]">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Share
             </h3>
@@ -110,7 +110,7 @@ const Page = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15 mt-15">
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55] ">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 h-fit md:h-fit lg:h-[230px] xl:h-[200px] rounded-xl border-[#e6af55] ">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Sustain
             </h3>
@@ -120,7 +120,7 @@ const Page = () => {
               disposal—offering a guilt-free meal and a healthier planet.
             </p>
           </div>
-          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55]">
+          <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 h-fit md:h-fit lg:h-[230px] xl:h-[200px] rounded-xl border-[#e6af55]">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Rebuild
             </h3>
