@@ -60,76 +60,76 @@ const page = () => {
         </div>
         <div className="w-full self-start mt-[5%] flex flex-1 px-4">
           <div className="w-[90%] detailWidth bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
-            <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
+            <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for lunch
             </h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Plan</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Plan</span>
+                <span className="capitalize font-base secondary-font">
                   {boxId === 1 ? "Executive" : "Presidential"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Time</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Time</span>
+                <span className="capitalize font-base secondary-font">
                   {mealTime}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Meal Type</span>
-                <span className="capitalize font-base primary-font">
+                <span className="font-base secondary-font">Meal Type</span>
+                <span className="capitalize font-base secondary-font">
                   {dietType}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Plan</span>
-                <span className="font-base primary-font capitalize">
+                <span className="font-base secondary-font">Plan</span>
+                <span className="font-base secondary-font capitalize">
                   {subscriptionType}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Start date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Start date</span>
+                <span className="font-base secondary-font">
                   {formattedStartDate}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">End date</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">End date</span>
+                <span className="font-base secondary-font">
                   {formattedEndDate}
                 </span>
               </div>
             </div>
 
-            <h2 className="text-2xl! primary-font font-bold border-y border-teal-600 py-2 mt-4 mb-3 text-orange-300">
+            <h2 className="text-2xl! secondary-font font-bold border-y border-teal-600 py-2 mt-4 mb-3 text-orange-300">
               Bill Summary
             </h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="font-base primary-font">Sub Total</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Sub Total</span>
+                <span className="font-base secondary-font">
                   ₹{Math.round(amount || 0)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-base primary-font">Delivery Charges</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">Delivery Charges</span>
+                <span className="font-base secondary-font">
                   ₹{Math.round(shippingAmount)}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="font-base primary-font">GST</span>
-                <span className="font-base primary-font">
+                <span className="font-base secondary-font">GST</span>
+                <span className="font-base secondary-font">
                   ₹{Math.round(amount * gst || 0)}
                 </span>
               </div>
             </div>
 
             <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
-              <span className="font-base primary-font">Grand Total</span>
-              <span className="font-base primary-font">
+              <span className="font-base secondary-font">Grand Total</span>
+              <span className="font-base secondary-font">
                 ₹{Math.round(amount + shippingAmount + amount * gst)}
               </span>
             </div>

@@ -20,13 +20,16 @@ const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email"),
-  phoneNumberNumber: z.string().refine((value) => /^[6-9]\d{9}$/.test(value), {
-    message: "Please enter a valid 10-digit phoneNumber number.",
-  }),
-  company: z.string().min(1, "Comapany name is required").optional(),
-  designation: z.string().min(1, "Designation name is required").optional(),
+  phoneNumber: z
+    .string()
+    .refine((value) => /^[6-9]\d{9}$/.test(value), {
+      message: "Please enter a valid 10-digit phone number.",
+    }),
+  company: z.string().optional(),
+  designation: z.string().optional(),
   message: z.string().min(1, "Message is required"),
 });
+
 
 const CorporatePlan = () => {
   const form = useForm({
@@ -94,7 +97,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -111,7 +114,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -128,7 +131,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -146,7 +149,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -163,7 +166,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -180,7 +183,7 @@ const CorporatePlan = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -197,7 +200,7 @@ const CorporatePlan = () => {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className="text-red-500!" />
                     </FormItem>
                   )}
                 />

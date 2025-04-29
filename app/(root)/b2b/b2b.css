@@ -1,9 +1,9 @@
 .main-head {
   line-height: 60px;
 }
-.about-banner {
+.b2b-banner {
   background-image: url("/images/bcb-banner.jpg");
-  background-position: center bottom;
+  background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
   height: 100dvh;
@@ -16,7 +16,7 @@
     line-height: normal;
   }
 
-  .about-banner {
+  .b2b-banner {
     background-image: url("/images/mobnav.jpg");
   }
 }

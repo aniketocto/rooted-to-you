@@ -54,10 +54,11 @@ const OrderPage = () => {
           <div className="flex justify-center h-fit md:h-[500px] items-start flex-col flexCol md:flex-row gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/exe1.png"
-                width={412}
-                height={498}
+                src="/images/exe2.png"
                 alt="Executive Meal"
+                width={590}
+                height={490}
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
@@ -103,10 +104,11 @@ const OrderPage = () => {
           <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-10">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/pre1.png"
-                width={412}
-                height={498}
+                src="/images/pre2.png"
                 alt="Presidential Meal"
+                width={590}
+                height={490}
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
@@ -167,7 +169,7 @@ const OrderPage = () => {
         />
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/exe.png"
+            src="/images/exe1.png"
             alt="executive"
             width={330}
             height={420}
@@ -191,7 +193,7 @@ const OrderPage = () => {
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/pre.png"
+            src="/images/pre1.png"
             alt="executive"
             width={330}
             height={420}

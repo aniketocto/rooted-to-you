@@ -577,7 +577,7 @@ const Page = () => {
 
           <div className="lg:w-1/2 w-full self-start px-4">
             <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
-              <h2 className="text-2xl! primary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
+              <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
                 Details for lunch
               </h2>
               <div className="space-y-2 text-sm">
@@ -619,7 +619,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <h2 className="text-2xl! primary-font font-bold border-y border-teal-600 py-2 pb-2 mt-4 mb-3 text-orange-300">
+              <h2 className="text-2xl! secondary-font font-bold border-y border-teal-600 py-2 pb-2 mt-4 mb-3 text-orange-300">
                 Bill Summary
               </h2>
               <div className="space-y-2 text-sm">

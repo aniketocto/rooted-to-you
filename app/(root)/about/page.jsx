@@ -19,7 +19,7 @@ const Page = () => {
       </section>
 
       <img
-        src="/images/aboutMob.png"
+        src="/images/aboutnewbanner.jpg"
         alt=""
         className="block md:hidden w-full"
       />
@@ -143,7 +143,7 @@ const Page = () => {
         />
         <div className="relative flex flex-col md:flex-row items-start justify-start gap-15">
           <div className="flex-1/2 flex flex-col md:flex-row items-start justify-start gap-5 ">
-            <img src="/images/main.png" />
+            <img src="/images/Main.png" />
             <div className="flex flex-col items-start justify-start gap-5">
               <h3 className="secondary-font text-left">Our Founder</h3>
               <p className="primary-font text-sm md:text-lg text-left">
