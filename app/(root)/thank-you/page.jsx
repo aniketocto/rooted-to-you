@@ -1,18 +1,21 @@
 "use client";
-import React from "react";
-import { useSearchParams } from "next/navigation";
+
+import React, { useEffect, useState } from "react";
 import "./thanks.css";
 
 const page = () => {
-  const searchParams = useSearchParams();
-  const type = searchParams.get("type");
+  const [message, setMessage] = useState("Excited to serve you Rooted meals.");
 
-  let message = "Excited to serve you Rooted meals.";
-  if (type === "feedback-form-submission") {
-    message = "We value your feedback and try to improve day by day.";
-  } else if (type === "contact-form-submission") {
-    message = "Our executive will get in touch with you soon.";
-  }
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const type = queryParams.get("type");
+
+    if (type === "feedback-form-submission") {
+      setMessage("We value your feedback and try to improve day by day.");
+    } else if (type === "contact-form-submission") {
+      setMessage("Our executive will get in touch with you soon.");
+    }
+  }, []);
 
   return (
     <section className="flex flex-col items-center justify-center h-[60vh] text-center relative">
