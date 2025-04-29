@@ -1,5 +1,6 @@
 "use client";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import React from "react";
 
 const Blogs = () => {
@@ -60,59 +61,60 @@ const Blogs = () => {
   ];
 
   return (
-    <section className="w-full h-fit flex justify-center items-center mt-32 px-[5%] pb-20">
-    {/* Background Image */}
-    <img
-      src="/images/nav-bg.jpg"
-      className="absolute w-full h-[300px] object-cover z-[-1] top-0"
-      alt="Background"
-    />
-  
-    <div className="max-w-[1350px] w-full h-full flex flex-col items-center justify-start">
-      {/* Page Title */}
-      <h1 className="text-4xl font-bold mb-12 text-center secondary-font">
-        Our Blog
-      </h1>
-  
-      {/* Blog Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-        {blogPosts.map((blog) => (
-          <a target="_blank"
-            href={blog.id}
-            key={blog.id}
-            className="group block transform transition-transform duration-300 hover:scale-105"
-          >
-            <div className="glass-effect rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full">
-              {/* Blog Image */}
-              <div className="h-48 overflow-hidden">
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
-  
-              {/* Blog Content */}
-              <div className="flex flex-col justify-between flex-grow p-5">
-                <h3 className="text-xl! font-semibold mb-4 secondary-font hover:text-[#03141c] transition-colors duration-300">
-                  {blog.title}
-                </h3>
-  
-                {/* Bottom Info */}
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
-                  <span className="text-sm primary-font text-gray-500">Read more</span>
-                  <span className="bg-blue-100 primary-font text-[#197a8a] text-xs px-2 py-1 rounded">
-                    Blog
-                  </span>
+    <section className="w-full h-fit flex justify-center flex-col items-center mt-32 px-[5%] pb-20">
+      {/* Background Image */}
+      <img
+        src="/images/nav-bg.jpg"
+        className="absolute w-full h-[300px] object-cover z-[-1] top-0"
+        alt="Background"
+      />
+      <div className="max-w-[1350px] w-full h-full flex flex-col items-center justify-start">
+        {/* Page Title */}
+        <h1 className="text-4xl font-bold mb-12 text-center secondary-font">
+          Our Blog
+        </h1>
+
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+          {blogPosts.map((blog) => (
+            <a
+              target="_blank"
+              href={blog.id}
+              key={blog.id}
+              className="group block transform transition-transform duration-300 hover:scale-105"
+            >
+              <div className="glass-effect rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full">
+                {/* Blog Image */}
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                </div>
+
+                {/* Blog Content */}
+                <div className="flex flex-col justify-between flex-grow p-5">
+                  <h3 className="text-xl! font-semibold mb-4 secondary-font hover:text-[#03141c] transition-colors duration-300">
+                    {blog.title}
+                  </h3>
+
+                  {/* Bottom Info */}
+                  <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
+                    <span className="text-sm primary-font text-gray-500">
+                      Read more
+                    </span>
+                    <span className="bg-blue-100 primary-font text-[#197a8a] text-xs px-2 py-1 rounded">
+                      Blog
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        ))}
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-  
+    </section>
   );
 };
 

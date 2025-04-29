@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { X } from "lucide-react";
 
 const Cuisines = () => {
   const router = useRouter();
@@ -147,32 +148,15 @@ const Cuisines = () => {
                 zIndex: 1000,
               }}
             >
-              <div className="h-full flex flex-col items-center justify-center relative">
-                <div className="flex-grow flex flex-col items-center gap-2 justify-center rounded-lg p-6 mb-4 text-white">
-                  {hoveredCard && (
-                    <div className="flex flex-row items-center justify-center h-full">
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        {/* <h3
-                          className="text-center secondary-font text-2xl uppercase text-white! font-bold mb-2"
-                          style={{
-                            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                          }}
-                        >
-                          {cuisines.find((c) => c.id === hoveredCard)?.name}
-                        </h3>
-                        <p
-                          className="text-center cuisineExplore font-base-1 text-black primary-font mb-4"
-                          style={{
-                            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
-                          }}
-                        >
-                          {cuisines.find((c) => c.id === hoveredCard)?.desc}
-                        </p> */}
-                      </div>
-                      {/* <img src="/images/pre.png" alt="" width={100} /> */}
-                    </div>
-                  )}
-                </div>
+              <div
+                className="h-full flex md:hidden flex-col relative items-center justify-center  "
+                onClick={handlePopupClose}
+              >
+                {hoveredCard && (
+                  <div  className="absolute top-0 right-0">
+                    <X className="text-[#000]"/>
+                  </div>
+                )}
               </div>
             </div>
           </div>

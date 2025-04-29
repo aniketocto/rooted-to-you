@@ -8,11 +8,7 @@ import "swiper/css/navigation";
 export default function Testimonial() {
   return (
     <div className="relative md:px-4 md:py-12 p-4">
-      <img
-        src="/images/decorative.png"
-        className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
-        alt=""
-      />
+       <img src="/images/decorative.png" className="absolute bottom-0 -z-1 h-[500px] hidden lg:block w-full object-cover" alt="" />
       <h2 className="secondary-font text-center mb-10" data-aos="fade-down">
         Testimonials
       </h2>

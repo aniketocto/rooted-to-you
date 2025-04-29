@@ -81,22 +81,21 @@ const Hero = () => {
         modules={[Autoplay]}
         loop={true}
         speed={1000}
-        allowTouchMove={false}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: true,
-        }}
+        allowTouchMove={true}
+        // autoplay={{
+        //   // delay: 4000,
+        //   // disableOnInteraction: true,
+        // }}
       >
         <SwiperSlide>
-          <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-center px-0 sm:px-10">
-            <div
-              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8"
-              data-aos="fade-right"
-            >
-              <h1 className="secondary-font text-[#E6AF55] font-bold">
-                Eat. <br /> Connect. <br />Celebrate.
+          <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8">
+              <h1 className="secondary-font text-[#E6AF55] font-bold text-center md:text-left md:block  hidden">
+                Eat. <br /> Connect. <br />
+                Celebrate.
               </h1>
-              <p className="primary-font hero-font font-base mb-5">
+
+              <p className="primary-font hero-font  mb-5 md:block  hidden">
                 With Rooted, indulge in the authenticity of Indian flavours and
                 cuisines, connect with vibrant regional cultures, and celebrate
                 the joy of discovery and sharing wholesome meals.
@@ -104,7 +103,7 @@ const Hero = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="gap-5 flex flex-col md:flex-row w-44 md:w-96"
+                  className="gap-5 flex  w-full md:w-96"
                 >
                   <FormField
                     control={form.control}
@@ -125,7 +124,7 @@ const Hero = () => {
                                 ""
                               );
                             }}
-                            className="md:w-[350px] w-[200px] border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                            className="md:w-[350px] w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
                           />
                         </FormControl>
                         <FormMessage className="text-red-500!" />
@@ -158,15 +157,13 @@ const Hero = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" w-full h-full hero-bg-2 flex flex-col items-start justify-center px-0 sm:px-10">
-            <div
-              className="flex flex-col items-start justify-center w-full md:w-[60%] gap-5 hero mt-[10%] px-8"
-              data-aos="fade-right"
-            >
-              <h1 className="secondary-font text-[#E6AF55] font-bold">
+          <div className=" w-full h-full hero-bg-2 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8">
+              <h1 className="secondary-font text-[#E6AF55] font-bold text-center md:text-left md:block  hidden">
                 New Day, <br /> New Cuisine, <br /> New Meal.
               </h1>
-              <p className="primary-font hero-font font-base mb-5">
+
+              <p className="primary-font hero-font  mb-5 md:block  hidden">
                 Say goodbye to unhealthy takeouts and meal-prep stress. Rooted
                 to You brings expertly curated, fresh, and nutritious meals
                 straight to your doorstep. Whether at home or the office, enjoy
@@ -175,7 +172,7 @@ const Hero = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="gap-5 flex flex-col md:flex-row w-44 md:w-96"
+                  className="gap-5 flex  w-full md:w-96"
                 >
                   <FormField
                     control={form.control}
@@ -196,7 +193,7 @@ const Hero = () => {
                                 ""
                               );
                             }}
-                            className="md:w-[350px] w-[200px] border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                            className="md:w-[350px] w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
                           />
                         </FormControl>
                         <FormMessage className="text-red-500!" />

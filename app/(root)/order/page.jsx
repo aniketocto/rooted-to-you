@@ -30,7 +30,7 @@ const OrderPage = () => {
 
   return (
     <>
-      <section className="w-full h-fit flex justify-center items-center mt-32 px-5">
+      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
         {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -51,14 +51,14 @@ const OrderPage = () => {
         <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-start">
           <Breadcrumbs />
           {/* Executive Meal */}
-          <div className="flex justify-center h-fit md:h-[500px] items-start flex-col flexCol md:flex-row gap-5">
+          <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
                 src="/images/exe2.png"
                 alt="Executive Meal"
-                width={590}
-                height={490}
-                className="w-full h-full object-cover"
+                width={690}
+                height={590}
+                className="w-[1000px] max-w-full h-full object-cover"
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
@@ -108,7 +108,7 @@ const OrderPage = () => {
                 alt="Presidential Meal"
                 width={590}
                 height={490}
-                className="w-full h-full object-cover"
+                className="w-[1000px] max-w-full h-full object-cover"
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
