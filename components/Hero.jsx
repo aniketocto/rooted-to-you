@@ -82,10 +82,10 @@ const Hero = () => {
         loop={true}
         speed={1000}
         allowTouchMove={true}
-        // autoplay={{
-        //   // delay: 4000,
-        //   // disableOnInteraction: true,
-        // }}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: true,
+        }}
       >
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
