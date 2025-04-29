@@ -66,7 +66,7 @@ const Page = () => {
             <h2 className="secondary-font font-semibold">Purpose</h2>
             <p className="primary-font font-base-1 text-left">
               At Rooted to You, we believe that food is more than just
-              nourishment—it’s a cultural experience, a bridge to our heritage,
+              nourishment—it’s a cultural experience, a bridge to our heritage
               and a celebration of flavors passed down through generations. our
               meals honor the essence of Indian cuisine while embracing
               contemporary tastes. Whether it's the comforting warmth of
@@ -93,8 +93,8 @@ const Page = () => {
             </h3>
             <p className="primary-font font-base-1 text-left">
               We believe, sharing food is key to cultivating new connections and
-              fostering new bonds.Our meals are to be shared, encouraging
-              conversations and creating moments thatbring us closer.
+              fostering new bonds. Our meals are to be shared, encouraging
+              conversations and creating moments that bring us closer.
             </p>
           </div>
           <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 rounded-3xl border-[#e6af55]">
@@ -146,14 +146,14 @@ const Page = () => {
             <div className="flex flex-col items-start justify-start gap-5">
               <h3 className="secondary-font text-left">Our Founder</h3>
               <p className="primary-font text-sm md:text-lg text-left">
-                Rooted was founded by, Saurabh Wadkar, a globetrotting chef and
+                Rooted was founded by Saurabh Wadkar, a globetrotting chef and
                 food entrepreneur whose journey-from the corridors of Le Cordon
                 Bleu to kitchens in Mumbai, Southern Australia, Bangkok,
                 California, and Boston has always been guided by one belief:
                 that the most powerful food stories begin at home.
               </p>
               <p className="primary-font text-left">
-                <em className="text-left">"Bringing back the joy of eating"</em>{" "}
+                <em className="text-left">"Bringing back the joy of eating."</em>{" "}
                 <br />
                 <span>Saurabh Wadkar</span>
               </p>
