@@ -28,7 +28,7 @@ export default function WhatsAppButton() {
           className="fixed bottom-6 right-6 z-50"
         >
           <div className="transition-transform transform hover:scale-110">
-            <img src="/images/wp.svg" className="w-10" alt="WhatsApp Button" />
+            <img src="/images/wp.svg" className="w-14" alt="WhatsApp Button" />
           </div>
         </a>
       )}

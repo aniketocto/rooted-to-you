@@ -96,7 +96,7 @@ export default function Testimonial() {
                 Deepika Hirwey
               </h4>
               <p className="text-gray-400 primary-font  text-sm">
-                Unstoppable CEO
+                CEO - Creative Agency
               </p>
             </div>
           </div>

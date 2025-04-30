@@ -196,7 +196,6 @@ const Page = () => {
     setIsTrial(isTrial);
   }, []);
 
-
   useEffect(() => {
     if (!boxes.length) return;
 
@@ -363,7 +362,7 @@ const Page = () => {
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
-        <Breadcrumbs />
+          <Breadcrumbs />
           <h2 className="text-2xl font-bold secondary-font">Executive Meal</h2>
           <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
           <Form {...form}>
@@ -637,7 +636,7 @@ const Page = () => {
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Plan</span>
                 <span className="font-base secondary-font capitalize">
-                {isTrial
+                  {isTrial
                     ? "trial"
                     : selectedDuration > 7
                     ? "monthly"
@@ -672,16 +671,31 @@ const Page = () => {
                 <span className="font-base secondary-font">Sub Total</span>
                 <span className="font-base secondary-font">₹{basePrice}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Delivery Charges</span>
-                <span className="font-base secondary-font">
-                  ₹{selectedDuration ? deliveryPrice : 0}
+              {isTrial && (
+                <span className="inline-block text-sm! secondary-font -mt-2">
+                  Inclusive of Delivery charges & Tax (G.S.T)
                 </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Tax (G.S.T.)</span>
-                <span className="font-base secondary-font">₹{taxAmount}</span>
-              </div>
+              )}
+              {!isTrial && (
+                <>
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Delivery Charges
+                    </span>
+                    <span className="font-base secondary-font">
+                      ₹{selectedDuration ? deliveryPrice : 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Tax (G.S.T.)
+                    </span>
+                    <span className="font-base secondary-font">
+                      ₹{taxAmount}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="border-t border-white mt-4 pt-2 text-lg font-semibold flex justify-between">

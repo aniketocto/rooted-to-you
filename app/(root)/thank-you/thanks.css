@@ -1,22 +1,53 @@
+.main-div {
+  margin: 10% 0 ;
+  padding: 0 5%;
+}
+
 .thanks-head {
-  font-size: 156px;
+  font-size: 60px;
   font-weight: bold;
   font-family: "Minion", sans-serif;
+  text-align: center;
 }
 
 .thanks-text {
-  font-size: 34px;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-size: 50px;
+  font-weight: 500;
+  margin: 1rem 0;
   font-family: "Glacial Indifference", sans-serif;
+  text-align: center;
+}
+
+.thanks-content {
+  font-size: 25px;
+  font-weight: normal;
+  font-family: "Glacial Indifference", sans-serif;
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  .main-div {
+    margin: 20% 0;
+  }
+  .thanks-head {
+    font-size: 80px;
+  }
+  .thanks-text {
+    font-size: 30px;
+  }
 }
 
 @media screen and (max-width: 600px) {
+  .main-div {
+    margin: 35% 0;
+  }
   .thanks-head {
-    font-size: 80px !important;
+    font-size: 30px;
   }
   .thanks-text {
     font-size: 20px;
   }
-    
+  .thanks-content {
+    font-size: 15px;
+  }
 }

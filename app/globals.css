@@ -81,7 +81,7 @@ h4 {
   @apply text-[var(--secondary-color)] text-2xl font-bold;
 }
 h5 {
-  @apply text-[var(--secondary-color)] text-xl font-bold;
+  @apply text-[var(--secondary-color)] text-xl font-bold xl:px-[15%];
 }
 
 p {
@@ -214,7 +214,7 @@ h2 {
   font-size: 25px;
   /* margin-top: 5px; */
   font-family: "Minion", sans-serif;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .subbtnFont {
@@ -222,6 +222,7 @@ h2 {
   font-family: "Minion", sans-serif !important;
   /* margin-top: 5px; */
   font-weight: bold;
+  text-transform: capitalize !important;
 }
 .cusineFont {
   font-size: 25px;

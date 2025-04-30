@@ -15,7 +15,7 @@ const Cuisines = () => {
   const cuisines = [
     {
       id: 1,
-      name: "Maharashtr-ian Cuisine",
+      name: "Maharashtrian Cuisine",
       img: "Maharshtra.png",
       desc: "Experience the bold and earthy flavours of the Vidarbha region, the subtle sweetness infused in the cuisine of the Peshwas, and the fiery zest of Kolhapur dishes uncovering dishes that area testament to the state's vibrant culture and traditions.",
       popup: "maha.jpg",

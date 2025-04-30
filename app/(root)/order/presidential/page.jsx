@@ -753,19 +753,31 @@ const Page = () => {
                 <span className="font-base secondary-font">Sub Total</span>
                 <span className="font-base secondary-font">₹{basePrice}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">
-                  Delivery Charges
+              {isTrial && (
+                <span className="inline-block text-sm! secondary-font -mt-2">
+                  Inclusive of Delivery charges & Tax (G.S.T)
                 </span>
-                <span className="font-base secondary-font">
-                  ₹{selectedDuration ? deliveryPrice : 0}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="font-base secondary-font">Tax (G.S.T.)</span>
-                <span className="font-base secondary-font">₹{taxAmount}</span>
-              </div>
+              )}
+              {!isTrial && (
+                <>
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Delivery Charges
+                    </span>
+                    <span className="font-base secondary-font">
+                      ₹{selectedDuration ? deliveryPrice : 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Tax (G.S.T.)
+                    </span>
+                    <span className="font-base secondary-font">
+                      ₹{taxAmount}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="border-t border-white mt-4 pt-2 text-lg font-semibold flex justify-between">

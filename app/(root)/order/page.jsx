@@ -51,7 +51,7 @@ const OrderPage = () => {
         <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-start">
           <Breadcrumbs />
           {/* Executive Meal */}
-          <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-5">
+          <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
                 src="/images/exe2.png"
@@ -62,14 +62,17 @@ const OrderPage = () => {
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
-              <h2 className="secondary-font font-light">
-                The Executive Meal{" "}
-                <span className="primary-font text-white! text-sm">
-                  (5 to 6 components)
-                </span>
+              <h2
+                className="secondary-font font-light"
+                style={{ lineHeight: "50px" }}
+              >
+                The Executive Meal <br />
               </h2>
+              <span className="primary-font text-white! text-sm pl-1.5">
+                (5 to 6 components)
+              </span>
 
-              <p className="primary-font font-base-1 mb-5">
+              <p className="primary-font font-base-1 my-5">
                 <em>
                   Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
                   Salad
@@ -101,7 +104,7 @@ const OrderPage = () => {
           </div>
 
           {/* Presidential Meal */}
-          <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-10">
+          <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
                 src="/images/pre2.png"
@@ -112,14 +115,17 @@ const OrderPage = () => {
               />
             </div>
             <div className="w-full h-full flex flex-col items-start justify-start">
-              <h2 className="secondary-font mb-5 font-light">
+              <h2
+                className="secondary-font font-light"
+                style={{ lineHeight: "50px" }}
+              >
                 The Presidential Meal{" "}
-                <span className="primary-font text-white! text-sm">
-                  (8 to 9 components)
-                </span>
               </h2>
+              <span className="primary-font text-white! text-sm pl-1.5">
+                (8 to 9 components)
+              </span>
 
-              <p className="primary-font font-base-1 mb-5">
+              <p className="primary-font font-base-1 my-5">
                 <em>
                   Rice, Dal, One Veg, Indian Breads, Salad, Entree, Sweet, Papad
                   / Pickle / Healthy Beverage, Mukhwas
