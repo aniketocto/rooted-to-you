@@ -303,14 +303,16 @@ const Page = () => {
       );
 
       if (!response.ok) {
-        setError("Failed to create order");
+        setError(
+          "Oops! Something went wrong while creating your order. Please check your internet connection or try again in a few minutes."
+        );
       }
 
       const data = await response.json();
       if (!data.orderId) {
         setError("Invalid order ID received");
       }
-      const razorPayAmount = data.amount * 100;
+      const razorPayAmount = data.amount * 100; 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
