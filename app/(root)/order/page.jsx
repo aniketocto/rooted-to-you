@@ -54,7 +54,7 @@ const OrderPage = () => {
           <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/exe2.png"
+                src="/images/Executive-Cuisine.png"
                 alt="Executive Meal"
                 width={690}
                 height={590}
@@ -107,7 +107,7 @@ const OrderPage = () => {
           <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/pre2.png"
+                src="/images/Presidential-Cuisine.png"
                 alt="Presidential Meal"
                 width={590}
                 height={490}
@@ -175,7 +175,7 @@ const OrderPage = () => {
         />
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/exe1.png"
+            src="/images/Trial-Executive.png"
             alt="executive"
             width={330}
             height={420}
@@ -199,7 +199,7 @@ const OrderPage = () => {
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/pre1.png"
+            src="/images/Trial-Presidential.png"
             alt="executive"
             width={330}
             height={420}
