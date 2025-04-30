@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { PaymentProvider } from "../context/PaymentContext";
+import WhatsAppButton from "@/components/WhatsappButton";
 
 const RootLayout = ({ children }) => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const RootLayout = ({ children }) => {
   return (
     <PaymentProvider>
       {children}
+      <WhatsAppButton />
     </PaymentProvider>
   );
 };
