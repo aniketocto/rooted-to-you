@@ -288,6 +288,9 @@ const Page = () => {
         address2: userData?.data?.address2,
         city: userData?.data?.city,
         pincode: userData?.data?.pincode,
+        department: userData?.data?.department,
+        designation: userData?.data?.designation, 
+        state: "maharashtra"
       };
 
       // console.log("pay data", payload);
