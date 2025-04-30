@@ -273,7 +273,6 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-    // console.log("Session Data:", sessionData);
     const formDataToSave = {
       formValues: {
         time: data.time,

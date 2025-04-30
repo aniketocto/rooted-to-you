@@ -333,7 +333,6 @@ const Page = () => {
         startDate: formattedStartDate,
         deliveryType: selectedTime,
       };
-      console.log(payload)
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
@@ -381,8 +380,6 @@ const Page = () => {
     }
   }
 
-  // const values = form.getValues();
-  // console.log(values.selectedDatesArray);
 
   return (
     <section className="w-full h-fit flex secondary-font justify-center items-center my-52">

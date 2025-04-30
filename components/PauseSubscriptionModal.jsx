@@ -81,7 +81,6 @@ export default function PauseSubscriptionModal({
       );
 
       const data = await res.json();
-      // console.log("response", data);
 
       if (res.ok) {
         setOpen(false);

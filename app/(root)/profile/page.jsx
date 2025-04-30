@@ -53,7 +53,6 @@ const ProfilePage = () => {
 
         if (subRes.ok) {
           const subData = await subRes.json();
-          // console.log("subData", subData);
 
           if (subData?.subscription) {
             setActiveSubscription(subData.subscription);

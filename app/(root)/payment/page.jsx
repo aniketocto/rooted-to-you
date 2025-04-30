@@ -89,7 +89,7 @@ const Page = () => {
 
         const data = await res.json();
         setUserData(data);
-        // console.log("User data:", data);
+       
       } catch (err) {
         console.error("❌ Error fetching user details:", err);
       }
@@ -121,7 +121,6 @@ const Page = () => {
 
     fetchCoupons();
   }, []);
-  // console.log(availableCoupons);
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       setCouponMessage("Please enter a coupon code");
@@ -166,7 +165,6 @@ const Page = () => {
       setActiveCoupon(null);
     }
 
-    // console.log("Active Coupon", activeCoupon);
 
     const matchedCoupon = availableCoupons.find(
       (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
@@ -244,7 +242,6 @@ const Page = () => {
     setTax(Math.round(calculatedGst));
     setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
-  // console.log("Final Price", finalPrice);
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -293,7 +290,6 @@ const Page = () => {
         state: "maharashtra"
       };
 
-      // console.log("pay data", payload);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
         {
@@ -315,8 +311,6 @@ const Page = () => {
         setError("Invalid order ID received");
       }
       const razorPayAmount = data.amount * 100;
-      // console.log(razorPayAmount);
-      // console.log("Amount in paise", amountInPaise);
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -343,7 +337,7 @@ const Page = () => {
               }
             );
             const successData = await successResponse.json();
-            // console.log("Payment Success:", successData);
+          
             router.push("/thank-you");
             
             setTimeout(() => {
