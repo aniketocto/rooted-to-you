@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -24,6 +26,8 @@ const formSchema = z.object({
 });
 
 const FeedbackForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,17 +38,50 @@ const FeedbackForm = () => {
     },
   });
 
-  const isSubmitting = form.formState.isSubmitting;
+  function onSubmit(values) {
+    setIsSubmitting(true);
 
-  const onSubmit = (data) => {
-    console.log("Submitted:", data);
-    form.reset(); // Reset the form after submission
-    // handle submission
-  };
+    const payload = {
+      name: `${values.firstName} ${values.lastName}`.trim(), // 👈 Concatenate first and last name
+      email: values.email,
+      phoneNumber: values.phoneNumber || "",
+      message: values.message,
+      formType: "feedback", // or "corporate", "contact"
+      companyName: values.companyName || "",
+      designation: values.designation || "",
+    };
+
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to send form");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        form.reset();
+        router.push("/thank-you?type=form-submission");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  }
 
   return (
     <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-start items-start gap-5 my-10">
-      
       <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center ">
         <div className="w-full flex flexCol gap-10">
           <div className="flex-1 flex w-full justify-center items-center">

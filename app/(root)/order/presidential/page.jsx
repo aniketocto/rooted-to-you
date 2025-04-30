@@ -307,7 +307,6 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-    console.log("Session Data:", sessionData);
     // Save the current form state to localStorage
     const formDataToSave = {
       formValues: {
@@ -326,6 +325,15 @@ const Page = () => {
     };
     localStorage.setItem("mealFormData", JSON.stringify(formDataToSave));
     try {
+      const formattedStartDate = updatedData.startDate
+        ? format(new Date(updatedData.startDate), "yyyy-MM-dd")
+        : null;
+
+      const payload = {
+        startDate: formattedStartDate,
+        deliveryType: selectedTime,
+      };
+      console.log(payload)
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
@@ -333,14 +341,11 @@ const Page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          // body: JSON.stringify({
-          //   startDate: data.selectedDates?.startDate,
-          // }),
+          body: JSON.stringify(payload),
         }
       );
 
       const activeData = await activeRes.json();
-      console.log(activeData);
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);

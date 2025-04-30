@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import WhatsAppButton from "@/components/WhatsappButton";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -39,6 +40,7 @@ const formSchema = z.object({
 
 const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -51,11 +53,44 @@ const ContactUs = () => {
   });
   function onSubmit(values) {
     setIsSubmitting(true);
-    // console.log(values);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 2000);
+    const payload = {
+      name: values.name,
+      email: values.email,
+      phoneNumber: values.phoneNumber,
+      message: values.message,
+      formType: "contact", // ⬅️ Change to "feedback" or "corporate" where needed
+      companyName: values.companyName || "",
+      designation: values.designation || "",
+    };
+
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to send form");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        form.reset();
+        router.push("/thank-you?type=form-submission");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (

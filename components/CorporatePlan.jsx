@@ -15,23 +15,24 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email"),
-  phoneNumber: z
-    .string()
-    .refine((value) => /^[6-9]\d{9}$/.test(value), {
-      message: "Please enter a valid 10-digit phone number.",
-    }),
+  phoneNumber: z.string().refine((value) => /^[6-9]\d{9}$/.test(value), {
+    message: "Please enter a valid 10-digit phone number.",
+  }),
   company: z.string().optional(),
   designation: z.string().optional(),
   message: z.string().min(1, "Message is required"),
 });
 
-
 const CorporatePlan = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,12 +46,47 @@ const CorporatePlan = () => {
     },
   });
 
-  const isSubmitting = form.formState.isSubmitting;
+  
+  function onSubmit(values) {
+    setIsSubmitting(true);
+    
+    const payload = {
+      name: `${values.firstName} ${values.lastName}`.trim(), // 👈 Concatenate first and last name
+      email: values.email,
+      phoneNumber: values.phoneNumber || "",
+      message: values.message,
+      formType: "corporate", // ⬅️ Change to "feedback" or "corporate" where needed
+      companyName: values.company || "",
+      designation: values.designation || "",
+    };
 
-  const onSubmit = (data) => {
-    // console.log("Submitted:", data);
-    // handle submission
-  };
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to send form");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        form.reset();
+        router.push("/thank-you?type=form-submission");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  }
 
   return (
     <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">

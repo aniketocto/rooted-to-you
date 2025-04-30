@@ -241,14 +241,7 @@ const Page = () => {
       data.selectedDatesArray?.map((date) =>
         format(new Date(date), "yyyy-MM-dd")
       ) || [];
-    const formattedStartDate = data.selectedDates?.startDate
-      ? format(new Date(data.selectedDates.startDate), "yyyy-MM-dd")
-      : null;
-
-    const formattedEndDate = data.selectedDates?.endDate
-      ? format(new Date(data.selectedDates.endDate), "yyyy-MM-dd")
-      : null;
-
+    
     const token = userData?.token;
     const customerId = userData?.id;
 
@@ -280,8 +273,7 @@ const Page = () => {
       mealTime: selectedTime,
       selectedDatesArray: formattedDateArray,
     };
-    console.log("Session Data:", sessionData);
-    // Save the current form state to localStorage
+    // console.log("Session Data:", sessionData);
     const formDataToSave = {
       formValues: {
         time: data.time,
@@ -298,6 +290,15 @@ const Page = () => {
     };
     localStorage.setItem("mealFormData", JSON.stringify(formDataToSave));
     try {
+      const formattedStartDate = updatedData.startDate
+        ? format(new Date(updatedData.startDate), "yyyy-MM-dd")
+        : null;
+
+      const payload = {
+        startDate: formattedStartDate,
+        deliveryType: selectedTime, 
+      };
+
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
@@ -306,6 +307,7 @@ const Page = () => {
             "Content-Type": "application/json",
             Authorization: token ? `Bearer ${token}` : "",
           },
+          body: JSON.stringify(payload),
         }
       );
 
