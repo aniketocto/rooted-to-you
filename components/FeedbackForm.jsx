@@ -164,7 +164,7 @@ const FeedbackForm = () => {
                   className="bg-[#e6af55] hover:bg-[#d49c3e] text-[#03141C] font-semibold px-6 py-3 rounded-md flex gap-2 items-center"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "LEAVE US A MESSAGE"}
+                  {isSubmitting ? "Submitting..." : "Leave us a message"}
                   {!isSubmitting && (
                     <Image
                       src="/images/right-arrow.png"

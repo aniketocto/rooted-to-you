@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AlertBox from "@/components/AlertBox";
 import { useAuth } from "@/app/context/AuthContext";
+import { X } from "lucide-react";
 
 const Page = () => {
   const { user } = useAuth();
@@ -68,7 +69,7 @@ const Page = () => {
 
       if (!storedUser) {
         console.warn("🚫 No user in localStorage, redirecting...");
-        router.replace("/"); // Redirect to home/login if not authenticated
+        // router.replace("/"); // Redirect to home/login if not authenticated
         return;
       }
 
@@ -89,7 +90,6 @@ const Page = () => {
 
         const data = await res.json();
         setUserData(data);
-       
       } catch (err) {
         console.error("❌ Error fetching user details:", err);
       }
@@ -98,11 +98,10 @@ const Page = () => {
     fetchUserDetails();
   }, []);
 
-
   useEffect(() => {
     if (!paymentSession?.sessionActive) {
       console.warn("🔒 Payment session not active, redirecting...");
-      router.replace("/");
+      // router.replace("/");
     }
   }, [paymentSession]);
 
@@ -121,6 +120,89 @@ const Page = () => {
 
     fetchCoupons();
   }, []);
+
+  // const handleApplyCoupon = async () => {
+  //   if (!couponCode.trim()) {
+  //     setCouponMessage("Please enter a coupon code");
+  //     setCouponValid(false);
+  //     setActiveCoupon(null);
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/coupons/apply`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           code: couponCode,
+  //           value: amount,
+  //           boxId: boxId,
+  //           subscriptionType: subscriptionType,
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     console.log(data)
+
+  //     if (response.ok) {
+  //       setCouponMessage(data.message || "Coupon applied successfully!");
+  //       setCouponValid(true);
+  //       setActiveCoupon(data.coupons);
+  //     } else {
+  //       setCouponMessage(data.error || "Invalid Coupon Code!");
+  //       setCouponValid(false);
+  //       setActiveCoupon(null);
+  //     }
+  //   } catch (error) {
+  //     console.error("Coupon apply error:", error);
+  //     setCouponMessage("Not a valid Coupon Code!");
+  //     setCouponValid(false);
+  //     setActiveCoupon(null);
+  //   }
+
+  //   const matchedCoupon = availableCoupons.find(
+  //     (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
+  //   );
+
+  //   if (matchedCoupon) {
+  //     // Check if the coupon is applicable for the current subscription type and box
+  //     const isApplicable =
+  //       matchedCoupon.subscriptionType === subscriptionType &&
+  //       matchedCoupon.boxId.toString() === boxId.toString();
+
+  //     if (isApplicable && matchedCoupon.status === "active") {
+  //       // Check if the coupon is valid for the current date
+  //       const now = new Date();
+  //       const validFrom = new Date(matchedCoupon.validFrom);
+  //       const validTo = new Date(matchedCoupon.validTo);
+
+  //       if (now >= validFrom && now <= validTo) {
+  //         setCouponMessage("Coupon applied successfully!");
+  //         setCouponValid(true);
+  //         setActiveCoupon(matchedCoupon);
+  //       } else {
+  //         setCouponMessage("This coupon has expired or is not yet valid");
+  //         setCouponValid(false);
+  //         setActiveCoupon(null);
+  //       }
+  //     } else {
+  //       setCouponMessage("This coupon is not applicable for your current plan");
+  //       setCouponValid(false);
+  //       setActiveCoupon(null);
+  //     }
+  //   } else {
+  //     setCouponMessage("Invalid coupon code");
+  //     setCouponValid(false);
+  //     setActiveCoupon(null);
+  //   }
+  // };
+
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
       setCouponMessage("Please enter a coupon code");
@@ -149,10 +231,10 @@ const Page = () => {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && data.success) {
         setCouponMessage(data.message || "Coupon applied successfully!");
         setCouponValid(true);
-        setActiveCoupon(data.coupons);
+        setActiveCoupon(data?.data); // Use the coupon data from the API response
       } else {
         setCouponMessage(data.error || "Invalid Coupon Code!");
         setCouponValid(false);
@@ -164,84 +246,47 @@ const Page = () => {
       setCouponValid(false);
       setActiveCoupon(null);
     }
-
-
-    const matchedCoupon = availableCoupons.find(
-      (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase()
-    );
-
-    if (matchedCoupon) {
-      // Check if the coupon is applicable for the current subscription type and box
-      const isApplicable =
-        matchedCoupon.subscriptionType === subscriptionType &&
-        matchedCoupon.boxId.toString() === boxId.toString();
-
-      if (isApplicable && matchedCoupon.status === "active") {
-        // Check if the coupon is valid for the current date
-        const now = new Date();
-        const validFrom = new Date(matchedCoupon.validFrom);
-        const validTo = new Date(matchedCoupon.validTo);
-
-        if (now >= validFrom && now <= validTo) {
-          setCouponMessage("Coupon applied successfully!");
-          setCouponValid(true);
-          setActiveCoupon(matchedCoupon);
-        } else {
-          setCouponMessage("This coupon has expired or is not yet valid");
-          setCouponValid(false);
-          setActiveCoupon(null);
-        }
-      } else {
-        setCouponMessage("This coupon is not applicable for your current plan");
-        setCouponValid(false);
-        setActiveCoupon(null);
-      }
-    } else {
-      setCouponMessage("Invalid coupon code");
-      setCouponValid(false);
-      setActiveCoupon(null);
-    }
   };
+  console.log("Applied Coupon data", activeCoupon);
 
   const recalculatePricing = () => {
     if (!paymentSession || !user) return;
-
+  
     const basePrice = amount || 0;
-
-    // Step 1: Calculate GST on base price
-    const calculatedGst = basePrice * (gst || 0);
-    const priceWithGst = basePrice + calculatedGst;
-
-    // Step 2: Add shipping
-    const totalBeforeDiscounts = priceWithGst + shippingAmount;
-
-    // Step 3: Apply coupon discount (on total before discounts)
+    
+    // Step 1: Apply coupon discount to base price
+    let discountedBasePrice = basePrice;
     let couponDiscount = 0;
-    if (couponValid && activeCoupon) {
-      if (activeCoupon.discountType === "percentage") {
-        couponDiscount = (basePrice * parseFloat(activeCoupon.value)) / 100;
-      } else if (activeCoupon.discountType === "fixed") {
-        couponDiscount = parseFloat(activeCoupon.value);
-      }
+    
+    if (couponValid && activeCoupon) {  
+      couponDiscount = activeCoupon.discountValue || 0;
+      discountedBasePrice = Math.max(basePrice - couponDiscount, 0);
+      
     }
-
-    const afterCoupon = Math.max(totalBeforeDiscounts - couponDiscount, 0);
-
+  
+    // Step 2: Calculate GST on the discounted base price
+    const calculatedGst = discountedBasePrice * (gst || 0);
+    
+    // Step 3: Add GST and shipping to get total
+    const priceWithGst = discountedBasePrice + calculatedGst;
+    const totalAfterTaxAndShipping = priceWithGst + shippingAmount;
+  
     // Step 4: Apply wallet deduction if enabled
     const walletDeduction = redeemWallet
-      ? Math.min(walletUsedAmount, afterCoupon)
+      ? Math.min(walletUsedAmount, totalAfterTaxAndShipping)
       : 0;
-
-    const finalTotal = Math.max(afterCoupon - walletDeduction, 0);
-
+  
+    const finalTotal = Math.max(totalAfterTaxAndShipping - walletDeduction, 0);
+  
     // ✅ Final price should be whole number and in paise
     const finalAmount = Math.round(finalTotal);
-
+  
     // Save computed values
     setDiscountedAmount(Math.round(couponDiscount));
     setTax(Math.round(calculatedGst));
     setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
+  
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -281,13 +326,13 @@ const Page = () => {
         itemNames: itemNames,
         deliveryType: mealTime,
         selectedDates: selectedDatesArray,
-        address1: userData?.data?.address1, 
+        address1: userData?.data?.address1,
         address2: userData?.data?.address2,
         city: userData?.data?.city,
         pincode: userData?.data?.pincode,
         department: userData?.data?.department,
-        designation: userData?.data?.designation, 
-        state: "maharashtra"
+        designation: userData?.data?.designation,
+        state: "maharashtra",
       };
 
       const response = await fetch(
@@ -312,7 +357,7 @@ const Page = () => {
       if (!data.orderId) {
         setError("Invalid order ID received");
       }
-      const razorPayAmount = data.amount * 100; 
+      const razorPayAmount = data.amount * 100;
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -339,9 +384,9 @@ const Page = () => {
               }
             );
             const successData = await successResponse.json();
-          
+
             router.push("/thank-you");
-            
+
             setTimeout(() => {
               clearPaymentSession();
               localStorage.removeItem("mealFormData");
@@ -506,27 +551,43 @@ const Page = () => {
                 Coupon Code
               </label>
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  id="couponCode"
-                  value={couponCode}
-                  onChange={(e) => {
-                    setCouponCode(e.target.value);
-                    if (couponValid) {
-                      setCouponValid(false);
+                {/* Input with clear button wrapper */}
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="couponCode"
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value);
                       setCouponMessage("");
+                      setCouponValid(false);
                       setActiveCoupon(null);
-                    }
-                  }}
-                  placeholder="Enter coupon code"
-                  className="border p-2 flex-grow rounded-md"
-                />
+                    }}
+                    placeholder="Enter coupon code"
+                    className="border p-2 pr-10 w-full rounded-md"
+                  />
+                  {couponCode && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCouponCode("");
+                        setCouponMessage("");
+                        setCouponValid(false);
+                        setActiveCoupon(null);
+                      }}
+                      className="absolute right-2 text-2xl top-[50%] -translate-y-1/2 -translate-x-1/2 text-gray-500 hover:text-[#d49c3e]"
+                    >
+                      <X />
+                    </button>
+                  )}
+                </div>
+
                 <Button
                   onClick={handleApplyCoupon}
                   disabled={!couponCode.trim() || couponMessage}
-                  className={`text-white transition-colors py-6 ${
+                  className={`text-white transition-colors py-5 ${
                     !couponCode.trim() || couponMessage
-                      ? "bg-gray-300 "
+                      ? "bg-gray-300"
                       : "bg-[#e6af55] hover:bg-[#d49c3e] cursor-pointer"
                   }`}
                 >
@@ -535,6 +596,7 @@ const Page = () => {
                   </p>
                 </Button>
               </div>
+
               {couponMessage && (
                 <p
                   className={`text-sm mt-1 ${
