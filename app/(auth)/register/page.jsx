@@ -148,9 +148,8 @@ const Page = () => {
           token: data.token,
           status: data.data.status,
         };
-        // startPaymentSession(userData);
         login(userData);
-        router.push("/");
+        router.back();
       } else {
         setErrorMessage(data.error || "OTP verification failed.");
       }

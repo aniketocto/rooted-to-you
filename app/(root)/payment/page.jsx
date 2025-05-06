@@ -575,7 +575,7 @@ const Page = () => {
                         setCouponValid(false);
                         setActiveCoupon(null);
                       }}
-                      className="absolute right-2 text-2xl top-[50%] -translate-y-1/2 -translate-x-1/2 text-gray-500 hover:text-[#d49c3e]"
+                      className="absolute right-2 text-2xl top-[50%] -translate-y-1/2 -translate-x-1/2 text-gray-500 hover:text-[#d49c3e] cursor-pointer"
                     >
                       <X />
                     </button>
