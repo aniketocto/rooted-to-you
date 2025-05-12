@@ -223,8 +223,8 @@ const Page = () => {
                 alt=""
               />
               <img
-                src="/images/partner6.png"
-                className="w-[40%] md:w-[10%]"
+                src="/images/fruture.jpg"
+                className="w-[40%] md:w-[12%]"
                 alt=""
               />
             </div>
