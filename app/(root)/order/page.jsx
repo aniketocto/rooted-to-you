@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "./order.css";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { NextSeo } from "next-seo";
 
 const OrderPage = () => {
   const router = useRouter();
@@ -30,6 +31,11 @@ const OrderPage = () => {
 
   return (
     <>
+      <title>Meal Plans | Rooted To You</title>
+      <meta
+        name="description"
+        content=" Executive and Presidential Meals according to your needs and preferences at your doorstep."
+      />
       <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
         {/* <Image
         src="/images/nav-bg.jpg"

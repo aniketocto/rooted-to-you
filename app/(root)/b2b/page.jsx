@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./b2b.css";
 import { Button } from "@/components/ui/button";
+import { NextSeo } from "next-seo";
 
 const Page = () => {
   const router = useRouter();
@@ -31,6 +32,11 @@ const Page = () => {
 
   return (
     <>
+      <title>For Businesses | Rooted To You</title>
+      <meta
+        name="description"
+        content=" Foster a vibrant, united workplace. Choose our meals for your team and serve the true essence of lunch that makes them bond"
+      />
       <section className="relative w-full h-dvh flex-col justify-center b2b-banner items-start mb-32 bg-cover bg-bottom flex">
         <div className="flex flex-col items-center md:items-start justify-center w-full md:w-[40%] gap-5 -mt-[10%] md:mt-[10%] px-8 bcb-banner">
           <h1 className="secondary-font text-[#E6AF55] font-bold hidden md:block">

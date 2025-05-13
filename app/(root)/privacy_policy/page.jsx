@@ -1,8 +1,13 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import React from "react";
 
+export const metadata = {
+  title: "Privacy Policy | Rooted To You",
+  description:
+    "Our Privacy Policy governs the submission of personal information by You through the Website/App.",
+};
+
 const page = () => {
-  
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 mt-36">
       <img
@@ -18,7 +23,7 @@ const page = () => {
         </h2>
         <br />
         <br />
-        
+
         {/* Section 7 */}
         <h4 className="text-2xl md:text-3xl font-bold secondary-font text-[#e6af55] mb-10">
           SECTION 1. PERSONAL INFORMATION

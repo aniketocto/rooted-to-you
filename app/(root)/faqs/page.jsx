@@ -6,6 +6,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+export const metadata = {
+  title: "FAQ's | Rooted To You",
+  description:
+    "For more clarity about the service and subscriptions- Visit the FAQ section on our website.",
+};
+
 const page = () => {
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 mt-36">
