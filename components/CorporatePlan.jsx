@@ -89,7 +89,7 @@ const CorporatePlan = () => {
   }
 
   return (
-    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10">
+    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10" id="corporateplan">
       <img
         src="/images/decorative.png"
         className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"

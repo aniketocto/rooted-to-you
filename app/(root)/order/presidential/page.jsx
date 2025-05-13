@@ -2,7 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -90,6 +90,7 @@ const Page = () => {
     },
   });
   const router = useRouter();
+  const formRef = useRef();
   const { startPaymentSession } = usePaymentContext();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedFoodType, setSelectedFoodType] = useState("");
@@ -380,9 +381,8 @@ const Page = () => {
     }
   }
 
-
   return (
-    <section className="w-full h-fit flex secondary-font justify-center items-center my-52">
+    <section className="w-full h-fit flex secondary-font justify-center items-center my-20 md:my-52">
       <img
         src="/images/nav-bg.jpg"
         className="absolute w-full h-[300px] object-cover z-[-1] top-0"
@@ -397,6 +397,7 @@ const Page = () => {
           <Separator className="w-[600px] h-[2px] bg-[#D2D2D2]" />
           <Form {...form}>
             <form
+              ref={formRef}
               onSubmit={form.handleSubmit(onSubmit)}
               className="lg:w-2/3 w-full space-y-6 mt-10"
             >
@@ -675,7 +676,7 @@ const Page = () => {
 
               <Button
                 type="submit"
-                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] text-center cursor-pointer"
+                className="bg-[#e6af55] w-full hover:bg-[#d49c3e] text-[#03141C] hidden md:block text-center cursor-pointer"
                 disabled={isSubmitting}
               >
                 <p className="text-xl text-[#03141C]!  secondary-font">
@@ -696,31 +697,34 @@ const Page = () => {
         <div className="lg:w-[40%] w-full lg:sticky top-20 self-start px-4">
           <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
             <h2 className="text-2xl! secondary-font font-bold border-b border-white pb-2 mb-3 text-[#e6af55]">
-              Details for lunch
+              Details for meal
             </h2>
             <div className="space-y-2 text-md">
               <div className="flex justify-between">
                 <span className="font-base primary-font">Meal Plan</span>
                 <span className="capitalize font-base primary-font">
-                  Presidentail
+                  Presidential
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Meal Time</span>
                 <span className="capitalize font-base secondary-font">
-                  {selectedTime}
+                  {selectedTime || "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Meal Type</span>
                 <span className="capitalize font-base secondary-font">
-                  {selectedFoodType}
+                  {(selectedFoodType && selectedFoodType.replace("_", "-")) ||
+                    "-----"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Duration</span>
                 <span className="font-base secondary-font capitalize">
-                  {isTrial
+                  {!isTrial && !selectedDuration
+                    ? "-----"
+                    : isTrial
                     ? "trial"
                     : selectedDuration > 7
                     ? "monthly"
@@ -788,6 +792,24 @@ const Page = () => {
             </div>
           </div>
         </div>
+        <Button
+          type="button"
+          className="bg-[#e6af55] w-[70%] relative -bottom-5 hover:bg-[#d49c3e] text-xl text-[#03141C] md:hidden block text-center cursor-pointer"
+          disabled={isSubmitting}
+          onClick={() => formRef.current?.requestSubmit()}
+        >
+          <p className="text-xl text-[#03141C]! -mt-0.5 secondary-font">
+            {isSubmitting ? "Processing..." : "Next"}
+          </p>
+          {!isSubmitting && (
+            <Image
+              src="/images/right-arrow.png"
+              alt="right-arrow"
+              width={20}
+              height={15}
+            />
+          )}
+        </Button>
       </div>
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </section>

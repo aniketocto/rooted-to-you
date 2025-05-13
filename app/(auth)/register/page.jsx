@@ -5,7 +5,7 @@ import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +37,7 @@ const formSchema = z.object({
 
 const Page = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { login } = useAuth();
 
   const form = useForm({
@@ -106,8 +107,8 @@ const Page = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Login error:", error); 
-      setErrorMessage("Something went wrong. Please try again."); 
+      console.error("Login error:", error);
+      setErrorMessage("Something went wrong. Please try again.");
       setIsLoading(false);
     }
   };
@@ -149,7 +150,16 @@ const Page = () => {
           status: data.data.status,
         };
         login(userData);
-        router.back();
+
+        // Get the redirectTo parameter from URL
+        const redirectPath = searchParams.get("redirectTo");
+
+        // Redirect to the specified path or fallback to home
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          router.back(); // Default redirect if no redirectTo parameter
+        }
       } else {
         setErrorMessage(data.error || "OTP verification failed.");
       }
@@ -243,7 +253,7 @@ const Page = () => {
               ) : (
                 <div className="space-y-4 md:w-full ">
                   <p className="text-center text-white">
-                    OTP sent to {form.getValues("phoneNumber")}
+                    OTP sent to {form.getValues("phoneNumber")} on Whatsapp
                   </p>
                   <InputOTP
                     maxLength={6}

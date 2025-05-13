@@ -251,42 +251,41 @@ const Page = () => {
 
   const recalculatePricing = () => {
     if (!paymentSession || !user) return;
-  
+
     const basePrice = amount || 0;
-    
+
     // Step 1: Apply coupon discount to base price
     let discountedBasePrice = basePrice;
     let couponDiscount = 0;
-    
-    if (couponValid && activeCoupon) {  
+
+    if (couponValid && activeCoupon) {
       couponDiscount = activeCoupon.discountValue || 0;
       discountedBasePrice = Math.max(basePrice - couponDiscount, 0);
-      
     }
-  
+
     // Step 2: Calculate GST on the discounted base price
     const calculatedGst = discountedBasePrice * (gst || 0);
-    
+
     // Step 3: Add GST and shipping to get total
     const priceWithGst = discountedBasePrice + calculatedGst;
     const totalAfterTaxAndShipping = priceWithGst + shippingAmount;
-  
+
     // Step 4: Apply wallet deduction if enabled
     const walletDeduction = redeemWallet
       ? Math.min(walletUsedAmount, totalAfterTaxAndShipping)
       : 0;
-  
+
     const finalTotal = Math.max(totalAfterTaxAndShipping - walletDeduction, 0);
-  
+
     // ✅ Final price should be whole number and in paise
     const finalAmount = Math.round(finalTotal);
-  
+
     // Save computed values
     setDiscountedAmount(Math.round(couponDiscount));
     setTax(Math.round(calculatedGst));
     setFinalPrice(finalAmount); // Final price in paise (no decimals)
   };
-  
+
   useEffect(() => {
     recalculatePricing();
   }, [
@@ -465,6 +464,99 @@ const Page = () => {
         </div>
 
         <div className="max-w-[1440px] md:w-[90%] w-full flex flex-col md:flex-row items-start md:gap-10 md:mx-10">
+          <div className="lg:w-1/2 w-full self-start px-4">
+            <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
+              <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
+                Details for meal
+              </h2>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Meal Plan</span>
+                  <span className="capitalize font-base secondary-font">
+                    {boxId === 1 ? "Executive" : "Presidential"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Meal Time</span>
+                  <span className="capitalize font-base secondary-font">
+                    {mealTime}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Meal Type</span>
+                  <span className="capitalize font-base secondary-font">
+                    {dietType}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Plan</span>
+                  <span className="font-base secondary-font">
+                    {subscriptionType}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Start date</span>
+                  <span className="font-base secondary-font">
+                    {formattedStartDate}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">End date</span>
+                  <span className="font-base secondary-font">
+                    {formattedEndDate}
+                  </span>
+                </div>
+              </div>
+
+              <h2 className="text-2xl! secondary-font font-bold border-y border-teal-600 py-2 pb-2 mt-4 mb-3 text-orange-300">
+                Bill Summary
+              </h2>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Sub Total</span>
+                  <span className="font-base secondary-font">
+                    ₹{amount || 0}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">
+                    Delivery Charges
+                  </span>
+                  <span className="font-base secondary-font">
+                    ₹{shippingAmount}
+                  </span>
+                </div>
+                {discountedAmount > 0 && (
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">
+                      Discount Amount
+                    </span>
+                    <span className="font-base secondary-font text-[#BAD398]">
+                      - ₹{discountedAmount}
+                    </span>
+                  </div>
+                )}
+                {redeemWallet && (
+                  <div className="flex justify-between">
+                    <span className="font-base secondary-font">Wallet</span>
+                    <span className="font-base secondary-font text-[#BAD398]">
+                      - ₹{walletUsedAmount}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex justify-between">
+                  <span className="font-base secondary-font">Tax (G.S.T.)</span>
+                  <span className="font-base secondary-font">₹{tax || 0}</span>
+                </div>
+              </div>
+
+              <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
+                <span className="font-base secondary-font">Grand Total</span>
+                <span className="font-base secondary-font">₹{finalPrice}</span>
+              </div>
+            </div>
+          </div>
           {/* Personal Details */}
           <div className="md:w-1/2 w-full p-6">
             <h2 className="text-2xl! font-bold primary-font">
@@ -633,100 +725,6 @@ const Page = () => {
               >
                 {isProcessing ? "Processing..." : `Pay ₹${finalPrice}`}
               </Button>
-            </div>
-          </div>
-
-          <div className="lg:w-1/2 w-full self-start px-4">
-            <div className="w-full bg-[#197A8A99] text-white p-6 border border-dashed border-teal-600 shadow-lg">
-              <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
-                Details for lunch
-              </h2>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Meal Plan</span>
-                  <span className="capitalize font-base secondary-font">
-                    {boxId === 1 ? "Executive" : "Presidential"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Meal Time</span>
-                  <span className="capitalize font-base secondary-font">
-                    {mealTime}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Meal Type</span>
-                  <span className="capitalize font-base secondary-font">
-                    {dietType}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Plan</span>
-                  <span className="font-base secondary-font">
-                    {subscriptionType}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Start date</span>
-                  <span className="font-base secondary-font">
-                    {formattedStartDate}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">End date</span>
-                  <span className="font-base secondary-font">
-                    {formattedEndDate}
-                  </span>
-                </div>
-              </div>
-
-              <h2 className="text-2xl! secondary-font font-bold border-y border-teal-600 py-2 pb-2 mt-4 mb-3 text-orange-300">
-                Bill Summary
-              </h2>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Sub Total</span>
-                  <span className="font-base secondary-font">
-                    ₹{amount || 0}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">
-                    Delivery Charges
-                  </span>
-                  <span className="font-base secondary-font">
-                    ₹{shippingAmount}
-                  </span>
-                </div>
-                {discountedAmount > 0 && (
-                  <div className="flex justify-between">
-                    <span className="font-base secondary-font">
-                      Discount Amount
-                    </span>
-                    <span className="font-base secondary-font text-[#BAD398]">
-                      - ₹{discountedAmount}
-                    </span>
-                  </div>
-                )}
-                {redeemWallet && (
-                  <div className="flex justify-between">
-                    <span className="font-base secondary-font">Wallet</span>
-                    <span className="font-base secondary-font text-[#BAD398]">
-                      - ₹{walletUsedAmount}
-                    </span>
-                  </div>
-                )}
-
-                <div className="flex justify-between">
-                  <span className="font-base secondary-font">Tax (G.S.T.)</span>
-                  <span className="font-base secondary-font">₹{tax || 0}</span>
-                </div>
-              </div>
-
-              <div className="border-t border-teal-600 mt-4 pt-2 text-lg font-semibold flex justify-between">
-                <span className="font-base secondary-font">Grand Total</span>
-                <span className="font-base secondary-font">₹{finalPrice}</span>
-              </div>
             </div>
           </div>
         </div>

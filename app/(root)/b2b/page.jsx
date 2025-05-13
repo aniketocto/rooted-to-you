@@ -8,6 +8,27 @@ import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const router = useRouter();
+  const smoothScrollTo = (target, duration) => {
+    const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+    const startPosition = window.scrollY;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+
+    const scroll = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1); // Ensure it doesn't go past 100%
+
+      window.scrollTo(0, startPosition + distance * progress);
+
+      if (elapsed < duration) {
+        window.requestAnimationFrame(scroll);
+      }
+    };
+
+    window.requestAnimationFrame(scroll);
+  };
+
   return (
     <>
       <section className="relative w-full h-dvh flex-col justify-center b2b-banner items-start mb-32 bg-cover bg-bottom flex">
@@ -24,16 +45,19 @@ const Page = () => {
           </p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/order")}
+            onClick={() => {
+              const section = document.getElementById("corporateplan");
+              if (section) {
+                smoothScrollTo(section, 500); // Adjust duration (1000 ms = 1 second)
+              }
+            }}
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
-              Subscribe Now
+              Enquire Now
             </p>
           </Button>
         </div>
       </section>
-
-  
 
       <section className="w-full h-full px-8 md:px-15 md:my-28 my-10 text-center">
         <h2 className="main-head secondary-font w-full font-semibold mb-5">

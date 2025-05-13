@@ -24,7 +24,7 @@ const OrderPage = () => {
     if (isLoggedIn) {
       router.push(path);
     } else {
-      router.push("/register");
+      router.push(`/register?redirectTo=${encodeURIComponent(path)}`);
     }
   };
 
@@ -184,13 +184,13 @@ const OrderPage = () => {
           <h3 className="mb-5 secondary-font">Executive Meal</h3>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/order/executive?mode=trial")}
+            onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont">Order Now</p>
           </Button>
         </div>
         <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col">
-          <p>Taste First, Subscribe Later.</p>
+          <p>Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal - Just One Click Away!</h3>
           <p>
             Authenticated Indian meals crafted with love <br />
@@ -208,7 +208,7 @@ const OrderPage = () => {
           <h3 className="mb-5 secondary-font">Presidential Meal</h3>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/order/presidential?mode=trial")}
+            onClick={() => handleNavigate("/order/presidential?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
               Order Now

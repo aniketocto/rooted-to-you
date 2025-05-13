@@ -58,6 +58,18 @@ export default function Testimonial() {
                 Now with Rooted, it’s something I actually look forward to. I
                 love guessing where the meal is from each day, and it’s sparked
                 some lovely conversations at the table.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font font-semibold mb-1">
@@ -90,7 +102,20 @@ export default function Testimonial() {
                 I’ve always loved Indian food but never realized just how
                 diverse it really is. Rooted has been an eye-opener. One day
                 it’s a Maharashtrian pithla-bhakri, the next it’s a Bengali
-                shukto… I’m hooked. <br />
+                shukto… I’m hooked.{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
+                <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
                 Deepika Hirwey
@@ -123,6 +148,18 @@ export default function Testimonial() {
                 every dish was authentic and flavorful. It’s evident they use
                 quality ingredients and traditional recipes. Perfect for anyone
                 who wants to enjoy homely Indian meals without cooking!
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -156,6 +193,18 @@ export default function Testimonial() {
                 expensive. Rooted gives me a perfect balance clean, regional
                 meals that keep changing and keep me healthy. It’s convenient,
                 affordable, and genuinely tasty.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -190,6 +239,18 @@ export default function Testimonial() {
                 afternoons. Every day feels like I’ve ordered from a new region
                 of India. The best part? I don’t have to think or plan anything.
                 Just heat, eat, and smile.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -223,6 +284,18 @@ export default function Testimonial() {
                 office days. No more scrambling to plan or order just clean,
                 great-quality food that shows up like clockwork. It keeps things
                 simple, hygienic, and satisfying.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -257,6 +330,18 @@ export default function Testimonial() {
                 served hot, which makes a huge difference. The variety of dishes
                 they offer keeps me excited and looking forward to each meal
                 there’s always something new and tasty to try.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -292,6 +377,18 @@ export default function Testimonial() {
                 lunch. If you're looking for a reliable and delicious office
                 delivery option, Rooted is a great choice. Give them a try and
                 enjoy a flavorful, stress-free lunch!
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 310 310"
+                  className="inline-block mt-5 -scale-x-100"
+                >
+                  <path
+                    d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
+                    fill="#FFF"
+                  ></path>
+                </svg>
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
