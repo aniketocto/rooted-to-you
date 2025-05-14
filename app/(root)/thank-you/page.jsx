@@ -53,7 +53,9 @@ const Page = () => {
     const type = queryParams.get("type");
 
     if (type === "form-submission") {
-      setMessage1("We've received your response. Thanks for reaching out to Rooted!");
+      setMessage1(
+        "We've received your response. Thanks for reaching out to Rooted!"
+      );
       setMessage2("Our team will get back to you shortly"); // Clear secondary message
       setIsFeedback(true); // Flag as feedback
     }
@@ -70,7 +72,9 @@ const Page = () => {
         <h1 className="thanks-head">
           {isFeedback
             ? "Thank You"
-            : `Dear ${profile?.firstName || "User"} ${profile?.lastName || ""} Congratulations`}
+            : `Dear ${profile?.firstName || "User"} ${
+                profile?.lastName || ""
+              } Congratulations`}
         </h1>
 
         {!isFeedback && <p className="thanks-text">You're Officially Rooted</p>}
@@ -91,7 +95,13 @@ const Page = () => {
           )}
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/")}
+            onClick={() => {
+              if (isFeedback) {
+                router.back(); // Go to previous page
+              } else {
+                router.push("/"); // Go to homepage
+              }
+            }}  
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
               Close Page

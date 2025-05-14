@@ -1,12 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 
 const CusinesPlan = () => {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if user is logged in
+
+  useEffect(() => {
+    const user = localStorage.getItem("authenticatedUser");
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []); // Runs only once when the component is mounted
+
+  const handleNavigate = (path) => {
+    if (isLoggedIn) {
+      router.push(path);
+    } else {
+      router.push(`/register?redirectTo=${encodeURIComponent(path)}`);
+    }
+  };
+
   return (
     <section className="w-[full] h-fit flex md:flex-col relative flex-row justify-center items-center gap-5 my-10 overflow-hidden">
       <img
@@ -23,10 +42,10 @@ const CusinesPlan = () => {
         <h2 className="secondary-font text-center" data-aos="fade-down">
           Our Cuisine Plans
         </h2>
-        <div className="w-full h-full flex flex-wrap cusineflexWrap flexCol  justify-center flex-col md:flex-row items-center gap-2.5">
-          <div className="flex flex-1 h-full justify-center flex-col md:flex-row items-center gap-2.5">
+        <div className="w-full h-full flex flex-wrap cusineflexWrap flexCol  justify-center flex-col md:flex-row items-start gap-8 md:gap-2.5">
+          <div className="flex flex-1 h-full justify-center flex-col md:flex-row items-center md:items-start gap-2.5">
             <Image
-              src="/images/exe1.png"
+              src="/images/Exe_new.png"
               alt="executive"
               width={330}
               height={420}
@@ -48,7 +67,7 @@ const CusinesPlan = () => {
               </ul>
               <Button
                 className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold p-3 md:p-5"
-                onClick={() => router.push("/order/executive")}
+                onClick={() => handleNavigate("/order/executive")}
               >
                 <Image
                   src="/images/right-arrow.png"
@@ -61,9 +80,9 @@ const CusinesPlan = () => {
               </Button>
             </div>
           </div>
-          <div className="flex flex-1 h-full justify-center item-center flex-col md:flex-row-reverse items-center gap-2.5">
+          <div className="flex flex-1 h-full justify-center item-center flex-col md:flex-row-reverse items-center md:items-start gap-2.5">
             <Image
-              src="/images/pre1.png"
+              src="/images/Pri_new.png"
               alt="presidential "
               width={330}
               height={420}
@@ -85,7 +104,7 @@ const CusinesPlan = () => {
               </ul>
               <Button
                 className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold p-3 md:p-5"
-                onClick={() => router.push("/order/presidential")}
+                onClick={() => handleNavigate("/order/presidential")}
               >
                 <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
                 <Image

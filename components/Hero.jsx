@@ -89,13 +89,13 @@ const Hero = () => {
       >
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
-            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8">
-              <h1 className="secondary-font text-[#E6AF55] font-bold text-center md:text-left md:block  hidden">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[58%] gap-5 mt-[10%] px-8">
+              <h1 className="secondary-font text-[#197a8a]! font-bold text-center md:text-left md:block  hidden">
                 Eat. <br /> Connect. <br />
                 Celebrate.
               </h1>
 
-              <p className="primary-font hero-font  mb-5 md:block  hidden">
+              <p className="primary-font hero-font  mb-5 md:block text-[#03141C]! hidden">
                 With Rooted, indulge in the authenticity of Indian flavours and
                 cuisines, connect with vibrant regional cultures, and celebrate
                 the joy of discovery and sharing wholesome meals.
@@ -124,7 +124,7 @@ const Hero = () => {
                                 ""
                               );
                             }}
-                            className="md:w-[350px] w-full border border-gray-400 rounded-md bg-transparent px-3 py-2"
+                            className="md:w-[350px] w-full border border-gray-400 rounded-md text-[#03141C]! bg-transparent px-3 py-2"
                           />
                         </FormControl>
                         <FormMessage className="text-red-500!" />

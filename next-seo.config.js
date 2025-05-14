@@ -1,13 +1,13 @@
 const defaultSeoConfig = {
     title: "Rooted to you ",
-    description: "",
+    description: "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
     openGraph: {
         type: "website",
         locale: "en_IN",
         url: "https://www.rootedtoyou.com/",
         site_name: "Rooted to you",
         title: "Rooted to you",
-        description: "Rooted to you delivers organic meal plans tailored for your wellness journey.",
+        description: "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
         images: [
             {
                 url: "https://www.rootedtoyou.com/images/logo.png",

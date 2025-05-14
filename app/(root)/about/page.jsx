@@ -1,12 +1,15 @@
-"use client";
-
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React from "react";
 import "./about.css";
+import Head from "next/head";
+
+export const metadata = {
+  title: "About Us | Rooted To You",
+  description:
+    "Learn more about Rooted To You and our mission to deliver authentic homemade Indian meals.",
+};
 
 const Page = () => {
-  const router = useRouter();
   return (
     <>
       <section className="relative w-full h-dvh flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
@@ -153,7 +156,9 @@ const Page = () => {
                 that the most powerful food stories begin at home.
               </p>
               <p className="primary-font text-left">
-                <em className="text-left">"Bringing back the joy of eating."</em>{" "}
+                <em className="text-left">
+                  "Bringing back the joy of eating."
+                </em>{" "}
                 <br />
                 <span>Saurabh Wadkar</span>
               </p>
@@ -223,8 +228,8 @@ const Page = () => {
                 alt=""
               />
               <img
-                src="/images/partner6.png"
-                className="w-[40%] md:w-[10%]"
+                src="/images/fruture.jpg"
+                className="w-[40%] md:w-[12%]"
                 alt=""
               />
             </div>

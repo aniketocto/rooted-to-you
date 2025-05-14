@@ -1,10 +1,16 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import React from "react";
 
+export const metadata = {
+  title: "Terms & Conditions | Rooted To You",
+  description:
+    "We just want to serve you better. Please visit the Terms and Conditions section on our page to know more.",
+};
+
 const page = () => {
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 mt-36">
-        <img
+      <img
         src="/images/nav-bg.jpg"
         className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""

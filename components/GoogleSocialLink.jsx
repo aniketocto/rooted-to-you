@@ -44,7 +44,7 @@ const GoogleSocialLink = () => {
         };
         login(userData);
 
-        router.push("/");
+        router.back();
       } else {
         setError("Google login failed. Please try again.");
         setOpen(true);

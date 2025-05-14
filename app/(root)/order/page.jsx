@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "./order.css";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { NextSeo } from "next-seo";
 
 const OrderPage = () => {
   const router = useRouter();
@@ -24,12 +25,17 @@ const OrderPage = () => {
     if (isLoggedIn) {
       router.push(path);
     } else {
-      router.push("/register");
+      router.push(`/register?redirectTo=${encodeURIComponent(path)}`);
     }
   };
 
   return (
     <>
+      <title>Meal Plans | Rooted To You</title>
+      <meta
+        name="description"
+        content=" Executive and Presidential Meals according to your needs and preferences at your doorstep."
+      />
       <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
         {/* <Image
         src="/images/nav-bg.jpg"
@@ -184,13 +190,13 @@ const OrderPage = () => {
           <h3 className="mb-5 secondary-font">Executive Meal</h3>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/order/executive?mode=trial")}
+            onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont">Order Now</p>
           </Button>
         </div>
         <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col">
-          <p>Taste First, Subscribe Later.</p>
+          <p>Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal - Just One Click Away!</h3>
           <p>
             Authenticated Indian meals crafted with love <br />
@@ -208,7 +214,7 @@ const OrderPage = () => {
           <h3 className="mb-5 secondary-font">Presidential Meal</h3>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
-            onClick={() => router.push("/order/presidential?mode=trial")}
+            onClick={() => handleNavigate("/order/presidential?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
               Order Now

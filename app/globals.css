@@ -131,7 +131,7 @@ p {
     background-repeat: no-repeat;
   }
   .hero-bg-1 {
-    background-image: url("/images/new-home-banner.jpg");
+    background-image: url("/images/banner-1.jpg");
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -526,11 +526,21 @@ h2 {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .cusineBox {
+    width: 150px;
+    height: 150px;
+  }
+  h5 {
+    font-size: 15px;
+  }
+}
+
 @media screen and (max-width: 380px) {
   h1 {
     font-size: 25px;
   }
-  h5{
+  h5 {
     font-size: 15px;
   }
   .btnfont {
@@ -545,7 +555,7 @@ h2 {
   .cusineBox {
     width: 150px;
     height: 150px;
-}
+  }
 }
 
 @media screen and (max-width: 350px) {
@@ -582,4 +592,3 @@ h2 {
     font-size: 17px;
   }
 }
-

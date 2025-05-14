@@ -1,35 +1,42 @@
 import "./globals.css";
 import ClientWrapper from "./ClientWrapper";
 import Script from "next/script";
+import { DefaultSeo } from "next-seo";
+import defaultSeoConfig from "@/next-seo.config";
 
-export const metadata = {
-  title: "Rooted To You",
-  description:
-    "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
-  openGraph: {
-    title: "Rooted To you",
-    description:
-      "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
-    url: "https://www.rootedtoyou.com/",
-    siteName: "Rooted To you",
-    images: [
-      {
-        url: "https://yourwebsite.com/og-image.jpg", // Full URL of your OG image
-        width: 1200,
-        height: 630,
-        alt: "An awesome description of the image",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-};
+// export const metadata = {
+//   title: "Rooted To You",
+//   description:
+//     "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
+//   openGraph: {
+//     title: "Rooted To you",
+//     description:
+//       "Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition.",
+//     url: "https://www.rootedtoyou.com/",
+//     siteName: "Rooted To you",
+//     images: [
+//       {
+//         url: "https://www.rootedtoyou.com/images/logo.png",
+//         width: 1200,
+//         height: 630,
+//         alt: "Rooted To You is a subscription-based food delivery service",
+//       },
+//     ],
+//     locale: "en_US",
+//     type: "website",
+//   },
+// };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
         {/* Meta Pixel Code */}
+        <title>Rooted To You</title>
+        <meta
+          name="description"
+          content="Rooted To You is a subscription-based food delivery service offering authentic, homemade Indian meals from diverse regional cuisines, crafted with love and tradition."
+        />
         <Script
           id="facebook-pixel"
           strategy="afterInteractive"
@@ -100,7 +107,7 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-
+        {/* <DefaultSeo {...defaultSeoConfig} /> */}
         <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>

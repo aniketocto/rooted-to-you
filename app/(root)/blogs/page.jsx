@@ -61,72 +61,79 @@ const Blogs = () => {
   ];
 
   return (
-    <section className="w-full h-fit flex justify-center flex-col items-center ">
-      {/* Background Image */}
-      <img
-        src="/images/blog-bnr.jpg"
-        className=" w-full hidden md:block object-cover z-[-1] top-0"
-        alt="Background"
+    <>
+      <title>Blogs | Rooted To You</title>
+      <meta
+        name="description"
+        content="Food & Beyond - Explore the tales of Cuisines and fulfill cravings of curiosity."
       />
-      <img
-        src="/images/blog-mob.png"
-        className=" w-full md:hidden block object-cover z-[-1] top-0"
-        alt="Background"
-      />
-
-      <div className=" w-full h-full flex flex-col items-center justify-start mt-32 pb-20 overflow-hidden relative">
+      <section className="w-full h-fit flex justify-center flex-col items-center ">
+        {/* Background Image */}
         <img
-          src="/images/decorative.png"
-          className="absolute top-0 -z-1 h-[500px]  w-full object-cover"
-          alt=""
+          src="/images/blog-bnr.jpg"
+          className=" w-full hidden md:block object-cover z-[-1] top-0"
+          alt="Background"
         />
         <img
-          src="/images/decorative.png"
-          className="absolute bottom-0 -z-1 h-[500px]  w-full object-cover"
-          alt=""
+          src="/images/blog-mob.png"
+          className=" w-full md:hidden block object-cover z-[-1] top-0"
+          alt="Background"
         />
-        {/* Blog Grid */}
-        <div className="max-w-[85%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
-          {blogPosts.map((blog) => (
-            <a
-              target="_blank"
-              href={blog.id}
-              key={blog.id}
-              className="group block transform transition-transform duration-300 hover:scale-105"
-              style={{boxShadow: "5px 5px 20px #000"}}
-            >
-              <div className="glass-effect border-[#e6af55] rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full" >
-                {/* Blog Image */}
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={blog.image}
-                    alt={blog.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                </div>
 
-                {/* Blog Content */}
-                <div className="flex flex-col justify-between flex-grow p-5">
-                  <h3 className="text-xl! font-semibold mb-4 secondary-font hover:text-[#03141c] transition-colors duration-300">
-                    {blog.title}
-                  </h3>
+        <div className=" w-full h-full flex flex-col items-center justify-start mt-32 pb-20 overflow-hidden relative">
+          <img
+            src="/images/decorative.png"
+            className="absolute top-0 -z-1 h-[500px]  w-full object-cover"
+            alt=""
+          />
+          <img
+            src="/images/decorative.png"
+            className="absolute bottom-0 -z-1 h-[500px]  w-full object-cover"
+            alt=""
+          />
+          {/* Blog Grid */}
+          <div className="max-w-[85%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
+            {blogPosts.map((blog) => (
+              <a
+                target="_blank"
+                href={blog.id}
+                key={blog.id}
+                className="group block transform transition-transform duration-300 hover:scale-105"
+                style={{ boxShadow: "5px 5px 20px #000" }}
+              >
+                <div className="glass-effect border-[#e6af55] rounded-lg overflow-hidden shadow-lg hover:shadow-xl flex flex-col h-full">
+                  {/* Blog Image */}
+                  <div className="h-48 overflow-hidden">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
 
-                  {/* Bottom Info */}
-                  <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
-                    <span className="text-sm primary-font text-gray-500">
-                      Read more
-                    </span>
-                    <span className="bg-blue-100 primary-font text-[#197a8a] text-xs px-2 py-1 rounded">
-                      Blog
-                    </span>
+                  {/* Blog Content */}
+                  <div className="flex flex-col justify-between flex-grow p-5">
+                    <h3 className="text-xl! font-semibold mb-4 secondary-font hover:text-[#03141c] transition-colors duration-300">
+                      {blog.title}
+                    </h3>
+
+                    {/* Bottom Info */}
+                    <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
+                      <span className="text-sm primary-font text-gray-500">
+                        Read more
+                      </span>
+                      <span className="bg-blue-100 primary-font text-[#197a8a] text-xs px-2 py-1 rounded">
+                        Blog
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
