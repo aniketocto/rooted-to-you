@@ -75,7 +75,8 @@ const Page = () => {
 
       const parsedUser = JSON.parse(storedUser);
       setToken(parsedUser.token);
-      setWalletUsedAmount(parsedUser.wallet || 0);
+      // setWalletUsedAmount(parsedUser.wallet || 0);
+      setWalletUsedAmount(500);
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${parsedUser.id}`,
