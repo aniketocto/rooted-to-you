@@ -283,7 +283,8 @@ const Page = () => {
     // Save computed values
     setDiscountedAmount(Math.round(couponDiscount));
     setTax(Math.round(calculatedGst));
-    setFinalPrice(finalAmount); // Final price in paise (no decimals)
+    // setFinalPrice(finalAmount); 
+    setFinalPrice(1); 
   };
 
   useEffect(() => {
@@ -333,6 +334,8 @@ const Page = () => {
         designation: userData?.data?.designation,
         state: "maharashtra",
       };
+
+      console.log("Payload", payload)
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
@@ -390,6 +393,7 @@ const Page = () => {
               clearPaymentSession();
               localStorage.removeItem("mealFormData");
             }, 300);
+            
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
@@ -485,7 +489,7 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Meal Type</span>
                   <span className="capitalize font-base secondary-font">
-                    {dietType}
+                    {dietType.replace("_", "-")}
                   </span>
                 </div>
                 <div className="flex justify-between">

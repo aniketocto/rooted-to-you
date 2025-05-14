@@ -299,6 +299,8 @@ const Page = () => {
         deliveryType: selectedTime,
       };
 
+      console.log(payload)
+      
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {

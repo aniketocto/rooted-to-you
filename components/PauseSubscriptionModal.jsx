@@ -41,6 +41,8 @@ export default function PauseSubscriptionModal({
 
   const defaultMonth = highlightedDates?.[0] || new Date();
 
+console.log("Props", activeSubscription, customerId)
+
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
     const isValidSubDate = highlightedDates.some(
@@ -114,7 +116,7 @@ export default function PauseSubscriptionModal({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
-            <DialogTitle className="text-2xl font-semibold text-white">
+            <DialogTitle className="text-xl font-semibold text-white">
               Select a Pause Date
             </DialogTitle>
           </DialogHeader>

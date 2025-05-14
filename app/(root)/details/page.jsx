@@ -55,6 +55,9 @@ const page = () => {
         alt=""
       />
       <div className="max-w-[1290px] w-full h-full flex flexCol flex-col md:flex-row items-end justify-center md:mx-10 mx-5">
+        <div className="flex detailWidth flex-1">
+          <DetailForm />
+        </div>
         <div className="w-full self-start mt-[5%] flex flex-1 px-4">
           <div className="w-[90%] detailWidth bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
             <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
@@ -76,7 +79,7 @@ const page = () => {
               <div className="flex justify-between">
                 <span className="font-base secondary-font">Meal Type</span>
                 <span className="capitalize font-base secondary-font">
-                  {dietType}
+                  {dietType === "non_veg" ? "Non-Veg" : "Veg"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -133,9 +136,6 @@ const page = () => {
               </span>
             </div>
           </div>
-        </div>
-        <div className="flex detailWidth flex-1">
-          <DetailForm />
         </div>
       </div>
     </section>

@@ -82,13 +82,13 @@ const FeedbackForm = () => {
 
   return (
     <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-start items-start gap-5 my-10">
-      <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center ">
+      <div className="w-full h-fit flex flex-wrap items-center gap-20 justify-center ">
         <div className="w-full flex flexCol gap-10">
           <div className="flex-1 flex w-full justify-center items-center">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-2 w-full max-w-5xl"
+                className="space-y-2 w-full"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <FormField

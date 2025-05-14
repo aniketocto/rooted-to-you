@@ -42,9 +42,9 @@ const ProfilePage = () => {
         }
 
         const subRes = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${customerId}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
           {
-            method: "POST", // 👈 Use POST here
+            method: "GET", // 👈 Use GET here
             headers: {
               "Content-Type": "application/json",
             },
@@ -190,9 +190,17 @@ const ProfilePage = () => {
           </div>
         </div>
 
+        {/* Order History */}
+        <div className="w-full h-fit bg-[#197A8A1A] px-5 md:px-10 py-12 mb-8 rounded-md">
+          <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
+            Order History
+          </h3>
+          <OrderHistoryTable className="mt-4" />
+        </div>
+
         {/* Subscription & Delivery Section */}
         <div className="w-full h-fit flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-1/2 bg-[#197A8A1A] p-6 rounded-md">
+          {/* <div className="w-full md:w-1/2 bg-[#197A8A1A] p-6 rounded-md">
             <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
               Active Subscription
             </h3>
@@ -235,22 +243,14 @@ const ProfilePage = () => {
                 </button>
               )}
             </div>
-          </div>
+          </div> */}
 
-          <div className="w-full md:w-1/2 bg-[#197A8A1A]  p-6 rounded-md">
+          <div className="w-full bg-[#197A8A1A]  px-5 md:px-10 pt-12 pb-8 rounded-md">
             <h3 className="primary-font text-[#e6af55] text-xl font-semibold ">
               Feedback
             </h3>
             <FeedbackForm />
           </div>
-        </div>
-
-        {/* Order History */}
-        <div className="w-full h-fit bg-[#197A8A1A] px-5 md:px-10 py-12 mb-8 my-10 rounded-md">
-          <h3 className="primary-font text-[#e6af55] text-xl font-semibold mb-4">
-            Order History
-          </h3>
-          <OrderHistoryTable className="mt-4" />
         </div>
       </div>
 

@@ -9,9 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import PauseSubscriptionModal from "./PauseSubscriptionModal";
 
 const OrderHistory = () => {
   const [subscriptions, setSubscriptions] = useState([]);
+  const [activeSubscription, setActiveSubscription] = useState(null);
+  const [customerId, setCustomerId] = useState()
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -19,7 +22,8 @@ const OrderHistory = () => {
         const storedUser = JSON.parse(
           localStorage.getItem("authenticatedUser")
         );
-        const customerId = storedUser?.id;
+        // const customerId = storedUser?.id;
+        setCustomerId(storedUser?.id)
         const token = storedUser?.token; // Assuming the token is stored here
 
         if (!customerId || !token) {
@@ -38,10 +42,10 @@ const OrderHistory = () => {
         );
 
         const data = await res.json();
-    
 
         if (data.success) {
           setSubscriptions(data.subscriptions || []);
+          setActiveSubscription(data.subscription);
         }
       } catch (err) {
         console.error("Error fetching subscriptions:", err);
@@ -64,16 +68,36 @@ const OrderHistory = () => {
       <Table className="w-full">
         <TableHeader>
           <TableRow>
-            <TableHead className="primary-font font-base-1 capitalize">ID</TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">Amount</TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">Box</TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">Type</TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">Weekend</TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">Diet</TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              ID
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Amount
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Box
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Time
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Type
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Weekend
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Diet
+            </TableHead>
             <TableHead className="primary-font font-base-1 capitalize">
               Start Date
             </TableHead>
-            <TableHead className="primary-font font-base-1 capitalize">End Date</TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              End Date
+            </TableHead>
+            <TableHead className="primary-font font-base-1 capitalize">
+              Pause
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -89,6 +113,9 @@ const OrderHistory = () => {
                 {sub.box?.name || `Box ${sub.boxId}`}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
+                {sub.deliveryType}
+              </TableCell>
+              <TableCell className="primary-font font-base-1 capitalize">
                 {sub.subscriptionType}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
@@ -102,6 +129,12 @@ const OrderHistory = () => {
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
                 {new Date(sub.endDate).toDateString()}
+              </TableCell>
+              <TableCell className="primary-font font-base-1 capitalize">
+                <PauseSubscriptionModal
+                  activeSubscription={sub}
+                  customerId={customerId}
+                />
               </TableCell>
             </TableRow>
           ))}
