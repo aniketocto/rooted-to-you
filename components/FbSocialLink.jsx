@@ -19,7 +19,6 @@ const FbSocialLink = () => {
   const [open, setOpen] = useState(false);
 
   const handleSuccess = async ({ provider, data }) => {
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
@@ -42,7 +41,16 @@ const FbSocialLink = () => {
           status: res.data.status,
         };
         login(userData);
-        router.push("/");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectPath = urlParams.get("redirectTo");
+
+        // Redirect to the specified path or fallback to home
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          router.push("/"); // Default redirect if no redirectTo parameter
+        }
       } else {
         setError("Facebook login failed. Please try again.");
         setOpen(true);

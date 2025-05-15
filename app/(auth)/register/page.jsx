@@ -5,7 +5,7 @@ import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +25,6 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
-import { usePaymentContext } from "@/app/context/PaymentContext";
 import GoogleSocialLink from "@/components/GoogleSocialLink";
 import FbSocialLink from "@/components/FbSocialLink";
 
@@ -37,7 +36,7 @@ const formSchema = z.object({
 
 const Page = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const { login } = useAuth();
 
   const form = useForm({
@@ -55,8 +54,6 @@ const Page = () => {
   const [resendDisabled, setResendDisabled] = useState(true);
   const [timer, setTimer] = useState(0);
 
-  const { startPaymentSession } = usePaymentContext();
-
   useEffect(() => {
     let interval;
     if (showOtpInput && timer > 0) {
@@ -69,6 +66,15 @@ const Page = () => {
     }
     return () => clearInterval(interval);
   }, [showOtpInput, timer]);
+
+  // useEffect(() => {
+  //   if (searchParams) {
+  //     const redirectTo = searchParams.get("redirectTo");
+  //     if (redirectTo) {
+  //       setRedirectPath(redirectTo);
+  //     }
+  //   }
+  // }, [searchParams]);
 
   const onChange = (e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -151,14 +157,14 @@ const Page = () => {
         };
         login(userData);
 
-        // Get the redirectTo parameter from URL
-        const redirectPath = searchParams.get("redirectTo");
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectPath = urlParams.get("redirectTo");
 
         // Redirect to the specified path or fallback to home
         if (redirectPath) {
           router.push(redirectPath);
         } else {
-          router.back(); // Default redirect if no redirectTo parameter
+          router.push("/"); // Default redirect if no redirectTo parameter
         }
       } else {
         setErrorMessage(data.error || "OTP verification failed.");
