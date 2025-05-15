@@ -179,6 +179,10 @@ const OrderPage = () => {
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
           alt=""
         />
+         <div className="md:hidden flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
+          <p>Taste First, Subscribe Later</p>
+          <h3>Try a Rooted Meal Today!</h3>
+        </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
             src="/images/Trial-Executive.png"
@@ -196,7 +200,7 @@ const OrderPage = () => {
           </Button>
         </div>
         {/* <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col"> */}
-        <div className="flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
+        <div className="md:flex hidden flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
           <p>Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal Today!</h3>
         </div>
