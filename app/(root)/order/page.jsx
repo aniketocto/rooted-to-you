@@ -193,7 +193,7 @@ const OrderPage = () => {
           />
           <h3 className="mb-5 secondary-font">Executive Meal</h3>
           <Button
-            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
+            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont">Order Now</p>
