@@ -28,21 +28,21 @@ const Page = () => {
 
       <section className="about-section">
         <p className="primary-font font-base-1">
-          At Rooted to You, we believe that food is more than just
-          nourishment—it’s a cultural experience, a bridge to our heritage, and
-          a celebration of flavors passed down through generations. Our mission
-          is to bring India’s rich and diverse food culture under one roof,
-          reviving traditional recipes with a modern twist to suit today’s
-          fast-paced lifestyle.
+          At Rooted to You, we believe that food is more than just nourishment—it’s
+           a cultural experience, a bridge to our heritage, and a celebration of flavors 
+           passed down through generations. our meals honor the essence of Indian cuisine 
+           while embracing contemporary tastes. Whether it's the comforting warmth of 
+           home-cooked flavors or the excitement of discovering regional delicacies, 
+           every meal we serve tells a story of tradition, passion, and innovation.
         </p>
-        <br />
+        {/* <br />
         <p className="primary-font font-base-1">
-          Rooted in authenticity and crafted for convenience, our meals honor
+          Rooted in authenticity and crafted for convenience. Our meals honor
           the essence of Indian cuisine while embracing contemporary tastes.
           Whether it's the comforting warmth of home-cooked flavors or the
-          excitement of discovering regional delicacies, every meal we serve
+          excitement of discovering regional delicacies; every meal we serve
           tells a story of tradition, passion, and innovation.
-        </p>
+        </p> */}
       </section>
 
       {/* Purpose Section */}
@@ -68,14 +68,13 @@ const Page = () => {
           <div className=" w-full flex justify-center items-start gap-5 flex-col">
             <h2 className="secondary-font font-semibold">Purpose</h2>
             <p className="primary-font font-base-1 text-left">
-              At Rooted to You, we believe that food is more than just
-              nourishment—it’s a cultural experience, a bridge to our heritage
-              and a celebration of flavors passed down through generations. our
-              meals honor the essence of Indian cuisine while embracing
-              contemporary tastes. Whether it's the comforting warmth of
-              home-cooked flavors or the excitement of discovering regional
-              delicacies, every meal we serve tells a story of tradition,
-              passion, and innovation.
+              At Rooted to You, our mission is to preserve and celebrate India’s
+               rich culinary heritage while making it accessible and convenient 
+               for modern lifestyles. We strive to bring authentic, time-honored 
+               recipes to the table, Rooted to You envisions a world where people
+                no longer rely on unhealthy takeouts or struggle with meal prep—where 
+                wholesome, restaurant-quality food is just a doorstep away, offering
+                 convenience without compromise.
             </p>
           </div>
         </div>
@@ -95,21 +94,24 @@ const Page = () => {
               Reconnect
             </h3>
             <p className="primary-font font-base-1 text-left">
-              We believe, sharing food is key to cultivating new connections and
-              fostering new bonds. Our meals are to be shared, encouraging
-              conversations and creating moments that bring us closer.
+             
+              We help you understand your food’s origins, cultural significance,
+              and appreciate the hands that prepared it. This deeper connection
+              encourages mindful eating, appreciation of culinary arts, and a
+              more meaningful dining experience.
             </p>
+          
           </div>
           <div className="flex-1/2 flex flex-col items-start justify-start gap-5 border-2 p-5 h-fit md:h-fit lg:h-[230px] xl:h-[200px] rounded-xl border-[#e6af55]">
             <h3 className="primary-font text-white! text-2xl font-semibold">
               Share
             </h3>
             <p className="primary-font font-base-1 text-left">
-              We help you understand your food’s origins, cultural significance,
-              and appreciate the hands that prepared it. This deeper connection
-              encourages mindful eating, appreciation of culinary arts, and a
-              more meaningful dining experience.
-            </p>
+                 We believe, sharing food is key to cultivating new connections and
+              fostering new bonds. Our meals are to be shared, encouraging
+              conversations and creating moments that bring us closer.
+</p>
+
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-15 mt-15">

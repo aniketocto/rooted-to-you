@@ -105,7 +105,7 @@ const ContactUs = () => {
         <Breadcrumbs />
         <div className="flex w-full justify-center items-center">
           <div className="w-[80%]">
-            <p className="primary-font text-2xl! mb-5">Get Started</p>
+            {/* <p className="primary-font text-2xl! mb-5">Get Started</p> */}
             <h1 className="text-[#d49c3e]! text-7xl! secondary-font font-extrabold">
               Get in touch with us. We're here to assist you.
             </h1>
