@@ -490,7 +490,7 @@ const Page = () => {
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Meal Type</span>
                   <span className="capitalize font-base secondary-font">
-                    {dietType.replace("_", "-")}
+                    {dietType === "non_veg" ? "Non-Veg" : "Veg"}
                   </span>
                 </div>
                 <div className="flex justify-between">

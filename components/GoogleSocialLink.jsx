@@ -11,10 +11,9 @@ const GoogleSocialLink = () => {
   const router = useRouter();
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
+  // const searchParams = useSearchParams();
 
   const handleSuccess = async (credentialResponse) => {
-
-
     try {
       if (!credentialResponse) {
         setError("No credential received from Google.");
@@ -29,7 +28,7 @@ const GoogleSocialLink = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ token: credentialResponse.credential }), 
+          body: JSON.stringify({ token: credentialResponse.credential }),
         }
       );
 
@@ -44,7 +43,15 @@ const GoogleSocialLink = () => {
         };
         login(userData);
 
-        router.back();
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectPath = urlParams.get("redirectTo");
+
+        // Redirect to the specified path or fallback to home
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          router.push("/"); // Default redirect if no redirectTo parameter
+        }
       } else {
         setError("Google login failed. Please try again.");
         setOpen(true);

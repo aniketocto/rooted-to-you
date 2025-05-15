@@ -5,7 +5,6 @@ import Hero from "@/components/Hero";
 import StatsSection from "@/components/StatsSection";
 import Steps from "@/components/Steps";
 import Testimonial from "@/components/Testimonial";
-import WhatsAppButton from "@/components/WhatsappButton";
 
 export default function Home() {
   return (
