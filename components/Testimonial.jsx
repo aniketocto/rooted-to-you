@@ -42,7 +42,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full md:w-/3 px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -53,12 +53,12 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                Lunchtime used to feel like a chore what to cook, what to eat.
+                </svg> */}
+                "Lunch time used to feel like a chore what to cook, what to eat.
                 Now with Rooted, it’s something I actually look forward to. I
                 love guessing where the meal is from each day, and it’s sparked
-                some lovely conversations at the table.
-                <svg
+                some lovely conversations at the table."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -69,7 +69,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font font-semibold mb-1">
@@ -87,7 +87,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -98,12 +98,12 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                I’ve always loved Indian food but never realized just how
+                </svg> */}
+                "I’ve always loved Indian food but never realized just how
                 diverse it really is. Rooted has been an eye-opener. One day
                 it’s a Maharashtrian pithla-bhakri, the next it’s a Bengali
-                shukto… I’m hooked.{" "}
-                <svg
+                shukto… I’m hooked."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -114,7 +114,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -132,7 +132,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -143,12 +143,12 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                Rooted’s variety of regional cuisines is simply amazing each and
-                every dish was authentic and flavorful. It’s evident they use
-                quality ingredients and traditional recipes. Perfect for anyone
-                who wants to enjoy homely Indian meals without cooking!
-                <svg
+                </svg> */}
+                "Rooted’s variety of regional cuisines is simply amazing each
+                and every dish was authentic and flavorful. It’s evident they
+                use quality ingredients and traditional recipes. Perfect for
+                anyone who wants to enjoy homely Indian meals without cooking!"
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -159,7 +159,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -177,7 +177,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -188,12 +188,12 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                I struggled with finding food that wasn’t oily, repetitive, or
+                </svg> */}
+                "I struggled with finding food that wasn’t oily, repetitive, or
                 expensive. Rooted gives me a perfect balance clean, regional
                 meals that keep changing and keep me healthy. It’s convenient,
-                affordable, and genuinely tasty.
-                <svg
+                affordable, and genuinely tasty."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -204,7 +204,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -222,7 +222,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -233,13 +233,13 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                I used to dread lunch either it was the same restaurant food or
+                </svg> */}
+                "I used to dread lunch either it was the same restaurant food or
                 boring dabba meals. Rooted has completely transformed my
                 afternoons. Every day feels like I’ve ordered from a new region
                 of India. The best part? I don’t have to think or plan anything.
-                Just heat, eat, and smile.
-                <svg
+                Just heat, eat, and smile."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -250,7 +250,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -268,7 +268,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -279,12 +279,12 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                Rooted’s meal subscription is a total game changer for busy
+                </svg> */}
+                "Rooted’s meal subscription is a total game changer for busy
                 office days. No more scrambling to plan or order just clean,
                 great-quality food that shows up like clockwork. It keeps things
-                simple, hygienic, and satisfying.
-                <svg
+                simple, hygienic, and satisfying."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -295,7 +295,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -313,7 +313,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -324,13 +324,13 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                I’m genuinely impressed with the Rooted meal subscription! Every
-                lunch I receive is not only healthy and delicious but also
+                </svg> */}
+                "I’m genuinely impressed with the Rooted meal subscription!
+                Every lunch I receive is not only healthy and delicious but also
                 served hot, which makes a huge difference. The variety of dishes
                 they offer keeps me excited and looking forward to each meal
-                there’s always something new and tasty to try.
-                <svg
+                there’s always something new and tasty to try."
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -341,7 +341,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -359,7 +359,7 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -370,14 +370,14 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
-                Rooted to You meal subscription service really hit the spot. The
-                packaging was clean and convenient—perfect for a busy workday.
-                The portion size was just right for a satisfying yet light
-                lunch. If you're looking for a reliable and delicious office
-                delivery option, Rooted is a great choice. Give them a try and
-                enjoy a flavorful, stress-free lunch!
-                <svg
+                </svg> */}
+                "Rooted to You meal subscription service really hit the spot.
+                The packaging was clean and convenient—perfect for a busy
+                workday. The portion size was just right for a satisfying yet
+                light lunch. If you're looking for a reliable and delicious
+                office delivery option, Rooted is a great choice. Give them a
+                try and enjoy a flavorful, stress-free lunch!"
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={20}
                   height={20}
@@ -388,7 +388,7 @@ export default function Testimonial() {
                     d="M123.15 201.35C46.46 144.43 68.53 98.48 113.39 46.9c7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.24-77.39 90.03-70.64 154.3 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.06 135.08-4.16 78.4-56.36zm145.45 0c-76.69-56.92-54.62-102.87-9.76-154.45 7.44-8.56 1.42-21.89-9.93-21.89-3.19 0-6.27 1.16-8.68 3.25-32.67 28.25-77.39 90.03-70.64 154.31 2.46 26.66 4.99 43.91 20.61 75.15 43.22 67.05 135.08-4.17 78.4-56.37z"
                     fill="#FFF"
                   ></path>
-                </svg>
+                </svg> */}
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
