@@ -69,14 +69,14 @@ const Page = () => {
 
       if (!storedUser) {
         console.warn("🚫 No user in localStorage, redirecting...");
-        // router.replace("/"); // Redirect to home/login if not authenticated
+        router.replace("/"); // Redirect to home/login if not authenticated
         return;
       }
 
       const parsedUser = JSON.parse(storedUser);
       setToken(parsedUser.token);
-      // setWalletUsedAmount(parsedUser.wallet || 0);
-      setWalletUsedAmount(500);
+      setWalletUsedAmount(parsedUser.wallet || 0);
+
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${parsedUser.id}`,
@@ -102,7 +102,7 @@ const Page = () => {
   useEffect(() => {
     if (!paymentSession?.sessionActive) {
       console.warn("🔒 Payment session not active, redirecting...");
-      // router.replace("/");
+      router.replace("/");
     }
   }, [paymentSession]);
 
@@ -284,8 +284,7 @@ const Page = () => {
     // Save computed values
     setDiscountedAmount(Math.round(couponDiscount));
     setTax(Math.round(calculatedGst));
-    // setFinalPrice(finalAmount); 
-    setFinalPrice(1); 
+    setFinalPrice(finalAmount);
   };
 
   useEffect(() => {
@@ -336,7 +335,7 @@ const Page = () => {
         state: "maharashtra",
       };
 
-      console.log("Payload", payload)
+      console.log("Payload", payload);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order
@@ -394,7 +393,6 @@ const Page = () => {
               clearPaymentSession();
               localStorage.removeItem("mealFormData");
             }, 300);
-            
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
