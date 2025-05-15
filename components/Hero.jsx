@@ -97,7 +97,7 @@ const Hero = () => {
 
               <p className="primary-font hero-font  mb-5 md:block text-[#03141C]! hidden">
                 With Rooted, indulge in the authenticity of Indian flavours and
-                cuisines, connect with vibrant regional cultures, and celebrate
+                cuisines, connect with vibrant regional cultures,<br/> and celebrate
                 the joy of discovery and sharing wholesome meals.
               </p>
               <Form {...form}>
