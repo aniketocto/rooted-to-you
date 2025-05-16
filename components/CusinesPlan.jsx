@@ -50,9 +50,10 @@ const CusinesPlan = () => {
               width={330}
               height={420}
               quality={100}
-              className="2xl:w-[47%] md:w-[40%] sm:w-[100%]"
+              className="2xl:w-[45%] md:w-[50%] sm:w-[100%]"
             />
-            <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6">
+            {/* <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6"> */}
+            <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6 text-container mb-6 lg:mb-0">
               <h3 className="secondary-font cusineFont mb-5 w-full text-left">
                 The Executive Meal
               </h3>
@@ -74,7 +75,7 @@ const CusinesPlan = () => {
                   alt="Presidential Meal"
                   width={30}
                   height={30}
-                  className="rotate-180"
+                  className="arrow-image rotate-180"
                 />
                 <p className="text-[#03141C]! subbtnFont">Subscribe Now</p>
               </Button>
@@ -89,7 +90,8 @@ const CusinesPlan = () => {
               quality={100}
               className="2xl:w-[45%] xl:w-[50%] md:w-[40%] sm:w-[100%]"
             />
-            <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6">
+            {/* <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6"> */}
+            <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6 text-container">
               <h3 className="secondary-font cusineFont mb-5 w-full text-left">
                 The Presidential Meal
               </h3>
@@ -112,6 +114,7 @@ const CusinesPlan = () => {
                   alt="Presidential Meal"
                   width={30}
                   height={30}
+                  className="arrow-image"
                 />
               </Button>
             </div>
