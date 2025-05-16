@@ -23,6 +23,7 @@ import { usePaymentContext } from "@/app/context/PaymentContext";
 import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const cuisineChoice = [
   {
@@ -390,7 +391,7 @@ const Page = () => {
       />
       <div className="max-w-[1440px] w-full h-full flex flex-col md:flex-row items-center justify-center md:mx-10 mx-5">
         <div className="md:w-1/2 w-full h-full p-6">
-          {/* <Breadcrumbs /> */}
+          <Breadcrumbs />
           <h2 className="text-2xl font-bold secondary-font">
             Presidential Meal
           </h2>

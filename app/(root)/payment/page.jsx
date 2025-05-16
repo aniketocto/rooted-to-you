@@ -561,7 +561,7 @@ const Page = () => {
             </div>
           </div>
           {/* Personal Details */}
-          <div className="md:w-1/2 w-full p-6">
+          <div className="md:w-1/2 w-full p-6 md:pt-0">
             <h2 className="text-2xl! font-bold primary-font">
               Personal Details
             </h2>
@@ -661,6 +661,7 @@ const Page = () => {
                     placeholder="Enter coupon code"
                     className="border p-2 pr-10 w-full rounded-md"
                   />
+
                   {couponCode && (
                     <button
                       type="button"
@@ -695,12 +696,17 @@ const Page = () => {
               {couponMessage && (
                 <p
                   className={`text-sm mt-1 ${
-                    couponValid ? "text-green-600" : "text-red-600"
+                    couponValid ? "text-green-600!" : "text-red-600!"
                   }`}
                 >
                   {couponMessage}
                 </p>
               )}
+              <span className="text-[12px]">
+                {boxId === 1
+                  ? "Get 20% Off with “RTYEW20” on weekly meals & “RTYEM20” on monthly meals"
+                  : "Get 20% Off with “RTYPW20” on weekly meals & “RTYPM20” on monthly meals"}
+              </span>
             </div>
 
             <div className="gap-2 text-sm my-8 flex">

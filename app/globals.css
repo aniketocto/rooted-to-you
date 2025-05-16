@@ -360,6 +360,9 @@ h2 {
   .cusineFont {
     font-size: 22px;
   }
+  .cusineflexWrap {
+    flex-wrap: wrap;
+  }
   .subbtnFont {
     font-size: 18px;
   }
