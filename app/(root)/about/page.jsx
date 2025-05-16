@@ -12,19 +12,18 @@ export const metadata = {
 const Page = () => {
   return (
     <>
-      <section className="relative w-full h-dvh flex-col justify-end md:justify-center about-banner items-start mb-32 bg-cover bg-bottom hidden md:flex">
-        <div className="relative z-10 text-white text-left w-fit px-6 ml-[4%] mt-[12%]">
-          {/* <h1 className="secondary-font font-bold text-[6vw]!">
-            Rooted in <br /> Tradition, <br /> Crafted for <br /> Today
-          </h1> */}
-        </div>
-      </section>
-
-      <img
+      <section className="w-full h-fit flex justify-center flex-col items-center ">
+        <img
+          src="/images/aboutbanner.jpg"
+          alt=""
+          className="md:block hidden w-full"
+        />
+           <img
         src="/images/aboutnewbanner.jpg"
         alt=""
         className="block md:hidden w-full"
       />
+      </section>
 
       <section className="about-section">
         <p className="primary-font font-base-1">
