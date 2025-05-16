@@ -99,8 +99,13 @@ const OrderPage = () => {
                     Quick, satisfying, and hassle-free.
                   </li>
                   <li>
-                    <span className="font-semibold">Affordable Plans</span>:
-                    Weekly at ₹1599*, Monthly at ₹5199*.
+                    <span className="font-semibold text-[#e6af55]">
+                      Affordable Plans:
+                    </span>
+                    <span className="text-[#e6af55]">
+                      {" "}
+                      Weekly at ₹2079*, Monthly at ₹6959*.
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -160,8 +165,12 @@ const OrderPage = () => {
                     delight, and leave you complete.
                   </li>
                   <li>
-                    <span className="font-semibold">Smart Value</span>: Weekly
-                    meals at ₹2099*, Monthly at just ₹6999*.
+                    <span className="font-semibold text-[#e6af55]">
+                      Smart Value
+                    </span>
+                    <span className="text-[#e6af55]">
+                      : Weekly plans at ₹3024*, Monthly at just ₹8849*.
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -188,7 +197,7 @@ const OrderPage = () => {
           alt=""
         />
         <div className="md:hidden flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
-          <p>Taste First, Subscribe Later</p>
+          <p className="text-[20px]!">Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal Today!</h3>
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
@@ -200,7 +209,7 @@ const OrderPage = () => {
             quality={100}
           />
           <h3 className="mb-2 secondary-font">Executive Meal</h3>
-          <p className="mb-2">(At ₹379)</p>
+          <p className="text-[20px] mb-2">At ₹379/- Only</p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
@@ -222,7 +231,7 @@ const OrderPage = () => {
             quality={100}
           />
           <h3 className="mb-2 secondary-font">Presidential Meal</h3>
-          <p className="mb-2">(At ₹449)</p>
+          <p className="text-[20px] mb-2">At ₹449/- Only</p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
             onClick={() => handleNavigate("/order/presidential?mode=trial")}
