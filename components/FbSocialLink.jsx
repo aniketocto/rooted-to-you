@@ -100,7 +100,6 @@ const FbSocialLink = () => {
 
   return (
     <div>
-<<<<<<< HEAD
       <FacebookLogin
         appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
         autoLoad={false}
@@ -122,46 +121,6 @@ const FbSocialLink = () => {
           </button>
         )}
       />
-=======
-      {isFbSdkLoaded ? (
-        <FacebookLogin
-          appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
-          autoLoad={false}
-          callback={handleSuccess}
-          onFailure={handleFailure}
-          render={(renderProps) => (
-            <button
-              className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              onClick={renderProps.onClick}
-              disabled={!isFbSdkLoaded}
-            >
-              <Image
-                src="/images/facebook.svg"
-                alt="Facebook"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              Login with Facebook
-            </button>
-          )}
-        />
-      ) : (
-        <button
-          className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md opacity-70 cursor-not-allowed"
-          disabled
-        >
-          <Image
-            src="/images/facebook.svg"
-            alt="Facebook"
-            width={20}
-            height={20}
-            className="mr-2"
-          />
-          Loading Facebook...
-        </button>
-      )}
->>>>>>> 062c47b91a6e4f5eaf3c3a144c6e9fea5f864021
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );

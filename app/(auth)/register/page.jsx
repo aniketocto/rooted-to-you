@@ -361,7 +361,7 @@ const Page = () => {
                 </p>
                 <hr className="w-1/3 bg-white h-[1px]" />
               </div>
-              <div className="flex w-full items-center justify-center gap-12 py-5">
+              <div className="flex flex-col md:flex-row w-full items-center justify-center gap-6 py-5">
                 <FbSocialLink />
                 <GoogleSocialLink />
               </div>
