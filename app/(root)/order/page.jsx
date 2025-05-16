@@ -36,7 +36,7 @@ const OrderPage = () => {
         name="description"
         content=" Executive and Presidential Meals according to your needs and preferences at your doorstep."
       />
-      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
+      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]"> 
         {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -57,7 +57,8 @@ const OrderPage = () => {
         <div className="max-w-[1350px] w-full h-full flex flex-col items-baseline justify-start">
           <Breadcrumbs />
           {/* Executive Meal */}
-          <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-0 md:gap-5">
+          {/* <div className="flex justify-center h-fit  items-start flex-col flexCol md:flex-row gap-0 md:gap-5"> */}
+          <div className="flex justify-center items-start flex-col flexCol md:flex-row gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
                 src="/images/Executive-Cuisine.png"
@@ -67,7 +68,8 @@ const OrderPage = () => {
                 className="w-[1000px] max-w-full h-full object-cover"
               />
             </div>
-            <div className="w-full h-full flex flex-col items-start justify-start">
+            {/* <div className="w-full h-full flex flex-col items-start justify-star md:items-center md:justify-center"> */}
+            <div className="w-full! h-full flex flex-col items-center justify-center lg:items-start lg:justify-start">
               <h2
                 className="secondary-font font-light"
                 style={{ lineHeight: "50px" }}
@@ -129,7 +131,8 @@ const OrderPage = () => {
                 className="w-[1000px] max-w-full h-full object-cover"
               />
             </div>
-            <div className="w-full h-full flex flex-col items-start justify-start">
+            {/* <div className="w-full h-full flex flex-col items-start justify-start"> */}
+            <div className="w-full h-full flex flex-col items-center justify-center lg:items-start lg:justify-start">
               <h2
                 className="secondary-font font-light"
                 style={{ lineHeight: "50px" }}
@@ -190,7 +193,7 @@ const OrderPage = () => {
         />
       </section>
       {/* Trial Plan */}
-      <section className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5">
+      <section className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section">
         <img
           src="/images/decorative.png"
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
