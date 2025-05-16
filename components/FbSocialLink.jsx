@@ -6,11 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AlertBox from "./AlertBox";
-
-const LoginSocialFacebook = dynamic(
-  () => import("reactjs-social-login").then((mod) => mod.LoginSocialFacebook),
-  { ssr: false }
-);
+import FacebookLogin from "@greatsumini/react-facebook-login";
 
 const FbSocialLink = () => {
   const { login } = useAuth();
@@ -18,7 +14,7 @@ const FbSocialLink = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const handleSuccess = async ({ provider, data }) => {
+  const handleSuccess = async ({ data }) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
@@ -32,6 +28,7 @@ const FbSocialLink = () => {
       );
 
       const res = await response.json();
+      console.log("Facebook Login Response:", res);
 
       if (response.ok && res?.data && res?.token) {
         const userData = {
@@ -69,23 +66,27 @@ const FbSocialLink = () => {
 
   return (
     <div>
-      {process.env.NEXT_PUBLIC_FACEBOOK_APP_ID && (
-        <LoginSocialFacebook
-          appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
-          onResolve={handleSuccess}
-          onReject={handleFailure}
-        >
-          <Image
-            src="/images/loginfacebook.png"
-            width={40}
-            height={30}
-            quality={100}
-            alt="Facebook Login"
-            className="cursor-pointer"
-          />
-        </LoginSocialFacebook>
-      )}
-
+      <FacebookLogin
+        appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
+        autoLoad={false}
+        callback={handleSuccess}
+        onFailure={handleFailure}
+        render={(renderProps) => (
+          <button
+            className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            onClick={renderProps.onClick}
+          >
+            <Image
+              src="/images/facebook.svg"
+              alt="Facebook"
+              width={20}
+              height={20}
+              className="mr-2"
+            />
+            Login with Facebook
+          </button>
+        )}
+      />
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );
