@@ -70,12 +70,14 @@ const Blogs = () => {
       <section className="w-full h-fit flex justify-center flex-col items-center ">
         {/* Background Image */}
         <img
-          src="/images/blog-bnr.jpg"
+          // src="/images/blog-bnr.jpg"
+          src="/images/blogbanner.jpg"
           className=" w-full hidden md:block object-cover z-[-1] top-0"
           alt="Background"
         />
         <img
-          src="/images/blog-mob.png"
+          // src="/images/blog-mob.png"
+          src="/images/blogbannermob.jpg"
           className=" w-full md:hidden block object-cover z-[-1] top-0"
           alt="Background"
         />

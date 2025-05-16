@@ -24,22 +24,22 @@ const Steps = () => {
     {
       img: "/images/step_1.png",
       title: "Choose Your Plan",
-      desc: "Pick between Executive or Presidential. Customize to match your taste and schedule.",
+      desc: "Pick between Executive or Presidential meals. Customized to match your taste and schedule.",
     },
     {
       img: "/images/step_2.png",
       title: "Set Your Schedule",
-      desc: "Choose how many meals you want and when. Pause, modify, or cancel anytime.",
+      desc: "Choose how many meals you want and when. Pause anytime.",
     },
     {
       img: "/images/step_3.png",
       title: "Freshly Cooked & Delivered",
-      desc: "Meals are cooked fresh daily with premium, preservative-free ingredients and delivered to your door.",
+      desc: "Meals are cooked fresh daily, with premium, preservative-free ingredients and delivered to your door.",
     },
     {
       img: "/images/step_4.png",
       title: "Enjoy Effortless Meals",
-      desc: "Unpack and savor balanced, restaurant-quality meals — no stress, just good food.",
+      desc: "Unpack and savor balanced, restaurant-quality meals. No stress, just good food.",
     },
   ];
 
@@ -53,7 +53,7 @@ const Steps = () => {
           data-aos={isMobile ? "fade-up" : ""}
           style={{lineHeight: 'normal'}}
         >
-          Effortless, Healthy Eating in <br /> Just 4 Steps
+          Effortless Healthy Eating <br />in  Just 4 Steps
         </h2>
 
         <div className="grid w-full grid-cols-2 place-content-center sm:grid-cols-2 lg:grid-cols-4  gap-5">

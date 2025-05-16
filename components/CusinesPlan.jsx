@@ -50,7 +50,7 @@ const CusinesPlan = () => {
               width={330}
               height={420}
               quality={100}
-              className="2xl:w-[45%] w-[50%]"
+              className="2xl:w-[47%] md:w-[40%] sm:w-[100%]"
             />
             <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6">
               <h3 className="secondary-font cusineFont mb-5 w-full text-left">
@@ -87,7 +87,7 @@ const CusinesPlan = () => {
               width={330}
               height={420}
               quality={100}
-              className="2xl:w-[45%] w-[50%]"
+              className="2xl:w-[45%] xl:w-[50%] md:w-[40%] sm:w-[100%]"
             />
             <div className="w-[90%] md:w-1/2 h-full flex flex-col items-center justify-start border border-white p-6">
               <h3 className="secondary-font cusineFont mb-5 w-full text-left">

@@ -98,6 +98,15 @@ const OrderPage = () => {
                     <span className="font-semibold">Seamless Convenience</span>:
                     Quick, satisfying, and hassle-free.
                   </li>
+                  <li>
+                    <span className="font-semibold text-[#e6af55]">
+                      Affordable Plans:
+                    </span>
+                    <span className="text-[#e6af55]">
+                      {" "}
+                      Weekly at ₹2079*, Monthly at ₹6959*.
+                    </span>
+                  </li>
                 </ul>
               </div>
               <Button
@@ -153,7 +162,15 @@ const OrderPage = () => {
                   <li>
                     <span className="font-semibold">Complete & Satisfying</span>
                     : A fulfilling dining experience crafted to nourish,
-                    delight, and leave you content.
+                    delight, and leave you complete.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-[#e6af55]">
+                      Smart Value
+                    </span>
+                    <span className="text-[#e6af55]">
+                      : Weekly plans at ₹3024*, Monthly at just ₹8849*.
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -179,6 +196,10 @@ const OrderPage = () => {
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
           alt=""
         />
+        <div className="md:hidden flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
+          <p className="text-[20px]!">Taste First, Subscribe Later</p>
+          <h3>Try a Rooted Meal Today!</h3>
+        </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
             src="/images/Trial-Executive.png"
@@ -187,21 +208,19 @@ const OrderPage = () => {
             height={420}
             quality={100}
           />
-          <h3 className="mb-5 secondary-font">Executive Meal</h3>
+          <h3 className="mb-2 secondary-font">Executive Meal</h3>
+          <p className="text-[20px] mb-2">At ₹379/- Only</p>
           <Button
-            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
+            className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
             <p className="text-[#03141C]! subbtnFont">Order Now</p>
           </Button>
         </div>
-        <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col">
+        {/* <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col"> */}
+        <div className="md:flex hidden flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
           <p>Taste First, Subscribe Later</p>
-          <h3>Try a Rooted Meal - Just One Click Away!</h3>
-          <p>
-            Authenticated Indian meals crafted with love <br />
-            No Commitment. Just Pure Flavour
-          </p>
+          <h3>Try a Rooted Meal Today!</h3>
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
@@ -211,7 +230,8 @@ const OrderPage = () => {
             height={420}
             quality={100}
           />
-          <h3 className="mb-5 secondary-font">Presidential Meal</h3>
+          <h3 className="mb-2 secondary-font">Presidential Meal</h3>
+          <p className="text-[20px] mb-2">At ₹449/- Only</p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
             onClick={() => handleNavigate("/order/presidential?mode=trial")}

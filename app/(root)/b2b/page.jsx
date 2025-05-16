@@ -160,9 +160,8 @@ const Page = () => {
             <p className="primary-font font-base-1 text-left">
               Our approach to a balanced and wholesome meal ensures that
               employees are content with joy, without being overly heavy,
-              keeping your team energised, focused, and ready to tackle the
-              challenges of the afternoon with renewed vigour.s a powerful tool
-              for promoting inter-cultural respect.
+              keeping your team energized, focused, and ready to tackle the
+              challenges of the afternoon with renewed vigour.
             </p>
           </div>
         </div>
@@ -210,7 +209,7 @@ const Page = () => {
             </h4>
             <p className="primary-font font-base-1 text-left">
               Managing an in-house cafeteria can be a significant financial and
-              operational burden.Partnering with Rooted proves to be a highly
+              operational burden. Partnering with Rooted proves to be a highly
               cost-effective alternative, eliminating the need for extensive
               cafeteria operations while still providing your employees with
               high-quality, diverse dining options.

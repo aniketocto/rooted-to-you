@@ -153,8 +153,8 @@ const Cuisines = () => {
                 onClick={handlePopupClose}
               >
                 {hoveredCard && (
-                  <div  className="absolute top-0 right-0">
-                    <X className="text-[#000]"/>
+                  <div className="absolute top-0 right-0">
+                    <X className="text-[#000]" />
                   </div>
                 )}
               </div>

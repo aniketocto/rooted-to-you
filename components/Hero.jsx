@@ -57,7 +57,6 @@ const Hero = () => {
       );
 
       const data = await response.json();
-   
 
       if (response.ok && data.success) {
         setErrorMessage("✅ Delivery is available in your area!");
@@ -89,15 +88,15 @@ const Hero = () => {
       >
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
-            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[58%] gap-5 mt-[10%] px-8">
-              <h1 className="secondary-font text-[#197a8a]! font-bold text-center md:text-left md:block  hidden">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[50%] gap-5 mt-[10%] px-8">
+              <h1 className="secondary-font text-[#042B40]! font-bold text-center md:text-left md:block  hidden">
                 Eat. <br /> Connect. <br />
                 Celebrate.
               </h1>
 
               <p className="primary-font hero-font  mb-5 md:block text-[#03141C]! hidden">
                 With Rooted, indulge in the authenticity of Indian flavours and
-                cuisines, connect with vibrant regional cultures,<br/> and celebrate
+                cuisines, connect with vibrant regional cultures, and celebrate
                 the joy of discovery and sharing wholesome meals.
               </p>
               <Form {...form}>
@@ -134,9 +133,9 @@ const Hero = () => {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="bg-[#e6af55] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
+                    className="bg-[#042B40] text-center cursor-pointer font-bold rounded-sm px-5 disabled:opacity-50"
                   >
-                    <p className="secondary-font subbtnFont  text-[#03141C]!">
+                    <p className="secondary-font subbtnFont  text-[#fff]!">
                       {isLoading ? "Checking..." : "Check Pincode"}
                     </p>
                   </Button>

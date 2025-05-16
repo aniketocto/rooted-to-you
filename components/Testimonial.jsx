@@ -42,10 +42,10 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full md:w-/3 px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " Lunchtime used to feel like a chore what to cook, what to eat.
-                Now with Rooted, it’s something I actually look forward to. I
-                love guessing where the meal is from each day, and it’s sparked
-                some lovely conversations at the table. "
+                "Lunch time used to feel like a chore, what to cook, what to
+                eat. Now with Rooted, it’s something I actually look forward to.
+                I love guessing where the meal is from each day, and it’s
+                sparked some lovely conversations at the table."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font font-semibold mb-1">
@@ -63,10 +63,10 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " I’ve always loved Indian food but never realized just how
+                "I’ve always loved Indian food but never realized just how
                 diverse it really is. Rooted has been an eye-opener. One day
                 it’s a Maharashtrian pithla-bhakri, the next it’s a Bengali
-                shukto… I’m hooked. "
+                shukto… I’m hooked."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -84,10 +84,10 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " Rooted’s variety of regional cuisines is simply amazing each
+                "Rooted’s variety of regional cuisines is simply amazing each
                 and every dish was authentic and flavorful. It’s evident they
                 use quality ingredients and traditional recipes. Perfect for
-                anyone who wants to enjoy homely Indian meals without cooking! "
+                anyone who wants to enjoy homely Indian meals without cooking!"
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -105,10 +105,10 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " I struggled with finding food that wasn’t oily, repetitive, or
+                "I struggled with finding food that wasn’t oily, repetitive, or
                 expensive. Rooted gives me a perfect balance clean, regional
                 meals that keep changing and keep me healthy. It’s convenient,
-                affordable, and genuinely tasty. "
+                affordable, and genuinely tasty."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -126,11 +126,11 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " I used to dread lunch either it was the same restaurant food
+                "I used to dread lunch. Either it was the same restaurant food
                 or boring dabba meals. Rooted has completely transformed my
                 afternoons. Every day feels like I’ve ordered from a new region
                 of India. The best part? I don’t have to think or plan anything.
-                Just heat, eat, and smile. "
+                Just heat, eat, and smile."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -148,10 +148,10 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " Rooted’s meal subscription is a total game changer for busy
+                "Rooted’s meal subscription is a total game changer for busy
                 office days. No more scrambling to plan or order just clean,
                 great-quality food that shows up like clockwork. It keeps things
-                simple, hygienic, and satisfying. "
+                simple, hygienic, and satisfying."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
@@ -169,15 +169,15 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " I’m genuinely impressed with the Rooted meal subscription!
+                "I’m genuinely impressed with the Rooted meal subscription!
                 Every lunch I receive is not only healthy and delicious but also
                 served hot, which makes a huge difference. The variety of dishes
                 they offer keeps me excited and looking forward to each meal
-                there’s always something new and tasty to try. "
+                there’s always something new and tasty to try."
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
-                Milind Labhe.
+                Milind Labhe
               </h4>
               <p className="text-gray-400 primary-font  text-sm">
                 CTO and Co-founder
@@ -191,12 +191,12 @@ export default function Testimonial() {
           <div className="flex items-center w-full flex-col md:flex-row min-h-[250px] overflow-hidden md:px-10 px-2 py-2 borderImage">
             <div className="w-full  px-6 py-4 text-white">
               <p className="font-base-1 primary-font mb-4 leading-relaxed">
-                " Rooted to You meal subscription service really hit the spot.
+                "Rooted to You meal subscription service really hit the spot.
                 The packaging was clean and convenient—perfect for a busy
                 workday. The portion size was just right for a satisfying yet
                 light lunch. If you're looking for a reliable and delicious
                 office delivery option, Rooted is a great choice. Give them a
-                try and enjoy a flavorful, stress-free lunch! "
+                try and enjoy a flavorful, stress-free lunch!"
                 <br />
               </p>
               <h4 className="text-[#e6af55] secondary-font  font-semibold mb-1">
