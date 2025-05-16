@@ -14,6 +14,30 @@ const FbSocialLink = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const [sdkReady, setSdkReady] = useState(false);
+
+  useEffect(() => {
+    if (window.FB) {
+      setSdkReady(true);
+    } else {
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+          cookie: true,
+          xfbml: true,
+          version: "v18.0",
+        });
+        setSdkReady(true);
+      };
+
+      const script = document.createElement("script");
+      script.src = "https://connect.facebook.net/en_US/sdk.js";
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const handleSuccess = async ({ data }) => {
     try {
       const response = await fetch(
@@ -66,27 +90,29 @@ const FbSocialLink = () => {
 
   return (
     <div>
-      <FacebookLogin
-        appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
-        autoLoad={false}
-        callback={handleSuccess}
-        onFailure={handleFailure}
-        render={(renderProps) => (
-          <button
-            className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            onClick={renderProps.onClick}
-          >
-            <Image
-              src="/images/facebook.svg"
-              alt="Facebook"
-              width={20}
-              height={20}
-              className="mr-2"
-            />
-            Login with Facebook
-          </button>
-        )}
-      />
+      {sdkReady && (
+        <FacebookLogin
+          appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
+          autoLoad={false}
+          callback={handleSuccess}
+          onFailure={handleFailure}
+          render={(renderProps) => (
+            <button
+              className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              onClick={renderProps.onClick}
+            >
+              <Image
+                src="/images/facebook.svg"
+                alt="Facebook"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
+              Login with Facebook
+            </button>
+          )}
+        />
+      )}
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );
