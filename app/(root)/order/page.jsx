@@ -199,7 +199,7 @@ const OrderPage = () => {
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
           alt=""
         />
-        <div className="md:hidden flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
+        <div className="md:block lg:hidden flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
           <p className="text-[20px]!">Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal Today!</h3>
         </div>
@@ -217,11 +217,11 @@ const OrderPage = () => {
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
-            <p className="text-[#03141C]! subbtnFont">Order Now</p>
+            <p className="text-[#03141C]! subbtnFont">Order Now</p> 
           </Button>
         </div>
         {/* <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col"> */}
-        <div className="md:flex hidden flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
+        <div className="meal-plan-heading flex flex-col mt-7 items-center md:items-center justify-center trial w-full md:w-[50%] px-4 md:px-0">
           <p>Taste First, Subscribe Later</p>
           <h3>Try a Rooted Meal Today!</h3>
         </div>
@@ -243,7 +243,7 @@ const OrderPage = () => {
               Order Now
             </p>
           </Button>
-        </div>
+        </div>  
       </section>
     </>
   );

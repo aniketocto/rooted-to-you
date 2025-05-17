@@ -693,3 +693,26 @@ h2 {
     margin-top: 1rem;
   }
 }
+@media screen and (max-width: 600px){
+   .meal-plan-heading{
+    display: none !important;
+    /* flex-direction: column-reverse !important;   */
+   }
+}
+
+@media screen and (max-width: 768px) {
+  .meal-plan-heading{
+display: none !important;
+/* flex-direction: column-reverse !important;   */
+  }
+}
+/* Target 1024px screen width only */
+@media (width: 1024px) {
+  .fb-btn {
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+  }
+}
