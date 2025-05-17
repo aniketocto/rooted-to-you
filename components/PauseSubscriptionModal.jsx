@@ -114,7 +114,7 @@ console.log("Props", activeSubscription, customerId)
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
+        <DialogContent className="max-w-[90%] w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
             <DialogTitle className="text-xl font-semibold text-white">
               Select a Pause Date
