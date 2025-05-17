@@ -493,7 +493,7 @@ const Page = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-base secondary-font">Plan</span>
-                  <span className="font-base secondary-font">
+                  <span className="font-base secondary-font capitalize">
                     {subscriptionType}
                   </span>
                 </div>
