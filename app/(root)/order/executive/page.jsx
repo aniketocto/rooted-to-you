@@ -242,6 +242,7 @@ const Page = () => {
       data.selectedDatesArray?.map((date) =>
         format(new Date(date), "yyyy-MM-dd")
       ) || [];
+      
 
     const token = userData?.token;
     const customerId = userData?.id;

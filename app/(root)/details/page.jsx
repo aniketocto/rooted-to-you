@@ -21,6 +21,7 @@ const page = () => {
     gst,
     mealTime,
   } = paymentSession || {};
+  
   const formattedStartDate =
     startDate instanceof Date ? startDate.toDateString() : startDate;
   const formattedEndDate =
