@@ -219,7 +219,7 @@ const Page = () => {
           />
           <h3 className="primary-font text-white!">Welcome Back</h3>
           <p className="secondary-font font-base-1 mt-[-2%] mb-4">
-            Welcome Back, Please enter your details
+            Please enter your details
           </p>
 
           <Form {...form}>
@@ -346,7 +346,8 @@ const Page = () => {
           {!showOtpInput ? (
             <>
               <p className="font-base-4 primary-font p-2 mt-3 text-center">
-                By clicking on proceed , you have read and agree to the Rooted
+                By proceeding, you confirm to have read and agreed to Rooted's
+                T&C
               </p>
               <Link
                 href="/tmx"
@@ -361,7 +362,7 @@ const Page = () => {
                 </p>
                 <hr className="w-1/3 bg-white h-[1px]" />
               </div>
-              <div className="flex w-full items-center justify-center gap-12 py-5">
+              <div className="flexCol flex flex-col md:flex-row w-full items-center justify-center gap-6 py-5">
                 <FbSocialLink />
                 <GoogleSocialLink />
               </div>

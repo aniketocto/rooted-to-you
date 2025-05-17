@@ -82,6 +82,7 @@ const FacebookLoginButton = () => {
 
   return (
     <div>
+<<<<<<< HEAD
       <button
         onClick={handleFacebookLogin}
         disabled={!sdkLoaded}
@@ -96,6 +97,29 @@ const FacebookLoginButton = () => {
         />
         Login with Facebook
       </button>
+=======
+      <FacebookLogin
+        appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
+        autoLoad={false}
+        callback={handleSuccess}
+        onFailure={handleFailure}
+        render={(renderProps) => (
+          <button
+            className="fb-btn flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            onClick={renderProps.onClick}
+          >
+            <Image
+              src="/images/facebook.png"
+              alt="Facebook"
+              width={20}
+              height={20}
+              className="mr-2"
+            />
+            Login with Facebook
+          </button>
+        )}
+      />
+>>>>>>> 06e6d5a80d28348cfa9dcd54d69ba63abc6d8cfa
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
   );

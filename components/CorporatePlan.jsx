@@ -96,9 +96,9 @@ const CorporatePlan = () => {
         alt=""
       />
       <div className="w-[90%] h-fit flex flex-wrap items-center gap-20 justify-center py-10  md:mx-10 mx-5">
-        <h2 className="secondary-font text-center" data-aos="fade-down">
+        {/* <h2 className="secondary-font text-center" data-aos="fade-down">
           For Corporate Plans
-        </h2>
+        </h2> */}
         <div className="w-full flex flexCol gap-10">
           <div className="flex-1 flex justify-start gap-10 flex-col">
             <h3 className="secondary-font">

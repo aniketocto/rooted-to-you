@@ -596,3 +596,123 @@ h2 {
     font-size: 17px;
   }
 }
+@media screen and (max-width: 1024px) {
+  .cusineflexWrap {
+    align-items: center !important;
+  }
+
+  .cusineflexWrap > div {
+    flex-direction: column !important;
+    width: 90% !important;
+    align-items: center !important;
+  }
+
+  .cusineflexWrap img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 400px;
+    display: block;
+  }
+
+  .cusineflexWrap .text-container {
+    width: 100% !important;
+    max-width: 350px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .cusineflexWrap > div {
+    /* align-items: stretch !important;  */
+    height: auto !important;
+    width: 100% !important;
+    display: flex;
+    max-width: 750px;
+  }
+
+  .cusineflexWrap img {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    object-fit: contain;
+  }
+
+  .cusineflexWrap .text-container {
+    /* flex: 1; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between;  */
+    /* padding: 1.5rem; */
+    box-sizing: border-box;
+    border: 1px solid white;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    margin-top: 20px;
+    max-width: 350px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .arrow-image {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .arrow-image {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .trial-section {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .trial-section > div {
+    width: 100% !important;
+    max-width: 420px;
+    text-align: center;
+  }
+
+  .trial-section img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .trial-section h3,
+  .trial-section p {
+    margin: 0.5rem 0;
+  }
+
+  .trial-section button {
+    margin-top: 1rem;
+  }
+}
+@media screen and (max-width: 600px){
+   .meal-plan-heading{
+    display: none !important;
+    /* flex-direction: column-reverse !important;   */
+   }
+}
+
+@media screen and (max-width: 768px) {
+  .meal-plan-heading{
+display: none !important;
+/* flex-direction: column-reverse !important;   */
+  }
+}
+/* Target 1024px screen width only */
+@media (width: 1024px) {
+  .fb-btn {
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+  }
+}
