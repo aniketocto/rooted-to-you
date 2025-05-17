@@ -102,7 +102,7 @@ const Hero = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="gap-5 flex  w-full md:w-96"
+                  className="pin-form gap-5 flex  w-full md:w-96"
                 >
                   <FormField
                     control={form.control}
@@ -171,7 +171,7 @@ const Hero = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="gap-5 flex  w-full md:w-96"
+                  className="pin-form gap-5 flex  w-full md:w-96"
                 >
                   <FormField
                     control={form.control}

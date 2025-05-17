@@ -596,31 +596,7 @@ h2 {
     font-size: 17px;
   }
 }
-@media screen and (max-width: 1024px) {
-  .cusineflexWrap {
-    align-items: center !important;
-  }
 
-  .cusineflexWrap > div {
-    flex-direction: column !important;
-    width: 90% !important;
-    align-items: center !important;
-  }
-
-  .cusineflexWrap img {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 400px;
-    display: block;
-  }
-
-  .cusineflexWrap .text-container {
-    width: 100% !important;
-    max-width: 350px;
-    padding: 1.5rem;
-    box-sizing: border-box;
-  }
-}
 @media screen and (min-width: 1920px) {
   .cusineflexWrap > div {
     /* align-items: stretch !important;  */
@@ -658,12 +634,31 @@ h2 {
   .arrow-image {
     display: none !important;
   }
-}
-@media screen and (max-width: 768px) {
-  .arrow-image {
-    display: none !important;
+  .cusineflexWrap {
+    align-items: center !important;
+  }
+
+  .cusineflexWrap > div {
+    flex-direction: column !important;
+    width: 90% !important;
+    align-items: center !important;
+  }
+
+  .cusineflexWrap img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 400px;
+    display: block;
+  }
+
+  .cusineflexWrap .text-container {
+    width: 100% !important;
+    max-width: 350px;
+    padding: 1.5rem;
+    box-sizing: border-box;
   }
 }
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .trial-section {
     flex-direction: column !important;
@@ -693,25 +688,33 @@ h2 {
     margin-top: 1rem;
   }
 }
-@media screen and (max-width: 600px) {
-  .meal-plan-heading {
-    display: none !important;
-    /* flex-direction: column-reverse !important;   */
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .meal-plan-heading {
-    display: none !important;
-    /* flex-direction: column-reverse !important;   */
-  }
-}
-/* Target 1024px screen width only */
 @media (width: 1024px) {
   .fb-btn {
     white-space: nowrap !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+  }
+   .pin-form {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .meal-plan-heading {
+    display: none !important;
+  }
+  .arrow-image {
+    display: none !important;
+  }
+    .pin-form {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .meal-plan-heading {
+    display: none !important;
   }
 }
