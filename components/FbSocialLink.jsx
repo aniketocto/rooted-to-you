@@ -14,32 +14,56 @@ const FacebookLoginButton = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // Load Facebook SDK
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-        cookie: true,
-        xfbml: false,
-        version: "v18.0",
-      });
-      setSdkLoaded(true);
+    // Create a function to load the SDK
+    const loadFacebookSDK = () => {
+      // Check if FB is already defined
+      if (window.FB) {
+        setSdkLoaded(true);
+        return;
+      }
+
+      // Define the fbAsyncInit function
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+          autoLogAppEvents: true,
+          cookie: true,
+          xfbml: false,
+          version: "v18.0",
+        });
+        setSdkLoaded(true);
+        console.log("Facebook SDK initialized successfully");
+      };
+
+      // Load the SDK if it's not already loaded
+      if (!document.getElementById("facebook-jssdk")) {
+        console.log("Loading Facebook SDK...");
+        const script = document.createElement("script");
+        script.id = "facebook-jssdk";
+        script.src = "https://connect.facebook.net/en_US/sdk.js";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }
     };
 
-    if (!document.getElementById("facebook-jssdk")) {
-      const script = document.createElement("script");
-      script.id = "facebook-jssdk";
-      script.src = "https://connect.facebook.net/en_US/sdk.js";
-      script.async = true;
-      document.body.appendChild(script);
-    } else {
-      setSdkLoaded(true); // Already loaded
-    }
+    loadFacebookSDK();
+    
+    // Cleanup function
+    return () => {
+      // Optional: Clean up event listeners if needed
+    };
   }, []);
 
   const handleFacebookLogin = () => {
-    if (!sdkLoaded) return;
+    if (!sdkLoaded || !window.FB) {
+      console.error("Facebook SDK not loaded yet");
+      setError("Facebook SDK not loaded. Please try again later.");
+      setOpen(true);
+      return;
+    }
 
-    FB.login(
+    window.FB.login(
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
@@ -67,11 +91,13 @@ const FacebookLoginButton = () => {
                 throw new Error("Facebook login failed.");
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              console.error("Facebook login error:", err);
               setError("Facebook login failed. Please try again.");
               setOpen(true);
             });
         } else {
+          console.log("Facebook login cancelled by user or failed");
           setError("Facebook login cancelled or failed.");
           setOpen(true);
         }
