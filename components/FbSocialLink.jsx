@@ -129,7 +129,7 @@ const FbSocialLink = () => {
           disabled
         >
           <Image
-            src="/images/facebook.svg"
+            src="/images/facebook.png"
             alt="Facebook"
             width={20}
             height={20}
