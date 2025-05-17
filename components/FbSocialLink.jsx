@@ -72,7 +72,7 @@ const FacebookLoginButton = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ token: accessToken }),
+            body: JSON.stringify({ accessToken: accessToken }),
           })
             .then((res) => res.json())
             .then((res) => {
