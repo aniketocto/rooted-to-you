@@ -14,46 +14,66 @@ const FacebookLoginButton = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
-    // Load Facebook SDK
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-        cookie: true,
-        xfbml: false,
-        version: "v18.0",
-      });
-      setSdkLoaded(true);
+    // Create a function to load the SDK
+    const loadFacebookSDK = () => {
+      // Check if FB is already defined
+      if (window.FB) {
+        setSdkLoaded(true);
+        return;
+      }
+
+      // Define the fbAsyncInit function
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: 1049112006354351,
+          autoLogAppEvents: true,
+          cookie: true,
+          xfbml: false,
+          version: "v18.0",
+        });
+        setSdkLoaded(true);
+        console.log("Facebook SDK initialized successfully");
+      };
+
+      // Load the SDK if it's not already loaded
+      if (!document.getElementById("facebook-jssdk")) {
+        console.log("Loading Facebook SDK...");
+        const script = document.createElement("script");
+        script.id = "facebook-jssdk";
+        script.src = "https://connect.facebook.net/en_US/sdk.js";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }
     };
 
-    if (!document.getElementById("facebook-jssdk")) {
-      const script = document.createElement("script");
-      script.id = "facebook-jssdk";
-      script.src = "https://connect.facebook.net/en_US/sdk.js";
-      script.async = true;
-      document.body.appendChild(script);
-    } else {
-      setSdkLoaded(true); // Already loaded
-    }
+    loadFacebookSDK();
+    
+    // Cleanup function
+    return () => {
+      // Optional: Clean up event listeners if needed
+    };
   }, []);
 
   const handleFacebookLogin = () => {
-    if (!sdkLoaded) return;
+    if (!sdkLoaded || !window.FB) {
+      console.error("Facebook SDK not loaded yet");
+      setError("Facebook SDK not loaded. Please try again later.");
+      setOpen(true);
+      return;
+    }
 
-    FB.login(
+    window.FB.login(
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
-          fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ token: accessToken }),
-            }
-          )
+          fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ accessToken: accessToken }),
+          })
             .then((res) => res.json())
             .then((res) => {
               console.log("Facebook login response:", res);
@@ -65,19 +85,19 @@ const FacebookLoginButton = () => {
                   status: res.data.status,
                 };
                 login(userData);
-                const redirectPath = new URLSearchParams(
-                  window.location.search
-                ).get("redirectTo");
+                const redirectPath = new URLSearchParams(window.location.search).get("redirectTo");
                 router.push(redirectPath || "/");
               } else {
                 throw new Error("Facebook login failed.");
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              console.error("Facebook login error:", err);
               setError("Facebook login failed. Please try again.");
               setOpen(true);
             });
         } else {
+          console.log("Facebook login cancelled by user or failed");
           setError("Facebook login cancelled or failed.");
           setOpen(true);
         }
@@ -91,7 +111,7 @@ const FacebookLoginButton = () => {
       <button
         onClick={handleFacebookLogin}
         disabled={!sdkLoaded}
-        className="flex items-center justify-center w-full px-4 py-2 text-[13px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
         <Image
           src="/images/facebook.png"
@@ -100,7 +120,7 @@ const FacebookLoginButton = () => {
           height={20}
           className="mr-2"
         />
-        Sign with Facebook
+        Login with Facebook
       </button>
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
