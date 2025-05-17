@@ -350,7 +350,7 @@ const Page = () => {
                 T&C
               </p>
               <Link
-                href="/tmx"
+                href="/terms_conditions"
                 className="font-base-2 secondary-font underline"
               >
                 Terms of Use & Privacy Policy
