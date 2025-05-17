@@ -207,7 +207,7 @@ const Page = () => {
   };
 
   return (
-    <div className="max-w-[85%] w-[1270px] max-h-full h-[500px] flex border border-[#E6AF55] rounded-2xl my-32 mx-auto">
+    <div className="max-w-[85%] w-[1270px] max-h-full h-[600px] flex border border-[#E6AF55] rounded-2xl my-32 mx-auto">
       <div className="md:w-1/2 w-full flex items-center justify-center">
         <div className="max-w-[90%] w-fit flex flex-col items-center gap-1 justify-center">
           <Image
