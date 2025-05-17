@@ -696,17 +696,17 @@ h2 {
 @media screen and (max-width: 600px){
    .meal-plan-heading{
     display: none !important;
-    /* flex-direction: column-reverse !important;   */
+  
    }
 }
 
 @media screen and (max-width: 768px) {
   .meal-plan-heading{
 display: none !important;
-/* flex-direction: column-reverse !important;   */
+
   }
 }
-/* Target 1024px screen width only */
+
 @media (width: 1024px) {
   .fb-btn {
     white-space: nowrap !important;
@@ -716,9 +716,5 @@ display: none !important;
     
   }
 }
-@media screen and (max-width: 600px){
-.cont-form{
-font-size: 40px !important;
-}
-}
+
 

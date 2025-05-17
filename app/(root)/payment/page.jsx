@@ -610,7 +610,7 @@ const Page = () => {
               </div>
               <div className="flex justify-start gap-12">
                 <span className="font-base secondary-font capitalize">
-                  City
+                  City:
                 </span>
                 <span className="font-base secondary-font capitalize">
                   {userData?.data.city}

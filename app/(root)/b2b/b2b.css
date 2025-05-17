@@ -23,7 +23,6 @@
     display: none;
   }
   .tab-view-btn {
-   
     align-self: center !important;
     justify-content: center !important;
     margin-top: 350px !important;
@@ -33,20 +32,18 @@
 }
 @media only screen and (max-width: 600px) {
   .bcb-banner {
-    padding-left: 0 !important;
+    padding: 0 !important;
   }
   .b2b-banner {
     background-image: url("/images/b2bmob.jpg");
     background-position: center top !important;
     background-size: cover !important;
+    margin-bottom: 0 !important;
   }
 
   .tab-view-btn {
-    
     align-self: center !important;
     justify-content: center !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
   }
-  
 }

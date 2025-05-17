@@ -1,0 +1,15 @@
+.contact-form {
+  font-size: 100px !important;
+}
+@media screen and (max-width: 768px) {
+  .contact-form {
+    font-size: 80px !important;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .contact-form {
+    font-size: 40px !important;
+  }
+}

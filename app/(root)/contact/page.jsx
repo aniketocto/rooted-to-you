@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import "./contact.css";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -105,7 +106,7 @@ const ContactUs = () => {
         <div className="flex w-full justify-center items-center">
           <div className="w-[80%]">
             {/* <p className="primary-font text-2xl! mb-5">Get Started</p> */}
-            <h1 className="text-[#d49c3e]! secondary-font font-extrabold cont-form">
+            <h1 className="text-[#d49c3e]! secondary-font font-extrabold contact-form">
               Get in touch with us. We're here to assist you.
             </h1>
           </div>
@@ -150,7 +151,7 @@ const ContactUs = () => {
           </div>
         </div>
 
-        <div className="flex w-full justify-center items-center mt-14">
+        <div className="flex w-full justify-center items-center mt-6">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
