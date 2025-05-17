@@ -14,6 +14,7 @@ const FacebookLoginButton = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
     // Load Facebook SDK
     window.fbAsyncInit = function () {
       FB.init({
