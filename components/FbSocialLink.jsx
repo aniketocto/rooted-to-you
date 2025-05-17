@@ -44,12 +44,13 @@ const FacebookLoginButton = () => {
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
+          console.log("Facebook access token:", accessToken);
           fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ token: accessToken }),
+            body: JSON.stringify({ accessToken: accessToken }),
           })
             .then((res) => res.json())
             .then((res) => {
