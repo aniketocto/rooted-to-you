@@ -716,3 +716,9 @@ display: none !important;
     
   }
 }
+@media screen and (max-width: 600px){
+.cont-form{
+font-size: 40px !important;
+}
+}
+

@@ -45,8 +45,8 @@ const Page = () => {
             Inclusive.
           </h1>
           <p className="primary-font hero-font font-base mb-5 hidden md:block tab-view">
-            Hassle-free for employees and cost-effective for corporates, Rooted
-            brings people together through their shared love for food, fostering
+            Hassle-free for employees and cost-effective for corporates,<br /> Rooted
+            brings people together through their shared love for<br /> food, fostering
             a culture of mutual respect.
           </p>
           <Button

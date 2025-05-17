@@ -18,11 +18,11 @@ const Page = () => {
           alt=""
           className="md:block hidden w-full"
         />
-           <img
-        src="/images/aboutnewbanner.jpg"
-        alt=""
-        className="block md:hidden w-full"
-      />
+        <img
+          src="/images/aboutnewbanner.jpg"
+          alt=""
+          className="block md:hidden w-full"
+        />
       </section>
 
       <section className="about-section">
@@ -143,7 +143,7 @@ const Page = () => {
           alt=""
         />
         <div className="relative flex flex-col md:flex-row items-start justify-start gap-15">
-          <div className="flex-1/2 flex flex-col md:flex-row items-start justify-start gap-5 ">
+          <div className="founder-wrapper flex-1/2 flex flex-col md:flex-row items-start justify-start gap-5 ">
             <img src="/images/Main.png" />
             <div className="flex flex-col items-start justify-start gap-5">
               <h3 className="secondary-font text-left">Our Founder</h3>

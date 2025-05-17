@@ -43,13 +43,16 @@ const FacebookLoginButton = () => {
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
-          fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ token: accessToken }),
-          })
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token: accessToken }),
+            }
+          )
             .then((res) => res.json())
             .then((res) => {
               console.log("Facebook login response:", res);
@@ -61,7 +64,9 @@ const FacebookLoginButton = () => {
                   status: res.data.status,
                 };
                 login(userData);
-                const redirectPath = new URLSearchParams(window.location.search).get("redirectTo");
+                const redirectPath = new URLSearchParams(
+                  window.location.search
+                ).get("redirectTo");
                 router.push(redirectPath || "/");
               } else {
                 throw new Error("Facebook login failed.");
@@ -85,7 +90,7 @@ const FacebookLoginButton = () => {
       <button
         onClick={handleFacebookLogin}
         disabled={!sdkLoaded}
-        className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="flex items-center justify-center w-full px-4 py-2 text-[13px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
         <Image
           src="/images/facebook.png"
@@ -94,7 +99,7 @@ const FacebookLoginButton = () => {
           height={20}
           className="mr-2"
         />
-        Login with Facebook
+        Sign with Facebook
       </button>
       <AlertBox open={open} setOpen={setOpen} description={error} />
     </div>
