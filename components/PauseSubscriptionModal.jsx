@@ -41,7 +41,7 @@ export default function PauseSubscriptionModal({
 
   const defaultMonth = highlightedDates?.[0] || new Date();
 
-console.log("Props", activeSubscription, customerId)
+console.log("Props", customerId)
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
@@ -116,7 +116,7 @@ console.log("Props", activeSubscription, customerId)
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[90%] w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
-            <DialogTitle className="text-xl font-semibold text-white">
+            <DialogTitle className="text-3xl! font-semibold text-white">
               Select a Pause Date
             </DialogTitle>
           </DialogHeader>
@@ -157,18 +157,18 @@ console.log("Props", activeSubscription, customerId)
             )}
           </div>
 
-          <DialogFooter className="flex justify-between">
+          <DialogFooter className="flex justify-between w-1/2 md:w-fu">
             <Button
               onClick={() => setOpen(false)}
               variant="outline"
-              className="border-gray-300 text-white hover:bg-white/10"
+              className="border-gray-300 text-white hover:bg-white/10 "
             >
               Cancel
             </Button>
             <Button
               onClick={handlePause}
               disabled={isSelectionInvalid || loading}
-              className="bg-amber-500 hover:bg-amber-600 text-white"
+              className="bg-amber-500 hover:bg-amber-600 text-white "
             >
               {loading ? "Processing..." : "Confirm Pause"}
             </Button>

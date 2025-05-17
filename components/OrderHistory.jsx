@@ -12,7 +12,7 @@ import {
 import PauseSubscriptionModal from "./PauseSubscriptionModal";
 
 const OrderHistory = () => {
-  const [subscriptions, setSubscriptions] = useState([]);
+  // const [subscriptions, setSubscriptions] = useState([]);
   const [activeSubscription, setActiveSubscription] = useState(null);
   const [customerId, setCustomerId] = useState()
 
@@ -24,29 +24,30 @@ const OrderHistory = () => {
         );
         // const customerId = storedUser?.id;
         setCustomerId(storedUser?.id)
-        const token = storedUser?.token; // Assuming the token is stored here
+        const token = storedUser?.token; 
+        console.log("Customer ID:", customerId);
 
         if (!customerId || !token) {
           console.error("Missing user ID or token in localStorage.");
           return;
         }
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        // const res = await fetch(
+        //   `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
 
-        const data = await res.json();
+        // const data = await res.json();
 
-        if (data.success) {
-          setSubscriptions(data.subscriptions || []);
-          setActiveSubscription(data.subscription);
-        }
+        // if (data.success) {
+          // setSubscriptions(data.subscriptions || []);
+          // setActiveSubscription(data.subscription);
+        // }
       } catch (err) {
         console.error("Error fetching subscriptions:", err);
       }
@@ -55,13 +56,41 @@ const OrderHistory = () => {
     fetchSubscriptions();
   }, []);
 
-  if (!subscriptions.length) {
-    return (
-      <p className="text-center mt-4 text-muted-foreground">
-        No subscriptions found.
-      </p>
-    );
-  }
+  // if (!subscriptions.length) {
+  //   return (
+  //     <p className="text-center mt-4 text-muted-foreground">
+  //       No subscriptions found.
+  //     </p>
+  //   );
+  // }
+
+  const subscriptions = [
+  {
+    id: 1,
+    amount: 1299,
+    box: "Standard Box",
+    boxId: 101,
+    deliveryType: "Morning",
+    subscriptionType: "Weekly",
+    weekendType: "Even Saturdays",
+    dietType: "Vegan",
+    startDate: "2025-05-20",
+    endDate: "2025-05-26",
+  },
+  {
+    id: 2,
+    amount: 2499,
+    box: "Premium Box",
+    boxId: 102,
+    deliveryType: "Evening",
+    subscriptionType: "Monthly",
+    weekendType: null,
+    dietType: null,
+    startDate: "2025-06-01",
+    endDate: "2025-06-30",
+  },
+];
+
 
   return (
     <div className="overflow-hidden rounded-md shadow-sm border-b-1 mt-8">

@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import FeedbackForm from "@/components/FeedbackForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
-import PauseSubscriptionModal from "@/components/PauseSubscriptionModal";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
