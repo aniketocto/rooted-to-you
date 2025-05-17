@@ -25,7 +25,7 @@ const FacebookLoginButton = () => {
       // Define the fbAsyncInit function
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+          appId: 1049112006354351,
           autoLogAppEvents: true,
           cookie: true,
           xfbml: false,
