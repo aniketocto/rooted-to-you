@@ -36,7 +36,7 @@ const OrderPage = () => {
         name="description"
         content=" Executive and Presidential Meals according to your needs and preferences at your doorstep."
       />
-      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]"> 
+      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
         {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -106,7 +106,7 @@ const OrderPage = () => {
                     </span>
                     <span className="text-[#e6af55]">
                       {" "}
-                      Weekly at ₹2079*, Monthly at ₹6959*.
+                      Weekly at ₹2079, Monthly at ₹6959.
                     </span>
                   </li>
                 </ul>
@@ -172,7 +172,7 @@ const OrderPage = () => {
                       Smart Value
                     </span>
                     <span className="text-[#e6af55]">
-                      : Weekly plans at ₹3024*, Monthly at just ₹8849*.
+                      : Weekly plans at ₹3024, Monthly at just ₹8849.
                     </span>
                   </li>
                 </ul>
@@ -217,7 +217,7 @@ const OrderPage = () => {
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
-            <p className="text-[#03141C]! subbtnFont">Order Now</p> 
+            <p className="text-[#03141C]! subbtnFont">Order Now</p>
           </Button>
         </div>
         {/* <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col"> */}
@@ -243,7 +243,7 @@ const OrderPage = () => {
               Order Now
             </p>
           </Button>
-        </div>  
+        </div>
       </section>
     </>
   );
