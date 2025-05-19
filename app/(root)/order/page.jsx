@@ -86,7 +86,7 @@ const OrderPage = () => {
 
               <p className="primary-font font-base-1 my-5">
                 <em>
-                  Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
+                  Rice, Dal, One Veg, Indian Breads, Any 1 of Snack or Sweet or
                   Salad
                 </em>
               </p>

@@ -7,6 +7,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   height: 100dvh;
+  padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 .bcb-banner {
   padding-left: 5%;
@@ -18,6 +20,10 @@
 
   .b2b-banner {
     background-image: url("/images/b2bmob.jpg");
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .tab-view {
     display: none;
@@ -39,6 +45,10 @@
     background-position: center top !important;
     background-size: cover !important;
     margin-bottom: 0 !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .tab-view-btn {
