@@ -249,7 +249,7 @@ const ProfilePage = () => {
               Feedback
             </h3>
             <FeedbackForm />
-          </div>
+          </div>  
         </div>
       </div>
 
