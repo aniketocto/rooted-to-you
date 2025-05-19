@@ -41,7 +41,7 @@ export default function PauseSubscriptionModal({
 
   const defaultMonth = highlightedDates?.[0] || new Date();
 
-// console.log("Props", customerId)
+  // console.log("Props", customerId);
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
@@ -58,8 +58,7 @@ export default function PauseSubscriptionModal({
     if (differenceInCalendarDays(date, now) <= 0) return true;
 
     // If selected date is tomorrow and current time is after 4 PM — disable
-    const isTomorrow =
-      differenceInCalendarDays(date, now) === 1 && hour >= 16;
+    const isTomorrow = differenceInCalendarDays(date, now) === 1 && hour >= 16;
 
     return isTomorrow;
   };
@@ -83,14 +82,16 @@ export default function PauseSubscriptionModal({
       );
 
       const data = await res.json();
+      // console.log("Pause response:", data);
 
       if (res.ok) {
+        const prettyDate = format(selectedDate, "EEE, MMM d, yyyy");
         setOpen(false);
         setSelectedDate(null);
-        setPopOpen(true)
-        setError("We have pause for that day")
+        setPopOpen(true);
+        setError(`We have paused your meals for ${prettyDate}.`);
       } else {
-        setError( "Something went wrong.");
+        setError("Something went wrong.");
       }
     } catch (err) {
       console.error("Pause error:", err);
@@ -138,7 +139,6 @@ export default function PauseSubscriptionModal({
                 highlighted: highlightedDates,
               }}
               disabled={isDisabled}
-              
               styles={{
                 day: { margin: "0.2em" },
                 caption: { color: "#fff" },
