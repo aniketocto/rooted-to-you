@@ -22,26 +22,22 @@ const OrderHistory = () => {
         const storedUser = JSON.parse(
           localStorage.getItem("authenticatedUser")
         );
-        // const customerId = storedUser?.id;
+        // console.log("Stored user:", storedUser);
         setCustomerId(storedUser?.id);
-        console.log("Customer ID:", customerId);
-
-        if (!customerId) {
-          console.error("Missing user ID or token in localStorage.");
-          return;
-        }
+        const token = storedUser?.token;
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${storedUser?.id}`,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${storedUser?.token}`,
             },
           }
         );
 
         const data = await res.json();
+        console.log("Response data:", data);
 
         if (data.success) {
           setSubscriptions(data.subscriptions || []);
