@@ -32,12 +32,12 @@ const FacebookLoginButton = () => {
           version: "v18.0",
         });
         setSdkLoaded(true);
-        console.log("Facebook SDK initialized successfully");
+        // console.log("Facebook SDK initialized successfully");
       };
 
       // Load the SDK if it's not already loaded
       if (!document.getElementById("facebook-jssdk")) {
-        console.log("Loading Facebook SDK...");
+        // console.log("Loading Facebook SDK...");
         const script = document.createElement("script");
         script.id = "facebook-jssdk";
         script.src = "https://connect.facebook.net/en_US/sdk.js";
@@ -48,7 +48,7 @@ const FacebookLoginButton = () => {
     };
 
     loadFacebookSDK();
-    
+
     // Cleanup function
     return () => {
       // Optional: Clean up event listeners if needed
@@ -67,16 +67,19 @@ const FacebookLoginButton = () => {
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
-          fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ accessToken: accessToken }),
-          })
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/auth/facebook`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ accessToken: accessToken }),
+            }
+          )
             .then((res) => res.json())
             .then((res) => {
-              console.log("Facebook login response:", res);
+              // console.log("Facebook login response:", res);
               if (res?.data && res?.token) {
                 const userData = {
                   id: res.data.id,
@@ -85,7 +88,9 @@ const FacebookLoginButton = () => {
                   status: res.data.status,
                 };
                 login(userData);
-                const redirectPath = new URLSearchParams(window.location.search).get("redirectTo");
+                const redirectPath = new URLSearchParams(
+                  window.location.search
+                ).get("redirectTo");
                 router.push(redirectPath || "/");
               } else {
                 throw new Error("Facebook login failed.");
@@ -97,7 +102,7 @@ const FacebookLoginButton = () => {
               setOpen(true);
             });
         } else {
-          console.log("Facebook login cancelled by user or failed");
+          // console.log("Facebook login cancelled by user or failed");
           setError("Facebook login cancelled or failed.");
           setOpen(true);
         }

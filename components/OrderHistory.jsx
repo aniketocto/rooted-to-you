@@ -24,7 +24,7 @@ const OrderHistory = () => {
         );
         // const customerId = storedUser?.id;
         setCustomerId(storedUser?.id)
-        console.log("Customer ID:", customerId);
+        // console.log("Customer ID:", customerId);
 
         if (!customerId) {
           console.error("Missing user ID or token in localStorage.");

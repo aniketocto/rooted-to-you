@@ -299,7 +299,7 @@ const Page = () => {
         deliveryType: selectedTime,
       };
 
-      console.log(payload)
+      // console.log(payload)
       
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
@@ -314,7 +314,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-      console.log("Active Data", activeData);
+      // console.log("Active Data", activeData);
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);

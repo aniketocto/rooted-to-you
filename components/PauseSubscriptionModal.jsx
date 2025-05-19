@@ -41,7 +41,7 @@ export default function PauseSubscriptionModal({
 
   const defaultMonth = highlightedDates?.[0] || new Date();
 
-console.log("Props", customerId)
+// console.log("Props", customerId)
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
