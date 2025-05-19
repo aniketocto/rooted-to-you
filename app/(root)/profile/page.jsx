@@ -181,7 +181,7 @@ const ProfilePage = () => {
               ) : (
                 <button
                   onClick={toggleEditMode}
-                  className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
+                  className="bg-[#e6af55] text-[#03141C] py-2 px-4 rounded-md hover:bg-[#d49f4c] secondary-font subbtnFont"
                 >
                   Update Profile
                 </button>
@@ -246,7 +246,7 @@ const ProfilePage = () => {
           </div> */}
 
           <div className="w-full bg-[#197A8A1A]  px-5 md:px-10 pt-12 pb-8 rounded-md">
-            <h3 className="primary-font text-[#e6af55] text-xl font-semibold ">
+            <h3 className=" text-[#e6af55] text-xl font-semibold">
               Feedback
             </h3>
             <FeedbackForm />
