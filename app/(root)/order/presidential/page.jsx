@@ -261,6 +261,7 @@ const Page = () => {
         : prevCuisines
     );
   };
+  
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = isTrial ? "trial" : daysCount > 7 ? "monthly" : "weekly";
@@ -286,13 +287,15 @@ const Page = () => {
     const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
     const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
 
+   
+
     const updatedData = {
       boxId: 2,
       customerId: userData?.id || null,
       status: userData?.status || "inactive",
       subscriptionType: planType,
-      startDate: formattedStartDate || null,
-      endDate: formattedEndDate || null,
+      startDate: data.selectedDates?.startDate || null,
+      endDate: data.selectedDates?.endDate || null,
       amount: basePrice,
       cuisineChoice: cuisineIds,
       itemCode: itemCodes,

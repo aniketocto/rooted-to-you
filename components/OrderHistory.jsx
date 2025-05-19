@@ -24,9 +24,9 @@ const OrderHistory = () => {
         );
         // const customerId = storedUser?.id;
         setCustomerId(storedUser?.id)
-        const token = storedUser?.token; // Assuming the token is stored here
+        console.log("Customer ID:", customerId);
 
-        if (!customerId || !token) {
+        if (!customerId) {
           console.error("Missing user ID or token in localStorage.");
           return;
         }
@@ -62,6 +62,34 @@ const OrderHistory = () => {
       </p>
     );
   }
+
+//   const subscriptions = [
+//   {
+//     id: 1,
+//     amount: 1299,
+//     box: "Standard Box",
+//     boxId: 101,
+//     deliveryType: "Morning",
+//     subscriptionType: "Weekly",
+//     weekendType: "Even Saturdays",
+//     dietType: "Vegan",
+//     startDate: "2025-05-20",
+//     endDate: "2025-05-26",
+//   },
+//   {
+//     id: 2,
+//     amount: 2499,
+//     box: "Premium Box",
+//     boxId: 102,
+//     deliveryType: "Evening",
+//     subscriptionType: "Monthly",
+//     weekendType: null,
+//     dietType: null,
+//     startDate: "2025-06-01",
+//     endDate: "2025-06-30",
+//   },
+// ];
+
 
   return (
     <div className="overflow-hidden rounded-md shadow-sm border-b-1 mt-8">

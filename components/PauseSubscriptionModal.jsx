@@ -41,7 +41,7 @@ export default function PauseSubscriptionModal({
 
   const defaultMonth = highlightedDates?.[0] || new Date();
 
-console.log("Props", activeSubscription, customerId)
+console.log("Props", customerId)
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
@@ -107,22 +107,22 @@ console.log("Props", activeSubscription, customerId)
   return (
     <>
       <Button
-        className="bg-amber-500 text-white p-5 rounded-md hover:bg-amber-600"
+        className="bg-amber-500 text-white p-1 md:p-5 rounded-md hover:bg-amber-600"
         onClick={() => setOpen(true)}
       >
         Pause
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
+        <DialogContent className="w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
-            <DialogTitle className="text-xl font-semibold text-white">
+            <DialogTitle className="text-2xl! text-left w-full font-semibold text-white">
               Select a Pause Date
             </DialogTitle>
           </DialogHeader>
 
           {/* ✅ Note Message */}
-          <div className="text-sm text-white text-center mb-2 px-4">
+          <div className="md:text-sm text-[10px] text-white text-left w-full mb-2">
             Please note: You can only pause a date by 4:00 PM on the day before.
           </div>
 
@@ -144,7 +144,7 @@ console.log("Props", activeSubscription, customerId)
                 caption: { color: "#fff" },
                 head_cell: { color: "#ddd" },
               }}
-              className="rounded-md p-2 dark:bg-transparent text-white"
+              className="rounded-md  w-[100%] dark:bg-transparent text-white"
             />
 
             {selectedDate && (
@@ -157,18 +157,18 @@ console.log("Props", activeSubscription, customerId)
             )}
           </div>
 
-          <DialogFooter className="flex justify-between">
+          <DialogFooter className="flex justify-between w-1/2 md:w-fun">
             <Button
               onClick={() => setOpen(false)}
               variant="outline"
-              className="border-gray-300 text-white hover:bg-white/10"
+              className="border-gray-300 text-white hover:bg-white/10 "
             >
               Cancel
             </Button>
             <Button
               onClick={handlePause}
               disabled={isSelectionInvalid || loading}
-              className="bg-amber-500 hover:bg-amber-600 text-white"
+              className="bg-amber-500 hover:bg-amber-600 text-white "
             >
               {loading ? "Processing..." : "Confirm Pause"}
             </Button>
