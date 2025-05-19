@@ -51,7 +51,6 @@ const FeedbackForm = () => {
       designation: values.designation || "",
     };
 
-
     fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
       {
@@ -104,7 +103,7 @@ const FeedbackForm = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -121,7 +120,7 @@ const FeedbackForm = () => {
                             className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                           />
                         </FormControl>
-                        <FormMessage className="text-red-500" />
+                        <FormMessage className="text-red-500!" />
                       </FormItem>
                     )}
                   />
@@ -139,7 +138,7 @@ const FeedbackForm = () => {
                           className="h-14 border border-gray-400 bg-transparent px-3 py-2 rounded-md"
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className="text-red-500!" />
                     </FormItem>
                   )}
                 />
@@ -155,7 +154,7 @@ const FeedbackForm = () => {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className="text-red-500!" />
                     </FormItem>
                   )}
                 />
