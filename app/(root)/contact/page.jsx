@@ -171,7 +171,7 @@ const ContactUs = () => {
                           className="w-full h-14 border border-gray-400 rounded-md bg-transparent px-3 py-2"
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500!" />
+                      <FormMessage className="!text-red-500" />
                     </FormItem>
                   )}
                 />
