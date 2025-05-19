@@ -105,7 +105,7 @@ const Steps = () => {
 
         <Button
           className="primary-font uppercase text-lg bg-[#e6af55] p-3 md:p-5 text-center cursor-pointer font-semibold"
-          onClick={() => router.push("/order")}
+         onClick={() => router.push("/order")}
         >
           <p className="text-[#03141C]! subbtnFont">Try Now</p>
         </Button>

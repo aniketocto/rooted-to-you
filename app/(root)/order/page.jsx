@@ -21,6 +21,10 @@ const OrderPage = () => {
     localStorage.removeItem("mealFormData");
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleNavigate = (path) => {
     if (isLoggedIn) {
       router.push(path);
@@ -193,7 +197,10 @@ const OrderPage = () => {
         />
       </section>
       {/* Trial Plan */}
-      <section className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section">
+      <section
+        className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section"
+        id="trial-sec"
+      >
         <img
           src="/images/decorative.png"
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
