@@ -14,7 +14,7 @@ import PauseSubscriptionModal from "./PauseSubscriptionModal";
 const OrderHistory = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [activeSubscription, setActiveSubscription] = useState(null);
-  const [customerId, setCustomerId] = useState()
+  const [customerId, setCustomerId] = useState();
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -23,8 +23,8 @@ const OrderHistory = () => {
           localStorage.getItem("authenticatedUser")
         );
         // const customerId = storedUser?.id;
-        setCustomerId(storedUser?.id)
-        // console.log("Customer ID:", customerId);
+        setCustomerId(storedUser?.id);
+        console.log("Customer ID:", customerId);
 
         if (!customerId) {
           console.error("Missing user ID or token in localStorage.");
@@ -63,33 +63,32 @@ const OrderHistory = () => {
     );
   }
 
-//   const subscriptions = [
-//   {
-//     id: 1,
-//     amount: 1299,
-//     box: "Standard Box",
-//     boxId: 101,
-//     deliveryType: "Morning",
-//     subscriptionType: "Weekly",
-//     weekendType: "Even Saturdays",
-//     dietType: "Vegan",
-//     startDate: "2025-05-20",
-//     endDate: "2025-05-26",
-//   },
-//   {
-//     id: 2,
-//     amount: 2499,
-//     box: "Premium Box",
-//     boxId: 102,
-//     deliveryType: "Evening",
-//     subscriptionType: "Monthly",
-//     weekendType: null,
-//     dietType: null,
-//     startDate: "2025-06-01",
-//     endDate: "2025-06-30",
-//   },
-// ];
-
+  //   const subscriptions = [
+  //   {
+  //     id: 1,
+  //     amount: 1299,
+  //     box: "Standard Box",
+  //     boxId: 101,
+  //     deliveryType: "Morning",
+  //     subscriptionType: "Weekly",
+  //     weekendType: "Even Saturdays",
+  //     dietType: "Vegan",
+  //     startDate: "2025-05-20",
+  //     endDate: "2025-05-26",
+  //   },
+  //   {
+  //     id: 2,
+  //     amount: 2499,
+  //     box: "Premium Box",
+  //     boxId: 102,
+  //     deliveryType: "Evening",
+  //     subscriptionType: "Monthly",
+  //     weekendType: null,
+  //     dietType: null,
+  //     startDate: "2025-06-01",
+  //     endDate: "2025-06-30",
+  //   },
+  // ];
 
   return (
     <div className="overflow-hidden rounded-md shadow-sm border-b-1 mt-8">
