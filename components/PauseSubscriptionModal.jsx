@@ -127,7 +127,7 @@ export default function PauseSubscriptionModal({
             Please note: You can only pause a date by 4:00 PM on the day before.
           </div>
 
-          <div className="py-4 flex flex-col items-center">
+          <div className="py-4 flex flex-col items-center calender-size">
             <DayPicker
               mode="single"
               selected={selectedDate}
