@@ -77,7 +77,7 @@ const Blogs = () => {
         />
         <img
           // src="/images/blog-mob.png"
-          src="/images/blogbannermob.jpg"
+          src="/images/blogimagemobile.jpg"
           className=" w-full md:hidden block object-cover z-[-1] top-0"
           alt="Background"
         />
