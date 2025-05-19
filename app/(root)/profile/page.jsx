@@ -112,7 +112,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center md:my-16 px-5 ">
+    <section className="w-full h-fit flex justify-center items-center md:my-16 md:px-5 ">
       {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -129,7 +129,7 @@ const ProfilePage = () => {
       <div className="max-w-[80%] w-full h-full flex flex-col items-start justify-center md:mx-10 mx-5 mt-32 ">
         <Breadcrumbs />
         {/* Profile & Preferences Section */}
-        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 rounded-md">
+        <div className="w-full h-fit bg-[#197A8A1A] p-5 md:px-10 md:py-12 mb-8 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
             Profile & Preferences
           </h3>

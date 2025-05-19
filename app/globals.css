@@ -695,7 +695,7 @@ h2 {
     align-items: center !important;
     justify-content: center !important;
   }
-   .pin-form {
+  .pin-form {
     flex-direction: column !important;
     align-items: flex-start !important;
   }
@@ -707,7 +707,7 @@ h2 {
   .arrow-image {
     display: none !important;
   }
-    .pin-form {
+  .pin-form {
     flex-direction: column !important;
     align-items: flex-start !important;
   }
@@ -717,4 +717,14 @@ h2 {
   .meal-plan-heading {
     display: none !important;
   }
+}
+
+@media screen and (max-width: 500px) {
+  #radix-«R59ksfdnel7» {
+    padding: 5px;
+  }
+}
+
+.rdp-months{
+  justify-content: center !important;
 }

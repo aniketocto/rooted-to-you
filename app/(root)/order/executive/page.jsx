@@ -314,6 +314,7 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
+      console.log("Active Data", activeData);
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
