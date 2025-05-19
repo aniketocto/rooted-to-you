@@ -174,7 +174,7 @@ const ProfilePage = () => {
               {isEditing ? (
                 <button
                   onClick={handleUpdateProfile}
-                  className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
+                  className="bg-[#e6af55] text-[#03141C] py-2 px-4 rounded-md hover:bg-[#d49f4c] secondary-font subbtnFont"
                 >
                   Save Profile
                 </button>
