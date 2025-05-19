@@ -710,7 +710,9 @@ h2 {
   .pin-form {
     flex-direction: column !important;
     align-items: flex-start !important;
-    
+  }
+  .form-btn {
+    flex-direction: column-reverse !important;
   }
 }
 
@@ -718,7 +720,6 @@ h2 {
   .meal-plan-heading {
     display: none !important;
   }
-
 }
 
 @media screen and (max-width: 500px) {
@@ -727,9 +728,9 @@ h2 {
   }
 }
 
-.rdp-months{
+.rdp-months {
   justify-content: center !important;
 }
 #«R4q8uretb»-form-item-message {
-  color: red!important;
+  color: red !important;
 }
