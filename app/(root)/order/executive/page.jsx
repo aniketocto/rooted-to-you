@@ -301,7 +301,7 @@ const Page = () => {
       };
 
       // console.log(payload)
-      
+
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
@@ -591,6 +591,7 @@ const Page = () => {
                       />
                     </FormControl>
                     <FormMessage />
+                    <p>Note: Due to high demand, your meals will begin in 2 days</p>
                   </FormItem>
                 )}
               />

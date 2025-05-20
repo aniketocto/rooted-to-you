@@ -14,12 +14,17 @@ import PauseSubscriptionModal from "./PauseSubscriptionModal";
 const OrderHistory = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [activeSubscription, setActiveSubscription] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0); // Starts at 0 based on API
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [subsId, setSubsId] = useState([]);
   const [customerId, setCustomerId] = useState();
   const [token, setToken] = useState();
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
+      setLoading(true);
       try {
         const storedUser = JSON.parse(
           localStorage.getItem("authenticatedUser")
@@ -30,7 +35,7 @@ const OrderHistory = () => {
         setToken(token);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${storedUser?.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${storedUser?.id}?page=${currentPage}&limit=5`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -40,15 +45,20 @@ const OrderHistory = () => {
         );
 
         const data = await res.json();
+        console.log("Fetched subscriptions:", data);
         const ids = data?.subscriptions?.map((sub) => sub.id);
         setSubsId(ids); // e.g. [1, 4, 7]
 
         if (data.success) {
           setSubscriptions(data.subscriptions || []);
           setActiveSubscription(data.subscription);
+          setTotalPages(data.totalPages || 1);
+          setCount(data.count || 0);
         }
       } catch (err) {
         console.error("Error fetching subscriptions:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -91,7 +101,7 @@ const OrderHistory = () => {
   // ];
 
   return (
-    <div className="overflow-hidden rounded-md shadow-sm border-b-1 mt-8">
+    <div className="overflow-hidden rounded-md shadow-sm mt-8">
       <Table className="w-full">
         <TableHeader>
           <TableRow>
@@ -169,6 +179,31 @@ const OrderHistory = () => {
           ))}
         </TableBody>
       </Table>
+      {count > 5 && (
+        <div className="flex flex-wrap justify-center items-center mt-4 gap-2 text-sm md:text-base">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+            disabled={currentPage === 0}
+            className="px-3 py-1 border rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <span className="px-3 py-1">
+            Page {currentPage + 1} of {totalPages}
+          </span>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+            }
+            disabled={currentPage + 1 >= totalPages}
+            className="px-3 py-1 border rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

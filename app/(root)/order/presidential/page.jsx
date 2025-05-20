@@ -677,6 +677,7 @@ const Page = () => {
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
+                     <p>Note: Due to high demand, your meals will begin in 2 days</p>
                   </FormItem>
                 )}
               />

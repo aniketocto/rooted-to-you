@@ -595,10 +595,13 @@ h2 {
   .faqFont {
     font-size: 17px;
   }
+  .calender-size {
+    width: 265px;
+  }
 }
 @media screen and (max-width: 400px) {
   .calender-size {
-    width: 265px;
+    width: 315px;
   }
 }
 
