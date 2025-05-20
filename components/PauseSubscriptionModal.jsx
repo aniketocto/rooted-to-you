@@ -48,19 +48,30 @@ export default function PauseSubscriptionModal({
     activeSubscription.selectedDates?.map((dateStr) => parseISO(dateStr)) || [];
 
   const defaultMonth = highlightedDates?.[0] || new Date();
-
   useEffect(() => {
-    if (!subsId) return;
+    if (!Array.isArray(subsId) || subsId.length === 0) return;
 
     const fetchPaused = async () => {
       try {
-        const res = await apiFetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/orders/paused/${subsId}`
-        );
-        if (!res.ok) throw new Error("Failed to load paused dates");
-        const data = await res.json(); // assume { pausedDates: [ '2025-05-22', … ] }
-        // console.log("Paused dates:", data);
-        setPausedDates(data.pausedDates.map((d) => new Date(d)) || []);
+        const allPausedDates = [];
+
+        for (const id of subsId) {
+          const res = await apiFetch(
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/orders/paused/${id}`
+          );
+          if (!res.ok)
+            throw new Error(`Failed to load paused dates for ID: ${id}`);
+          const data = await res.json();
+          const dates = data.pausedDates.map((d) => new Date(d));
+          allPausedDates.push(...dates);
+        }
+
+        // Remove duplicates if needed
+        const uniqueDates = Array.from(
+          new Set(allPausedDates.map((d) => d.toISOString()))
+        ).map((iso) => new Date(iso));
+
+        setPausedDates(uniqueDates);
       } catch (err) {
         console.error(err);
       }
