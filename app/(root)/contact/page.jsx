@@ -229,7 +229,7 @@ const ContactUs = () => {
               />
               <Button
                 type="submit"
-                className="bg-[#e6af55]  w-fit hover:bg-[#d49c3e] text-[#03141C] text-center"
+                className="bg-[#e6af55]  w-fit hover:bg-[#d49c3e] text-[#03141C] text-center secondary-font subbtnFont"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Submitting..." : "Leave us a message"}

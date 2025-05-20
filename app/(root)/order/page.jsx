@@ -25,6 +25,10 @@ const OrderPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleNavigate = (path) => {
     if (isLoggedIn) {
       router.push(path);
@@ -86,7 +90,7 @@ const OrderPage = () => {
 
               <p className="primary-font font-base-1 my-5">
                 <em>
-                  Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
+                  Rice, Dal, One Veg, Indian Breads, Any 1 of Snack or Sweet or
                   Salad
                 </em>
               </p>
@@ -199,7 +203,11 @@ const OrderPage = () => {
       {/* Trial Plan */}
       <section
         className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section"
+<<<<<<< HEAD
         id="trial-section"
+=======
+        id="trial-sec"
+>>>>>>> 2544d63a67895d5c4b7896d4eed3d80ae0680b0d
       >
         <img
           src="/images/decorative.png"

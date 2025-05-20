@@ -248,7 +248,7 @@ const Page = () => {
       setActiveCoupon(null);
     }
   };
-  console.log("Applied Coupon data", activeCoupon);
+  // console.log("Applied Coupon data", activeCoupon);
 
   const recalculatePricing = () => {
     if (!paymentSession || !user) return;
@@ -335,7 +335,7 @@ const Page = () => {
         state: "maharashtra",
       };
 
-      console.log("Payload", payload);
+      // console.log("Payload", payload);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/payments/create-order`, //create-order

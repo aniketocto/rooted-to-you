@@ -4,7 +4,11 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import FeedbackForm from "@/components/FeedbackForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
+<<<<<<< HEAD
 import { apiFetch } from "@/lib/helper";
+=======
+import PauseSubscriptionModal from "@/components/PauseSubscriptionModal";
+>>>>>>> 2544d63a67895d5c4b7896d4eed3d80ae0680b0d
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -126,7 +130,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <section className="w-full h-fit flex justify-center items-center md:my-16 md:px-5 ">
+    <section className="w-full h-fit flex justify-center items-center md:my-16 px-5 ">
       {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -143,7 +147,7 @@ const ProfilePage = () => {
       <div className="max-w-[80%] w-full h-full flex flex-col items-start justify-center md:mx-10 mx-5 mt-32 ">
         <Breadcrumbs />
         {/* Profile & Preferences Section */}
-        <div className="w-full h-fit bg-[#197A8A1A] p-5 md:px-10 md:py-12 mb-8 rounded-md">
+        <div className="w-full h-fit bg-[#197A8A1A] px-10 py-12 mb-8 rounded-md">
           <h3 className="primary-font text-[#e6af55] text-2xl font-semibold mb-6">
             Profile & Preferences
           </h3>
@@ -166,7 +170,7 @@ const ProfilePage = () => {
                     className="w-full p-2 border border-gray-300 rounded-md bg-white text-[#03141C]"
                   />
                 ) : (
-                  <p className="text-lg">
+                  <p className="text-base md:text-sm lg:text-base">
                     {field.name === "dob"
                       ? tempProfile?.dob
                         ? new Date(tempProfile.dob).toLocaleDateString("en-GB")
@@ -187,14 +191,14 @@ const ProfilePage = () => {
               {isEditing ? (
                 <button
                   onClick={handleUpdateProfile}
-                  className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
+                  className="bg-[#e6af55] text-[#03141C] py-2 px-4 rounded-md hover:bg-[#d49f4c] secondary-font subbtnFont"
                 >
                   Save Profile
                 </button>
               ) : (
                 <button
                   onClick={toggleEditMode}
-                  className="bg-[#e6af55] text-white py-2 px-4 rounded-md hover:bg-[#d49f4c]"
+                  className="bg-[#e6af55] text-[#03141C] py-2 px-4 rounded-md hover:bg-[#d49f4c] secondary-font subbtnFont"
                 >
                   Update Profile
                 </button>
@@ -259,7 +263,7 @@ const ProfilePage = () => {
           </div> */}
 
           <div className="w-full bg-[#197A8A1A]  px-5 md:px-10 pt-12 pb-8 rounded-md">
-            <h3 className="primary-font text-[#e6af55] text-xl font-semibold ">
+            <h3 className=" text-[#e6af55] text-xl font-semibold">
               Feedback
             </h3>
             <FeedbackForm />

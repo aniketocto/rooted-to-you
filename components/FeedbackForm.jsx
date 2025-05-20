@@ -51,7 +51,6 @@ const FeedbackForm = () => {
       designation: values.designation || "",
     };
 
-
     fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
       {
@@ -161,7 +160,7 @@ const FeedbackForm = () => {
                 />
                 <Button
                   type="submit"
-                  className="bg-[#e6af55] hover:bg-[#d49c3e] text-[#03141C] font-semibold px-6 py-3 rounded-md flex gap-2 items-center"
+                  className="bg-[#e6af55] hover:bg-[#d49c3e] text-[#03141C] font-semibold px-6 py-3 rounded-md flex gap-2 items-center secondary-font subbtnFont"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Leave us a message"}

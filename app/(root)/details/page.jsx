@@ -23,7 +23,7 @@ const page = () => {
   } = paymentSession || {};
 
   // console.log("Payment session details:", startDate, endDate);
-  console.log("Payment session details:", paymentSession);
+  // console.log("Payment session details:", paymentSession);
 
   const formattedStartDate =
     startDate instanceof Date ? startDate.toDateString() : startDate;
@@ -58,7 +58,7 @@ const page = () => {
         className="absolute w-full h-[300px] object-cover z-[-1] top-0"
         alt=""
       />
-      <div className="max-w-[1290px] w-full h-full flex flexCol flex-col md:flex-row items-end justify-center md:mx-10 mx-5">
+      <div className="form-btn max-w-[1290px] w-full h-full flex flexCol flex-col md:flex-row items-end justify-center md:mx-10 mx-5">
         <div className="flex detailWidth flex-1">
           <DetailForm />
         </div>

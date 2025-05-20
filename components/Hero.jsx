@@ -88,7 +88,7 @@ const Hero = () => {
       >
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-1 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
-            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[50%] gap-5 mt-[10%] px-8">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[50%] gap-[-1] mt-[10%] px-8">
               <h1 className="secondary-font text-[#042B40]! font-bold text-center md:text-left md:block  hidden">
                 Eat. <br /> Connect. <br />
                 Celebrate.
@@ -157,7 +157,7 @@ const Hero = () => {
         </SwiperSlide>
         <SwiperSlide>
           <div className=" w-full h-full hero-bg-2 flex flex-col items-start justify-end md:justify-center px-0 sm:px-10">
-            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[60%] gap-5 mt-[10%] px-8">
+            <div className="flex flex-col item-center md:items-start justify-center w-full md:w-[60%] gap-[-1] mt-[10%] px-8">
               <h1 className="secondary-font text-[#E6AF55] font-bold text-center md:text-left md:block  hidden">
                 New Day, <br /> New Cuisine, <br /> New Meal.
               </h1>
