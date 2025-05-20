@@ -138,10 +138,10 @@ const OrderHistory = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {subscriptions.map((sub) => (
+          {subscriptions.map((sub,index) => (
             <TableRow key={sub.id}>
               <TableCell className="primary-font font-base-1 capitalize">
-                {sub.id}
+                {currentPage * count + index + 1}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
                 {sub.amount ? `₹${sub.amount}` : "—"}
@@ -180,7 +180,7 @@ const OrderHistory = () => {
         </TableBody>
       </Table>
       {count > 5 && (
-        <div className="flex flex-wrap justify-center items-center mt-4 gap-2 text-sm md:text-base">
+        <div className="flex flex-wrap justify-end items-center mt-4 gap-2 text-sm md:text-base">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
             disabled={currentPage === 0}
