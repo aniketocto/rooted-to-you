@@ -45,7 +45,7 @@ const OrderHistory = () => {
         );
 
         const data = await res.json();
-        console.log("Fetched subscriptions:", data);
+        // console.log("Fetched subscriptions:", data);
         const ids = data?.subscriptions?.map((sub) => sub.id);
         setSubsId(ids); // e.g. [1, 4, 7]
 

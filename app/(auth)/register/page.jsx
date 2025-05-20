@@ -95,7 +95,7 @@ const Page = () => {
         return;
       }
       if (response.ok) {
-        console.log("OTP sent successfully:", data);
+        // console.log("OTP sent successfully:", data);
         setShowOtpInput(true);
         setIsLoading(false);
         setResendDisabled(true);
