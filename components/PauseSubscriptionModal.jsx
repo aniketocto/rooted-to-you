@@ -186,9 +186,8 @@ export default function PauseSubscriptionModal({
 
           {/* ✅ Note Message */}
           <div className="md:text-sm text-[10px] text-white text-left w-full mb-2">
-            Please note: You can only pause a date by 4:00 PM on the day before.
-            <br />
-            Each pause must be done separately, before 4:00 PM, a day prior.
+            Note: Each pause must be done separately, before 4:00 PM, a
+            day prior.
           </div>
 
           <div className="py-4 flex flex-col items-center calender-size">
