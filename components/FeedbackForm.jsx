@@ -39,6 +39,10 @@ const FeedbackForm = () => {
   });
 
   function onSubmit(values) {
+    const stored = JSON.parse(
+      localStorage.getItem("authenticatedUser") || "{}"
+    );
+    const token = stored.token;
     setIsSubmitting(true);
 
     const payload = {
@@ -57,6 +61,7 @@ const FeedbackForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify(payload),
       }

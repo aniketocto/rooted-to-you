@@ -46,10 +46,13 @@ const CorporatePlan = () => {
     },
   });
 
-  
   function onSubmit(values) {
+    const stored = JSON.parse(
+      localStorage.getItem("authenticatedUser") || "{}"
+    );
+    const token = stored.token;
     setIsSubmitting(true);
-    
+
     const payload = {
       name: `${values.firstName} ${values.lastName}`.trim(), // 👈 Concatenate first and last name
       email: values.email,
@@ -66,6 +69,7 @@ const CorporatePlan = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify(payload),
       }
@@ -89,7 +93,10 @@ const CorporatePlan = () => {
   }
 
   return (
-    <section className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10" id="corporateplan">
+    <section
+      className="w-[full] relative h-fit flex md:flex-col flex-row justify-center items-center gap-5 my-10"
+      id="corporateplan"
+    >
       <img
         src="/images/decorative.png"
         className="absolute bottom-0 -z-1 h-[500px] md:w-full object-cover"

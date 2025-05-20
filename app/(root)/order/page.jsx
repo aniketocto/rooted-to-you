@@ -20,6 +20,10 @@ const OrderPage = () => {
 
     localStorage.removeItem("mealFormData");
   }, []);
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -199,7 +203,7 @@ const OrderPage = () => {
       {/* Trial Plan */}
       <section
         className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section"
-        id="trial-sec"
+        id="trial-section"
       >
         <img
           src="/images/decorative.png"

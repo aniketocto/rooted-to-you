@@ -328,7 +328,7 @@ const Page = () => {
                       <p className="font-base ">
                         {isLoading ? "Verifying..." : "Verify"}
                       </p>
-                    </Button>
+                    </Button> 
                   </div>
                 </div>
               )}

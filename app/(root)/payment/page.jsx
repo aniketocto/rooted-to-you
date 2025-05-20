@@ -11,6 +11,7 @@ import Image from "next/image";
 import AlertBox from "@/components/AlertBox";
 import { useAuth } from "@/app/context/AuthContext";
 import { X } from "lucide-react";
+import { apiFetch } from "@/lib/helper";
 
 const Page = () => {
   const { user } = useAuth();
@@ -109,7 +110,7 @@ const Page = () => {
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/coupons/list?size=10`
         );
         const data = await response.json();

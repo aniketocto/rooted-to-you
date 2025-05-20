@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -22,16 +22,24 @@ import {
   differenceInCalendarDays,
 } from "date-fns";
 import AlertBox from "./AlertBox";
+import { apiFetch } from "@/lib/helper";
+import { useRouter } from "next/navigation";
+import { ro } from "date-fns/locale";
 
 export default function PauseSubscriptionModal({
   activeSubscription,
   customerId,
+  subsId,
+  token,
 }) {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [popopen, setPopOpen] = useState(false);
+  const [pausedDates, setPausedDates] = useState([]);
 
   const now = new Date();
   const hour = now.getHours();
@@ -40,11 +48,50 @@ export default function PauseSubscriptionModal({
     activeSubscription.selectedDates?.map((dateStr) => parseISO(dateStr)) || [];
 
   const defaultMonth = highlightedDates?.[0] || new Date();
+  useEffect(() => {
+    if (!Array.isArray(subsId) || subsId.length === 0) return;
 
-// console.log("Props", customerId)
+    const fetchPaused = async () => {
+      try {
+        const allPausedDates = [];
+
+        for (const id of subsId) {
+          const res = await apiFetch(
+            `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/orders/paused/${id}`
+          );
+          if (!res.ok)
+            throw new Error(`Failed to load paused dates for ID: ${id}`);
+          const data = await res.json();
+          const dates = data.pausedDates.map((d) => new Date(d));
+          allPausedDates.push(...dates);
+        }
+
+        // Remove duplicates if needed
+        const uniqueDates = Array.from(
+          new Set(allPausedDates.map((d) => d.toISOString()))
+        ).map((iso) => new Date(iso));
+
+        setPausedDates(uniqueDates);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPaused();
+  }, [subsId]);
+
+  console.log("Paused dates:", pausedDates);
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
+    const isPaused = pausedDates.some(
+      (d) =>
+        d.getFullYear() === date.getFullYear() &&
+        d.getMonth() === date.getMonth() &&
+        d.getDate() === date.getDate()
+    );
+    if (isPaused) return true;
+
     const isValidSubDate = highlightedDates.some(
       (d) =>
         d.getFullYear() === date.getFullYear() &&
@@ -58,8 +105,7 @@ export default function PauseSubscriptionModal({
     if (differenceInCalendarDays(date, now) <= 0) return true;
 
     // If selected date is tomorrow and current time is after 4 PM — disable
-    const isTomorrow =
-      differenceInCalendarDays(date, now) === 1 && hour >= 16;
+    const isTomorrow = differenceInCalendarDays(date, now) === 1 && hour >= 16;
 
     return isTomorrow;
   };
@@ -69,11 +115,15 @@ export default function PauseSubscriptionModal({
 
     try {
       setLoading(true);
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/orders/pause`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: "POST", // add method if you’re sending a body
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // ← send the token
+          },
           body: JSON.stringify({
             subscriptionId: activeSubscription.id,
             pauseDate: format(selectedDate, "yyyy-MM-dd"),
@@ -82,16 +132,29 @@ export default function PauseSubscriptionModal({
         }
       );
 
-      const data = await res.json();
+      // ────────── inspect response once ──────────
+      const data = res.headers.get("content-type")?.includes("application/json")
+        ? await res.json().catch(() => ({}))
+        : {};
 
-      if (res.ok) {
-        setOpen(false);
-        setSelectedDate(null);
-        setPopOpen(true)
-        setError("We have pause for that day")
-      } else {
-        setError( "Something went wrong.");
+      console.log("Pause response:", res.ok);
+
+      if (res.status === 401) {
+        router.push("/register");
+        return;
       }
+
+      if (!res.ok) {
+        setError(data.message || "Something went wrong.");
+        return;
+      }
+
+      /* ───── success ───── */
+      const prettyDate = format(selectedDate, "EEE, MMM d, yyyy");
+      setOpen(false);
+      setSelectedDate(null);
+      setPopOpen(true);
+      setError(`We have paused your meals for ${prettyDate}.`);
     } catch (err) {
       console.error("Pause error:", err);
       setError("Error while pausing subscription.");
@@ -114,7 +177,7 @@ export default function PauseSubscriptionModal({
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
+        <DialogContent className="w-[95vw] max-w-md sm:max-w-lg backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
             <DialogTitle className="text-2xl! text-left w-full font-semibold text-white">
               Select a Pause Date
@@ -126,7 +189,7 @@ export default function PauseSubscriptionModal({
             Please note: You can only pause a date by 4:00 PM on the day before.
           </div>
 
-          <div className="py-4 flex flex-col items-center">
+          <div className="py-4 flex flex-col items-center calender-size">
             <DayPicker
               mode="single"
               selected={selectedDate}
@@ -138,7 +201,6 @@ export default function PauseSubscriptionModal({
                 highlighted: highlightedDates,
               }}
               disabled={isDisabled}
-              
               styles={{
                 day: { margin: "0.2em" },
                 caption: { color: "#fff" },

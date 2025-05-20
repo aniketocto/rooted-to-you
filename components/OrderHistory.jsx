@@ -14,7 +14,9 @@ import PauseSubscriptionModal from "./PauseSubscriptionModal";
 const OrderHistory = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [activeSubscription, setActiveSubscription] = useState(null);
+  const [subsId, setSubsId] = useState([]);
   const [customerId, setCustomerId] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -22,26 +24,24 @@ const OrderHistory = () => {
         const storedUser = JSON.parse(
           localStorage.getItem("authenticatedUser")
         );
-        // const customerId = storedUser?.id;
+        // console.log("Stored user:", storedUser);
         setCustomerId(storedUser?.id);
-        console.log("Customer ID:", customerId);
-
-        if (!customerId) {
-          console.error("Missing user ID or token in localStorage.");
-          return;
-        }
+        const token = storedUser?.token;
+        setToken(token);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${storedUser?.id}`,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${storedUser?.token}`,
             },
           }
         );
 
         const data = await res.json();
+        const ids = data?.subscriptions?.map((sub) => sub.id);
+        setSubsId(ids); // e.g. [1, 4, 7]
 
         if (data.success) {
           setSubscriptions(data.subscriptions || []);
@@ -149,7 +149,7 @@ const OrderHistory = () => {
                 {sub.weekendType || "—"}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
-                {sub.dietType || "—"}
+                {sub.dietType === "non_veg" ? "Non-Veg" : "Veg" || "—"}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
                 {new Date(sub.startDate).toDateString()}
@@ -161,6 +161,8 @@ const OrderHistory = () => {
                 <PauseSubscriptionModal
                   activeSubscription={sub}
                   customerId={customerId}
+                  subsId={subsId}
+                  token={token}
                 />
               </TableCell>
             </TableRow>

@@ -14,6 +14,7 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
+import { apiFetch } from "@/lib/helper";
 
 const DatePicker = ({
   onDateChange,
@@ -103,7 +104,7 @@ const DatePicker = ({
   useEffect(() => {
     async function fetchHolidays() {
       try {
-        const res = await fetch(
+        const res = await apiFetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/holidays/list`
         );
         const json = await res.json();
