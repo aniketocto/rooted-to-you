@@ -67,15 +67,6 @@ const Page = () => {
     return () => clearInterval(interval);
   }, [showOtpInput, timer]);
 
-  // useEffect(() => {
-  //   if (searchParams) {
-  //     const redirectTo = searchParams.get("redirectTo");
-  //     if (redirectTo) {
-  //       setRedirectPath(redirectTo);
-  //     }
-  //   }
-  // }, [searchParams]);
-
   const onChange = (e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
     form.setValue("phoneNumber", value, { shouldValidate: true });
@@ -104,6 +95,7 @@ const Page = () => {
         return;
       }
       if (response.ok) {
+        console.log("OTP sent successfully:", data);
         setShowOtpInput(true);
         setIsLoading(false);
         setResendDisabled(true);
@@ -224,7 +216,14 @@ const Page = () => {
 
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={
+                showOtpInput
+                  ? (e) => {
+                      e.preventDefault();
+                      handleVerifyOtp();
+                    }
+                  : form.handleSubmit(onSubmit)
+              }
               className="relative space-y-2 w-full mt-5"
             >
               {!showOtpInput ? (
@@ -296,16 +295,21 @@ const Page = () => {
                         "0"
                       )}:${String(timer % 60).padStart(2, "0")}`}
                     </p>
-                    <p
-                      className={`primary-font text-lg  transition-all duration-500 ${
+                    <button
+                      type="button" // This is crucial - it prevents the button from submitting the form
+                      onClick={(e) => {
+                        e.stopPropagation(); // Stop event from bubbling
+                        if (!resendDisabled) handleResend();
+                      }}
+                      disabled={resendDisabled}
+                      className={`primary-font text-lg bg-transparent border-0 transition-all duration-500 ${
                         resendDisabled
                           ? "text-gray-500 cursor-not-allowed"
-                          : "cursor-pointer hover:text-[#e6af55]! hover:text-xl "
+                          : "cursor-pointer hover:text-[#e6af55]! hover:text-xl"
                       }`}
-                      onClick={handleResend}
                     >
                       Resend OTP
-                    </p>
+                    </button>
                   </div>
                   <p className="primary-font text-red-500!">{errorMessage}</p>
                   <div className="flex space-x-2">
@@ -317,22 +321,21 @@ const Page = () => {
                       <p className="font-base ">Back</p>
                     </Button>
                     <Button
-                      type="button"
-                      onClick={handleVerifyOtp}
+                      type="submit"
                       disabled={otp.length !== 6}
                       className="w-1/2 bg-[#E6AF55] text-lg text-[#03141C] primary-font cursor-pointer"
                     >
                       <p className="font-base ">
                         {isLoading ? "Verifying..." : "Verify"}
                       </p>
-                    </Button>
+                    </Button> 
                   </div>
                 </div>
               )}
               {!showOtpInput && (
                 <Button
                   type="submit"
-                  disabled={form.formState.errors.phoneNumber || isLoading}
+                  disabled={showOtpInput}
                   className="w-full bg-[#E6AF55] text-lg flex justify-center items-center text-[#03141C] primary-font cursor-pointer"
                 >
                   <p className="font-base">

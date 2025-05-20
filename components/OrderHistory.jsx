@@ -14,7 +14,9 @@ import PauseSubscriptionModal from "./PauseSubscriptionModal";
 const OrderHistory = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [activeSubscription, setActiveSubscription] = useState(null);
-  const [customerId, setCustomerId] = useState()
+  const [subsId, setSubsId] = useState([]);
+  const [customerId, setCustomerId] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -22,26 +24,24 @@ const OrderHistory = () => {
         const storedUser = JSON.parse(
           localStorage.getItem("authenticatedUser")
         );
-        // const customerId = storedUser?.id;
-        setCustomerId(storedUser?.id)
-        console.log("Customer ID:", customerId);
-
-        if (!customerId) {
-          console.error("Missing user ID or token in localStorage.");
-          return;
-        }
+        // console.log("Stored user:", storedUser);
+        setCustomerId(storedUser?.id);
+        const token = storedUser?.token;
+        setToken(token);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${customerId}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/list/${storedUser?.id}`,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${storedUser?.token}`,
             },
           }
         );
 
         const data = await res.json();
+        const ids = data?.subscriptions?.map((sub) => sub.id);
+        setSubsId(ids); // e.g. [1, 4, 7]
 
         if (data.success) {
           setSubscriptions(data.subscriptions || []);
@@ -63,33 +63,32 @@ const OrderHistory = () => {
     );
   }
 
-//   const subscriptions = [
-//   {
-//     id: 1,
-//     amount: 1299,
-//     box: "Standard Box",
-//     boxId: 101,
-//     deliveryType: "Morning",
-//     subscriptionType: "Weekly",
-//     weekendType: "Even Saturdays",
-//     dietType: "Vegan",
-//     startDate: "2025-05-20",
-//     endDate: "2025-05-26",
-//   },
-//   {
-//     id: 2,
-//     amount: 2499,
-//     box: "Premium Box",
-//     boxId: 102,
-//     deliveryType: "Evening",
-//     subscriptionType: "Monthly",
-//     weekendType: null,
-//     dietType: null,
-//     startDate: "2025-06-01",
-//     endDate: "2025-06-30",
-//   },
-// ];
-
+  //   const subscriptions = [
+  //   {
+  //     id: 1,
+  //     amount: 1299,
+  //     box: "Standard Box",
+  //     boxId: 101,
+  //     deliveryType: "Morning",
+  //     subscriptionType: "Weekly",
+  //     weekendType: "Even Saturdays",
+  //     dietType: "Vegan",
+  //     startDate: "2025-05-20",
+  //     endDate: "2025-05-26",
+  //   },
+  //   {
+  //     id: 2,
+  //     amount: 2499,
+  //     box: "Premium Box",
+  //     boxId: 102,
+  //     deliveryType: "Evening",
+  //     subscriptionType: "Monthly",
+  //     weekendType: null,
+  //     dietType: null,
+  //     startDate: "2025-06-01",
+  //     endDate: "2025-06-30",
+  //   },
+  // ];
 
   return (
     <div className="overflow-hidden rounded-md shadow-sm border-b-1 mt-8">
@@ -162,6 +161,8 @@ const OrderHistory = () => {
                 <PauseSubscriptionModal
                   activeSubscription={sub}
                   customerId={customerId}
+                  subsId={subsId}
+                  token={token}
                 />
               </TableCell>
             </TableRow>

@@ -444,7 +444,7 @@ h2 {
   }
   .hero-bg-1 {
     /* background-image: url("/images/home-new-bnr1.jpg"); */
-    background-image: url("/images/home-ban-mob.jpg");
+    background-image: url("/images/homepagebanner2.jpg");
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -596,6 +596,11 @@ h2 {
     font-size: 17px;
   }
 }
+@media screen and (max-width: 400px) {
+  .calender-size {
+    width: 265px;
+  }
+}
 
 @media screen and (min-width: 1920px) {
   .cusineflexWrap > div {
@@ -711,6 +716,9 @@ h2 {
     flex-direction: column !important;
     align-items: flex-start !important;
   }
+  .form-btn {
+    flex-direction: column-reverse !important;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -725,9 +733,9 @@ h2 {
   }
 }
 
-.rdp-months{
+.rdp-months {
   justify-content: center !important;
 }
 #«R4q8uretb»-form-item-message {
-  color: red!important;
+  color: red !important;
 }

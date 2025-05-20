@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import FeedbackForm from "@/components/FeedbackForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
+import { apiFetch } from "@/lib/helper";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -14,6 +15,7 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [customerId, setCustomerId] = useState(null);
+  const [token, setToken] = useState();
   const [activeSubscription, setActiveSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +24,8 @@ const ProfilePage = () => {
     if (storedUser?.id) {
       setCustomerId(storedUser.id);
     }
+    const token = storedUser?.token;
+    setToken(token);
   }, []);
 
   useEffect(() => {
@@ -29,9 +33,18 @@ const ProfilePage = () => {
       if (!customerId) return;
 
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`
-        );
+        // const res = await fetch(
+        //   `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
+        //   {
+        //     method: "GET",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
+        const res = await apiFetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`);
         if (res.ok) {
           const userData = await res.json();
           if (userData?.data) {
@@ -46,6 +59,7 @@ const ProfilePage = () => {
             method: "GET", // 👈 Use GET here
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -249,7 +263,7 @@ const ProfilePage = () => {
               Feedback
             </h3>
             <FeedbackForm />
-          </div>  
+          </div>
         </div>
       </div>
 
