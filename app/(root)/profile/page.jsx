@@ -179,7 +179,7 @@ const ProfilePage = () => {
             <div>
               <h4 className="text-lg secondary-font mb-1">Wallet</h4>
               <p className="text-lg text-green-700 font-semibold">
-                ₹{profile?.wallet ?? "0.00"}
+                ₹{Math.round(profile?.wallet) ?? "0"}
               </p>
             </div>
 
