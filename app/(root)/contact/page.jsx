@@ -65,12 +65,18 @@ const ContactUs = () => {
       designation: values.designation || "",
     };
 
+    const stored = JSON.parse(
+      localStorage.getItem("authenticatedUser") || "{}"
+    );
+    const token = stored.token;
+
     fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/analytics/send-notification`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify(payload),
       }

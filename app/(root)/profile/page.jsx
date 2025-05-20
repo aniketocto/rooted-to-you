@@ -4,11 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import FeedbackForm from "@/components/FeedbackForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import OrderHistoryTable from "@/components/OrderHistory";
-<<<<<<< HEAD
 import { apiFetch } from "@/lib/helper";
-=======
-import PauseSubscriptionModal from "@/components/PauseSubscriptionModal";
->>>>>>> 2544d63a67895d5c4b7896d4eed3d80ae0680b0d
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 

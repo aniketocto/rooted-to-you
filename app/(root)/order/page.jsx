@@ -203,11 +203,7 @@ const OrderPage = () => {
       {/* Trial Plan */}
       <section
         className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section"
-<<<<<<< HEAD
         id="trial-section"
-=======
-        id="trial-sec"
->>>>>>> 2544d63a67895d5c4b7896d4eed3d80ae0680b0d
       >
         <img
           src="/images/decorative.png"

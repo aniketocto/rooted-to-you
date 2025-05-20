@@ -23,6 +23,7 @@ import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
 import { format, set } from "date-fns";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { apiFetch } from "@/lib/helper";
 
 const cuisineChoice = [
   {
@@ -154,7 +155,7 @@ const Page = () => {
   useEffect(() => {
     const fetchBoxes = async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/boxes/list`
         );
         if (!response.ok) {

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import "./thanks.css";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { apiFetch } from "@/lib/helper";
 
 const Page = () => {
   const [profile, setProfile] = useState(null);
@@ -33,8 +34,9 @@ const Page = () => {
   }, []);
 
   const fetchProfile = async (customerId) => {
+  
     try {
-      const res = await fetch(
+      const res = await apiFetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`
       );
       if (!res.ok) throw new Error("Network response was not ok");
@@ -101,7 +103,7 @@ const Page = () => {
               } else {
                 router.push("/"); // Go to homepage
               }
-            }}  
+            }}
           >
             <p className="text-[#03141C]! subbtnFont secondary-font">
               Close Page

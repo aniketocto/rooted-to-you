@@ -23,6 +23,8 @@ import {
 } from "date-fns";
 import AlertBox from "./AlertBox";
 import { apiFetch } from "@/lib/helper";
+import { useRouter } from "next/navigation";
+import { ro } from "date-fns/locale";
 
 export default function PauseSubscriptionModal({
   activeSubscription,
@@ -30,6 +32,8 @@ export default function PauseSubscriptionModal({
   subsId,
   token,
 }) {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -56,7 +60,7 @@ export default function PauseSubscriptionModal({
         if (!res.ok) throw new Error("Failed to load paused dates");
         const data = await res.json(); // assume { pausedDates: [ '2025-05-22', … ] }
         // console.log("Paused dates:", data);
-        setPausedDates(data.pausedDates || []);
+        setPausedDates(data.pausedDates.map((d) => new Date(d)) || []);
       } catch (err) {
         console.error(err);
       }
@@ -69,6 +73,14 @@ export default function PauseSubscriptionModal({
 
   // Disable anything not in subscription dates OR violating 1-day-before + 4pm rule
   const isDisabled = (date) => {
+    const isPaused = pausedDates.some(
+      (d) =>
+        d.getFullYear() === date.getFullYear() &&
+        d.getMonth() === date.getMonth() &&
+        d.getDate() === date.getDate()
+    );
+    if (isPaused) return true;
+
     const isValidSubDate = highlightedDates.some(
       (d) =>
         d.getFullYear() === date.getFullYear() &&
@@ -116,9 +128,8 @@ export default function PauseSubscriptionModal({
 
       console.log("Pause response:", res.ok);
 
-      if (res.ok === false) {
-        const prettyDate = format(selectedDate, "EEE, MMM d, yyyy");
-        setError(data.message || `Meals for ${prettyDate} are already paused.`);
+      if (res.status === 401) {
+        router.push("/register");
         return;
       }
 
@@ -155,7 +166,7 @@ export default function PauseSubscriptionModal({
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-full backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
+        <DialogContent className="w-[95vw] max-w-md sm:max-w-lg backdrop-blur-md bg-white/10 border border-white/20 shadow-xl rounded-2xl">
           <DialogHeader className="text-center">
             <DialogTitle className="text-2xl! text-left w-full font-semibold text-white">
               Select a Pause Date

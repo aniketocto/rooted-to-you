@@ -149,7 +149,7 @@ const OrderHistory = () => {
                 {sub.weekendType || "—"}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
-                {sub.dietType || "—"}
+                {sub.dietType === "non_veg" ? "Non-Veg" : "Veg" || "—"}
               </TableCell>
               <TableCell className="primary-font font-base-1 capitalize">
                 {new Date(sub.startDate).toDateString()}
