@@ -302,6 +302,7 @@ const Page = () => {
   ]);
   const amountInPaise = finalPrice * 100;
   const amountWallet = redeemWallet ? walletUsedAmount : 0;
+
   const handlePayment = async () => {
     setIsProcessing(true);
 
@@ -388,12 +389,20 @@ const Page = () => {
             );
             const successData = await successResponse.json();
 
-            router.push("/thank-you");
-
-            setTimeout(() => {
-              clearPaymentSession();
-              localStorage.removeItem("mealFormData");
-            }, 300);
+            if (successResponse.ok) {
+              setTimeout(() => {
+                router.push("/thank-you");
+                setTimeout(() => {
+                  window.location.href = "/thank-you";
+                }, 300);
+                clearPaymentSession();
+                localStorage.removeItem("mealFormData");
+              }, 500);
+            } else {
+              setError(
+                "⚠️ Payment succeeded, but we couldn't confirm your order. Please contact support."
+              );
+            }
           } catch (error) {
             console.error("❌ Error calling payment success API:", error);
           }
@@ -625,7 +634,7 @@ const Page = () => {
             <Separator className="w-full h-[2px] bg-[#D2D2D2]" />
 
             {/* Redeem Wallet Checkbox */}
-            {walletUsedAmount > 0 && subscriptionType !== "trial" &&  (
+            {walletUsedAmount > 0 && subscriptionType !== "trial" && (
               <div className="flex items-center gap-2 mt-4">
                 <input
                   type="checkbox"
