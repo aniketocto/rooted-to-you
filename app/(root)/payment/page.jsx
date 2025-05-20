@@ -448,6 +448,8 @@ const Page = () => {
     }
   };
 
+  console.log("Final Price", subscriptionType);
+
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 lg:mt-48 lg:mb-20">
       <Image
@@ -540,11 +542,11 @@ const Page = () => {
                     </span>
                   </div>
                 )}
-                {redeemWallet && (
+                {redeemWallet && subscriptionType !== "trial" && (
                   <div className="flex justify-between">
                     <span className="font-base secondary-font">Wallet</span>
                     <span className="font-base secondary-font text-[#BAD398]">
-                      - ₹{walletUsedAmount}
+                      - ₹{Math.round(walletUsedAmount)}
                     </span>
                   </div>
                 )}
@@ -623,7 +625,7 @@ const Page = () => {
             <Separator className="w-full h-[2px] bg-[#D2D2D2]" />
 
             {/* Redeem Wallet Checkbox */}
-            {walletUsedAmount > 0 && (
+            {walletUsedAmount > 0 && subscriptionType !== "trial" &&  (
               <div className="flex items-center gap-2 mt-4">
                 <input
                   type="checkbox"
@@ -636,7 +638,7 @@ const Page = () => {
                   htmlFor="redeemWallet"
                   className="text-sm cursor-pointer"
                 >
-                  Redeem from Wallet (₹{walletUsedAmount})
+                  Redeem from Wallet (₹{Math.round(walletUsedAmount)})
                 </label>
               </div>
             )}
