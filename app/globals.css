@@ -720,6 +720,9 @@ h2 {
   .meal-plan-heading {
     display: none !important;
   }
+   .mobile-gap-small {
+    gap: 0.5rem !important; 
+  }
 }
 
 @media screen and (max-width: 500px) {
