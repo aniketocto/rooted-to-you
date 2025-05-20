@@ -362,6 +362,7 @@ const Page = () => {
         setError("Invalid order ID received");
       }
       const razorPayAmount = data.amount * 100;
+      
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: amountInPaise.toString(), // Razorpay expects amount in paise
@@ -457,7 +458,7 @@ const Page = () => {
     }
   };
 
-  console.log("Final Price", subscriptionType);
+  // console.log("Final Price", subscriptionType);
 
   return (
     <section className="w-full h-fit flex justify-center items-center my-20 lg:mt-48 lg:mb-20">
