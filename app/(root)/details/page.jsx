@@ -62,7 +62,7 @@ const page = () => {
         <div className="flex detailWidth flex-1">
           <DetailForm />
         </div>
-        <div className="w-full self-start mt-[5%] flex flex-1 px-4">
+        <div className="w-full place-content-center md:self-start mt-[5%] flex flex-1 px-4">
           <div className="w-[90%] detailWidth bg-[#197A8A99] text-white p-6 border border-dashed border-[#e6af55] shadow-lg">
             <h2 className="text-2xl! secondary-font font-bold border-b border-teal-600 pb-2 mb-3 text-orange-300">
               Details for meal

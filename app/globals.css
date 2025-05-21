@@ -695,7 +695,7 @@ h2 {
   .trial-section button {
     margin-top: 1rem;
   }
-   .meal-plan-heading {
+  .meal-plan-heading {
     display: none !important;
   }
   .arrow-image {
@@ -741,8 +741,11 @@ h2 {
   .meal-plan-heading {
     display: none !important;
   }
-   .mobile-gap-small {
-    gap: 0.5rem !important; 
+  .mobile-gap-small {
+    gap: 0.5rem !important;
+  }
+  .form-btn {
+    flex-direction: column-reverse !important;
   }
 }
 

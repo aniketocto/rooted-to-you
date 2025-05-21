@@ -44,7 +44,8 @@ const ProfilePage = () => {
         //   }
         // );
         const res = await apiFetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`);
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`
+        );
         if (res.ok) {
           const userData = await res.json();
           if (userData?.data) {
@@ -92,7 +93,10 @@ const ProfilePage = () => {
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/customers/${customerId}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(tempProfile),
         }
       );
@@ -124,6 +128,8 @@ const ProfilePage = () => {
     setError(`${feature} feature is coming soon!`);
     setOpen(true);
   };
+
+  // console.log("Profile:", token);
 
   return (
     <section className="w-full h-fit flex justify-center items-center md:my-16 p-0 md:px-5 ">
@@ -259,9 +265,7 @@ const ProfilePage = () => {
           </div> */}
 
           <div className="w-full bg-[#197A8A1A]  px-5 md:px-10 pt-12 pb-8 rounded-md">
-            <h3 className=" text-[#e6af55] text-xl font-semibold">
-              Feedback
-            </h3>
+            <h3 className=" text-[#e6af55] text-xl font-semibold">Feedback</h3>
             <FeedbackForm />
           </div>
         </div>
