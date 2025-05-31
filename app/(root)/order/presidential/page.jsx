@@ -24,6 +24,7 @@ import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { apiFetch } from "@/lib/helper";
 
 const cuisineChoice = [
   {
@@ -112,15 +113,14 @@ const Page = () => {
   const selectedBoxId = 2;
   const [isTrial, setIsTrial] = useState(false);
   const gstTax = isTrial ? 0 : 0.05;
-  const TRIAL_PRICE = 300;
+  // const TRIAL_PRICE = 449;
 
   useEffect(() => {
     const user = localStorage.getItem("authenticatedUser");
-    if (!user) {	    
+    if (!user) {
       router.replace("/register");
       return;
     }
-   console.log(user);	  
 
     // Load saved form data if it exists
     const savedFormData = localStorage.getItem("mealFormData");
@@ -167,7 +167,7 @@ const Page = () => {
   useEffect(() => {
     const fetchBoxes = async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/boxes/list`
         );
         if (!response.ok) {
@@ -230,8 +230,8 @@ const Page = () => {
 
     if (isTrial) {
       // For trial, the TRIAL_PRICE is the final total amount (all-inclusive)
-      finalTotal = TRIAL_PRICE;
-      mealBasePrice = TRIAL_PRICE;
+      finalTotal = selectedBox.trialPrice;
+      mealBasePrice = selectedBox.trialPrice;
       currentDeliveryPrice = 0;
     } else if (selectedDuration === 7) {
       mealBasePrice = selectedBox.weekPrice;
@@ -262,6 +262,7 @@ const Page = () => {
         : prevCuisines
     );
   };
+
   async function onSubmit(data) {
     const daysCount = data.selectedDates?.count || 0;
     const planType = isTrial ? "trial" : daysCount > 7 ? "monthly" : "weekly";
@@ -283,17 +284,20 @@ const Page = () => {
       selectedCuisines.includes(cuisine.id)
     );
 
+    const token = userData?.token;
+    const customerId = userData?.id;
+
     const itemCodes = selectedCuisineDetails.map((c) => c.itemCode).join(", ");
     const itemNames = selectedCuisineDetails.map((c) => c.label).join(", ");
     const cuisineIds = selectedCuisineDetails.map((c) => Number(c.id));
 
     const updatedData = {
       boxId: 2,
-      customerId: userData?.id || null,
+      customerId: customerId || null,
       status: userData?.status || "inactive",
       subscriptionType: planType,
-      startDate: formattedStartDate || null,
-      endDate: formattedEndDate || null,
+      startDate: data.selectedDates?.startDate || null,
+      endDate: data.selectedDates?.endDate || null,
       amount: basePrice,
       cuisineChoice: cuisineIds,
       itemCode: itemCodes,
@@ -342,6 +346,7 @@ const Page = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
           },
           body: JSON.stringify(payload),
         }
@@ -672,6 +677,9 @@ const Page = () => {
                       />
                     </FormControl>
                     <FormMessage className="text-red-500!" />
+                    <p>
+                      Note: Due to high demand, your meals will begin in 2 days
+                    </p>
                   </FormItem>
                 )}
               />
