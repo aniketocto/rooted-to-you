@@ -45,7 +45,7 @@ const CusinesPlan = () => {
         <div className="w-full h-full flex flex-wrap cusineflexWrap flexCol  justify-center flex-col md:flex-row items-start gap-8 md:gap-2.5">
           <div className="flex flex-1 h-full justify-center flex-col md:flex-row items-center md:items-start gap-2.5">
             <Image
-              src="/images/Exe_new.png"
+              src="/images/homeexe2025.png"
               alt="executive"
               width={330}
               height={420}
@@ -83,7 +83,7 @@ const CusinesPlan = () => {
           </div>
           <div className="flex flex-1 h-full justify-center item-center flex-col md:flex-row-reverse items-center md:items-start gap-2.5">
             <Image
-              src="/images/Pri_new.png"
+              src="/images/homepres2025.png"
               alt="presidential "
               width={330}
               height={420}

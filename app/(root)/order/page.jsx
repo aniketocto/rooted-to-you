@@ -20,14 +20,6 @@ const OrderPage = () => {
 
     localStorage.removeItem("mealFormData");
   }, []);
-  
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const handleNavigate = (path) => {
     if (isLoggedIn) {
@@ -44,7 +36,7 @@ const OrderPage = () => {
         name="description"
         content=" Executive and Presidential Meals according to your needs and preferences at your doorstep."
       />
-      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]">
+      <section className="w-full h-fit flex justify-center items-center mt-32 px-[4%]"> 
         {/* <Image
         src="/images/nav-bg.jpg"
         alt="bg"
@@ -69,7 +61,7 @@ const OrderPage = () => {
           <div className="flex justify-center items-start flex-col flexCol md:flex-row gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/Executive-Cuisine.png"
+                src="/images/executive2025.png"
                 alt="Executive Meal"
                 width={690}
                 height={590}
@@ -90,7 +82,7 @@ const OrderPage = () => {
 
               <p className="primary-font font-base-1 my-5">
                 <em>
-                  Rice, Dal, One Veg, Indian Breads, Any 1 of Snack or Sweet or
+                  Rice, Dal, One Veg, Indian Breads Any 1 of Snack or Sweet or
                   Salad
                 </em>
               </p>
@@ -114,7 +106,7 @@ const OrderPage = () => {
                     </span>
                     <span className="text-[#e6af55]">
                       {" "}
-                      Weekly at ₹2079, Monthly at ₹6959.
+                      Weekly at <b className="text-2xl">₹1490</b>*, Monthly at <b className="text-2xl">₹5690</b>*.
                     </span>
                   </li>
                 </ul>
@@ -132,7 +124,7 @@ const OrderPage = () => {
           <div className="flex justify-center items-start flex-col flexCol md:flex-row-reverse gap-0 md:gap-5">
             <div className="rounded-md w-full md:w-fit h-fit overflow-hidden">
               <Image
-                src="/images/Presidential-Cuisine.png"
+                src="/images/presidential2025.png"
                 alt="Presidential Meal"
                 width={590}
                 height={490}
@@ -180,7 +172,7 @@ const OrderPage = () => {
                       Smart Value
                     </span>
                     <span className="text-[#e6af55]">
-                      : Weekly plans at ₹3024, Monthly at just ₹8849.
+                      : Weekly plans at <b className="text-2xl">₹1790</b>*, Monthly at just <b className="text-2xl">₹6290</b>*.
                     </span>
                   </li>
                 </ul>
@@ -201,10 +193,7 @@ const OrderPage = () => {
         />
       </section>
       {/* Trial Plan */}
-      <section
-        className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section"
-        id="trial-section"
-      >
+      <section className="flex relative justify-center items-start flex-col flexCol md:flex-row gap-2 mb-32 px-5 trial-section">
         <img
           src="/images/decorative.png"
           className="absolute top-0 -z-1 h-[500px] md:w-full object-cover"
@@ -216,19 +205,19 @@ const OrderPage = () => {
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/Trial-Executive.png"
+            src="/images/trialexe2025.png"
             alt="executive"
             width={330}
             height={420}
             quality={100}
           />
           <h3 className="mb-2 secondary-font">Executive Meal</h3>
-          <p className="text-[20px] mb-2">At ₹379/- Only</p>
+          <p className="text-[20px] mb-2">At <b className="text-2xl">₹260/-</b> Only</p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5 mb-4 px-6 py-6"
             onClick={() => handleNavigate("/order/executive?mode=trial")}
           >
-            <p className="text-[#03141C]! subbtnFont">Order Now</p>
+            <p className="text-[#03141C]! subbtnFont">Order Now</p> 
           </Button>
         </div>
         {/* <div className="trial w-full md:w-[50%] h-full flex justify-center items-center flex-col"> */}
@@ -238,14 +227,14 @@ const OrderPage = () => {
         </div>
         <div className="w-full md:w-[25%] flex justify-center items-center flex-col">
           <Image
-            src="/images/Trial-Presidential.png"
+            src="/images/trialpres2025.png"
             alt="executive"
             width={330}
             height={420}
             quality={100}
           />
           <h3 className="mb-2 secondary-font">Presidential Meal</h3>
-          <p className="text-[20px] mb-2">At ₹449/- Only</p>
+          <p className="text-[20px] mb-2">At <b className="text-2xl">₹300/-</b> Only</p>
           <Button
             className="primary-font uppercase bg-[#e6af55] text-center cursor-pointer font-semibold md:p-3 lg:p-5  px-6 py-6"
             onClick={() => handleNavigate("/order/presidential?mode=trial")}
@@ -254,7 +243,7 @@ const OrderPage = () => {
               Order Now
             </p>
           </Button>
-        </div>
+        </div>  
       </section>
     </>
   );

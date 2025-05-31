@@ -23,7 +23,6 @@ import AlertBox from "@/components/AlertBox";
 import { useRouter } from "next/navigation";
 import { format, set } from "date-fns";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { apiFetch } from "@/lib/helper";
 
 const cuisineChoice = [
   {
@@ -107,7 +106,7 @@ const Page = () => {
   const selectedBoxId = 1;
   const [isTrial, setIsTrial] = useState(false);
   const gstTax = isTrial ? 0 : 0.05;
-  const TRIAL_PRICE = 379;
+  const TRIAL_PRICE = 260;
 
   useEffect(() => {
     const user = localStorage.getItem("authenticatedUser");
@@ -155,7 +154,7 @@ const Page = () => {
   useEffect(() => {
     const fetchBoxes = async () => {
       try {
-        const response = await apiFetch(
+        const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/boxes/list`
         );
         if (!response.ok) {
@@ -300,8 +299,8 @@ const Page = () => {
         deliveryType: selectedTime,
       };
 
-      // console.log(payload)
-
+      console.log(payload)
+      
       const activeRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/v1/subscriptions/active/${userData?.id}`,
         {
@@ -315,7 +314,6 @@ const Page = () => {
       );
 
       const activeData = await activeRes.json();
-      // console.log("Active Data", activeData);
 
       if (activeData.success && activeData.status === "active") {
         const existingEndDate = new Date(activeData.subscription.endDate);
@@ -591,7 +589,6 @@ const Page = () => {
                       />
                     </FormControl>
                     <FormMessage />
-                    <p>Note: Due to high demand, your meals will begin in 2 days</p>
                   </FormItem>
                 )}
               />
